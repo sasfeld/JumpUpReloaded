@@ -5,7 +5,15 @@
  */
 package de.htw.fb4.imi.jumpup.user.entities;
 
+import java.util.Arrays;
+
+import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.Table;
+
+import de.htw.fb4.imi.jumpup.entities.AbstractEntity;
+import de.htw.fb4.imi.jumup.settings.UserSettings;
 
 /**
  * <p>The basic user entity.</p>
@@ -15,20 +23,28 @@ import javax.persistence.Entity;
  *
  */
 @Entity
-public class User
+@Table(name="user")
+public class User extends AbstractEntity
 {
+    @Column(name="username", nullable=false, updatable=true, unique=true, length=UserSettings.MAX_LENGTH_USERNAME)
     protected String username;
     
+    @Column(name="email", nullable=false, updatable=true, unique=true, length=UserSettings.MAX_LENGTH_MAIL)
     protected String eMail;
     
-    protected String prename;
+    @Column(name="prename", nullable=false, updatable=false)
+    protected String prename;    
     
+    @Column(name="lastname", nullable=false, updatable=false)
     protected String lastname;
     
-    protected String passwordHash;
+    @Column(name="passwordhash", nullable=false, updatable=true, columnDefinition="BINARY(32)")
+    protected byte[] passwordHash;
     
+    @Embedded
     protected Residence residence;
     
+    @Column(name="is_confirmed", nullable=false, updatable=true)
     protected Boolean isConfirmed;
 
     /**
@@ -98,7 +114,7 @@ public class User
     /**
      * @return the passwordHash
      */
-    public final String getPasswordHash()
+    public final byte[] getPasswordHash()
     {
         return passwordHash;
     }
@@ -106,7 +122,7 @@ public class User
     /**
      * @param passwordHash the passwordHash to set
      */
-    public final void setPasswordHash(String passwordHash)
+    public final void setPasswordHash(byte[] passwordHash)
     {
         this.passwordHash = passwordHash;
     }
@@ -150,14 +166,13 @@ public class User
     public int hashCode()
     {
         final int prime = 31;
-        int result = 1;
+        int result = super.hashCode();
         result = prime * result + ((eMail == null) ? 0 : eMail.hashCode());
         result = prime * result
                 + ((isConfirmed == null) ? 0 : isConfirmed.hashCode());
         result = prime * result
                 + ((lastname == null) ? 0 : lastname.hashCode());
-        result = prime * result
-                + ((passwordHash == null) ? 0 : passwordHash.hashCode());
+        result = prime * result + Arrays.hashCode(passwordHash);
         result = prime * result + ((prename == null) ? 0 : prename.hashCode());
         result = prime * result
                 + ((residence == null) ? 0 : residence.hashCode());
@@ -174,7 +189,7 @@ public class User
     {
         if (this == obj)
             return true;
-        if (obj == null)
+        if (!super.equals(obj))
             return false;
         if (getClass() != obj.getClass())
             return false;
@@ -194,10 +209,7 @@ public class User
                 return false;
         } else if (!lastname.equals(other.lastname))
             return false;
-        if (passwordHash == null) {
-            if (other.passwordHash != null)
-                return false;
-        } else if (!passwordHash.equals(other.passwordHash))
+        if (!Arrays.equals(passwordHash, other.passwordHash))
             return false;
         if (prename == null) {
             if (other.prename != null)
@@ -233,7 +245,7 @@ public class User
         builder.append(", lastname=");
         builder.append(lastname);
         builder.append(", passwordHash=");
-        builder.append(passwordHash);
+        builder.append(Arrays.toString(passwordHash));
         builder.append(", residence=");
         builder.append(residence);
         builder.append(", isConfirmed=");
@@ -241,5 +253,5 @@ public class User
         builder.append("]");
         return builder.toString();
     }
+    
 }
-

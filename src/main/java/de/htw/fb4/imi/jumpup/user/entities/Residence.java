@@ -5,6 +5,13 @@
  */
 package de.htw.fb4.imi.jumpup.user.entities;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
+import de.htw.fb4.imi.jumpup.entities.AbstractEntity;
+import de.htw.fb4.imi.jumup.settings.ResidenceSettings;
+
 /**
  * <p>Residence record.</p>
  *
@@ -12,13 +19,17 @@ package de.htw.fb4.imi.jumpup.user.entities;
  * @since 06.11.2014
  *
  */
-public class Residence
+@Entity
+@Table(name="residence")
+public class Residence extends AbstractEntity
 {
-    
+    @Column(name="town", nullable=true, updatable=true, length=ResidenceSettings.MAX_LENGTH_TOWN)
     protected String town;
     
+    @Column(name="country", nullable=true, updatable=true, length=ResidenceSettings.MAX_LENGTH_COUNTRY)
     protected String country;
     
+    @Column(name="locale", nullable=true, updatable=true, length=ResidenceSettings.MAXL_LENGTH_LOCALE)
     protected String locale;
 
     /**
@@ -76,7 +87,7 @@ public class Residence
     public int hashCode()
     {
         final int prime = 31;
-        int result = 1;
+        int result = super.hashCode();
         result = prime * result + ((country == null) ? 0 : country.hashCode());
         result = prime * result + ((locale == null) ? 0 : locale.hashCode());
         result = prime * result + ((town == null) ? 0 : town.hashCode());
@@ -91,7 +102,7 @@ public class Residence
     {
         if (this == obj)
             return true;
-        if (obj == null)
+        if (!super.equals(obj))
             return false;
         if (getClass() != obj.getClass())
             return false;
@@ -129,6 +140,7 @@ public class Residence
         builder.append(locale);
         builder.append("]");
         return builder.toString();
-    }   
+    }
+
 }
 

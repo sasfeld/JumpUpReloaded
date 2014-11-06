@@ -1,4 +1,4 @@
-package src.test.java;
+package de.htw.fb4.imi.jumpup;
 import static org.junit.Assert.*;
 
 import org.junit.Test;
