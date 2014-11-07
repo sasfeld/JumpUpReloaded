@@ -1,4 +1,4 @@
-package de.htw.fb4.imi.jumpup;
+package de.htw.fb4.imi.jumpup.test;
 import static org.junit.Assert.*;
 
 import org.junit.Test;

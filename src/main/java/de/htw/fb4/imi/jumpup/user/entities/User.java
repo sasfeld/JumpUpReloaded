@@ -13,6 +13,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 import de.htw.fb4.imi.jumpup.entities.AbstractEntity;
+import de.htw.fb4.imi.jumpup.user.util.HashGenerable;
 import de.htw.fb4.imi.jumup.settings.UserSettings;
 
 /**
@@ -46,6 +47,13 @@ public class User extends AbstractEntity
     
     @Column(name="is_confirmed", nullable=false, updatable=true)
     protected Boolean isConfirmed;
+    
+    /**
+     * Hash generable.
+     * 
+     * TODO add hash generable by dependency injection.
+     */
+    protected HashGenerable hashGenerable;
 
     /**
      * @return the username
@@ -74,7 +82,7 @@ public class User extends AbstractEntity
     /**
      * @param eMail the eMail to set
      */
-    public final void seteMail(String eMail)
+    public final void setEmail(String eMail)
     {
         this.eMail = eMail;
     }
@@ -118,11 +126,27 @@ public class User extends AbstractEntity
     {
         return passwordHash;
     }
+    
+    /**
+     * Set the raw password.
+     * 
+     * This will be hashed and save on this entity.
+     * 
+     * @param password
+     */
+    public final void setPassword(String password)
+    {
+        if (null == this.hashGenerable) {
+            throw new AssertionError("No hashGenerable instance given - can't generate password hash. Please make sure that the dependency injection is configured correctly.");
+        }
+        
+        this.setPasswordHash(this.hashGenerable.generateHash(password));
+    }
 
     /**
      * @param passwordHash the passwordHash to set
      */
-    public final void setPasswordHash(byte[] passwordHash)
+    protected final void setPasswordHash(byte[] passwordHash)
     {
         this.passwordHash = passwordHash;
     }
@@ -157,6 +181,15 @@ public class User extends AbstractEntity
     public final void setIsConfirmed(Boolean isConfirmed)
     {
         this.isConfirmed = isConfirmed;
+    }
+    
+    /**
+     * Set the {@link HashGenerable} instance which will be used to digest the password.
+     * @param newPasswordHashGenerable
+     */
+    public void setHashGenerable(final HashGenerable newPasswordHashGenerable)
+    {
+        this.hashGenerable = newPasswordHashGenerable;        
     }
 
     /* (non-Javadoc)
@@ -252,6 +285,6 @@ public class User extends AbstractEntity
         builder.append(isConfirmed);
         builder.append("]");
         return builder.toString();
-    }
+    }   
     
 }
