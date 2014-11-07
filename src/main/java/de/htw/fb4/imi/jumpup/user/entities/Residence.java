@@ -6,6 +6,7 @@
 package de.htw.fb4.imi.jumpup.user.entities;
 
 import javax.persistence.Column;
+import javax.persistence.Embeddable;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
@@ -20,6 +21,7 @@ import de.htw.fb4.imi.jumup.settings.ResidenceSettings;
  *
  */
 @Entity
+@Embeddable
 @Table(name="residence")
 public class Residence extends AbstractEntity
 {
