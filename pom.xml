@@ -20,7 +20,11 @@
 		<supercsv.version>2.1.0</supercsv.version>
 	</properties>
 	<repositories>
-		
+		<repository>
+			<id>jboss-public</id>
+			<name>JBoss Public Nexus Repository</name>
+			<url>https://repository.jboss.org/nexus/content/groups/public/</url>
+		</repository>
 		<repository>
 			<id>central</id>
 			<name>Maven Repo2</name>
@@ -46,7 +50,26 @@
 			<version>1.2.17</version>
 		</dependency>
 		
-
+		<dependency>
+			<groupId>org.jboss.spec</groupId>
+			<artifactId>jboss-javaee-6.0</artifactId>
+			<type>pom</type>
+			<scope>provided</scope>
+			<version>3.0.1.Final</version>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss</groupId>
+			<artifactId>jboss-vfs</artifactId>
+			<scope>provided</scope>
+			<version>3.1.0.Final</version>
+		</dependency>
+		<dependency>
+			<!-- CDI implementation, used for debugging -->
+			<groupId>org.jboss.weld</groupId>
+			<artifactId>weld-core</artifactId>
+			<scope>provided</scope>
+			<version>1.1.9.Final</version>
+		</dependency>
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
@@ -122,6 +145,18 @@
 			<artifactId>primefaces</artifactId>
 			<version>4.0</version>
 		</dependency>
+		<dependency>
+			<groupId>org.jboss.resteasy</groupId>
+			<artifactId>resteasy-jaxrs</artifactId>
+			<scope>provided</scope>
+			<version>2.3.5.Final</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>httpclient</artifactId>
+					<groupId>org.apache.httpcomponents</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>	
 			
 		<dependency>
 			<!-- for Lombok annotations -->

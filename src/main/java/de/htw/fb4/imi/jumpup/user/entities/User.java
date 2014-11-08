@@ -17,116 +17,113 @@ import de.htw.fb4.imi.jumpup.user.util.HashGenerable;
 import de.htw.fb4.imi.jumup.settings.UserSettings;
 
 /**
- * <p>The basic user entity.</p>
+ * <p>
+ * The basic user entity.
+ * </p>
  *
  * @author <a href="mailto:me@saschafeldmann.de">Sascha Feldmann</a>
  * @since 06.11.2014
  *
  */
 @Entity
-@Table(name="user")
-public class User extends AbstractEntity
-{
-    @Column(name="username", nullable=false, updatable=true, unique=true, length=UserSettings.MAX_LENGTH_USERNAME)
+@Table(name = "user")
+public class User extends AbstractEntity {
+    @Column(name = "username", nullable = false, updatable = true, unique = true, length = UserSettings.MAX_LENGTH_USERNAME)
     protected String username;
-    
-    @Column(name="email", nullable=false, updatable=true, unique=true, length=UserSettings.MAX_LENGTH_MAIL)
+
+    @Column(name = "email", nullable = false, updatable = true, unique = true, length = UserSettings.MAX_LENGTH_MAIL)
     protected String eMail;
-    
-    @Column(name="prename", nullable=false, updatable=false)
-    protected String prename;    
-    
-    @Column(name="lastname", nullable=false, updatable=false)
+
+    @Column(name = "prename", nullable = false, updatable = false)
+    protected String prename;
+
+    @Column(name = "lastname", nullable = false, updatable = false)
     protected String lastname;
-    
-    @Column(name="passwordhash", nullable=false, updatable=true, columnDefinition="BINARY(32)")
+
+    @Column(name = "passwordhash", nullable = false, updatable = true, columnDefinition = "BINARY(32)")
     protected byte[] passwordHash;
-    
+
     @Embedded
     protected Residence residence;
-    
-    @Column(name="is_confirmed", nullable=false, updatable=true)
+
+    @Column(name = "is_confirmed", nullable = false, updatable = true)
     protected Boolean isConfirmed;
-    
+
     /**
      * Hash generable.
      * 
      * TODO add hash generable by dependency injection.
      */
+
     protected HashGenerable hashGenerable;
 
     /**
      * @return the username
      */
-    public final String getUsername()
-    {
+    public final String getUsername() {
         return username;
     }
 
     /**
-     * @param username the username to set
+     * @param username
+     *            the username to set
      */
-    public final void setUsername(String username)
-    {
+    public final void setUsername(String username) {
         this.username = username;
     }
 
     /**
      * @return the eMail
      */
-    public final String geteMail()
-    {
+    public final String geteMail() {
         return eMail;
     }
 
     /**
-     * @param eMail the eMail to set
+     * @param eMail
+     *            the eMail to set
      */
-    public final void setEmail(String eMail)
-    {
+    public final void setEmail(String eMail) {
         this.eMail = eMail;
     }
 
     /**
      * @return the prename
      */
-    public final String getPrename()
-    {
+    public final String getPrename() {
         return prename;
     }
 
     /**
-     * @param prename the prename to set
+     * @param prename
+     *            the prename to set
      */
-    public final void setPrename(String prename)
-    {
+    public final void setPrename(String prename) {
         this.prename = prename;
     }
 
     /**
      * @return the lastname
      */
-    public final String getLastname()
-    {
+    public final String getLastname() {
         return lastname;
     }
 
     /**
-     * @param lastname the lastname to set
+     * @param lastname
+     *            the lastname to set
      */
-    public final void setLastname(String lastname)
-    {
+    public final void setLastname(String lastname) {
         this.lastname = lastname;
     }
 
     /**
      * @return the passwordHash
      */
-    public final byte[] getPasswordHash()
-    {
+    public final byte[] getPasswordHash() {
         return passwordHash;
     }
-    
+
     /**
      * Set the raw password.
      * 
@@ -134,70 +131,70 @@ public class User extends AbstractEntity
      * 
      * @param password
      */
-    public final void setPassword(String password)
-    {
+    public final void setPassword(String password) {
         if (null == this.hashGenerable) {
-            throw new AssertionError("No hashGenerable instance given - can't generate password hash. Please make sure that the dependency injection is configured correctly.");
+            throw new AssertionError(
+                    "No hashGenerable instance given - can't generate password hash. Please make sure that the dependency injection is configured correctly.");
         }
-        
+
         this.setPasswordHash(this.hashGenerable.generateHash(password));
     }
 
     /**
-     * @param passwordHash the passwordHash to set
+     * @param passwordHash
+     *            the passwordHash to set
      */
-    protected final void setPasswordHash(byte[] passwordHash)
-    {
+    protected final void setPasswordHash(byte[] passwordHash) {
         this.passwordHash = passwordHash;
     }
 
     /**
      * @return the residence
      */
-    public final Residence getResidence()
-    {
+    public final Residence getResidence() {
         return residence;
     }
 
     /**
-     * @param residence the residence to set
+     * @param residence
+     *            the residence to set
      */
-    public final void setResidence(Residence residence)
-    {
+    public final void setResidence(Residence residence) {
         this.residence = residence;
     }
 
     /**
      * @return the isConfirmed
      */
-    public final Boolean getIsConfirmed()
-    {
+    public final Boolean getIsConfirmed() {
         return isConfirmed;
     }
 
     /**
-     * @param isConfirmed the isConfirmed to set
+     * @param isConfirmed
+     *            the isConfirmed to set
      */
-    public final void setIsConfirmed(Boolean isConfirmed)
-    {
+    public final void setIsConfirmed(Boolean isConfirmed) {
         this.isConfirmed = isConfirmed;
     }
-    
+
     /**
-     * Set the {@link HashGenerable} instance which will be used to digest the password.
+     * Set the {@link HashGenerable} instance which will be used to digest the
+     * password.
+     * 
      * @param newPasswordHashGenerable
      */
-    public void setHashGenerable(final HashGenerable newPasswordHashGenerable)
-    {
-        this.hashGenerable = newPasswordHashGenerable;        
+    public void setHashGenerable(final HashGenerable newPasswordHashGenerable) {
+        this.hashGenerable = newPasswordHashGenerable;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see java.lang.Object#hashCode()
      */
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         final int prime = 31;
         int result = super.hashCode();
         result = prime * result + ((eMail == null) ? 0 : eMail.hashCode());
@@ -214,12 +211,13 @@ public class User extends AbstractEntity
         return result;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
-    public boolean equals(Object obj)
-    {
+    public boolean equals(Object obj) {
         if (this == obj)
             return true;
         if (!super.equals(obj))
@@ -262,12 +260,13 @@ public class User extends AbstractEntity
         return true;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see java.lang.Object#toString()
      */
     @Override
-    public String toString()
-    {
+    public String toString() {
         StringBuilder builder = new StringBuilder();
         builder.append("User [username=");
         builder.append(username);
@@ -285,6 +284,6 @@ public class User extends AbstractEntity
         builder.append(isConfirmed);
         builder.append("]");
         return builder.toString();
-    }   
-    
+    }
+
 }
