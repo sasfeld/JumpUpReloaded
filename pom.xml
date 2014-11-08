@@ -122,30 +122,14 @@
 			<artifactId>primefaces</artifactId>
 			<version>4.0</version>
 		</dependency>
-		<dependency>
-			<groupId>org.jboss</groupId>
-			<artifactId>jboss-vfs</artifactId>
-			<scope>provided</scope>
-			<version>3.1.0.Final</version>
-		</dependency>
-		
+			
 		<dependency>
 			<!-- for Lombok annotations -->
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<version>0.11.8</version>
 		</dependency>
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-core</artifactId>
-			<scope>provided</scope>
-			<version>4.1.4.Final</version>
-		</dependency>
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-validator</artifactId>
-			<version>4.3.0.Final</version>
-		</dependency>
+		
 		<dependency>
 			<groupId>commons-lang</groupId>
 			<artifactId>commons-lang</artifactId>
@@ -275,11 +259,7 @@
 			<version>${log4j.version}</version>
 			<scope>test</scope>
 		</dependency>
-<!-- 		<dependency> -->
-<!-- 			<groupId>com.octo.captcha</groupId> -->
-<!-- 			<artifactId>jcaptcha</artifactId> -->
-<!-- 			<version>1.0</version> -->
-<!-- 		</dependency> -->
+
 		<dependency>
 			<groupId>net.sf.supercsv</groupId>
 			<artifactId>super-csv</artifactId>
