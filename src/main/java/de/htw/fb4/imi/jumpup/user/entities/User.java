@@ -7,6 +7,7 @@ package de.htw.fb4.imi.jumpup.user.entities;
 
 import java.util.Arrays;
 
+import javax.inject.Inject;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -54,7 +55,7 @@ public class User extends AbstractEntity {
      * 
      * TODO add hash generable by dependency injection.
      */
-
+    @Inject
     protected HashGenerable hashGenerable;
 
     /**

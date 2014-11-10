@@ -28,8 +28,7 @@
     </plugins>
 </build>
   
-  <properties>
-		
+  <properties>		
 		<!-- Versions -->
 		<deltaspike.version>0.4</deltaspike.version>
 		<slf4j.version>1.6.1</slf4j.version>
@@ -270,7 +269,6 @@
 			<version>${log4j.version}</version>
 			<scope>test</scope>
 		</dependency>
-
 		<dependency>
 			<groupId>net.sf.supercsv</groupId>
 			<artifactId>super-csv</artifactId>
@@ -296,7 +294,7 @@
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
-			<scope>provided</scope>
+			<scope>compile</scope>
 			<version>4.3.7.Final</version>
 			<exclusions>
 				<exclusion>

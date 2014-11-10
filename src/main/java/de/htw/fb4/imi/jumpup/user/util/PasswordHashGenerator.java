@@ -5,6 +5,10 @@
  */
 package de.htw.fb4.imi.jumpup.user.util;
 
+import javax.ejb.Stateless;
+
+import de.htw.fb4.imi.jumup.settings.BeanNames;
+
 /**
  * <p></p>
  *
@@ -12,6 +16,7 @@ package de.htw.fb4.imi.jumpup.user.util;
  * @since 07.11.2014
  *
  */
+@Stateless(name=BeanNames.PasswordHashGenerator)
 public class PasswordHashGenerator extends AbstractHashGenerable
 {
 

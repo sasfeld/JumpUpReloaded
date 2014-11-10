@@ -8,6 +8,8 @@ package de.htw.fb4.imi.jumpup.user.util;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+import javax.ejb.Local;
+
 /**
  * <p></p>
  *
@@ -15,6 +17,7 @@ import java.security.NoSuchAlgorithmException;
  * @since 07.11.2014
  *
  */
+@Local
 public abstract class AbstractHashGenerable implements HashGenerable
 {
     public static final String SHA_256 = "SHA-256";
