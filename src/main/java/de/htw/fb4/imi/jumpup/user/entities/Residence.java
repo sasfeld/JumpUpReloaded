@@ -11,7 +11,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 import de.htw.fb4.imi.jumpup.entities.AbstractEntity;
-import de.htw.fb4.imi.jumup.settings.ResidenceSettings;
+import de.htw.fb4.imi.jumpup.settings.ResidenceSettings;
 
 /**
  * <p>Residence record.</p>

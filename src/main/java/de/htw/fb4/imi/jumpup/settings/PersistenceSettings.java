@@ -3,20 +3,16 @@
  *
  * Copyright (c) 2014 Sebastian Renner, Marco Seidler, Sascha Feldmann
  */
-package de.htw.fb4.imi.jumup.settings;
+package de.htw.fb4.imi.jumpup.settings;
 
 /**
  * <p></p>
  *
  * @author <a href="mailto:me@saschafeldmann.de">Sascha Feldmann</a>
- * @since 06.11.2014
+ * @since 10.11.2014
  *
  */
-public interface ResidenceSettings
+public interface PersistenceSettings
 {
-    int MAX_LENGTH_TOWN = 255;
-    int MAX_LENGTH_COUNTRY = 255;
-    int MAXL_LENGTH_LOCALE = 4;
-    
-
+    String PERSISTENCE_UNIT = "database";  
 }

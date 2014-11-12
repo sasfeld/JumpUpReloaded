@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2014 Sebastian Renner, Marco Seidler, Sascha Feldmann
  */
-package de.htw.fb4.imi.jumup.settings;
+package de.htw.fb4.imi.jumpup.settings;
 
 /**
  * <p></p>
