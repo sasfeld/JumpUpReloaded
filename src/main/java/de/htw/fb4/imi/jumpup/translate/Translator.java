@@ -5,7 +5,8 @@
  */
 package de.htw.fb4.imi.jumpup.translate;
 
-import javax.ejb.Stateless;
+import javax.faces.bean.ApplicationScoped;
+import javax.faces.bean.ManagedBean;
 
 import de.htw.fb4.imi.jumpup.settings.BeanNames;
 
@@ -16,7 +17,8 @@ import de.htw.fb4.imi.jumpup.settings.BeanNames;
  * @since 12.11.2014
  *
  */
-@Stateless(name=BeanNames.TRANSLATOR)
+@ManagedBean(name=BeanNames.TRANSLATOR)
+@ApplicationScoped
 public class Translator implements Translatable
 {
     /*
