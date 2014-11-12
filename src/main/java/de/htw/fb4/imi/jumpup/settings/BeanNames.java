@@ -20,4 +20,6 @@ public interface BeanNames
     String REGISTRATION_BEAN = "regBean";
     
     String WEBSITE_REGISTRATION = "website_registration";
+    
+    String TRANSLATOR = "translator";
 }

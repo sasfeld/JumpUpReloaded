@@ -5,9 +5,10 @@
  */
 package de.htw.fb4.imi.jumpup.user.registration;
 
-import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
+import de.htw.fb4.imi.jumpup.settings.PersistenceSettings;
 import de.htw.fb4.imi.jumpup.user.entities.User;
 
 /**
@@ -19,7 +20,6 @@ import de.htw.fb4.imi.jumpup.user.entities.User;
  */
 public abstract class AbstractRegistrationMethod implements RegistrationMethod
 {
-    @Inject
     protected EntityManager entityManager;
 
     /* (non-Javadoc)
