@@ -10,7 +10,7 @@
 		<properties>  
 			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect" />
 <!-- 			<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" /> -->
-			<property name="hibernate.hbm2ddl.auto" value="create-drop" />
+			<property name="hibernate.hbm2ddl.auto" value="update" />
 
 		 	<!-- SQL Output -->
 			<property name="hibernate.show_sql" value="true" />

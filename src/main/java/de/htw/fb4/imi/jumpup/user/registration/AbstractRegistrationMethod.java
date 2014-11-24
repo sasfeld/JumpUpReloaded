@@ -8,6 +8,7 @@ package de.htw.fb4.imi.jumpup.user.registration;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.ejb.Local;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -22,6 +23,7 @@ import de.htw.fb4.imi.jumpup.util.StringUtil;
  * @since 10.11.2014
  *
  */
+@Local
 public abstract class AbstractRegistrationMethod implements RegistrationMethod
 {
     protected Set<String> errorMessages;

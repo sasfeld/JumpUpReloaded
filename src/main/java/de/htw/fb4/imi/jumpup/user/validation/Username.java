@@ -7,9 +7,12 @@ package de.htw.fb4.imi.jumpup.user.validation;
 
 
 
+import javax.faces.bean.RequestScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
+import javax.faces.validator.FacesValidator;
 import javax.faces.validator.ValidatorException;
+import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
 import de.htw.fb4.imi.jumpup.Application;
@@ -25,8 +28,10 @@ import de.htw.fb4.imi.jumpup.validator.AbstractValidator;
  * @since 24.11.2014
  *
  */
+@RequestScoped
+@FacesValidator("usernameValidator")
 public class Username extends AbstractValidator
-{
+{   
 
     @Override    
     /* (non-Javadoc)
@@ -50,13 +55,14 @@ public class Username extends AbstractValidator
     {
         final String username = (String) value;
         
-        if (null == this.entityManager) {
+        EntityManager entityManager = this.getFreshEntityManager();
+        if (null == entityManager) {
            Application.log(getClass() + ":validate(): EntityManager is null. Please check why no entity manager is injected.", LogType.CRITICAL, getClass());
            return false;
         }
         
         // check whether more than user already exists.
-        Query query = this.entityManager.createNamedQuery(User.NAME_QUERY_BY_USERNAME).
+        Query query = entityManager.createNamedQuery(User.NAME_QUERY_BY_USERNAME).
                 setParameter("username", username);
         if ( 0 < query.getResultList().size()) {
             return false;

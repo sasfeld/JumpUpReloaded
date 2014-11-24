@@ -14,8 +14,31 @@
 	    <h:form>
 	    	<h:messages errorClass="errorMessage" infoClass="infoMessage" warnClass="warnMessage"></h:messages>
 	    	<h:panelGrid columns="2">
+	    	
 	    		<h:outputText value="#{translator.translate('Username')}: "></h:outputText>
-	    		<h:inputText id="username" required="true" requiredMessage="#{translator.translate('Please enter your username')}"></h:inputText>	    	
+	    		<h:inputText id="username" value="#{registrationBean.username}"
+	    		required="true" requiredMessage="#{translator.translate('Please enter your username')}">
+	    			<f:validator validatorId="usernameValidator" />
+	    		</h:inputText>
+	    		
+	    		<h:outputText value="#{translator.translate('Password')}: "></h:outputText>
+	    		<h:inputText id="password" value="#{registrationBean.password}"
+	    		required="true" requiredMessage="#{translator.translate('Please enter a password')}"></h:inputText>	 
+	    		
+	    		<h:outputText value="#{translator.translate('Confirm Password')}: "></h:outputText>
+	    		<h:inputText id="confirm_password" value="#{registrationBean.confirmPassword}"
+	    		required="true" requiredMessage="#{translator.translate('Please enter your password a second time to confirm it')}"></h:inputText>	 
+	    			    		
+	    		<h:outputText value="#{translator.translate('Prename')}: "></h:outputText>
+	    		<h:inputText id="prename" value="#{registrationBean.prename}"
+	    		required="true" requiredMessage="#{translator.translate('Please enter your prename')}"></h:inputText>
+	    		
+	    		<h:outputText value="#{translator.translate('Lastname')}: "></h:outputText>
+	    		<h:inputText id="lastname" value="#{registrationBean.lastname}"
+	    		required="true" requiredMessage="#{translator.translate('Please enter your lastname')}"></h:inputText>
+	    			    		   	
+	    		<h:commandButton type="submit" value="#{translator.translate('Submit')}"
+	    		action="#{registrationBean.registerUser}"></h:commandButton>
 	    	</h:panelGrid>
 	    </h:form>  	    
 	</ui:define>

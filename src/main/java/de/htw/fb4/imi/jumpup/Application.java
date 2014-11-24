@@ -8,7 +8,12 @@ package de.htw.fb4.imi.jumpup;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
 import org.jboss.logging.Logger;
+
+import de.htw.fb4.imi.jumpup.settings.PersistenceSettings;
 
 /**
  * <p>The central static facade of our application.</p>
@@ -19,6 +24,9 @@ import org.jboss.logging.Logger;
  */
 public class Application
 {
+    @PersistenceContext(name = PersistenceSettings.PERSISTENCE_UNIT)
+    protected EntityManager entityManager;
+    
     /**
      * 
      * <p>The LogType enumeration follows the strategy by implementing a log() method for each strategy.</p>
@@ -122,5 +130,5 @@ public class Application
         if (!jBossLoggers.containsKey(clazz)) {
             jBossLoggers.put(clazz, Logger.getLogger(clazz));
         }
-    }
+    }    
 }
