@@ -11,6 +11,8 @@ import javax.inject.Inject;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -29,7 +31,16 @@ import de.htw.fb4.imi.jumpup.user.util.HashGenerable;
  */
 @Entity
 @Table(name = "user")
+@NamedQueries({
+    @NamedQuery(name = User.NAME_QUERY_BY_USERNAME, query = "SELECT u FROM User u WHERE u.username = :username"),
+})
 public class User extends AbstractEntity {
+    /**
+     * Name of named query to fetch users by username.
+     */
+    public static final String NAME_QUERY_BY_USERNAME = "User.fetchByUsername";   
+    
+    
     @Column(name = "username", nullable = false, updatable = true, unique = true, length = UserSettings.MAX_LENGTH_USERNAME)
     protected String username;
 

@@ -8,6 +8,7 @@ package de.htw.fb4.imi.jumpup.util;
 import javax.faces.application.FacesMessage;
 import javax.faces.application.FacesMessage.Severity;
 import javax.faces.context.FacesContext;
+import javax.faces.validator.Validator;
 import javax.inject.Inject;
 
 import de.htw.fb4.imi.jumpup.translate.Translatable;
@@ -48,9 +49,24 @@ public class Faces
      * @param message
      * @return
      */
-    public static FacesMessage newFacesMessage(Severity severity,
-            String message)
+    public static FacesMessage newFacesMessage(final Severity severity,
+            final String message)
     {
         return new FacesMessage(severity, translator.translate(message), null);
+    }
+
+    /**
+     * Create a new JSF validation error message. This is thrown by {@link Validator} instances on validation failures in general.
+     * @param summary
+     * @param detail
+     * @return
+     */
+    public static FacesMessage newValidationErrorMessage(final String summary,
+            final String detail)
+    {
+        FacesMessage msg = newFacesMessage(FacesMessage.SEVERITY_ERROR, summary);        
+        msg.setDetail(detail);
+        
+        return msg;
     }
 }

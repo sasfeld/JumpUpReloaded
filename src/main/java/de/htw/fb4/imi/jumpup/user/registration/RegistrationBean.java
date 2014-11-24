@@ -44,7 +44,7 @@ public class RegistrationBean extends AbstractFacesBean
     public final String getUsername()
     {
         return username;
-    }
+    }    
     
     /**
      * @param username the username to set
