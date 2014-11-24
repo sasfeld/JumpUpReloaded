@@ -20,7 +20,7 @@ import de.htw.fb4.imi.jumpup.user.entities.User;
  */
 public abstract class AbstractRegistrationMethod implements RegistrationMethod
 {
-    @PersistenceContext(name=PersistenceSettings.PERSISTENCE_UNIT)
+
     protected EntityManager entityManager;
 
     /* (non-Javadoc)

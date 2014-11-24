@@ -5,6 +5,7 @@
  */
 package de.htw.fb4.imi.jumpup.entities;
 
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Column;
@@ -16,6 +17,7 @@ import javax.persistence.Column;
  * @since 06.11.2014
  *
  */
+@Entity
 public class AbstractEntity
 {
     @Id

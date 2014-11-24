@@ -12,6 +12,7 @@ import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import de.htw.fb4.imi.jumpup.entities.AbstractEntity;
 import de.htw.fb4.imi.jumpup.settings.UserSettings;
@@ -55,6 +56,7 @@ public class User extends AbstractEntity {
      * 
      * TODO add hash generable by dependency injection.
      */
+    @Transient
     @Inject
     protected HashGenerable hashGenerable;
 
