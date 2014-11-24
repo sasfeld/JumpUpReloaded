@@ -10,7 +10,10 @@ package de.htw.fb4.imi.jumpup.user.validation;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
+import javax.persistence.Query;
 
+import de.htw.fb4.imi.jumpup.Application;
+import de.htw.fb4.imi.jumpup.Application.LogType;
 import de.htw.fb4.imi.jumpup.user.entities.User;
 import de.htw.fb4.imi.jumpup.util.Faces;
 import de.htw.fb4.imi.jumpup.validator.AbstractValidator;
@@ -47,9 +50,15 @@ public class Username extends AbstractValidator
     {
         final String username = (String) value;
         
+        if (null == this.entityManager) {
+           Application.log(getClass() + ":validate(): EntityManager is null. Please check why no entity manager is injected.", LogType.CRITICAL, getClass());
+           return false;
+        }
+        
         // check whether more than user already exists.
-        if ( 0 < this.entityManager.createNamedQuery(User.NAME_QUERY_BY_USERNAME).
-                setParameter("username", username).getResultList().size()) {
+        Query query = this.entityManager.createNamedQuery(User.NAME_QUERY_BY_USERNAME).
+                setParameter("username", username);
+        if ( 0 < query.getResultList().size()) {
             return false;
         }
         
