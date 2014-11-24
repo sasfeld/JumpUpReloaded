@@ -28,6 +28,7 @@ import de.htw.fb4.imi.jumpup.user.util.HashGenerable;
  *
  */
 @Entity
+@Table(name = "user")
 public class User extends AbstractEntity {
     @Column(name = "username", nullable = false, updatable = true, unique = true, length = UserSettings.MAX_LENGTH_USERNAME)
     protected String username;
