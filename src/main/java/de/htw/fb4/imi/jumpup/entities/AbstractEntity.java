@@ -9,6 +9,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Column;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 
 /**
  * <p></p>
@@ -18,6 +20,7 @@ import javax.persistence.Column;
  *
  */
 @Entity
+@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
 public class AbstractEntity
 {
     @Id
