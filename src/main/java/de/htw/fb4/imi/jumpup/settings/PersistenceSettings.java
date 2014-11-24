@@ -14,5 +14,8 @@ package de.htw.fb4.imi.jumpup.settings;
  */
 public interface PersistenceSettings
 {
+    /**
+     * Name of the persistence unit to be used.
+     */
     String PERSISTENCE_UNIT = "database";  
 }

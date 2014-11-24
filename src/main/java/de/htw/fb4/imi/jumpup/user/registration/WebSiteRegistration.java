@@ -19,5 +19,6 @@ import de.htw.fb4.imi.jumpup.settings.BeanNames;
 @Stateless(name = BeanNames.WEBSITE_REGISTRATION)
 public class WebSiteRegistration extends AbstractRegistrationMethod
 {
+
     
 }

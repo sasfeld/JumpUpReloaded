@@ -10,6 +10,7 @@ import javax.faces.bean.SessionScoped;
 import javax.inject.Inject;
 
 import de.htw.fb4.imi.jumpup.settings.BeanNames;
+import de.htw.fb4.imi.jumpup.settings.NavigationOutcomes;
 import de.htw.fb4.imi.jumpup.util.AbstractFacesBean;
 
 /**
@@ -151,14 +152,28 @@ public class RegistrationBean extends AbstractFacesBean
     
     /**
      * Register the user.
+     * @return 
      */
-    public final void registerUser()
+    public final String registerUser()
     {
         try {
-            this.registrationMethod.performRegistration(this);
+            this.registrationMethod.performRegistration(this);  
+            
+            // registration was performed successfully, so redirect to success page
+            if (!this.registrationMethod.hasError()) {
+                return NavigationOutcomes.REGISTRATION_SUCCESS;
+            }
+
+            // otherwise add all error messages
+            for (final String errorMessage: this.registrationMethod.getErrors()) {
+                this.addDisplayErrorMessage(errorMessage);
+            }            
         } catch ( Exception e ) {
-            this.displayErrorMessage("Could not perform your registration.");
+            this.addDisplayErrorMessage("Could not perform your registration.");            
         }
+        
+        // redirect to registration failure page
+        return NavigationOutcomes.REGISTRATION_FAILURE;
     }
     
 }

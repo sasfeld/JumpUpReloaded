@@ -8,6 +8,9 @@ package de.htw.fb4.imi.jumpup.util;
 import javax.faces.application.FacesMessage;
 import javax.faces.application.FacesMessage.Severity;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
+
+import de.htw.fb4.imi.jumpup.translate.Translatable;
 
 /**
  * <p>JSF util</p>
@@ -18,6 +21,9 @@ import javax.faces.context.FacesContext;
  */
 public class Faces
 {
+    @Inject
+    protected static Translatable translator;
+    
     /**
      * Main method to add error messages to be shown in JSF frontend.
      * @param message
@@ -45,6 +51,6 @@ public class Faces
     public static FacesMessage newFacesMessage(Severity severity,
             String message)
     {
-        return new FacesMessage(severity, message, null);
+        return new FacesMessage(severity, translator.translate(message), null);
     }
 }

@@ -15,12 +15,12 @@ package de.htw.fb4.imi.jumpup.util;
 public class AbstractFacesBean
 {
 
-    protected void displayInfoMessage(final String infoMessage)
+    protected void addDisplayInfoMessage(final String infoMessage)
     {
         Faces.addInfoMessage(infoMessage);
     }
     
-    protected void displayErrorMessage(final String errorMessage)
+    protected void addDisplayErrorMessage(final String errorMessage)
     {
         Faces.addErrorMessage(errorMessage);
     }

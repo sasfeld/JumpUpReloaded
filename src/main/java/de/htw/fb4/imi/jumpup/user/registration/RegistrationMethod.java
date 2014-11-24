@@ -7,6 +7,8 @@ package de.htw.fb4.imi.jumpup.user.registration;
 
 import javax.ejb.Local;
 
+import de.htw.fb4.imi.jumpup.util.ErrorPrintable;
+
 /**
  * <p>Interface for all registration methods.</p>
  * 
@@ -17,7 +19,7 @@ import javax.ejb.Local;
  *
  */
 @Local
-public interface RegistrationMethod
+public interface RegistrationMethod extends ErrorPrintable
 {
 
     /**
@@ -44,6 +46,8 @@ public interface RegistrationMethod
     * @param registrationBean
     */
    void confirmRegistration(RegistrationBean registrationBean);
+
+
    
    
 }
