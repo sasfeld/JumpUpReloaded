@@ -8,7 +8,6 @@ package de.htw.fb4.imi.jumpup.user.entities;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
-import de.htw.fb4.imi.jumpup.entities.AbstractEntity;
 import de.htw.fb4.imi.jumpup.settings.ResidenceSettings;
 
 /**
@@ -19,7 +18,7 @@ import de.htw.fb4.imi.jumpup.settings.ResidenceSettings;
  *
  */
 @Embeddable
-public class Residence extends AbstractEntity
+public class Residence
 {
     @Column(name="town", nullable=true, updatable=true, length=ResidenceSettings.MAX_LENGTH_TOWN)
     protected String town;
