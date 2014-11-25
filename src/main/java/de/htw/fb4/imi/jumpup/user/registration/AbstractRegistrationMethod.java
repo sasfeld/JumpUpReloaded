@@ -7,6 +7,7 @@ package de.htw.fb4.imi.jumpup.user.registration;
 
 import java.util.HashSet;
 
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -14,6 +15,7 @@ import de.htw.fb4.imi.jumpup.Application;
 import de.htw.fb4.imi.jumpup.Application.LogType;
 import de.htw.fb4.imi.jumpup.settings.PersistenceSettings;
 import de.htw.fb4.imi.jumpup.user.entities.User;
+import de.htw.fb4.imi.jumpup.user.util.HashGenerable;
 import de.htw.fb4.imi.jumpup.util.StringUtil;
 
 /**
@@ -26,6 +28,9 @@ import de.htw.fb4.imi.jumpup.util.StringUtil;
 public abstract class AbstractRegistrationMethod implements RegistrationMethod
 {
     protected HashSet<String> errorMessages;
+    
+    @Inject
+    protected HashGenerable hashGenerator;
     
     @PersistenceContext(unitName = PersistenceSettings.PERSISTENCE_UNIT)
     protected EntityManager entityManager;
@@ -43,6 +48,9 @@ public abstract class AbstractRegistrationMethod implements RegistrationMethod
     public void performRegistration(final RegistrationModel registrationModel)
     {
         this.reset();
+        
+        // TODO why is registrationModel filled with NULL values?
+        Application.log(registrationModel.toString(), LogType.INFO, getClass());
         
         final User newUser = createAndFillUser(registrationModel);
         
@@ -77,6 +85,9 @@ public abstract class AbstractRegistrationMethod implements RegistrationMethod
     protected User createAndFillUser(final RegistrationModel registrationModel)
     {
         User newUser = new User();
+        
+        // inject hash generator
+        newUser.setHashGenerable(this.hashGenerator);
         
         // fill user entity
         newUser.setEmail(registrationModel.geteMail());

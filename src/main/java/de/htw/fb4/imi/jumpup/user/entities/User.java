@@ -72,7 +72,6 @@ public class User extends AbstractEntity {
      * TODO add hash generable by dependency injection.
      */
     @Transient
-    @Inject
     protected HashGenerable hashGenerable;
 
     /**

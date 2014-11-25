@@ -51,8 +51,8 @@ public class Registration extends AbstractFacesController
      */
     public final String registerUser()
     {
-        try {
-            this.registrationMethod.performRegistration(this.registrationModel);  
+        try {            
+            this.registrationMethod.performRegistration(this.getRegistrationModel());  
             
             // registration was performed successfully, so redirect to success page
             if (!this.registrationMethod.hasError()) {

@@ -17,25 +17,43 @@
 	    	
 	    		<h:outputText value="#{translator.translate('Username')}: "></h:outputText>
 	    		<h:inputText id="username" value="#{registrationController.registrationModel.username}"
-	    		required="true" requiredMessage="#{translator.translate('Please enter your username')}">
+	    		required="true" requiredMessage="#{translator.translate('Please enter your username')}"
+	    		binding="#{passwordComponent}">
 	    			<f:validator binding="#{usernameValidator}" />
 	    		</h:inputText>
 	    		
+	    		<h:outputText value="#{translator.translate('E-Mail')}: "></h:outputText>
+	    		<h:inputText id="email" value="#{registrationController.registrationModel.eMail}"
+	    			required="true" requiredMessage="#{translator.translate('Please enter your eMail')}">
+	    			<f:validator binding="#{emailValidator}" />
+	    		</h:inputText>
+	    		
 	    		<h:outputText value="#{translator.translate('Password')}: "></h:outputText>
-	    		<h:inputText id="password" value="#{registrationController.registrationModel.password}"
-	    		required="true" requiredMessage="#{translator.translate('Please enter a password')}"></h:inputText>	 
+	    		<h:inputSecret id="password" 
+	    		binding="#{password}"
+	    		value="#{registrationController.registrationModel.password}"
+	    		required="true" requiredMessage="#{translator.translate('Please enter a password')}">
+	    			<f:validator binding="#{passwordValidator}" />
+	    		</h:inputSecret>	 
 	    		
 	    		<h:outputText value="#{translator.translate('Confirm Password')}: "></h:outputText>
-	    		<h:inputText id="confirm_password" value="#{registrationController.registrationModel.confirmPassword}"
-	    		required="true" requiredMessage="#{translator.translate('Please enter your password a second time to confirm it')}"></h:inputText>	 
+	    		<h:inputSecret id="confirm_password" value="#{registrationController.registrationModel.confirmPassword}"
+	    		required="true" requiredMessage="#{translator.translate('Please enter your password a second time to confirm it')}">
+	    			<f:validator binding="#{repeatPasswordValidator}" />
+	    			<f:attribute name="password" value="#{password}"></f:attribute>
+	    		</h:inputSecret>	 
 	    			    		
 	    		<h:outputText value="#{translator.translate('Prename')}: "></h:outputText>
 	    		<h:inputText id="prename" value="#{registrationController.registrationModel.prename}"
-	    		required="true" requiredMessage="#{translator.translate('Please enter your prename')}"></h:inputText>
+	    		required="true" requiredMessage="#{translator.translate('Please enter your prename')}">
+	    			<f:validator binding="#{prenameValidator}" />
+	    		</h:inputText>
 	    		
 	    		<h:outputText value="#{translator.translate('Lastname')}: "></h:outputText>
 	    		<h:inputText id="lastname" value="#{registrationController.registrationModel.lastname}"
-	    		required="true" requiredMessage="#{translator.translate('Please enter your lastname')}"></h:inputText>
+	    		required="true" requiredMessage="#{translator.translate('Please enter your lastname')}">
+	    			<f:validator binding="#{lastnameValidator}" />
+	    		</h:inputText>
 	    			    		   	
 	    		<h:commandButton type="submit" value="#{translator.translate('Submit')}"
 	    		action="#{registrationController.registerUser}"></h:commandButton>
