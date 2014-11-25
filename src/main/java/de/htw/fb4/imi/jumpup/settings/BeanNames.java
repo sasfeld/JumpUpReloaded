@@ -22,4 +22,6 @@ public interface BeanNames
     String WEBSITE_REGISTRATION = "website_registration";
     
     String TRANSLATOR = "translator";
+    
+    String USERNAME_VALIDATOR = "usernameValidator";
 }

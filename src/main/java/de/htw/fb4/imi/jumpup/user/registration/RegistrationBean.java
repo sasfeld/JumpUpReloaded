@@ -5,9 +5,9 @@
  */
 package de.htw.fb4.imi.jumpup.user.registration;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.RequestScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import de.htw.fb4.imi.jumpup.settings.BeanNames;
 import de.htw.fb4.imi.jumpup.settings.NavigationOutcomes;
@@ -20,8 +20,8 @@ import de.htw.fb4.imi.jumpup.util.AbstractFacesBean;
  * @since 10.11.2014
  *
  */
-@ManagedBean(name=BeanNames.REGISTRATION_BEAN)
-@SessionScoped
+@Named(value = BeanNames.REGISTRATION_BEAN)
+@RequestScoped
 public class RegistrationBean extends AbstractFacesBean
 {
     protected String username;

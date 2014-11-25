@@ -12,11 +12,13 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.FacesValidator;
 import javax.faces.validator.ValidatorException;
+import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
 import de.htw.fb4.imi.jumpup.Application;
 import de.htw.fb4.imi.jumpup.Application.LogType;
+import de.htw.fb4.imi.jumpup.settings.BeanNames;
 import de.htw.fb4.imi.jumpup.user.entities.User;
 import de.htw.fb4.imi.jumpup.util.Faces;
 import de.htw.fb4.imi.jumpup.validator.AbstractValidator;
@@ -29,7 +31,8 @@ import de.htw.fb4.imi.jumpup.validator.AbstractValidator;
  *
  */
 @RequestScoped
-@FacesValidator("usernameValidator")
+@FacesValidator(BeanNames.USERNAME_VALIDATOR)
+@Named(BeanNames.USERNAME_VALIDATOR)
 public class Username extends AbstractValidator
 {   
 
