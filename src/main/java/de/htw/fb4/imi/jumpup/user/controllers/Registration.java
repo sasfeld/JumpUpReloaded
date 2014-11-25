@@ -9,11 +9,11 @@ import javax.faces.bean.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import de.htw.fb4.imi.jumpup.controllers.AbstractFacesController;
 import de.htw.fb4.imi.jumpup.settings.BeanNames;
 import de.htw.fb4.imi.jumpup.settings.NavigationOutcomes;
 import de.htw.fb4.imi.jumpup.user.registration.RegistrationMethod;
 import de.htw.fb4.imi.jumpup.user.registration.RegistrationModel;
-import de.htw.fb4.imi.jumpup.util.AbstractFacesBean;
 
 /**
  * <p>This bean is filled by JSF during the registration.</p>
@@ -24,7 +24,7 @@ import de.htw.fb4.imi.jumpup.util.AbstractFacesBean;
  */
 @Named(value = BeanNames.REGISTRATION_CONTROLLER_BEAN)
 @RequestScoped
-public class Registration extends AbstractFacesBean
+public class Registration extends AbstractFacesController
 {
     @Inject
     protected RegistrationMethod registrationMethod;

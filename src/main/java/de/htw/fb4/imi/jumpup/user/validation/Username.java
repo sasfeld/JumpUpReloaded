@@ -18,7 +18,6 @@ import de.htw.fb4.imi.jumpup.Application;
 import de.htw.fb4.imi.jumpup.Application.LogType;
 import de.htw.fb4.imi.jumpup.settings.BeanNames;
 import de.htw.fb4.imi.jumpup.user.entities.User;
-import de.htw.fb4.imi.jumpup.util.Faces;
 import de.htw.fb4.imi.jumpup.validator.AbstractValidator;
 
 /**
@@ -42,7 +41,7 @@ public class Username extends AbstractValidator
     {
         // throw validator with invalid entry message per default if validate() returns false
         if (!this.validate(value)) {
-            throw new ValidatorException(Faces.newValidationErrorMessage("The username already exists.", 
+            throw new ValidatorException(this.facesFacade.newValidationErrorMessage("The username already exists.", 
                     "The username was already taken by another registered user. Please try another one."));
         }
     }

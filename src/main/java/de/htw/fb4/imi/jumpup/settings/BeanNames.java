@@ -24,4 +24,9 @@ public interface BeanNames
     String TRANSLATOR = "translator";
     
     String USERNAME_VALIDATOR = "usernameValidator";
+    String PASSWORD_VALIDATOR = "passwordValidator";
+    String REPEAT_PASSWORD_VALIDATOR = "repeatPasswordValidator";
+    String PRENAME_VALIDATOR = "prenameValidator";
+    String LASTNAME_VALIDATOR = "lastnameValidator";
+    String EMAIL_VALIDATOR = "emailValidator";
 }

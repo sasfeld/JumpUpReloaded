@@ -5,12 +5,15 @@
  */
 package de.htw.fb4.imi.jumpup.util;
 
+import javax.ejb.Stateless;
 import javax.faces.application.FacesMessage;
 import javax.faces.application.FacesMessage.Severity;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.Validator;
 import javax.inject.Inject;
 
+import de.htw.fb4.imi.jumpup.Application;
+import de.htw.fb4.imi.jumpup.Application.LogType;
 import de.htw.fb4.imi.jumpup.translate.Translatable;
 
 /**
@@ -20,7 +23,8 @@ import de.htw.fb4.imi.jumpup.translate.Translatable;
  * @since 10.11.2014
  *
  */
-public class Faces
+@Stateless
+public class FacesFacade
 {
     @Inject
     protected static Translatable translator;
@@ -29,7 +33,7 @@ public class Faces
      * Main method to add error messages to be shown in JSF frontend.
      * @param message
      */
-    public static final void addErrorMessage(final String message)
+    public final void addErrorMessage(final String message)
     {
         FacesContext.getCurrentInstance().addMessage(null, newFacesMessage(FacesMessage.SEVERITY_ERROR, message));
     }
@@ -38,7 +42,7 @@ public class Faces
      * Add an info message that will be shown in JSF frontend.
      * @param message
      */
-    public static final void addInfoMessage(final String message)
+    public final void addInfoMessage(final String message)
     {
         FacesContext.getCurrentInstance().addMessage(null, newFacesMessage(FacesMessage.SEVERITY_INFO, message));
     }
@@ -49,10 +53,20 @@ public class Faces
      * @param message
      * @return
      */
-    public static FacesMessage newFacesMessage(final Severity severity,
+    public FacesMessage newFacesMessage(final Severity severity,
             final String message)
     {
-        return new FacesMessage(severity, translator.translate(message), null);
+        String translatedMessage;
+        
+        if (null == translator) {
+            Application.log(getClass() + ":newFacesMessage(): translator is null. Please check why it was not injected correctly. Continuing without translation...", 
+                    LogType.CRITICAL, getClass());
+            translatedMessage = message;            
+        } else {
+            translatedMessage = translator.translate(message);
+        }
+        
+        return new FacesMessage(severity, translatedMessage, null);
     }
 
     /**
@@ -61,7 +75,7 @@ public class Faces
      * @param detail
      * @return
      */
-    public static FacesMessage newValidationErrorMessage(final String summary,
+    public FacesMessage newValidationErrorMessage(final String summary,
             final String detail)
     {
         FacesMessage msg = newFacesMessage(FacesMessage.SEVERITY_ERROR, summary);        

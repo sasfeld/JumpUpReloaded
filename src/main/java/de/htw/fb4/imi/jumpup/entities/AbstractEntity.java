@@ -29,7 +29,7 @@ public class AbstractEntity
     protected long creationTimestamp;
     
     @Column(name = "updated_at", nullable = true, updatable = true)
-    protected long updateTimestamp;
+    protected Long updateTimestamp;
 
     /**
      * @return the identity
@@ -66,7 +66,7 @@ public class AbstractEntity
     /**
      * @return the updateTimestamp
      */
-    public final long getUpdateTimestamp()
+    public final Long getUpdateTimestamp()
     {
         return updateTimestamp;
     }
@@ -74,7 +74,7 @@ public class AbstractEntity
     /**
      * @param updateTimestamp the updateTimestamp to set
      */
-    public final void setUpdateTimestamp(long updateTimestamp)
+    public final void setUpdateTimestamp(Long updateTimestamp)
     {
         this.updateTimestamp = updateTimestamp;
     }

@@ -5,15 +5,20 @@
  */
 package de.htw.fb4.imi.jumpup.validator;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import de.htw.fb4.imi.jumpup.settings.PersistenceSettings;
-import de.htw.fb4.imi.jumpup.util.Faces;
+import de.htw.fb4.imi.jumpup.user.util.ConfigReader;
+import de.htw.fb4.imi.jumpup.util.FacesFacade;
 
 /**
  * <p>Abstract class for JSF validation classes.</p>
@@ -27,6 +32,14 @@ public abstract class AbstractValidator implements Validator, JumpUpValidator
     @PersistenceContext(unitName=PersistenceSettings.PERSISTENCE_UNIT)
     protected EntityManager entityManager;
     
+    @Inject
+    protected FacesFacade facesFacade;
+    
+    @Inject
+    protected ConfigReader userConfigReader;
+    
+    protected Set<String> errorMessages = new HashSet<>();
+    
 
     @Override    
     /* (non-Javadoc)
@@ -37,7 +50,7 @@ public abstract class AbstractValidator implements Validator, JumpUpValidator
     {
         // throw validator with invalid entry message per default if validate() returns false
         if (!this.validate(value)) {
-            throw new ValidatorException(Faces.newValidationErrorMessage("Invalid entry", "Invalid entry"));
+            throw new ValidatorException(this.facesFacade.newValidationErrorMessage("Invalid entry", "Invalid entry"));
         }
     }
 
