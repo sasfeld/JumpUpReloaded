@@ -16,29 +16,29 @@
 	    	<h:panelGrid columns="2">
 	    	
 	    		<h:outputText value="#{translator.translate('Username')}: "></h:outputText>
-	    		<h:inputText id="username" value="#{registrationBean.username}"
+	    		<h:inputText id="username" value="#{registrationController.registrationModel.username}"
 	    		required="true" requiredMessage="#{translator.translate('Please enter your username')}">
 	    			<f:validator binding="#{usernameValidator}" />
 	    		</h:inputText>
 	    		
 	    		<h:outputText value="#{translator.translate('Password')}: "></h:outputText>
-	    		<h:inputText id="password" value="#{registrationBean.password}"
+	    		<h:inputText id="password" value="#{registrationController.registrationModel.password}"
 	    		required="true" requiredMessage="#{translator.translate('Please enter a password')}"></h:inputText>	 
 	    		
 	    		<h:outputText value="#{translator.translate('Confirm Password')}: "></h:outputText>
-	    		<h:inputText id="confirm_password" value="#{registrationBean.confirmPassword}"
+	    		<h:inputText id="confirm_password" value="#{registrationController.registrationModel.confirmPassword}"
 	    		required="true" requiredMessage="#{translator.translate('Please enter your password a second time to confirm it')}"></h:inputText>	 
 	    			    		
 	    		<h:outputText value="#{translator.translate('Prename')}: "></h:outputText>
-	    		<h:inputText id="prename" value="#{registrationBean.prename}"
+	    		<h:inputText id="prename" value="#{registrationController.registrationModel.prename}"
 	    		required="true" requiredMessage="#{translator.translate('Please enter your prename')}"></h:inputText>
 	    		
 	    		<h:outputText value="#{translator.translate('Lastname')}: "></h:outputText>
-	    		<h:inputText id="lastname" value="#{registrationBean.lastname}"
+	    		<h:inputText id="lastname" value="#{registrationController.registrationModel.lastname}"
 	    		required="true" requiredMessage="#{translator.translate('Please enter your lastname')}"></h:inputText>
 	    			    		   	
 	    		<h:commandButton type="submit" value="#{translator.translate('Submit')}"
-	    		action="#{registrationBean.registerUser}"></h:commandButton>
+	    		action="#{registrationController.registerUser}"></h:commandButton>
 	    	</h:panelGrid>
 	    </h:form>  	    
 	</ui:define>

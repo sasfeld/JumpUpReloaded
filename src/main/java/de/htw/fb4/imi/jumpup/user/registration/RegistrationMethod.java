@@ -28,24 +28,24 @@ public interface RegistrationMethod extends ErrorPrintable
      * Perform the registration of the given bean, e.g. database persistence.
      * 
      */
-   void performRegistration(RegistrationBean registrationBean);
+   void performRegistration(final RegistrationModel registrationModel);
    
    /**
     * Send an registration confirmation mail which contains the final confirmation link. 
     */
-   void sendConfirmationLinkMail(RegistrationBean registrationBean);
+   void sendConfirmationLinkMail(final RegistrationModel registrationModel);
    
    /**
     * Send the success (final welcome) mail after the user was registered and confirmed.
     * @param registrationBean
     */
-   void sendRegistrationSuccessMail(RegistrationBean registrationBean);
+   void sendRegistrationSuccessMail(final RegistrationModel registrationModel);
    
    /**
     * Confirm the user after successful registration
     * @param registrationBean
     */
-   void confirmRegistration(RegistrationBean registrationBean);
+   void confirmRegistration(final RegistrationModel registrationModel);
 
 
    
