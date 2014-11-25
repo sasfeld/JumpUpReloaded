@@ -10,8 +10,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.PersistenceUnit;
+import javax.persistence.PersistenceContext;
 
 import de.htw.fb4.imi.jumpup.settings.PersistenceSettings;
 import de.htw.fb4.imi.jumpup.util.Faces;
@@ -25,13 +24,9 @@ import de.htw.fb4.imi.jumpup.util.Faces;
  */
 public abstract class AbstractValidator implements Validator, JumpUpValidator
 {
-    @PersistenceUnit(unitName=PersistenceSettings.PERSISTENCE_UNIT)
-    EntityManagerFactory entityManagerFactory;
+    @PersistenceContext(unitName=PersistenceSettings.PERSISTENCE_UNIT)
+    protected EntityManager entityManager;
     
-    protected EntityManager getFreshEntityManager()
-    {
-        return entityManagerFactory.createEntityManager();
-    }
 
     @Override    
     /* (non-Javadoc)

@@ -10,10 +10,8 @@ package de.htw.fb4.imi.jumpup.user.validation;
 import javax.faces.bean.RequestScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
-import javax.faces.validator.FacesValidator;
 import javax.faces.validator.ValidatorException;
 import javax.inject.Named;
-import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
 import de.htw.fb4.imi.jumpup.Application;
@@ -30,9 +28,8 @@ import de.htw.fb4.imi.jumpup.validator.AbstractValidator;
  * @since 24.11.2014
  *
  */
+@Named( value = BeanNames.USERNAME_VALIDATOR)
 @RequestScoped
-@FacesValidator(BeanNames.USERNAME_VALIDATOR)
-@Named(BeanNames.USERNAME_VALIDATOR)
 public class Username extends AbstractValidator
 {   
 
@@ -58,7 +55,6 @@ public class Username extends AbstractValidator
     {
         final String username = (String) value;
         
-        EntityManager entityManager = this.getFreshEntityManager();
         if (null == entityManager) {
            Application.log(getClass() + ":validate(): EntityManager is null. Please check why no entity manager is injected.", LogType.CRITICAL, getClass());
            return false;
