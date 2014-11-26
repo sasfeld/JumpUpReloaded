@@ -79,59 +79,6 @@ public class AbstractEntity
         this.updateTimestamp = updateTimestamp;
     }
 
-    /* (non-Javadoc)
-     * @see java.lang.Object#hashCode()
-     */
-    @Override
-    public int hashCode()
-    {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result
-                + (int) (creationTimestamp ^ (creationTimestamp >>> 32));
-        result = prime * result + (int) (identity ^ (identity >>> 32));
-        result = prime * result
-                + (int) (updateTimestamp ^ (updateTimestamp >>> 32));
-        return result;
-    }
-
-    /* (non-Javadoc)
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
-    @Override
-    public boolean equals(Object obj)
-    {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        AbstractEntity other = (AbstractEntity) obj;
-        if (creationTimestamp != other.creationTimestamp)
-            return false;
-        if (identity != other.identity)
-            return false;
-        if (updateTimestamp != other.updateTimestamp)
-            return false;
-        return true;
-    }
-
-    /* (non-Javadoc)
-     * @see java.lang.Object#toString()
-     */
-    @Override
-    public String toString()
-    {
-        StringBuilder builder = new StringBuilder();
-        builder.append("AbstractEntity [identity=");
-        builder.append(identity);
-        builder.append(", creationTimestamp=");
-        builder.append(creationTimestamp);
-        builder.append(", updateTimestamp=");
-        builder.append(updateTimestamp);
-        builder.append("]");
-        return builder.toString();
-    } 
+    
    
 }

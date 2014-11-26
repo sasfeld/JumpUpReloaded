@@ -70,10 +70,8 @@ public abstract class AbstractRegistrationMethod implements RegistrationMethod
 
 
     protected void persistInTransaction(final User newUser)
-    {
-        this.entityManager.getTransaction().begin();            
+    {         
         this.entityManager.persist(newUser);            
-        this.entityManager.getTransaction().commit();
     }
 
     protected void tryToRollbackAndThrow()

@@ -92,7 +92,7 @@ public class Password extends AbstractValidator
         return true;
     }
 
-    /**
+    /** 
      * Check minimum and maximum lengths.
      * @param password
      * @return

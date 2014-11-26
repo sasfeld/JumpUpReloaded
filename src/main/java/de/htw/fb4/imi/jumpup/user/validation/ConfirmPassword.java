@@ -7,8 +7,7 @@ package de.htw.fb4.imi.jumpup.user.validation;
 
 
 
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.RequestScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
@@ -18,7 +17,6 @@ import javax.inject.Named;
 import de.htw.fb4.imi.jumpup.Application;
 import de.htw.fb4.imi.jumpup.Application.LogType;
 import de.htw.fb4.imi.jumpup.settings.BeanNames;
-import de.htw.fb4.imi.jumpup.user.controllers.Registration;
 import de.htw.fb4.imi.jumpup.validator.AbstractValidator;
 
 /**
@@ -31,10 +29,7 @@ import de.htw.fb4.imi.jumpup.validator.AbstractValidator;
 @Named( value = BeanNames.REPEAT_PASSWORD_VALIDATOR )
 @RequestScoped
 public class ConfirmPassword extends AbstractValidator
-{   
-    @ManagedProperty(value = "#{" + BeanNames.REGISTRATION_CONTROLLER_BEAN + "}")
-    protected Registration registrationController;
-    
+{       
     public static String PATTERN_NUMERICAL = ".*[0-9]+.*";
     public static String PATTERN_ALPHA = ".*[a-zA-Z]+.*";
     public static String PATTERN_SPECIAL_CHARACTER = ".*[^a-zA-Z0-9]+.*";

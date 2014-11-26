@@ -16,7 +16,7 @@
 	    	<h:panelGrid columns="2">
 	    	
 	    		<h:outputText value="#{translator.translate('Username')}: "></h:outputText>
-	    		<h:inputText id="username" value="#{registrationController.registrationModel.username}"
+	    		<h:inputText id="username" value="#{registrationController.username}"
 	    		required="true" requiredMessage="#{translator.translate('Please enter your username')}"
 	    		binding="#{passwordComponent}">
 	    			<f:validator binding="#{usernameValidator}" />
@@ -55,7 +55,7 @@
 	    			<f:validator binding="#{lastnameValidator}" />
 	    		</h:inputText>
 	    			    		   	
-	    		<h:commandButton type="submit" value="#{translator.translate('Submit')}"
+	    		<h:commandButton value="#{translator.translate('Submit')}"
 	    		action="#{registrationController.registerUser}"></h:commandButton>
 	    	</h:panelGrid>
 	    </h:form>  	    

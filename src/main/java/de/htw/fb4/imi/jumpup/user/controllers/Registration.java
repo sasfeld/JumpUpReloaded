@@ -5,10 +5,13 @@
  */
 package de.htw.fb4.imi.jumpup.user.controllers;
 
-import javax.faces.bean.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import javax.enterprise.context.RequestScoped;
+
+import de.htw.fb4.imi.jumpup.Application;
+import de.htw.fb4.imi.jumpup.Application.LogType;
 import de.htw.fb4.imi.jumpup.controllers.AbstractFacesController;
 import de.htw.fb4.imi.jumpup.settings.BeanNames;
 import de.htw.fb4.imi.jumpup.settings.NavigationOutcomes;
@@ -28,18 +31,30 @@ public class Registration extends AbstractFacesController
 {
     @Inject
     protected RegistrationMethod registrationMethod;
-    protected RegistrationModel registrationModel;
+    protected RegistrationModel registrationModel = new RegistrationModel();
     
+    protected String username;
+    
+    /**
+     * @return the username
+     */
+    public String getUsername()
+    {
+        return username;
+    }
+    /**
+     * @param username the username to set
+     */
+    public void setUsername(String username)
+    {
+        this.username = username;
+    }
     /**
      * 
      * @return
      */
     public RegistrationModel getRegistrationModel()
-    {
-        if (null == this.registrationModel) {
-            this.registrationModel = new RegistrationModel();            
-        }
-        
+    {        
         return this.registrationModel;
     }
     
@@ -49,9 +64,10 @@ public class Registration extends AbstractFacesController
      * Try to register the user.
      * @return 
      */
-    public final String registerUser()
+    public String registerUser()
     {
-        try {            
+        try {       
+            Application.log("Username is " + username, LogType.INFO, getClass());
             this.registrationMethod.performRegistration(this.getRegistrationModel());  
             
             // registration was performed successfully, so redirect to success page
