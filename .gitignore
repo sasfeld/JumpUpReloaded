@@ -5,3 +5,5 @@
 /*.project
 /.travis/travis
 /bin/
+/src/test/resources/persistence_unittest.xml
+/src/main/webapp/WEB-INF/jumpup-ds.xml
