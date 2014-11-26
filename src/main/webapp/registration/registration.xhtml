@@ -16,7 +16,7 @@
 	    	<h:panelGrid columns="2">
 	    	
 	    		<h:outputText value="#{translator.translate('Username')}: "></h:outputText>
-	    		<h:inputText id="username" value="#{registrationController.username}"
+	    		<h:inputText id="username" value="#{registrationController.registrationModel.username}"
 	    		required="true" requiredMessage="#{translator.translate('Please enter your username')}"
 	    		binding="#{passwordComponent}">
 	    			<f:validator binding="#{usernameValidator}" />

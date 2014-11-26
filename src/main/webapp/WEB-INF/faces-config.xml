@@ -13,5 +13,14 @@
    			<to-view-id>registration/registration.xhtml</to-view-id>
    		</navigation-case>
    </navigation-rule>
+   
+   <navigation-rule>
+   		<display-name>registration.xhtml</display-name>
+   		<from-view-id>registration/registration.xhtml</from-view-id>
+   		<navigation-case>
+   			<from-outcome>registration_successs</from-outcome>
+   			<to-view-id>registration/registration_success.xhtml</to-view-id>
+   		</navigation-case>
+   </navigation-rule>
 
 </faces-config>

@@ -93,6 +93,7 @@ public abstract class AbstractRegistrationMethod implements RegistrationMethod
         newUser.setPassword(registrationModel.getPassword());
         newUser.setPrename(registrationModel.getPrename());
         newUser.setLastname(registrationModel.getLastname());
+        newUser.setIsConfirmed(false);
         
         return newUser;
     }
