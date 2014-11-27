@@ -30,4 +30,5 @@ public interface BeanNames
     String PRENAME_VALIDATOR = "prenameValidator";
     String LASTNAME_VALIDATOR = "lastnameValidator";
     String EMAIL_VALIDATOR = "emailValidator";
+    String UsernameOrMailValidator = "emailOrUsernameValidator";
 }

@@ -82,7 +82,7 @@ public class Prename extends AbstractValidator
 
     private boolean checkLength(String prename)
     {
-     // get values from user.properties configuration file
+        // get values from user.properties configuration file
         int minLength = Integer.parseInt(userConfigReader.fetchValue(IConfigKeys.JUMUP_USER_VALIDATION_PRENAME_MIN_LENGTH));
         int maxLength = Integer.parseInt(userConfigReader.fetchValue(IConfigKeys.JUMUP_USER_VALIDATION_PRENAME_MAX_LENGTH));
         

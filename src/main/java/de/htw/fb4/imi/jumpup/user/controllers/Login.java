@@ -5,6 +5,8 @@
  */
 package de.htw.fb4.imi.jumpup.user.controllers;
 
+import java.io.Serializable;
+
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -26,8 +28,13 @@ import de.htw.fb4.imi.jumpup.user.login.LoginModel;
  */
 @Named( value = BeanNames.LOGIN_CONTROLLER )
 @SessionScoped
-public class Login extends AbstractFacesController
+public class Login extends AbstractFacesController implements Serializable
 {
+    /**
+     * Serializable.
+     */
+    private static final long serialVersionUID = 6762395393648784704L;
+
     protected LoginModel loginModel = new LoginModel();
     
     @Inject

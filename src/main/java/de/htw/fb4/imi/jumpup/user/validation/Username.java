@@ -16,6 +16,7 @@ import javax.persistence.Query;
 
 import de.htw.fb4.imi.jumpup.Application;
 import de.htw.fb4.imi.jumpup.Application.LogType;
+import de.htw.fb4.imi.jumpup.config.IConfigKeys;
 import de.htw.fb4.imi.jumpup.settings.BeanNames;
 import de.htw.fb4.imi.jumpup.user.entities.User;
 import de.htw.fb4.imi.jumpup.validator.AbstractValidator;
@@ -31,6 +32,9 @@ import de.htw.fb4.imi.jumpup.validator.AbstractValidator;
 @RequestScoped
 public class Username extends AbstractValidator
 {   
+    public static String USERNAME_PATTERN = "[a-zA-Z0-9_-]+";
+    
+    private boolean dbCheck = true;
 
     @Override    
     /* (non-Javadoc)
@@ -54,6 +58,49 @@ public class Username extends AbstractValidator
     {
         final String username = (String) value;
         
+        if (!checkLength(username)
+            || !checkValidUsername(username)
+            || checkIfUserExists(username)) {
+            return false;
+        }
+        
+        return true;
+    }
+
+    private boolean checkValidUsername(String username)
+    {
+        if (username.matches(USERNAME_PATTERN)) {
+            return true;
+        }
+        
+        return false;
+    }
+
+    private boolean checkLength(String username)
+    {
+        // get values from user.properties configuration file
+        int minLength = Integer.parseInt(userConfigReader.fetchValue(IConfigKeys.JUMUP_USER_VALIDATION_USERNAME_MIN_LENGTH));
+        int maxLength = Integer.parseInt(userConfigReader.fetchValue(IConfigKeys.JUMUP_USER_VALIDATION_USERNAME_MAX_LENGTH));
+        
+        if (username.length() < minLength) {
+            this.errorMessages.add("The username you entered is too short. Please type in at least " + minLength + " characters.");
+            
+            return false;
+        } else if (username.length() > maxLength) {
+            this.errorMessages.add("The username you entered is too long. Please type in maximum " + maxLength + " characters.");
+            
+            return false;
+        }
+        
+        return true;
+    }
+
+    protected boolean checkIfUserExists(final String username)
+    {
+        if (!this.dbCheck) {
+            return false;
+        }
+        
         if (null == entityManager) {
            Application.log(getClass() + ":validate(): EntityManager is null. Please check why no entity manager is injected.", LogType.CRITICAL, getClass());
            return false;
@@ -63,10 +110,19 @@ public class Username extends AbstractValidator
         Query query = entityManager.createNamedQuery(User.NAME_QUERY_BY_USERNAME).
                 setParameter("username", username);
         if ( 0 < query.getResultList().size()) {
-            return false;
+            return true;
         }
         
-        return true;
+        return false;
+    }
+
+    /**
+     * En- or disable DB check.
+     * @param enabled
+     */
+    public void enableDBCheck(boolean enabled)
+    {
+        this.dbCheck = enabled;            
     }
 
 }
