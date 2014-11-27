@@ -10,8 +10,8 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import de.htw.fb4.imi.jumpup.controllers.AbstractFacesController;
+import de.htw.fb4.imi.jumpup.navigation.NavigationOutcomes;
 import de.htw.fb4.imi.jumpup.settings.BeanNames;
-import de.htw.fb4.imi.jumpup.settings.NavigationOutcomes;
 import de.htw.fb4.imi.jumpup.user.registration.RegistrationMethod;
 import de.htw.fb4.imi.jumpup.user.registration.RegistrationModel;
 
@@ -22,7 +22,7 @@ import de.htw.fb4.imi.jumpup.user.registration.RegistrationModel;
  * @since 10.11.2014
  *
  */
-@Named(value = BeanNames.REGISTRATION_CONTROLLER_BEAN)
+@Named(value = BeanNames.REGISTRATION_CONTROLLER)
 @RequestScoped
 public class Registration extends AbstractFacesController
 {

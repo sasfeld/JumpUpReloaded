@@ -1,0 +1,36 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	>
+	
+	<h:form>
+		<c:choose>
+			<c:when test="#{!loginController.loginModel.isLoggedIn}">
+				<h:panelGrid columns="5">
+					<h:outputText value="#{translator.translate('Login')}" />
+					
+					<h:outputText value="#{translator.translate('Username / eMail')}" />
+					<h:inputText id="username" value="#{loginController.loginModel.usernameOrMail}">
+						<f:validator binding="#{emailOrUsernameValidator}" />
+					</h:inputText>
+					
+					<h:outputText value="#{translator.translate('Password')}" />
+					<h:inputText id="password" value="#{loginController.loginModel.password}" />
+					
+					<h:commandButton value="#{translator.translate('Login')}"
+					action="#{loginController.loginUser}"></h:commandButton>
+				</h:panelGrid>
+			</c:when>
+			<c:otherwise>
+				<h:commandButton value="#{translator.translate('Logout')}"
+					action="#{loginController.logoutUser}"></h:commandButton>
+			</c:otherwise>
+		</c:choose>
+	</h:form>
+	
+</ui:composition>
+	
+	
