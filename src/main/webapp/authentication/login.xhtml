@@ -6,30 +6,43 @@
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	>
 	
-	<h:form>
 		<c:choose>
 			<c:when test="#{!loginController.loginModel.isLoggedIn}">
-				<h:panelGrid columns="5">
-					<h:outputText value="#{translator.translate('Login')}" />
-					
-					<h:outputText value="#{translator.translate('Username / eMail')}" />
-					<h:inputText id="username" value="#{loginController.loginModel.usernameOrMail}">
-						<f:validator binding="#{emailOrUsernameValidator}" />
-					</h:inputText>
-					
-					<h:outputText value="#{translator.translate('Password')}" />
-					<h:inputText id="password" value="#{loginController.loginModel.password}" />
-					
-					<h:commandButton value="#{translator.translate('Login')}"
-					action="#{loginController.loginUser}"></h:commandButton>
-				</h:panelGrid>
+				<section class="header_loggedout">
+					<h:panelGrid columns="5">
+					    <h:form>
+						<h:outputText value="#{translator.translate('Login')}" />
+						
+						<h:outputText value="#{translator.translate('Username / eMail')}" />
+						<h:inputText id="username" value="#{loginController.loginModel.usernameOrMail}">
+							<f:validator binding="#{emailOrUsernameValidator}" />
+						</h:inputText>
+						
+						<h:outputText value="#{translator.translate('Password')}" />
+						<h:inputSecret id="password" value="#{loginController.loginModel.password}" />
+						
+						<h:commandButton value="#{translator.translate('Login')}"
+						action="#{loginController.loginUser}"></h:commandButton>
+						<h:link value="#{translator.translate('Registration')}" 
+						outcome="to_registration"></h:link>
+						</h:form>
+					</h:panelGrid>
+				 </section>
 			</c:when>
 			<c:otherwise>
-				<h:commandButton value="#{translator.translate('Logout')}"
-					action="#{loginController.logoutUser}"></h:commandButton>
+				<section class="header_loggedin">
+					<div>
+						<h:outputText value="#{translator.translate('Hello').concat(' ').concat(loginController.loginModel.currentUser.prename).concat('!')}" />
+					</div>
+					<div>				
+					<h:form>
+						<h:commandLink value="#{translator.translate('Logout')}"
+							action="#{loginController.logoutUser}"></h:commandLink>
+					</h:form>
+					</div>
+				</section>
 			</c:otherwise>
 		</c:choose>
-	</h:form>
 	
 </ui:composition>
 	

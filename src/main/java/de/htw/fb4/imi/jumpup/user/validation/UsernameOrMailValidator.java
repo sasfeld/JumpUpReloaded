@@ -29,18 +29,17 @@ public class UsernameOrMailValidator extends AbstractValidator
     protected JumpUpValidator eMailValidator;
     protected JumpUpValidator userValidator;
     
-    public UsernameOrMailValidator()
-    {
-        initialize();        
-    }
+   
 
     protected void initialize()
     {
         // disable DB checks - only check eMail and username format in general
         this.eMailValidator = new EMail();
         ((EMail) this.eMailValidator).enableDBCheck(false);
+        ((EMail) this.eMailValidator).setConfigReader(this.userConfigReader);
         this.userValidator = new Username();
         ((Username) this.userValidator).enableDBCheck(false);
+        ((Username) this.userValidator).setConfigReader(this.userConfigReader);
     }
     
     /* (non-Javadoc)
@@ -62,6 +61,8 @@ public class UsernameOrMailValidator extends AbstractValidator
      */
     public boolean validate(final Object value)
     {
+        this.initialize();
+        
         final String usernameOrMail = (String) value;
         
         if (!this.eMailValidator.validate(usernameOrMail) &&

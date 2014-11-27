@@ -78,7 +78,7 @@ public class LoginModel
     /**
      * @return the isLoggedIn
      */
-    public boolean isLoggedIn()
+    public boolean getIsLoggedIn()
     {
         return isLoggedIn;
     }
@@ -86,7 +86,7 @@ public class LoginModel
     /**
      * @param isLoggedIn the isLoggedIn to set
      */
-    public void setLoggedIn(final boolean isLoggedIn)
+    public void setIsLoggedIn(final boolean isLoggedIn)
     {
         this.isLoggedIn = isLoggedIn;
     }

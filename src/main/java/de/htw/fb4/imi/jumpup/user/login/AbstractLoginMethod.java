@@ -5,6 +5,7 @@
  */
 package de.htw.fb4.imi.jumpup.user.login;
 
+import java.io.Serializable;
 import java.util.HashSet;
 
 import javax.inject.Inject;
@@ -26,8 +27,13 @@ import de.htw.fb4.imi.jumpup.util.StringUtil;
  * @since 27.11.2014
  *
  */
-public abstract class AbstractLoginMethod implements LoginMethod
+public abstract class AbstractLoginMethod implements LoginMethod, Serializable
 {    
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 5762450253142353659L;
+
     @Inject
     protected HashGenerable hashGenerator;
     
@@ -86,7 +92,7 @@ public abstract class AbstractLoginMethod implements LoginMethod
     protected void setLoggedIn(final LoginModel loginModel, final User loggedInUser)
     {
         loginModel.setCurrentUser(loggedInUser);
-        loginModel.setLoggedIn(true);
+        loginModel.setIsLoggedIn(true);
     }
 
     protected User lookForMatchingUser(final LoginModel loginModel) throws ApplicationError
@@ -128,6 +134,60 @@ public abstract class AbstractLoginMethod implements LoginMethod
     public void logOut(final LoginModel loginModel)
     {
         this.reset();
+        
+        loginModel.setIsLoggedIn(false);
+        loginModel.setCurrentUser(null);
+        loginModel.setPassword(null);
+        loginModel.setUsernameOrMail(null);        
     }
+
+    /* (non-Javadoc)
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode()
+    {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result
+                + ((entityManager == null) ? 0 : entityManager.hashCode());
+        result = prime * result
+                + ((errorMessages == null) ? 0 : errorMessages.hashCode());
+        result = prime * result
+                + ((hashGenerator == null) ? 0 : hashGenerator.hashCode());
+        return result;
+    }
+
+    /* (non-Javadoc)
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object obj)
+    {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        AbstractLoginMethod other = (AbstractLoginMethod) obj;
+        if (entityManager == null) {
+            if (other.entityManager != null)
+                return false;
+        } else if (!entityManager.equals(other.entityManager))
+            return false;
+        if (errorMessages == null) {
+            if (other.errorMessages != null)
+                return false;
+        } else if (!errorMessages.equals(other.errorMessages))
+            return false;
+        if (hashGenerator == null) {
+            if (other.hashGenerator != null)
+                return false;
+        } else if (!hashGenerator.equals(other.hashGenerator))
+            return false;
+        return true;
+    }   
+    
 
 }

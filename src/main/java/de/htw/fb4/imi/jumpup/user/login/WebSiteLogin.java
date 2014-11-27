@@ -17,6 +17,7 @@ import de.htw.fb4.imi.jumpup.user.entities.User;
  */
 public class WebSiteLogin extends AbstractLoginMethod
 {
+    private static final long serialVersionUID = -3100825117103531673L;
 
     /* (non-Javadoc)
      * @see de.htw.fb4.imi.jumpup.user.login.LoginMethod#logIn(de.htw.fb4.imi.jumpup.user.login.LoginModel)
@@ -44,4 +45,6 @@ public class WebSiteLogin extends AbstractLoginMethod
             this.errorMessages.add("An internal server error occured. Please contact the customer care.");
         }
     }
+    
+    
 }

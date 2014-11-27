@@ -19,6 +19,7 @@ import de.htw.fb4.imi.jumpup.Application.LogType;
 import de.htw.fb4.imi.jumpup.config.IConfigKeys;
 import de.htw.fb4.imi.jumpup.settings.BeanNames;
 import de.htw.fb4.imi.jumpup.user.entities.User;
+import de.htw.fb4.imi.jumpup.user.util.ConfigReader;
 import de.htw.fb4.imi.jumpup.validator.AbstractValidator;
 
 /**
@@ -125,4 +126,12 @@ public class Username extends AbstractValidator
         this.dbCheck = enabled;            
     }
 
+    /**
+     * 
+     * @param userConfigReader
+     */
+    public void setConfigReader(ConfigReader userConfigReader)
+    {
+       this.userConfigReader = userConfigReader;        
+    }
 }
