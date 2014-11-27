@@ -16,10 +16,10 @@ import javax.faces.validator.ValidatorException;
 import javax.inject.Named;
 import javax.persistence.Query;
 
-import de.htw.fb4.imi.jumpup.Application;
-import de.htw.fb4.imi.jumpup.Application.LogType;
+import de.htw.fb4.imi.jumpup.ApplicationError;
 import de.htw.fb4.imi.jumpup.settings.BeanNames;
 import de.htw.fb4.imi.jumpup.user.entities.User;
+import de.htw.fb4.imi.jumpup.user.util.ConfigReader;
 import de.htw.fb4.imi.jumpup.validator.AbstractValidator;
 
 /**
@@ -35,6 +35,8 @@ public class EMail extends AbstractValidator
 {   
     public static String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
                     + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+    
+    private boolean dbCheck = true;
 
     @Override    
     /* (non-Javadoc)
@@ -80,10 +82,14 @@ public class EMail extends AbstractValidator
      */
     private boolean existsAlready(final String eMail)
     {
-        if (null == entityManager) {
-            Application.log(getClass() + ":validate(): EntityManager is null. Please check why no entity manager is injected.", LogType.CRITICAL, getClass());
+        // check if dbCheck is disabled
+        if (!this.dbCheck) {
             return false;
-         }
+        }
+        
+        if (null == entityManager) {
+            throw new ApplicationError(getClass() + ":validate(): EntityManager is null. Please check why no entity manager is injected.", getClass());
+        }
          
          // check whether more than user already exists.
          Query query = entityManager.createNamedQuery(User.NAME_QUERY_BY_EMAIL).
@@ -132,6 +138,25 @@ public class EMail extends AbstractValidator
         }
         
         return true;
+    }
+
+    /**
+     * En- or disable the database check of the username.
+     * 
+     * @param enabled
+     */
+    public void enableDBCheck(boolean enabled)
+    {
+        this.dbCheck = enabled;        
+    }
+
+    /**
+     * 
+     * @param userConfigReader
+     */
+    public void setConfigReader(ConfigReader userConfigReader)
+    {
+       this.userConfigReader = userConfigReader;        
     }
 
 }

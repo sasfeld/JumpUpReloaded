@@ -18,8 +18,48 @@
    		<display-name>registration.xhtml</display-name>
    		<from-view-id>registration/registration.xhtml</from-view-id>
    		<navigation-case>
-   			<from-outcome>registration_successs</from-outcome>
+   			<from-outcome>registration_success</from-outcome>
    			<to-view-id>registration/registration_success.xhtml</to-view-id>
+   		</navigation-case>
+   </navigation-rule>
+   
+   <navigation-rule>
+   		<from-view-id>*</from-view-id>
+   		<navigation-case>
+   			<from-outcome>login_success</from-outcome>
+   			<to-view-id>portal/welcome.xhtml</to-view-id>
+   		</navigation-case>
+   </navigation-rule>
+   
+    <navigation-rule>
+   		<from-view-id>*</from-view-id>
+   		<navigation-case>
+   			<from-outcome>login_failure</from-outcome>
+   			<to-view-id>index.xhtml</to-view-id>
+   		</navigation-case>
+   </navigation-rule>
+   
+    <navigation-rule>
+   		<from-view-id>*</from-view-id>
+   		<navigation-case>
+   			<from-outcome>logout_success</from-outcome>
+   			<to-view-id>index.xhtml</to-view-id>
+   		</navigation-case>
+   </navigation-rule>
+   
+   <navigation-rule>
+   		<from-view-id>*</from-view-id>
+   		<navigation-case>
+   			<from-outcome>logout_failure</from-outcome>
+   			<to-view-id>index.xhtml</to-view-id>
+   		</navigation-case>
+   </navigation-rule>
+   
+   <navigation-rule>
+   		<from-view-id>*</from-view-id>
+   		<navigation-case>
+   			<from-outcome>to_registration</from-outcome>
+   			<to-view-id>registration/registration.xhtml</to-view-id>
    		</navigation-case>
    </navigation-rule>
 

@@ -2,6 +2,11 @@
     xmlns="http://www.w3.org/1999/xhtml"
     xmlns:ui="http://java.sun.com/jsf/facelets">
 
-<div>Header</div>
+
+<header>
+	<ui:insert name="login">
+		<ui:include src="../../../authentication/login.xhtml"></ui:include>
+	</ui:insert>
+</header>
 
 </ui:composition>

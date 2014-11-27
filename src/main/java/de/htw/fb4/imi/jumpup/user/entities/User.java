@@ -33,15 +33,24 @@ import de.htw.fb4.imi.jumpup.user.util.HashGenerable;
 @NamedQueries({
     @NamedQuery(name = User.NAME_QUERY_BY_USERNAME, query = "SELECT u FROM User u WHERE u.username = :username"),
     @NamedQuery(name = User.NAME_QUERY_BY_EMAIL, query = "SELECT u FROM User u WHERE u.eMail = :email"),
+    @NamedQuery(name = User.NAME_QUERY_LOGIN, query = "SELECT u FROM User u "
+            + "WHERE (u.eMail = :token OR u.username = :token) "
+            + "AND u.passwordHash = :passwordHash"
+           ),
 })
 public class User extends AbstractEntity {
     /**
      * Name of named query to fetch users by username.
      */
     public static final String NAME_QUERY_BY_USERNAME = "User.fetchByUsername";
-
-
+    /**
+     * Only fetch by the unique eMail.
+     */
     public static final String NAME_QUERY_BY_EMAIL = "User.fetchByEMail";   
+    /**
+     * Login by parameters: token (might be a username or eMail) and passwordHash
+     */
+    public static final String NAME_QUERY_LOGIN = "User.login";   
     
     
     @Column(name = "username", nullable = false, updatable = true, unique = true, length = UserSettings.MAX_LENGTH_USERNAME)

@@ -29,5 +29,7 @@ public interface IConfigKeys {
     String JUMUP_USER_VALIDATION_PRENAME_MAX_LENGTH = "jumupup.user.validation.prename.max_length";
     String JUMUP_USER_VALIDATION_LASTNAME_MIN_LENGTH = "jumupup.user.validation.lastname.min_length";
     String JUMUP_USER_VALIDATION_LASTNAME_MAX_LENGTH = "jumupup.user.validation.lastname.max_length";
+    String JUMUP_USER_VALIDATION_USERNAME_MIN_LENGTH = "jumupup.user.validation.username.min_length";
+    String JUMUP_USER_VALIDATION_USERNAME_MAX_LENGTH = "jumupup.user.validation.username.max_length";
     
 }
