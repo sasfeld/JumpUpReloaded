@@ -100,6 +100,22 @@ public class Login extends AbstractFacesController implements Serializable
         
         return NavigationOutcomes.LOGOUT_FAILURE;
     }
+
+
+    /* (non-Javadoc)
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString()
+    {
+        StringBuilder builder = new StringBuilder();
+        builder.append("Login [loginModel=");
+        builder.append(loginModel);
+        builder.append(", loginMethod=");
+        builder.append(loginMethod);
+        builder.append("]");
+        return builder.toString();
+    }
     
     
 }

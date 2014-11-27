@@ -11,6 +11,18 @@
     <param-name>javax.faces.DEFAULT_SUFFIX</param-name>
     <param-value>.xhtml</param-value>
   </context-param>
+  
+  <!--  our login filter -->
+  <filter>
+   <filter-name>LoginFilter</filter-name>
+   <filter-class>de.htw.fb4.imi.jumpup.user.login.LoginFilter</filter-class>
+  </filter>
+  
+  <!--  restrict access to /portal/ subfolder -->
+  <filter-mapping>
+  	<filter-name>LoginFilter</filter-name>
+  	<url-pattern>/portal/*</url-pattern>
+  </filter-mapping>
 
   <servlet>
     <servlet-name>Faces Servlet</servlet-name>
