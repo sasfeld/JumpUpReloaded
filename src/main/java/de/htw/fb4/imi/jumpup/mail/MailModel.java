@@ -220,7 +220,11 @@ public class MailModel
         builder.append("MailModel [sender=");
         builder.append(sender);
         builder.append(", recipients=");
-        builder.append(recipients);
+        
+        for (InternetAddress recipient : recipients) {
+            builder.append(recipient + ",");
+        }
+        
         builder.append(", subject=");
         builder.append(subject);
         builder.append(", contentText=");

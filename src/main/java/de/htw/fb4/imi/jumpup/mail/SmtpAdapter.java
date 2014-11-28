@@ -26,6 +26,7 @@ import de.htw.fb4.imi.jumpup.Application;
 import de.htw.fb4.imi.jumpup.Application.LogType;
 import de.htw.fb4.imi.jumpup.ApplicationError;
 import de.htw.fb4.imi.jumpup.config.IConfigKeys;
+import de.htw.fb4.imi.jumpup.mail.util.ConfigReader;
 import de.htw.fb4.imi.jumpup.settings.BeanNames;
 
 /**
@@ -119,6 +120,7 @@ public class SmtpAdapter extends AbstractMailAdapter
     
     public void initialize()
     {
+        this.configReader = new ConfigReader();
         this.readConfig();        
     }
 
@@ -153,6 +155,7 @@ public class SmtpAdapter extends AbstractMailAdapter
     @Override
     public void sendTextMail(final MailModel mailModel)
     {
+        Application.log("Trying to send text mail: " + mailModel.toString(), LogType.INFO, getClass());
         Message mailToSend = prepareMail(mailModel);
         
         try {

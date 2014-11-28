@@ -90,6 +90,7 @@ public class MailBuilderImpl implements MailBuilder
     {
         TemplateHandler handler = this.getTemplateHandler();
         handler.setTemplate(templateFile);
+        handler.setFacesFacade(this.facesFacade);
         return handler;
     }
 

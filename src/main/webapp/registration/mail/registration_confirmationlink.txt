@@ -4,7 +4,7 @@
 #{translator.translate("Before you are able to use your account, you have to confirm your eMail address.")}
 #{translator.translate("Therefore, please press the link below: ")}
 	
-#{registrationController.registrationModel.generateCompleteConfirmationLink}
+#{registrationController.registrationModel.generateCompleteConfirmationLink()}
 	
 #{translator.translate("Have fun on JumpUp.Me")}!
 	

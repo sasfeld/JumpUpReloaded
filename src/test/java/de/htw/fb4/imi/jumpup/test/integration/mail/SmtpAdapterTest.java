@@ -56,7 +56,7 @@ public class SmtpAdapterTest extends de.htw.fb4.imi.jumpup.test.IntegrationTest
     private void whenPlainMailIsSent(MailModel model)
     {
         SmtpAdapter smtpAdapter = new SmtpAdapter(true);
-        smtpAdapter.setConfigReader(new MailConfigReader());
+//        smtpAdapter.setConfigReader(new MailConfigReader());
         smtpAdapter.initialize();
         
         // send mail

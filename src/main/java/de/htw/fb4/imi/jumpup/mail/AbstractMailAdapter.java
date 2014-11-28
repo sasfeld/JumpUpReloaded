@@ -7,7 +7,7 @@ package de.htw.fb4.imi.jumpup.mail;
 
 import javax.ejb.EJB;
 
-import de.htw.fb4.imi.jumpup.config.IConfigReader;
+import de.htw.fb4.imi.jumpup.mail.util.ConfigReader;
 import de.htw.fb4.imi.jumpup.settings.BeanNames;
 
 /**
@@ -20,12 +20,12 @@ import de.htw.fb4.imi.jumpup.settings.BeanNames;
 public abstract class AbstractMailAdapter implements MailAdapter
 {
     @EJB(beanName = BeanNames.MAIL_CONFIG_READER)
-    protected IConfigReader configReader;
+    protected ConfigReader configReader;
 
     /**
      * @param configReader the configReader to set
      */
-    public void setConfigReader(IConfigReader configReader)
+    public void setConfigReader(ConfigReader configReader)
     {
         this.configReader = configReader;
     }   

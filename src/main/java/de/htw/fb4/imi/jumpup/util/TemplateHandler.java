@@ -11,6 +11,8 @@ import java.util.regex.Pattern;
 
 import javax.faces.context.FacesContext;
 
+import de.htw.fb4.imi.jumpup.ApplicationError;
+
 /**
  * <p>This class handles any template file, such as *.txt, scans for expression language tags and evaluates them.</p>
  * 
@@ -22,7 +24,7 @@ import javax.faces.context.FacesContext;
  */
 public class TemplateHandler
 {
-    protected static final String PATTERN_EXPRESSION_LANGUAGE = "(#{.*?})";
+    protected static final String PATTERN_EXPRESSION_LANGUAGE = "(#\\{.*?\\})";
     
     protected FacesContext facesContext;
     
@@ -43,7 +45,8 @@ public class TemplateHandler
     public void setTemplate(File templateFile)
     {
         if (null == templateFile || !templateFile.exists()) {
-            throw new IllegalArgumentException("setTemplate(): Illegal argument for templateFile. Either it is null or doesn't exist.");
+            throw new IllegalArgumentException("setTemplate(): Illegal argument for templateFile. Either it is null or doesn't exist: " 
+              + (templateFile != null ? templateFile.getAbsolutePath() : " null"));
         }
         
         // read complete file
@@ -72,21 +75,31 @@ public class TemplateHandler
      * 
      * For example: replace #{someBean.propertyA} by the value of the propertyA.
      * @return
+     * @throws ApplicationError
      */
     public String evaluateTemplate()
     {
+        if (null == facesFacade) {
+            throw new ApplicationError("evaluateTemplate(): facesFacade is null", getClass());
+        }
+        
+        if (null == template) {
+            throw new ApplicationError("evaluateTemplate(): template is null", getClass());
+        }
+        
+        
         Pattern pExpressionLanguage = Pattern.compile(PATTERN_EXPRESSION_LANGUAGE);
         
         Matcher mExpressionLanguage = pExpressionLanguage.matcher(this.template);
         
-        while (mExpressionLanguage.matches()) {
+        while (mExpressionLanguage.find()) {
             String matchedEl = mExpressionLanguage.group();
             
             // evaluate EL expression
             String evaluated = this.facesFacade.evaluateExpressionLanguage(matchedEl);
             
             // replace matched sequence in the template by evaluated expression
-            this.template = this.template.replaceAll(matchedEl, evaluated);
+            this.template = this.template.replaceAll(Pattern.quote(matchedEl), evaluated);
         }
         
     
