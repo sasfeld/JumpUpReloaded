@@ -32,7 +32,7 @@ public class LoginFilter implements Filter
     /**
      * Relative path to the login page.
      */
-    private static final String LOGIN_PAGE = "index.jsf";
+    private static final String LOGIN_PAGE = "";
     
     @Inject
     protected Login loginController;
