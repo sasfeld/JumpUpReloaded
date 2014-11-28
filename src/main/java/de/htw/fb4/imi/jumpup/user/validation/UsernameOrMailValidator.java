@@ -22,7 +22,7 @@ import de.htw.fb4.imi.jumpup.validator.JumpUpValidator;
  * @since 27.11.2014
  *
  */
-@Named( value = BeanNames.UsernameOrMailValidator )
+@Named( value = BeanNames.USERNAME_OR_MAIL_VALIDATOR )
 @RequestScoped
 public class UsernameOrMailValidator extends AbstractValidator
 {

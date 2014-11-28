@@ -30,5 +30,11 @@ public interface BeanNames
     String PRENAME_VALIDATOR = "prenameValidator";
     String LASTNAME_VALIDATOR = "lastnameValidator";
     String EMAIL_VALIDATOR = "emailValidator";
-    String UsernameOrMailValidator = "emailOrUsernameValidator";
+    String USERNAME_OR_MAIL_VALIDATOR = "emailOrUsernameValidator";
+    
+    String USER_CONFIG_READER = "userConfigReader";
+    
+    String MAIL_CONFIG_READER = "mailConfigReader";
+    String MAIL_SMTP_ADAPTER = "mailSmtpAdapter";
 }
+

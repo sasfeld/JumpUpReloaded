@@ -100,8 +100,8 @@ public class Password extends AbstractValidator
     protected boolean checkLength(final String password)
     {
         // get values from user.properties configuration file
-        int minLength = Integer.parseInt(userConfigReader.fetchValue(IConfigKeys.JUMUP_USER_VALIDATION_PASSWORD_MIN_LENGTH));
-        int maxLength = Integer.parseInt(userConfigReader.fetchValue(IConfigKeys.JUMUP_USER_VALIDATION_PASSWORD_MAX_LENGTH));
+        int minLength = Integer.parseInt(userConfigReader.fetchValue(IConfigKeys.JUMPUP_USER_VALIDATION_PASSWORD_MIN_LENGTH));
+        int maxLength = Integer.parseInt(userConfigReader.fetchValue(IConfigKeys.JUMPUP_USER_VALIDATION_PASSWORD_MAX_LENGTH));
         
         if (password.length() < minLength) {
             this.errorMessages.add("The password you entered is too short. Please type in at least " + minLength + " characters.");

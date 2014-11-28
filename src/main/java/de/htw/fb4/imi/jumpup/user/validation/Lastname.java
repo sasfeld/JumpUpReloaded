@@ -83,8 +83,8 @@ public class Lastname extends AbstractValidator
     private boolean checkLength(String lastname)
     {
      // get values from user.properties configuration file
-        int minLength = Integer.parseInt(userConfigReader.fetchValue(IConfigKeys.JUMUP_USER_VALIDATION_LASTNAME_MIN_LENGTH));
-        int maxLength = Integer.parseInt(userConfigReader.fetchValue(IConfigKeys.JUMUP_USER_VALIDATION_LASTNAME_MAX_LENGTH));
+        int minLength = Integer.parseInt(userConfigReader.fetchValue(IConfigKeys.JUMPUP_USER_VALIDATION_LASTNAME_MIN_LENGTH));
+        int maxLength = Integer.parseInt(userConfigReader.fetchValue(IConfigKeys.JUMPUP_USER_VALIDATION_LASTNAME_MAX_LENGTH));
         
         if (lastname.length() < minLength) {
             this.errorMessages.add("The lastname you entered is too short. Please type in at least " + minLength + " characters.");

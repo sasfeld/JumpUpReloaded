@@ -8,6 +8,7 @@ package de.htw.fb4.imi.jumpup.validator;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.ejb.EJB;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.Validator;
@@ -16,6 +17,7 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import de.htw.fb4.imi.jumpup.settings.BeanNames;
 import de.htw.fb4.imi.jumpup.settings.PersistenceSettings;
 import de.htw.fb4.imi.jumpup.user.util.ConfigReader;
 import de.htw.fb4.imi.jumpup.util.FacesFacade;
@@ -35,7 +37,7 @@ public abstract class AbstractValidator implements Validator, JumpUpValidator
     @Inject
     protected FacesFacade facesFacade;
     
-    @Inject
+    @EJB( beanName = BeanNames.USER_CONFIG_READER )
     protected ConfigReader userConfigReader;
     
     protected Set<String> errorMessages = new HashSet<>();
