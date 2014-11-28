@@ -1,0 +1,28 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+	
+<h:head>
+
+</h:head>
+
+<h:body>
+	<p><h1>#{translator.translate("Welcome on JumpUp.Me")}, #{registrationController.registrationModel.prename}!</h1></p>	
+	
+	<p>#{translator.translate("We are glad to have you aboard JumpUp.Me")}!<br />
+	#{translator.translate("Before you are able to use your account, you have to confirm your eMail address.")}<br />
+	#{translator.translate("Therefore, please press the link below: ")}</p>
+	
+	<p><h:link outcome="#{registrationController.registrationModel.generateConfirmationLink}" value="#{translator.translate('Click here to confirm your account.')}"/></p>
+	
+	<p>#{translator.translate("Have fun on JumpUp.Me")}!</p>
+	
+	<p>#{translator.translate("Greetings")}, <br />
+	#{translator.translate("Your JumpUp.Me - Team")}</p>			
+</h:body>	
+	
+</html>

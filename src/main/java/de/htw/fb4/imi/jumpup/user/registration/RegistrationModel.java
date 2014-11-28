@@ -5,6 +5,9 @@
  */
 package de.htw.fb4.imi.jumpup.user.registration;
 
+import de.htw.fb4.imi.jumpup.navigation.NavigationBean;
+import de.htw.fb4.imi.jumpup.user.entities.User;
+
 /**
  * <p>Simple plain object holding the registration information.</p>
  *
@@ -21,6 +24,8 @@ public class RegistrationModel
     protected String lastname;
     protected String password;
     protected String confirmPassword;
+    
+    protected User registeredUser;
     
     /**
      * @return the username
@@ -119,6 +124,31 @@ public class RegistrationModel
     public final void setConfirmPassword(String confirmPassword)
     {
         this.confirmPassword = confirmPassword;
+    }
+    
+    /**
+     * @return the registeredUser
+     */
+    public User getRegisteredUser()
+    {
+        return registeredUser;
+    }
+    /**
+     * @param registeredUser the registeredUser to set
+     */
+    public void setRegisteredUser(User registeredUser)
+    {
+        this.registeredUser = registeredUser;
+    }
+    
+    /**
+     * Generate link to confirmation.xhtml page.
+     * @return
+     */
+    public String generateConfirmationLink()
+    {
+       return NavigationBean.toRegistration() + "registration_confirm.xhtml/user/" 
+               + this.registeredUser.getUsername() + "/hash/" + registeredUser.hashCode();  
     }
     
     /* (non-Javadoc)
