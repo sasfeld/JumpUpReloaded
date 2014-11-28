@@ -52,19 +52,39 @@ public class Registration extends AbstractFacesController
             
             // registration was performed successfully, so redirect to success page
             if (!this.registrationMethod.hasError()) {
+                this.sendConfirmationLinkMailIfNeccessary();
+                
                 return NavigationOutcomes.REGISTRATION_SUCCESS;
             }
 
             // otherwise add all error messages
-            for (final String errorMessage: this.registrationMethod.getErrors()) {
-                this.addDisplayErrorMessage(errorMessage);
-            }            
+            showAllErrorMessagesFromRegistration();            
         } catch ( Exception e ) {
             this.addDisplayErrorMessage("Could not perform your registration.");            
         }
         
         // redirect to registration failure page
         return NavigationOutcomes.REGISTRATION_FAILURE;
+    }  
+
+    private void sendConfirmationLinkMailIfNeccessary()
+    {
+        try {
+            this.registrationMethod.sendConfirmationLinkMail(this.getRegistrationModel());
+            
+            if (this.registrationMethod.hasError()) {
+                this.showAllErrorMessagesFromRegistration();
+            }
+        } catch (Exception e ) {
+            this.addDisplayErrorMessage("We couldn't send the registration confirmation mail.");
+        }      
+    }
+    
+    protected void showAllErrorMessagesFromRegistration()
+    {
+        for (final String errorMessage: this.registrationMethod.getErrors()) {
+            this.addDisplayErrorMessage(errorMessage);
+        }
     }
     
 }
