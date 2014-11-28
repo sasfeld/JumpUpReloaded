@@ -151,6 +151,16 @@ public class RegistrationModel
                + this.registeredUser.getUsername() + "/hash/" + registeredUser.hashCode();  
     }
     
+    /**
+     * Generate link to confirmation.xhtml page.
+     * @return
+     */
+    public String generateCompleteConfirmationLink()
+    {
+        return NavigationBean.pathToApp() + "/" + NavigationBean.toRegistration() + "registration_confirm.xhtml/user/" 
+                + this.registeredUser.getUsername() + "/hash/" + registeredUser.hashCode();  
+    }
+    
     /* (non-Javadoc)
      * @see java.lang.Object#hashCode()
      */

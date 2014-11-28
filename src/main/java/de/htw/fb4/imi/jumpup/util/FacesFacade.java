@@ -6,6 +6,9 @@
 package de.htw.fb4.imi.jumpup.util;
 
 import javax.ejb.Stateless;
+import javax.el.ELContext;
+import javax.el.ExpressionFactory;
+import javax.el.ValueExpression;
 import javax.faces.application.FacesMessage;
 import javax.faces.application.FacesMessage.Severity;
 import javax.faces.context.FacesContext;
@@ -83,4 +86,25 @@ public class FacesFacade
         
         return msg;
     }
+    
+    /**
+     * Method to directly evaluate expression language tags, such as #{bean1.property1}
+     * 
+     * @param expression
+     * @return
+     */
+    public String evaluateExpressionLanguage(final String expression)
+    {
+        FacesContext context = FacesContext.getCurrentInstance();
+        
+        ExpressionFactory expressionFactory = context.getApplication().getExpressionFactory();        
+        ELContext elContext = context.getELContext();
+        
+        ValueExpression valueExpression = expressionFactory.createValueExpression(elContext, expression, expression.getClass());
+        
+        String evaluated = (String) valueExpression.getValue(elContext);
+        
+        return evaluated;        
+    }
+    
 }

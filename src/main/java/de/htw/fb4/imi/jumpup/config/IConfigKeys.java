@@ -42,4 +42,6 @@ public interface IConfigKeys {
     String JUMPUP_MAIL_SMTP_PASSWORD = "jumpup.mail.smtp.password";
     String JUMPUP_MAIL_SMTP_PROTOCOL = "jumpup.mail.smtp.protocol";
     String JUMPUP_MAIL_SMTP_DEBUG = "jumpup.mail.smtp.debug";
+    String JUMPUP_USER_CONFIRMATION_MAIL_TXT_TEMPLATE = "jumpup.user.confirmation.mail.template.txt";
+    String JUMPUP_USER_CONFIRMATION_MAIL_HTML_FACELET = "jumpup.user.confirmation.mail.template.html_facelet";
 }
