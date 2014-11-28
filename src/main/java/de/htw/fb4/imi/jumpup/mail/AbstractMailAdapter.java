@@ -21,4 +21,13 @@ public abstract class AbstractMailAdapter implements MailAdapter
 {
     @EJB(beanName = BeanNames.MAIL_CONFIG_READER)
     protected IConfigReader configReader;
+
+    /**
+     * @param configReader the configReader to set
+     */
+    public void setConfigReader(IConfigReader configReader)
+    {
+        this.configReader = configReader;
+    }   
+    
 }

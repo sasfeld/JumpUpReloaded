@@ -106,7 +106,18 @@ public class SmtpAdapter extends AbstractMailAdapter
         this.initialize();
     }
     
-    private void initialize()
+    /**
+     * Constructor for unittests to suppress initialization by config reader.
+     * @param supressInitialize
+     */
+    public SmtpAdapter(boolean suppressInitialize) 
+    {
+        if (!suppressInitialize) {
+            this.initialize();
+        }
+    }
+    
+    public void initialize()
     {
         this.readConfig();        
     }
