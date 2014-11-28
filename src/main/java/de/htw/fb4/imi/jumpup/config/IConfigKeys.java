@@ -31,6 +31,9 @@ public interface IConfigKeys {
     String JUMPUP_USER_VALIDATION_LASTNAME_MAX_LENGTH = "jumupup.user.validation.lastname.max_length";
     String JUMPUP_USER_VALIDATION_USERNAME_MIN_LENGTH = "jumupup.user.validation.username.min_length";
     String JUMPUP_USER_VALIDATION_USERNAME_MAX_LENGTH = "jumupup.user.validation.username.max_length";
+    String JUMPUP_USER_REGISTRATION_NEEDS_CONFIRMATION = "jumpup.user.registration.needs_confirmation";
+    String JUMPUP_USER_CONFIRMATION_MAIL_TXT_TEMPLATE = "jumpup.user.confirmation.mail.template.txt";
+    String JUMPUP_USER_CONFIRMATION_MAIL_HTML_FACELET = "jumpup.user.confirmation.mail.template.html_facelet";
     
     /*
      * mail module
@@ -41,7 +44,6 @@ public interface IConfigKeys {
     String JUMPUP_MAIL_SMTP_USERNAME = "jumpup.mail.smtp.username";
     String JUMPUP_MAIL_SMTP_PASSWORD = "jumpup.mail.smtp.password";
     String JUMPUP_MAIL_SMTP_PROTOCOL = "jumpup.mail.smtp.protocol";
-    String JUMPUP_MAIL_SMTP_DEBUG = "jumpup.mail.smtp.debug";
-    String JUMPUP_USER_CONFIRMATION_MAIL_TXT_TEMPLATE = "jumpup.user.confirmation.mail.template.txt";
-    String JUMPUP_USER_CONFIRMATION_MAIL_HTML_FACELET = "jumpup.user.confirmation.mail.template.html_facelet";
+    String JUMPUP_MAIL_SMTP_DEBUG = "jumpup.mail.smtp.debug";   
+
 }

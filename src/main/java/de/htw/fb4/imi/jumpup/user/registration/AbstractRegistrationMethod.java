@@ -50,8 +50,17 @@ public abstract class AbstractRegistrationMethod implements RegistrationMethod
     protected IConfigReader userConfigReader;
     
     @Inject
-    protected MailAdapter mailAdapter;
+    protected MailAdapter mailAdapter;   
+
     
+    /*
+     * (non-Javadoc)
+     * @see de.htw.fb4.imi.jumpup.user.registration.RegistrationMethod#needsConfirmation()
+     */
+    public boolean needsConfirmation()
+    {
+        return Boolean.parseBoolean(this.userConfigReader.fetchValue(IConfigKeys.JUMPUP_USER_REGISTRATION_NEEDS_CONFIRMATION));
+    }    
 
     protected void reset()
     {
@@ -93,6 +102,11 @@ public abstract class AbstractRegistrationMethod implements RegistrationMethod
     @Override
     public void sendConfirmationLinkMail(final RegistrationModel registrationModel)
     {
+        // return if no confirmation is needed
+        if (!this.needsConfirmation()) {
+            return;
+        }
+        
         if (null == registrationModel.getRegisteredUser()) {
             this.errorMessages.add("I'm unable to send the confirmation link via mail. Please contact the customer care.");
             throw new ApplicationError("sendConfirmationLinkMail(): unable to send confirmation link via mail because no user instance is set. Please check why.", getClass());
