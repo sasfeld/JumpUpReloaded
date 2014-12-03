@@ -39,6 +39,8 @@ import de.htw.fb4.imi.jumpup.settings.BeanNames;
 @Stateless(name = BeanNames.MAIL_SMTP_ADAPTER)
 public class SmtpAdapter extends AbstractMailAdapter
 {
+    public static final String HTML_CONTENT_TYPE = "text/html; charset=utf-8";
+    
     /**
      * 
      * <p>Mail protocol enumeration.</p>
@@ -176,10 +178,10 @@ public class SmtpAdapter extends AbstractMailAdapter
         Multipart multipart = new MimeMultipart("alternative");
         
         try {
-            multipart.addBodyPart(this.createHtmlPart(mailModel));
             multipart.addBodyPart(this.createTextPart(mailModel));
+            multipart.addBodyPart(this.createHtmlPart(mailModel));
             mailToSend.setContent(multipart);  
-            
+            this.sendMail(mailToSend);
         } catch (MessagingException e) {
             throw new ApplicationError("Could not send text mail:\n" + e.getLocalizedMessage(), getClass());
         }
@@ -197,7 +199,7 @@ public class SmtpAdapter extends AbstractMailAdapter
     private BodyPart createHtmlPart(MailModel mailModel) throws MessagingException
     {
         MimeBodyPart bodyPart = new MimeBodyPart();
-        bodyPart.setContent(mailModel.getContentHtml(), MediaType.TEXT_HTML);
+        bodyPart.setContent(mailModel.getContentHtml(), HTML_CONTENT_TYPE);
         
         return bodyPart;
     }

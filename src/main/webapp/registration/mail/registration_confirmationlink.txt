@@ -8,5 +8,5 @@
 	
 #{translator.translate("Have fun on JumpUp.Me")}!
 	
-#{translator.translate("Greetings")}, <br />
+#{translator.translate("Greetings")}, 
 #{translator.translate("Your JumpUp.Me - Team")}	

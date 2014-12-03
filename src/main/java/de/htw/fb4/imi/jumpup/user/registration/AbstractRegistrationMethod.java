@@ -15,15 +15,14 @@ import javax.mail.internet.InternetAddress;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import de.htw.fb4.imi.jumpup.Application;
 import de.htw.fb4.imi.jumpup.ApplicationError;
-import de.htw.fb4.imi.jumpup.Application.LogType;
 import de.htw.fb4.imi.jumpup.config.IConfigKeys;
 import de.htw.fb4.imi.jumpup.mail.MailAdapter;
 import de.htw.fb4.imi.jumpup.mail.MailModel;
 import de.htw.fb4.imi.jumpup.mail.builder.MailBuilder;
 import de.htw.fb4.imi.jumpup.settings.BeanNames;
 import de.htw.fb4.imi.jumpup.settings.PersistenceSettings;
+import de.htw.fb4.imi.jumpup.translate.Translatable;
 import de.htw.fb4.imi.jumpup.user.entities.User;
 import de.htw.fb4.imi.jumpup.user.util.ConfigReader;
 import de.htw.fb4.imi.jumpup.user.util.HashGenerable;
@@ -55,6 +54,9 @@ public abstract class AbstractRegistrationMethod implements RegistrationMethod
     
     @Inject
     protected MailAdapter mailAdapter;   
+    
+    @Inject
+    protected Translatable translator;
 
     
     /*
@@ -95,7 +97,13 @@ public abstract class AbstractRegistrationMethod implements RegistrationMethod
         newUser.setPassword(registrationModel.getPassword());
         newUser.setPrename(registrationModel.getPrename());
         newUser.setLastname(registrationModel.getLastname());
-        newUser.setIsConfirmed(false);
+        
+        // set is confirmed flag
+        if (this.needsConfirmation()) {
+            newUser.setIsConfirmed(false);
+        } else {
+            newUser.setIsConfirmed(true);
+        }
         
         return newUser;
     }
@@ -122,30 +130,33 @@ public abstract class AbstractRegistrationMethod implements RegistrationMethod
         
         addMailContents(confirmationLinkMailTxtTemplate, confirmationLinkMailFacelet);
         
-        buildAndSendMail(registrationModel);                
+        MailModel mailModel = buildMail(registrationModel); 
+        
+        // set subject
+        mailModel.setSubject(this.translator.translate("Welcome to JumpUp.Me - please confirm your registration"));
+        
+        this.mailAdapter.sendHtmlMail(mailModel);
     }
 
-    protected void buildAndSendMail(RegistrationModel registrationModel)
+    protected MailModel buildMail(RegistrationModel registrationModel)
     {
         MailModel mailModel = this.mailBuilder.getBuildedMailModel();
         try {
+            // recipient: registered user
             mailModel.addRecipient(new InternetAddress(registrationModel.geteMail()));
-            mailModel.setSender(new InternetAddress("JumpUp <test@jumpup.groupelite.de>"));        
-            this.mailAdapter.sendTextMail(mailModel);
+            // sender: defined in user.config
+            mailModel.setSender(new InternetAddress(this.userConfigReader.fetchValue(IConfigKeys.JUMPUP_USER_CONFIRMATION_MAIL_SENDER)));        
+            return mailModel;
         } catch (AddressException e) {
             this.errorMessages.add("Invalid eMail adress for confirmation");
-            Application.log("buildAndSendMail(): " + e.getLocalizedMessage(), LogType.ERROR, getClass());
+            throw new ApplicationError("buildAndSendMail(): " + e.getLocalizedMessage(), getClass());
         }      
-       
-        // TODO uncomment later
-//        this.mailAdapter.sendHtmlMail(mailModel);
     }
 
     protected void addMailContents(String confirmationLinkMailTxtTemplate, String confirmationLinkMailFacelet)
     {
         this.mailBuilder.addPlainTextContent(new File(confirmationLinkMailTxtTemplate));
-        // TODO uncomment later
-        // this.mailBuilder.addHtmlContent(confirmationLinkMailFacelet);
+        this.mailBuilder.addHtmlContent(confirmationLinkMailFacelet);
     }
 
     /* (non-Javadoc)

@@ -1,28 +1,23 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
-<html xmlns="http://www.w3.org/1999/xhtml"
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core">
-	
-<h:head>
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+>
 
-</h:head>
-
-<h:body>
-	<p><h1>#{translator.translate("Welcome on JumpUp.Me")}, #{registrationController.registrationModel.prename}!</h1></p>	
+	<p style="font-size: 2em; font-weight: bold">#{translator.translate("Welcome on JumpUp.Me")}, #{registrationController.registrationModel.prename}!</p>	
 	
 	<p>#{translator.translate("We are glad to have you aboard JumpUp.Me")}!<br />
 	#{translator.translate("Before you are able to use your account, you have to confirm your eMail address.")}<br />
 	#{translator.translate("Therefore, please press the link below: ")}</p>
 	
-	<p><h:link outcome="#{registrationController.registrationModel.generateConfirmationLink}" value="#{translator.translate('Click here to confirm your account.')}"/></p>
+	<p><h:outputLink value="#{registrationController.registrationModel.generateCompleteConfirmationLink()}">
+		#{translator.translate('Click here to confirm your account.')}</h:outputLink></p>
 	
 	<p>#{translator.translate("Have fun on JumpUp.Me")}!</p>
 	
-	<p>#{translator.translate("Greetings")}, <br />
+	<p style="font-size: 1.2em; font-weight: bold">#{translator.translate("Greetings")}, <br />
 	#{translator.translate("Your JumpUp.Me - Team")}</p>			
-</h:body>	
-	
-</html>
+
+</ui:composition>

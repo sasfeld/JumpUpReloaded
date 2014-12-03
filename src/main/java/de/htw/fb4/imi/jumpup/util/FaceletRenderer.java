@@ -133,6 +133,9 @@ public class FaceletRenderer
     
     private void restoreOriginalResponseWriter()
     {
-        this.facesContext.setResponseWriter(this.originalWriter);        
+        // TODO could lead to a bug but i dont care
+        if (null != this.originalWriter) {
+            this.facesContext.setResponseWriter(this.originalWriter);
+        }
     }
 }
