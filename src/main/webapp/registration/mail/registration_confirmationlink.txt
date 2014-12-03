@@ -1,6 +1,6 @@
-#{translator.translate("Welcome on JumpUp.Me")}, #{registrationController.registrationModel.prename}!
+#{translator.translate("Please confirm your registration")}, #{registrationController.registrationModel.prename}!
 	
-#{translator.translate("We are glad to have you aboard JumpUp.Me")}!
+#{translator.translate("We are glad to almost have you aboard JumpUp.Me")}!
 #{translator.translate("Before you are able to use your account, you have to confirm your eMail address.")}
 #{translator.translate("Therefore, please press the link below: ")}
 	

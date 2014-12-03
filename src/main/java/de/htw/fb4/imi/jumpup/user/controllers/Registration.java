@@ -52,7 +52,7 @@ public class Registration extends AbstractFacesController
             
             // registration was performed successfully, so redirect to success page
             if (!this.registrationMethod.hasError()) {
-                this.sendConfirmationLinkMailIfNeccessary();
+                this.sendConfirmationLinkOrSuccessMail();
                 
                 return NavigationOutcomes.REGISTRATION_SUCCESS;
             }
@@ -67,11 +67,18 @@ public class Registration extends AbstractFacesController
         return NavigationOutcomes.REGISTRATION_FAILURE;
     }  
 
-    private void sendConfirmationLinkMailIfNeccessary()
+    private void sendConfirmationLinkOrSuccessMail()
     {
         try {
-            this.registrationMethod.sendConfirmationLinkMail(this.getRegistrationModel());
+            // send confirmation link mail if neccessary
+            if (this.registrationMethod.needsConfirmation()) {
+                this.registrationMethod.sendConfirmationLinkMail(this.getRegistrationModel());
+            } else {
+                // immediatly send registration success mail
+                this.registrationMethod.sendRegistrationSuccessMail(this.getRegistrationModel());
+            }
             
+            // show error messages
             if (this.registrationMethod.hasError()) {
                 this.showAllErrorMessagesFromRegistration();
             }

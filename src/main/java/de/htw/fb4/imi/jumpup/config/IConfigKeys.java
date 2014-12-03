@@ -35,6 +35,8 @@ public interface IConfigKeys {
     String JUMPUP_USER_CONFIRMATION_MAIL_TXT_TEMPLATE = "jumpup.user.confirmation.mail.template.txt";
     String JUMPUP_USER_CONFIRMATION_MAIL_HTML_FACELET = "jumpup.user.confirmation.mail.template.html_facelet";
     String JUMPUP_USER_CONFIRMATION_MAIL_SENDER = "jumpup.user.confirmation.mail.sender";
+    String JUMPUP_USER_REGISTRATION_SUCCESS_MAIL_TXT_TEMPLATE = "jumpup.user.registration_success.mail.template.txt";
+    String JUMPUP_USER_REGISTRATION_SUCCESS_MAIL_HTML_FACELET = "jumpup.user.registration_success.mail.template.html_facelet";
     
     /*
      * mail module

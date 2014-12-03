@@ -1,0 +1,18 @@
+#{translator.translate("Welcome on JumpUp.Me")}, #{registrationController.registrationModel.registeredUser.prename}!
+	
+#{translator.translate("We are glad to have you aboard JumpUp.Me")}!
+#{translator.translate("You can login to to our portal now and search for trips.")}
+#{translator.translate("Or do you want to offer a trip?")}
+	
+--- #{translator.translate("Your registration details:")} ---
+	
+#{translator.translate("Username")}: #{registrationController.registrationModel.registeredUser.username}
+
+#{translator.translate("You can login here:")}: #{NavigationBean.pathToApp().concat(NavigationBean.redirectToLogin())}
+
+-------------------------------------------------
+	
+#{translator.translate("Have fun on JumpUp.Me")}!
+	
+#{translator.translate("Greetings")}, 
+#{translator.translate("Your JumpUp.Me - Team")}	
