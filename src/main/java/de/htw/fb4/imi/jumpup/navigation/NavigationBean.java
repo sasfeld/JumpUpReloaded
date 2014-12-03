@@ -42,14 +42,14 @@ public class NavigationBean implements NavigationOutcomes
         ExternalContext extContext = FacesContext.getCurrentInstance().getExternalContext();
         HttpServletRequest request = (HttpServletRequest) extContext.getRequest();
         
-        String file = request.getRequestURI();
+        String contextPath = request.getContextPath();        
 
         URL reconstructedURL = null;
         try {
             reconstructedURL = new URL(request.getScheme(),
                                            request.getServerName(),
                                            request.getServerPort(),
-                                           file);
+                                           contextPath);
         } catch (MalformedURLException e) {
             throw new ApplicationError("Could not get URL to webapp.", NavigationBean.class);
         }

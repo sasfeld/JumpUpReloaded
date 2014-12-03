@@ -14,6 +14,7 @@ import de.htw.fb4.imi.jumpup.navigation.NavigationOutcomes;
 import de.htw.fb4.imi.jumpup.settings.BeanNames;
 import de.htw.fb4.imi.jumpup.user.registration.RegistrationMethod;
 import de.htw.fb4.imi.jumpup.user.registration.RegistrationModel;
+import de.htw.fb4.imi.jumpup.user.util.HashGenerable;
 
 /**
  * <p>This bean is filled by JSF during the registration.</p>
@@ -29,6 +30,8 @@ public class Registration extends AbstractFacesController
     @Inject
     protected RegistrationMethod registrationMethod;
     protected RegistrationModel registrationModel = new RegistrationModel();
+    @Inject
+    protected HashGenerable hashGenerable;
     
     /**
      * 
@@ -37,6 +40,15 @@ public class Registration extends AbstractFacesController
     public RegistrationModel getRegistrationModel()
     {        
         return this.registrationModel;
+    }
+    
+    /**
+     * 
+     * @return
+     */
+    public RegistrationMethod getRegistrationMethod()
+    {
+        return this.registrationMethod;
     }
     
     /**

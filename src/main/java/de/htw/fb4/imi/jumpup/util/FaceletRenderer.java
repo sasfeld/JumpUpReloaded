@@ -128,7 +128,11 @@ public class FaceletRenderer
 
     protected void storeOriginalResponseWriter()
     {
-        this.originalWriter = facesContext.getResponseWriter();
+        try {
+            this.originalWriter = facesContext.getResponseWriter();
+        } catch (IllegalStateException e) {
+            // ok
+        }
     }
     
     private void restoreOriginalResponseWriter()

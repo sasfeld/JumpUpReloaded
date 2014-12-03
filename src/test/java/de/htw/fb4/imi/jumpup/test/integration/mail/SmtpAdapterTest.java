@@ -12,7 +12,6 @@ import org.junit.Test;
 
 import de.htw.fb4.imi.jumpup.mail.MailModel;
 import de.htw.fb4.imi.jumpup.mail.SmtpAdapter;
-import de.htw.fb4.imi.jumpup.test.MailConfigReader;
 
 /**
  * <p>Integration test of the mailing system.</p>

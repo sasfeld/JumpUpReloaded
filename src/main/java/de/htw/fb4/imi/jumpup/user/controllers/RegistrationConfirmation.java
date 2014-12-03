@@ -6,7 +6,6 @@
 package de.htw.fb4.imi.jumpup.user.controllers;
 
 import javax.enterprise.context.RequestScoped;
-import javax.faces.bean.ManagedProperty;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -30,14 +29,50 @@ public class RegistrationConfirmation extends AbstractFacesController
     @Inject
     protected RegistrationMethod registrationMethod;
     
-    @ManagedProperty(value="#{param.user}")
     protected String username;
     
-    @ManagedProperty(value="#{param.hash}")
-    protected Long userHash;
+    protected String userHash;
     
     protected RegistrationModel registrationModel = new RegistrationModel();
     
+    
+    public RegistrationModel getRegistrationModel()
+    {
+        return this.registrationModel;
+    }
+    
+    /**
+     * @return the username
+     */
+    public String getUsername()
+    {
+        return username;
+    }
+
+    /**
+     * @param username the username to set
+     */
+    public void setUsername(String username)
+    {
+        this.username = username;
+    }
+
+    /**
+     * @return the userHash
+     */
+    public String getUserHash()
+    {
+        return userHash;
+    }
+
+    /**
+     * @param userHash the userHash to set
+     */
+    public void setUserHash(String userHash)
+    {
+        this.userHash = userHash;
+    }
+
     /**
      * Confirm user action.
      * 

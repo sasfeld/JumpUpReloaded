@@ -16,8 +16,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import de.htw.fb4.imi.jumpup.Application;
-import de.htw.fb4.imi.jumpup.ApplicationError;
 import de.htw.fb4.imi.jumpup.Application.LogType;
+import de.htw.fb4.imi.jumpup.ApplicationError;
 import de.htw.fb4.imi.jumpup.config.IConfigKeys;
 import de.htw.fb4.imi.jumpup.mail.MailAdapter;
 import de.htw.fb4.imi.jumpup.mail.MailModel;
@@ -142,6 +142,9 @@ public abstract class AbstractRegistrationMethod implements RegistrationMethod
             throw new ApplicationError("sendConfirmationLinkMail(): unable to send confirmation link via mail because no user instance is set. Please check why.", getClass());
         }
         
+        // inject hash generable
+        registrationModel.setHashGenerable(this.hashGenerator);
+        
         // build mail using configured templates
         String confirmationLinkMailTxtTemplate = FileUtil.getPathToWebInfFolder() + "/" + this.userConfigReader.fetchValue(IConfigKeys.JUMPUP_USER_CONFIRMATION_MAIL_TXT_TEMPLATE);
         String confirmationLinkMailFacelet = this.userConfigReader.fetchValue(IConfigKeys.JUMPUP_USER_CONFIRMATION_MAIL_HTML_FACELET);
@@ -166,7 +169,8 @@ public abstract class AbstractRegistrationMethod implements RegistrationMethod
         MailModel mailModel = this.mailBuilder.getBuildedMailModel();
         try {
             // recipient: registered user
-            mailModel.addRecipient(new InternetAddress(registrationModel.geteMail()));
+            Application.log(registrationModel.getRegisteredUser() + "", LogType.INFO, getClass());
+            mailModel.addRecipient(new InternetAddress(registrationModel.getRegisteredUser().geteMail()));
             // sender: defined in user.config
             mailModel.setSender(new InternetAddress(this.userConfigReader.fetchValue(IConfigKeys.JUMPUP_USER_CONFIRMATION_MAIL_SENDER)));        
             return mailModel;
@@ -221,6 +225,8 @@ public abstract class AbstractRegistrationMethod implements RegistrationMethod
         
         User matchingUser = this.findMatchingUser(registrationModel.getUsername());
         
+        Application.log(registrationModel.toString(), LogType.INFO, getClass());
+        
         // no user found
         if (null == matchingUser) {
             this.errorMessages.add("Could not find the user. Please check the confirmation link - it might be broken.");
@@ -262,8 +268,12 @@ public abstract class AbstractRegistrationMethod implements RegistrationMethod
      */
     private boolean checkConfirmationHash(final RegistrationModel registrationModel,
             final User matchingUser)
-    {
-        return matchingUser.hashCode() == registrationModel.getHashForConfirmation();
+    {        
+        String usernameHash = new String(this.hashGenerator.generateHash(matchingUser.getUsername()));
+        Application.log("UsernameHash: " + usernameHash, LogType.INFO, getClass());
+        Application.log("getHashForConfirmation: " + registrationModel.getHashForConfirmation(), LogType.INFO, getClass());
+            
+        return usernameHash.equals(registrationModel.getHashForConfirmation());
     }
 
     /**
@@ -280,7 +290,8 @@ public abstract class AbstractRegistrationMethod implements RegistrationMethod
                 throw new NullPointerException("entityManager is null");
             }
             
-            return (User) this.entityManager.createNamedQuery(User.NAME_QUERY_BY_USERNAME).getSingleResult();
+            return (User) this.entityManager.createNamedQuery(User.NAME_QUERY_BY_USERNAME)
+                    .setParameter("username", username).getSingleResult();
         } catch ( Exception e) {
            return null;
         }

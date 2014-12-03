@@ -7,15 +7,17 @@
 	xmlns:f="http://java.sun.com/jsf/core">
 
 <ui:composition template="../resources/templates/basic/BasicTemplate.xhtml">
+	<f:metadata>
+			<f:viewParam id="username" name="user" value="#{registrationConfirmationController.username}"/>
+			<f:viewParam id="userHash" name="hash" value="#{registrationConfirmationController.userHash}"></f:viewParam>
+			
+			<f:event listener="#{registrationConfirmationController.confirmUser}" type="preRenderView"></f:event>	
+	</f:metadata> 	
 	<ui:define name="content">
 		<center>
-	    	<h:outputText value="#{translator.translate('Welcome to Jumpup.Me')}"></h:outputText>
+	    	<h:outputText value="#{translator.translate('Registration Confirmation')}"></h:outputText>
 	    </center>	    
-		<p>
-			<h:outputText value="#{translator.translate('You were registered succesfully.')}" />		
-			
-			<h:outputText value="#{translator.translate('Please check your e-Mails to confirm and complete the registration.')}"></h:outputText>		
-		</p>        	
+		
 	</ui:define>
 </ui:composition>
 </html> 
