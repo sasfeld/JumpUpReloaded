@@ -43,11 +43,7 @@ public class NavigationBean implements NavigationOutcomes
         HttpServletRequest request = (HttpServletRequest) extContext.getRequest();
         
         String file = request.getRequestURI();
-        // append query string
-        if (request.getQueryString() != null) {
-           file += '?' + request.getQueryString();
-        }
-        
+
         URL reconstructedURL = null;
         try {
             reconstructedURL = new URL(request.getScheme(),
@@ -59,5 +55,15 @@ public class NavigationBean implements NavigationOutcomes
         }
         
         return reconstructedURL.toString();
+    }
+    
+    /**
+     * Redirect to login page.
+     * 
+     * @return
+     */
+    public static String redirectToLogin()
+    {
+        return "index.xhtml?faces-redirect=true";
     }
 }

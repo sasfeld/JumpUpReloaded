@@ -1,0 +1,21 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<ui:composition template="../resources/templates/basic/BasicTemplate.xhtml">
+	<ui:define name="content">
+		<center>
+	    	<h:outputText value="#{translator.translate('Welcome to Jumpup.Me')}"></h:outputText>
+	    </center>	    
+		<p>
+			<h:outputText value="#{translator.translate('You were registered succesfully.')}" />		
+			
+			<h:outputText value="#{translator.translate('Please check your e-Mails to confirm and complete the registration.')}"></h:outputText>		
+		</p>        	
+	</ui:define>
+</ui:composition>
+</html> 

@@ -24,6 +24,7 @@ public class RegistrationModel
     protected String lastname;
     protected String password;
     protected String confirmPassword;
+    protected Long hashForConfirmation;    
     
     protected User registeredUser;
     
@@ -161,6 +162,20 @@ public class RegistrationModel
                 + this.registeredUser.getUsername() + "/hash/" + registeredUser.hashCode();  
     }
     
+    /**
+     * @return the hashForConfirmation
+     */
+    public Long getHashForConfirmation()
+    {
+        return hashForConfirmation;
+    }
+    /**
+     * @param hashForConfirmation the hashForConfirmation to set
+     */
+    public void setHashForConfirmation(Long hashForConfirmation)
+    {
+        this.hashForConfirmation = hashForConfirmation;
+    }
     /* (non-Javadoc)
      * @see java.lang.Object#hashCode()
      */

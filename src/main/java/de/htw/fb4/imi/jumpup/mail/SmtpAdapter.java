@@ -20,7 +20,6 @@ import javax.mail.Transport;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
-import javax.ws.rs.core.MediaType;
 
 import de.htw.fb4.imi.jumpup.Application;
 import de.htw.fb4.imi.jumpup.Application.LogType;
@@ -227,6 +226,11 @@ public class SmtpAdapter extends AbstractMailAdapter
      */
     private Properties prepareProperties()
     {
+        // invalid configuration
+        if ("".equals(this.host.trim())) {
+            throw new ApplicationError("prepareProperties(): Cannot send mail because the configuration is missing. Please configure the configs/mail.properties poperly. ", getClass());
+        }
+        
         Properties properties = new Properties();
         properties.put("mail.smtp.host", this.host);
         properties.put("mail.smtp.port", this.port);
