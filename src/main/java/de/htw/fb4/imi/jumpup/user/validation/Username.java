@@ -80,8 +80,8 @@ public class Username extends AbstractValidator
     private boolean checkLength(String username)
     {
         // get values from user.properties configuration file
-        int minLength = Integer.parseInt(userConfigReader.fetchValue(IConfigKeys.JUMUP_USER_VALIDATION_USERNAME_MIN_LENGTH));
-        int maxLength = Integer.parseInt(userConfigReader.fetchValue(IConfigKeys.JUMUP_USER_VALIDATION_USERNAME_MAX_LENGTH));
+        int minLength = Integer.parseInt(userConfigReader.fetchValue(IConfigKeys.JUMPUP_USER_VALIDATION_USERNAME_MIN_LENGTH));
+        int maxLength = Integer.parseInt(userConfigReader.fetchValue(IConfigKeys.JUMPUP_USER_VALIDATION_USERNAME_MAX_LENGTH));
         
         if (username.length() < minLength) {
             this.errorMessages.add("The username you entered is too short. Please type in at least " + minLength + " characters.");

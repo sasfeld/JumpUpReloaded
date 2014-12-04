@@ -8,6 +8,8 @@ package de.htw.fb4.imi.jumpup.config;
 import java.util.List;
 import java.util.Map;
 
+import javax.ejb.Local;
+
 /**
  * <p>An IConfigReader offers functionalities to access values given in some kind
  * of configuration target (for example: a file).
@@ -17,6 +19,7 @@ import java.util.Map;
  * @since 13.11.2013
  *
  */
+@Local
 public interface IConfigReader extends IConfigKeys {
 
 	/**

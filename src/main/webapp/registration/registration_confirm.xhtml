@@ -1,0 +1,23 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<ui:composition template="../resources/templates/basic/BasicTemplate.xhtml">
+	<f:metadata>
+			<f:viewParam id="username" name="user" value="#{registrationController.registrationModel.username}"/>
+			<f:viewParam id="userHash" name="hash" value="#{registrationController.registrationModel.hashForConfirmation}"></f:viewParam>
+			
+			<f:event listener="#{registrationController.confirmUser}" type="preRenderView"></f:event>	
+	</f:metadata> 	
+	<ui:define name="content">
+		<center>
+	    	<h:outputText value="#{translator.translate('Registration Confirmation')}"></h:outputText>
+	    </center>	    
+		
+	</ui:define>
+</ui:composition>
+</html> 

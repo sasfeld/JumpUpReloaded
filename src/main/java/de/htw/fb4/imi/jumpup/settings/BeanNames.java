@@ -18,6 +18,7 @@ public interface BeanNames
     String PASSWORD_HASH_GENERATOR = "password_hash_generator";
     
     String REGISTRATION_CONTROLLER = "registrationController";
+    String REGISTRATION_CONFIRMATION_CONTROLLER = "registrationConfirmationController";
     String LOGIN_CONTROLLER = "loginController";
     
     String WEBSITE_REGISTRATION = "website_registration";
@@ -30,5 +31,11 @@ public interface BeanNames
     String PRENAME_VALIDATOR = "prenameValidator";
     String LASTNAME_VALIDATOR = "lastnameValidator";
     String EMAIL_VALIDATOR = "emailValidator";
-    String UsernameOrMailValidator = "emailOrUsernameValidator";
+    String USERNAME_OR_MAIL_VALIDATOR = "emailOrUsernameValidator";
+    
+    String USER_CONFIG_READER = "userConfigReader";
+    
+    String MAIL_CONFIG_READER = "mailConfigReader";
+    String MAIL_SMTP_ADAPTER = "mailSmtpAdapter";
 }
+

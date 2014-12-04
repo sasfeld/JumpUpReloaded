@@ -40,6 +40,7 @@ public class WebSiteRegistration extends AbstractRegistrationMethod
             }
             
             persistInTransaction(newUser);
+            registrationModel.setRegisteredUser(newUser);
         } catch ( Exception e) {
             tryToRollbackAndThrow();
             throw e;

@@ -47,7 +47,11 @@ public interface RegistrationMethod extends ErrorPrintable
     */
    void confirmRegistration(final RegistrationModel registrationModel);
 
-
-   
+   /**
+    * Check whether a confirmation mail including a confirmation link is required.
+    * 
+    * @return boolean
+    */
+   boolean needsConfirmation();  
    
 }

@@ -17,6 +17,8 @@ public interface NavigationOutcomes
     String REGISTRATION_SUCCESS = "registration_success";
     
     String REGISTRATION_FAILURE = "registration_failure";
+    
+    String REGISTRATION_CONFIRMATION_FAILURE = "registration_confirmation_failure";
 
     String LOGIN_FAILURE = "index";
     
@@ -25,4 +27,5 @@ public interface NavigationOutcomes
     String LOGOUT_SUCCESS = "logout_success";
     
     String LOGOUT_FAILURE = "logout_failure";
+   
 }

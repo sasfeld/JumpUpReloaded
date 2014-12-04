@@ -7,11 +7,12 @@ package de.htw.fb4.imi.jumpup.user.util;
 
 import java.io.File;
 
-import javax.inject.Singleton;
+import javax.ejb.Stateless;
 
 import de.htw.fb4.imi.jumpup.Application;
 import de.htw.fb4.imi.jumpup.Application.LogType;
 import de.htw.fb4.imi.jumpup.config.APropertiesConfigReader;
+import de.htw.fb4.imi.jumpup.settings.BeanNames;
 import de.htw.fb4.imi.jumpup.util.FileUtil;
 
 /**
@@ -21,7 +22,7 @@ import de.htw.fb4.imi.jumpup.util.FileUtil;
  * @since 25.11.2014
  *
  */
-@Singleton
+@Stateless( name = BeanNames.USER_CONFIG_READER )
 public class ConfigReader extends APropertiesConfigReader
 {
     protected static File CONFIG_FILE;

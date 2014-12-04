@@ -5,6 +5,12 @@
  */
 package de.htw.fb4.imi.jumpup.user.registration;
 
+
+import de.htw.fb4.imi.jumpup.ApplicationError;
+import de.htw.fb4.imi.jumpup.navigation.NavigationBean;
+import de.htw.fb4.imi.jumpup.user.entities.User;
+import de.htw.fb4.imi.jumpup.user.util.HashGenerable;
+
 /**
  * <p>Simple plain object holding the registration information.</p>
  *
@@ -14,6 +20,8 @@ package de.htw.fb4.imi.jumpup.user.registration;
  */
 public class RegistrationModel
 {
+    protected HashGenerable hashGenerable;  
+
     protected String username;
     protected String eMail;
     protected String confirmeMail;
@@ -21,6 +29,26 @@ public class RegistrationModel
     protected String lastname;
     protected String password;
     protected String confirmPassword;
+    protected String hashForConfirmation;    
+    
+    protected User registeredUser;
+    
+
+    /**
+     * @return the hashGenerable
+     */
+    public HashGenerable getHashGenerable()
+    {
+        return hashGenerable;
+    }
+    
+    /**
+     * @param hashGenerable the hashGenerable to set
+     */
+    public void setHashGenerable(HashGenerable hashGenerable)
+    {
+        this.hashGenerable = hashGenerable;
+    }
     
     /**
      * @return the username
@@ -121,6 +149,50 @@ public class RegistrationModel
         this.confirmPassword = confirmPassword;
     }
     
+    /**
+     * @return the registeredUser
+     */
+    public User getRegisteredUser()
+    {
+        return registeredUser;
+    }
+    /**
+     * @param registeredUser the registeredUser to set
+     */
+    public void setRegisteredUser(User registeredUser)
+    {
+        this.registeredUser = registeredUser;
+    }    
+    
+    /**
+     * Generate link to confirmation.xhtml page.
+     * @return
+     */
+    public String generateCompleteConfirmationLink()
+    {
+        if (null == this.hashGenerable) {
+            throw new ApplicationError("Can't generate registration confirmation hash!", getClass());
+        }
+        
+         return NavigationBean.pathToApp() + "/" + NavigationBean.toRegistration() + "registration_confirm.xhtml?user=" 
+                    + this.registeredUser.getUsername() + "&hash=" + new String(this.hashGenerable.generateHash(this.registeredUser.getUsername()));
+    
+    }
+    
+    /**
+     * @return the hashForConfirmation
+     */
+    public String getHashForConfirmation()
+    {
+        return hashForConfirmation;
+    }
+    /**
+     * @param hashForConfirmation the hashForConfirmation to set
+     */
+    public void setHashForConfirmation(String hashForConfirmation)
+    {
+        this.hashForConfirmation = hashForConfirmation;
+    }
     /* (non-Javadoc)
      * @see java.lang.Object#hashCode()
      */
@@ -216,6 +288,10 @@ public class RegistrationModel
         builder.append(password);
         builder.append(", confirmPassword=");
         builder.append(confirmPassword);
+        builder.append(", hashForConfirmation=");
+        builder.append(hashForConfirmation);
+        builder.append(", registeredUser=");
+        builder.append(registeredUser);
         builder.append("]");
         return builder.toString();
     }        

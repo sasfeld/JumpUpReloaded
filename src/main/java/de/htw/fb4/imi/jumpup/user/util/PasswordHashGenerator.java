@@ -29,5 +29,4 @@ public class PasswordHashGenerator extends AbstractHashGenerable
     {
         return this.getSha256Digest().digest(rawSecret.getBytes());
     }
-
 }
