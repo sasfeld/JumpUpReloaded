@@ -12,6 +12,7 @@ import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -74,6 +75,8 @@ public class User extends AbstractEntity {
     @Column(name = "is_confirmed", nullable = false, updatable = true)
     protected Boolean isConfirmed;
 
+    @OneToOne
+    protected UserDetails userDetails;
     /**
      * Hash generable.
      * 
