@@ -31,15 +31,17 @@ public class UsernameOrMailValidator extends AbstractValidator
     
    
 
-    protected void initialize()
+    protected void initializeIfNecessary()
     {
-        // disable DB checks - only check eMail and username format in general
-        this.eMailValidator = new EMail();
-        ((EMail) this.eMailValidator).enableDBCheck(false);
-        ((EMail) this.eMailValidator).setConfigReader(this.userConfigReader);
-        this.userValidator = new Username();
-        ((Username) this.userValidator).enableDBCheck(false);
-        ((Username) this.userValidator).setConfigReader(this.userConfigReader);
+        if (null == this.eMailValidator || null == this.userValidator) {
+            // disable DB checks - only check eMail and username format in general
+            this.eMailValidator = new EMail();
+            ((EMail) this.eMailValidator).enableDBCheck(false);
+            ((EMail) this.eMailValidator).setConfigReader(this.userConfigReader);
+            this.userValidator = new Username();
+            ((Username) this.userValidator).enableDBCheck(false);
+            ((Username) this.userValidator).setConfigReader(this.userConfigReader);
+        }
     }
     
     /* (non-Javadoc)
@@ -61,7 +63,7 @@ public class UsernameOrMailValidator extends AbstractValidator
      */
     public boolean validate(final Object value)
     {
-        this.initialize();
+        this.initializeIfNecessary();
         
         final String usernameOrMail = (String) value;
         
@@ -71,6 +73,33 @@ public class UsernameOrMailValidator extends AbstractValidator
         }
         
         return true;
+    }
+
+    @Override
+    /*
+     * 
+     */
+    public int getMinLength()
+    {
+        this.initializeIfNecessary();
+        
+        if (this.eMailValidator.getMinLength() <= this.userValidator.getMinLength()) {
+            return this.eMailValidator.getMinLength();
+        }
+        
+        return this.userValidator.getMinLength();
+    }
+
+    @Override
+    public int getMaxLength()
+    {
+        this.initializeIfNecessary();
+        
+        if (this.eMailValidator.getMaxLength() >= this.userValidator.getMaxLength()) {
+            return this.eMailValidator.getMaxLength();
+        }
+        
+        return this.userValidator.getMaxLength();
     }
 
 }

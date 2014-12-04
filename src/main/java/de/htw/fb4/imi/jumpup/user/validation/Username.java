@@ -80,8 +80,8 @@ public class Username extends AbstractValidator
     private boolean checkLength(String username)
     {
         // get values from user.properties configuration file
-        int minLength = Integer.parseInt(userConfigReader.fetchValue(IConfigKeys.JUMPUP_USER_VALIDATION_USERNAME_MIN_LENGTH));
-        int maxLength = Integer.parseInt(userConfigReader.fetchValue(IConfigKeys.JUMPUP_USER_VALIDATION_USERNAME_MAX_LENGTH));
+        int minLength = this.getMinLength();
+        int maxLength = this.getMaxLength();
         
         if (username.length() < minLength) {
             this.errorMessages.add("The username you entered is too short. Please type in at least " + minLength + " characters.");
@@ -133,5 +133,25 @@ public class Username extends AbstractValidator
     public void setConfigReader(ConfigReader userConfigReader)
     {
        this.userConfigReader = userConfigReader;        
+    }
+
+    @Override
+    /*
+     * (non-Javadoc)
+     * @see de.htw.fb4.imi.jumpup.validator.JumpUpValidator#getMinLength()
+     */
+    public int getMinLength()
+    {
+        return Integer.parseInt(userConfigReader.fetchValue(IConfigKeys.JUMPUP_USER_VALIDATION_USERNAME_MIN_LENGTH));
+    }
+
+    @Override
+    /*
+     * (non-Javadoc)
+     * @see de.htw.fb4.imi.jumpup.validator.JumpUpValidator#getMaxLength()
+     */
+    public int getMaxLength()
+    {
+        return Integer.parseInt(userConfigReader.fetchValue(IConfigKeys.JUMPUP_USER_VALIDATION_USERNAME_MAX_LENGTH));
     }
 }

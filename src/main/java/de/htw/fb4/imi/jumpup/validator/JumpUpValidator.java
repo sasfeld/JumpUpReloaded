@@ -15,10 +15,28 @@ package de.htw.fb4.imi.jumpup.validator;
 public interface JumpUpValidator
 {
     /**
-     * Simpel validation message which takes any value and returns a boolean.
+     * Simple validation message which takes any value and returns a boolean.
      * 
      * @param value
      * @return true on successful validation, false on validation failures.
      */
     boolean validate(final Object value);
+    
+    /**
+     * <p>Define and return the minimum length that validated values should have.</p>
+     * 
+     * <p>This value could be read from a configuration system for example.</p> 
+     * 
+     * @return
+     */
+    int getMinLength();
+    
+    /**
+     * <p>Define and return the maximum length that validated values should have.</p>
+     * 
+     * <p>This value could be read from a configuration system for example.</p> 
+     * 
+     * @return
+     */
+    int getMaxLength();
 }

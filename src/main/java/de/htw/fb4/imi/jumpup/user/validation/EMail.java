@@ -124,8 +124,8 @@ public class EMail extends AbstractValidator
     private boolean checkLength(final String eMail)
     {
         // get values from user.properties configuration file
-        int minLength = 5;
-        int maxLength = 255;
+        int minLength = this.getMinLength();
+        int maxLength = this.getMaxLength();
         
         if (eMail.length() < minLength) {
             this.errorMessages.add("The eMail you entered is too short. Please type in at least " + minLength + " characters.");
@@ -157,6 +157,26 @@ public class EMail extends AbstractValidator
     public void setConfigReader(ConfigReader userConfigReader)
     {
        this.userConfigReader = userConfigReader;        
+    }
+
+    @Override
+    /*
+     * (non-Javadoc)
+     * @see de.htw.fb4.imi.jumpup.validator.JumpUpValidator#getMinLength()
+     */
+    public int getMinLength()
+    {
+        return 5;
+    }
+
+    @Override
+    /*
+     * (non-Javadoc)
+     * @see de.htw.fb4.imi.jumpup.validator.JumpUpValidator#getMaxLength()
+     */
+    public int getMaxLength()
+    {
+        return 255;
     }
 
 }

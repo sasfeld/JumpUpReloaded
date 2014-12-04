@@ -4,29 +4,26 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:user="http://java.sun.com/jsf/composite/components/user"
 	>
 	
 		<c:choose>
 			<c:when test="#{!loginController.loginModel.isLoggedIn}">
 				<section class="header_loggedout">
-					<h:panelGrid columns="5">
+<!-- 					<h:panelGrid columns="5"> -->
 					    <h:form>
-						<h:outputText value="#{translator.translate('Login')}" />
-						
-						<h:outputText value="#{translator.translate('Username / eMail')}" />
-						<h:inputText id="username" value="#{loginController.loginModel.usernameOrMail}">
-							<f:validator binding="#{emailOrUsernameValidator}" />
-						</h:inputText>
-						
-						<h:outputText value="#{translator.translate('Password')}" />
-						<h:inputSecret id="password" value="#{loginController.loginModel.password}" />
-						
-						<h:commandButton value="#{translator.translate('Login')}"
-						action="#{loginController.loginUser}"></h:commandButton>
-						<h:link value="#{translator.translate('Registration')}" 
-						outcome="to_registration"></h:link>
+							<h:outputText value="#{translator.translate('Login')}" />
+							
+							<user:username_or_email valueBinding="#{loginController.loginModel.usernameOrMail}" />
+							
+							<user:password valueBinding="#{loginController.loginModel.password}" />
+							
+							<h:commandButton value="#{translator.translate('Login')}"
+							action="#{loginController.loginUser}"></h:commandButton>
+							<h:link value="#{translator.translate('Registration')}" 
+							outcome="to_registration"></h:link>
 						</h:form>
-					</h:panelGrid>
+<!-- 					</h:panelGrid> -->
 				 </section>
 			</c:when>
 			<c:otherwise>

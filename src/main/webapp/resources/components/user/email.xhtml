@@ -1,0 +1,25 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:composite="http://java.sun.com/jsf/composite"
+	xmlns:p="http://xmlns.jcp.org/jsf/passthrough"	
+	xmlns:jsf="http://xmlns.jcp.org/jsf"
+>
+
+	<composite:interface>
+		<composite:attribute name="valueBinding" required="true" />
+	</composite:interface>
+	<composite:implementation>
+		<h:outputText value="#{translator.translate('E-Mail')}: "></h:outputText>
+		<h:inputText id="email" 
+				value="#{cc.attrs.valueBinding}"
+				p:required="required"
+				p:type="email" 
+				p:title="#{translator.translate('Please enter a valid eMail address with at least ').concat(emailValidator.getMinLength()).concat(' and maximal ').concat(emailValidator.getMaxLength()).concat(' characters.')}"
+				p:pattern=".{#{emailValidator.getMinLength()},#{emailValidator.getMaxLength()}}">
+				<f:validator binding="#{emailValidator}" />
+		</h:inputText>
+	</composite:implementation>
+
+</html>
