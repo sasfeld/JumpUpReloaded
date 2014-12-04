@@ -10,6 +10,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import de.htw.fb4.imi.jumpup.controllers.AbstractFacesController;
+import de.htw.fb4.imi.jumpup.navigation.NavigationBean;
 import de.htw.fb4.imi.jumpup.navigation.NavigationOutcomes;
 import de.htw.fb4.imi.jumpup.settings.BeanNames;
 import de.htw.fb4.imi.jumpup.user.registration.RegistrationMethod;
@@ -79,6 +80,37 @@ public class Registration extends AbstractFacesController
         return NavigationOutcomes.REGISTRATION_FAILURE;
     }  
 
+
+    /**
+     * Confirm user action.
+     * 
+     * This action is expected to be called with two HTTP parameters: user and hash.
+     * 
+     * @return
+     */
+    public String confirmUser()
+    {        
+        try {
+            this.registrationMethod.confirmRegistration(this.registrationModel);
+            
+            // if no error occured, send final registration success mail
+            if (!this.registrationMethod.hasError()) {
+                try {
+                this.registrationMethod.sendRegistrationSuccessMail(this.registrationModel);
+                } catch (Exception e) {
+                    this.addDisplayErrorMessage("Could not send the registration success mail, but your registration was successful. You can login now.");
+                }
+                return NavigationBean.redirectToLogin();                
+            }
+            // else:
+            this.showAllErrorMessagesFromRegistration();            
+        } catch (Exception e) {
+            this.addDisplayErrorMessage("Could not confirm your registration. Please contact the customer care.");
+        }
+        
+        return NavigationBean.REGISTRATION_CONFIRMATION_FAILURE;
+    }
+    
     private void sendConfirmationLinkOrSuccessMail()
     {
         try {

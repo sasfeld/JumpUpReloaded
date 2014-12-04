@@ -11,6 +11,8 @@ import javax.ejb.Stateful;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
+import de.htw.fb4.imi.jumpup.Application;
+import de.htw.fb4.imi.jumpup.Application.LogType;
 import de.htw.fb4.imi.jumpup.mail.MailModel;
 import de.htw.fb4.imi.jumpup.util.FaceletRenderer;
 import de.htw.fb4.imi.jumpup.util.FacesFacade;
@@ -102,10 +104,16 @@ public class MailBuilderImpl implements MailBuilder
     {
         FaceletRenderer renderer = this.getFaceletRenderer();
         
-        String htmlContent = renderer.renderView(faceletPath);
-        
-        // set html content in mail model
-        this.getMailModel().setContentHtml(htmlContent);
+        try {
+            String htmlContent = renderer.renderView(faceletPath);
+            
+            // set html content in mail model
+            this.getMailModel().setContentHtml(htmlContent);
+        } catch (IllegalStateException e) {
+            // rendering failed
+            this.getMailModel().setContentHtml(null);
+            Application.log("addHtmlContent(): Could not render view " + faceletPath + " - will only send txt mail", LogType.ERROR, getClass());
+        }
         
         return this;
     }

@@ -178,7 +178,10 @@ public class SmtpAdapter extends AbstractMailAdapter
         
         try {
             multipart.addBodyPart(this.createTextPart(mailModel));
-            multipart.addBodyPart(this.createHtmlPart(mailModel));
+            // add HTML body part if given
+            if (null != mailModel.getContentHtml()) {
+                multipart.addBodyPart(this.createHtmlPart(mailModel));
+            }
             mailToSend.setContent(multipart);  
             this.sendMail(mailToSend);
         } catch (MessagingException e) {

@@ -8,10 +8,10 @@
 
 <ui:composition template="../resources/templates/basic/BasicTemplate.xhtml">
 	<f:metadata>
-			<f:viewParam id="username" name="user" value="#{registrationConfirmationController.username}"/>
-			<f:viewParam id="userHash" name="hash" value="#{registrationConfirmationController.userHash}"></f:viewParam>
+			<f:viewParam id="username" name="user" value="#{registrationController.registrationModel.username}"/>
+			<f:viewParam id="userHash" name="hash" value="#{registrationController.registrationModel.hashForConfirmation}"></f:viewParam>
 			
-			<f:event listener="#{registrationConfirmationController.confirmUser}" type="preRenderView"></f:event>	
+			<f:event listener="#{registrationController.confirmUser}" type="preRenderView"></f:event>	
 	</f:metadata> 	
 	<ui:define name="content">
 		<center>
