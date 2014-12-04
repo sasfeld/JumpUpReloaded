@@ -83,8 +83,8 @@ public class Prename extends AbstractValidator
     private boolean checkLength(String prename)
     {
         // get values from user.properties configuration file
-        int minLength = Integer.parseInt(userConfigReader.fetchValue(IConfigKeys.JUMUP_USER_VALIDATION_PRENAME_MIN_LENGTH));
-        int maxLength = Integer.parseInt(userConfigReader.fetchValue(IConfigKeys.JUMUP_USER_VALIDATION_PRENAME_MAX_LENGTH));
+        int minLength = Integer.parseInt(userConfigReader.fetchValue(IConfigKeys.JUMPUP_USER_VALIDATION_PRENAME_MIN_LENGTH));
+        int maxLength = Integer.parseInt(userConfigReader.fetchValue(IConfigKeys.JUMPUP_USER_VALIDATION_PRENAME_MAX_LENGTH));
         
         if (prename.length() < minLength) {
             this.errorMessages.add("The prename you entered is too short. Please type in at least " + minLength + " characters.");

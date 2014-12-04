@@ -4,7 +4,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core">
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
 
 <ui:composition template="../resources/templates/basic/BasicTemplate.xhtml">
 	<ui:define name="content">
@@ -14,7 +15,14 @@
 		<p>
 			<h:outputText value="#{translator.translate('You were registered succesfully.')}" />		
 			
-			<h:outputText value="#{translator.translate('Please check your e-Mails to confirm and complete the registration.')}"></h:outputText>		
+			<c:choose>
+				<c:when test="#{registrationController.registrationMethod.needsConfirmation()}">
+					<h:outputText value="#{translator.translate('Please check your e-Mails to confirm and complete the registration.')}"></h:outputText>
+				</c:when>	
+				<c:otherwise>
+					<h:outputText value="#{translator.translate('You can directly login using the form above.')}"></h:outputText>
+				</c:otherwise>
+			</c:choose>	
 		</p>        	
 	</ui:define>
 </ui:composition>

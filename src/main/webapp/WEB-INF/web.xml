@@ -45,12 +45,6 @@
     <param-value>Development</param-value>
   </context-param>	
   
-  <!-- Primefaces Theme: Theme that is used -->
-  <context-param>
-    <param-name>primefaces.THEME</param-name>
-    <param-value>bootstrap</param-value>
-  </context-param> 
-  
   <session-config>
 	<session-timeout>30</session-timeout>
   </session-config>

@@ -1,0 +1,23 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+>
+
+	<p style="font-size: 2em; font-weight: bold">#{translator.translate("Please confirm your registration")}, #{registrationController.registrationModel.prename}!</p>	
+	
+	<p>#{translator.translate("We are glad to almost have you aboard JumpUp.Me")}!<br />
+	#{translator.translate("Before you are able to use your account, you have to confirm your eMail address.")}<br />
+	#{translator.translate("Therefore, please press the link below: ")}</p>
+	
+	<p><h:outputLink value="#{registrationController.registrationModel.generateCompleteConfirmationLink()}">
+		#{translator.translate('Click here to confirm your account.')}</h:outputLink></p>
+	
+	<p>#{translator.translate("Have fun on JumpUp.Me")}!</p>
+	
+	<p style="font-size: 1.2em; font-weight: bold">#{translator.translate("Greetings")}, <br />
+	#{translator.translate("Your JumpUp.Me - Team")}</p>			
+
+</ui:composition>

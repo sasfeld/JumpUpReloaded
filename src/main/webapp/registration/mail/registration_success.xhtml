@@ -1,0 +1,31 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+>
+
+	<p style="font-size: 2em; font-weight: bold">#{translator.translate("Welcome on JumpUp.Me")}, #{registrationController.registrationModel.registeredUser.prename}!</p>	
+	
+	<p>#{translator.translate("We are glad to have you aboard JumpUp.Me")}!
+	#{translator.translate("You can login to to our portal now and search for trips.")}
+	#{translator.translate("Or do you want to offer a trip?")}</p>
+	
+	<p>--- #{translator.translate("Your registration details:")} ---</p>
+	
+	<p>
+		<ul>
+			<li>#{translator.translate("Username")}: #{registrationController.registrationModel.registeredUser.username}</li>
+			<li>#{translator.translate("You can login here:")}: #{NavigationBean.pathToApp().concat(NavigationBean.redirectToLogin())}</li>
+		</ul>
+	</p>
+	
+	<p>-------------------------------------------------</p>
+	
+	<p>#{translator.translate("Have fun on JumpUp.Me")}!</p>
+	
+	<p style="font-size: 1.2em; font-weight: bold">#{translator.translate("Greetings")}, <br />
+	#{translator.translate("Your JumpUp.Me - Team")}</p>			
+
+</ui:composition>
