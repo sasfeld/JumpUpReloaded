@@ -4,7 +4,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core">
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:user="http://java.sun.com/jsf/composite/components/user"
+>
 
 <ui:composition template="../resources/templates/basic/BasicTemplate.xhtml">
 	<ui:define name="content">
@@ -13,47 +15,19 @@
 	    </center>
 	    <h:form>
 	    	<h:messages errorClass="errorMessage" infoClass="infoMessage" warnClass="warnMessage"></h:messages>
-	    	<h:panelGrid columns="2">
 	    	
-	    		<h:outputText value="#{translator.translate('Username')}: "></h:outputText>
-	    		<h:inputText id="username" value="#{registrationController.registrationModel.username}"
-	    		required="true" requiredMessage="#{translator.translate('Please enter your username')}"
-	    		binding="#{passwordComponent}">
-	    			<f:validator binding="#{usernameValidator}" />
-	    		</h:inputText>
+	    	<h:panelGrid columns="1">
+	    		<user:username valueBinding="#{registrationController.registrationModel.username}"/>
 	    		
-	    		<h:outputText value="#{translator.translate('E-Mail')}: "></h:outputText>
-	    		<h:inputText id="email" value="#{registrationController.registrationModel.eMail}"
-	    			required="true" requiredMessage="#{translator.translate('Please enter your eMail')}">
-	    			<f:validator binding="#{emailValidator}" />
-	    		</h:inputText>
+				<user:email valueBinding="#{registrationController.registrationModel.eMail}" />	    		
 	    		
-	    		<h:outputText value="#{translator.translate('Password')}: "></h:outputText>
-	    		<h:inputSecret id="password" 
-	    		binding="#{password}"
-	    		value="#{registrationController.registrationModel.password}"
-	    		required="true" requiredMessage="#{translator.translate('Please enter a password')}">
-	    			<f:validator binding="#{passwordValidator}" />
-	    		</h:inputSecret>	 
+	    		<user:password valueBinding="#{registrationController.registrationModel.password}" />
 	    		
-	    		<h:outputText value="#{translator.translate('Confirm Password')}: "></h:outputText>
-	    		<h:inputSecret id="confirm_password" value="#{registrationController.registrationModel.confirmPassword}"
-	    		required="true" requiredMessage="#{translator.translate('Please enter your password a second time to confirm it')}">
-	    			<f:validator binding="#{repeatPasswordValidator}" />
-	    			<f:attribute name="password" value="#{password}"></f:attribute>
-	    		</h:inputSecret>	 
-	    			    		
-	    		<h:outputText value="#{translator.translate('Prename')}: "></h:outputText>
-	    		<h:inputText id="prename" value="#{registrationController.registrationModel.prename}"
-	    		required="true" requiredMessage="#{translator.translate('Please enter your prename')}">
-	    			<f:validator binding="#{prenameValidator}" />
-	    		</h:inputText>
+	    		<user:confirm_password valueBinding="#{registrationController.registrationModel.confirmPassword}"/>	    		
 	    		
-	    		<h:outputText value="#{translator.translate('Lastname')}: "></h:outputText>
-	    		<h:inputText id="lastname" value="#{registrationController.registrationModel.lastname}"
-	    		required="true" requiredMessage="#{translator.translate('Please enter your lastname')}">
-	    			<f:validator binding="#{lastnameValidator}" />
-	    		</h:inputText>
+	    		<user:prename valueBinding="#{registrationController.registrationModel.prename}" />
+	    		
+	    		<user:lastname valueBinding="#{registrationController.registrationModel.lastname}" />	    		
 	    			    		   	
 	    		<h:commandButton value="#{translator.translate('Submit')}"
 	    		action="#{registrationController.registerUser}"></h:commandButton>
