@@ -3,6 +3,8 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:composite="http://java.sun.com/jsf/composite"
+	xmlns:p="http://xmlns.jcp.org/jsf/passthrough"	
+	xmlns:jsf="http://xmlns.jcp.org/jsf"
 	>
 
 	<composite:interface>
@@ -13,7 +15,10 @@
 		<h:inputText id="username"
 			required="true"
 			requiredMessage="#{translator.translate('Please enter your username')}"
-			value="#{cc.attrs.valueBinding}">
+			value="#{cc.attrs.valueBinding}"
+			p:title="#{translator.translate('Please enter an username with at least ').concat(usernameValidator.getMinLength()).concat(' and maximal ').concat(usernameValidator.getMaxLength()).concat(' characters.')}"
+			p:required="required"
+			p:pattern=".{#{usernameValidator.getMinLength()},#{usernameValidator.getMaxLength()}}">
 			<f:validator binding="#{usernameValidator}" />
 		</h:inputText>
 	</composite:implementation>

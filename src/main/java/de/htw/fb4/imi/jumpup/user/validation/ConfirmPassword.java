@@ -16,6 +16,7 @@ import javax.inject.Named;
 
 import de.htw.fb4.imi.jumpup.Application;
 import de.htw.fb4.imi.jumpup.Application.LogType;
+import de.htw.fb4.imi.jumpup.config.IConfigKeys;
 import de.htw.fb4.imi.jumpup.settings.BeanNames;
 import de.htw.fb4.imi.jumpup.validator.AbstractValidator;
 
@@ -41,7 +42,14 @@ public class ConfirmPassword extends AbstractValidator
     public void validate(final FacesContext context, final UIComponent component,
             final Object value) throws ValidatorException
     {                
-        UIInput password = (UIInput) component.getAttributes().get("password");        
+        UIInput password = (UIInput) context.getViewRoot().findComponent("registrationForm:password");        
+        
+        if (null == password) {
+            Application.log("Nullpointer in validate(): could not get the value of the first password field. Please check what is happening.", LogType.CRITICAL, getClass());
+            
+            // TODO check the bug, why is firstPassword null?
+            return;
+        }
         
         String[] compareValues = { (String) value, (String) password.getSubmittedValue() };
         // throw validator with invalid entry message per default if validate() returns false
@@ -72,6 +80,25 @@ public class ConfirmPassword extends AbstractValidator
         }
         
         return true;
-    }    
+    }
 
+    @Override
+    /*
+     * (non-Javadoc)
+     * @see de.htw.fb4.imi.jumpup.validator.JumpUpValidator#getMinLength()
+     */
+    public int getMinLength()
+    {
+        return Integer.parseInt(userConfigReader.fetchValue(IConfigKeys.JUMPUP_USER_VALIDATION_PASSWORD_MIN_LENGTH));
+    }
+
+    @Override
+    /*
+     * (non-Javadoc)
+     * @see de.htw.fb4.imi.jumpup.validator.JumpUpValidator#getMaxLength()
+     */
+    public int getMaxLength()
+    {
+        return Integer.parseInt(userConfigReader.fetchValue(IConfigKeys.JUMPUP_USER_VALIDATION_PASSWORD_MAX_LENGTH));
+    }
 }
