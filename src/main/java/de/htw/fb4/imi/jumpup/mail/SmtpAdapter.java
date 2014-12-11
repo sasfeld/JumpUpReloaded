@@ -8,6 +8,7 @@ package de.htw.fb4.imi.jumpup.mail;
 import java.util.Date;
 import java.util.Properties;
 
+import javax.annotation.PostConstruct;
 import javax.ejb.Stateless;
 import javax.mail.Authenticator;
 import javax.mail.BodyPart;
@@ -125,6 +126,7 @@ public class SmtpAdapter extends AbstractMailAdapter
         this.readConfig();        
     }
 
+    @PostConstruct
     /**
      * Read from configuration, assign all fields.
      */

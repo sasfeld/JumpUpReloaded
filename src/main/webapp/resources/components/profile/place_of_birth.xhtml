@@ -11,14 +11,13 @@
 		<composite:attribute name="valueBinding" required="true" />
 	</composite:interface>
 	<composite:implementation>
-		<h:outputText value="#{translator.translate('Language')}: "></h:outputText>
-		<h id="email" 
+		<h:outputText value="#{translator.translate('Place of birth')}: "></h:outputText>
+		<h:inputText id="email" 
 				value="#{cc.attrs.valueBinding}"
 				p:required="required"
-				p:type="e" 
-				p:title="#{translator.translate('Please enter a valid eMail address with at least ').concat(emailValidator.getMinLength()).concat(' and maximal ').concat(emailValidator.getMaxLength()).concat(' characters.')}"
+				p:title="#{translator.translate('Please enter a valid date of birth (city) with at least ').concat(placeOfBirthValidator.getMinLength()).concat(' and maximal ').concat(placeOfBirthValidator.getMaxLength()).concat(' characters.')}"
 				p:pattern=".{#{emailValidator.getMinLength()},#{emailValidator.getMaxLength()}}">
-				<f:validator binding="#{emailValidator}" />
+				<f:validator binding="#{placeOfBirthValidator}" />
 		</h:inputText>
 	</composite:implementation>
 
