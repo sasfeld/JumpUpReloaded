@@ -1,13 +1,13 @@
 package de.htw.fb4.imi.jumpup.util;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public enum Gender {
 
 	MAN, WOMAN, LADYBOY;
 	
-	protected Map<String, Gender> storedMap;
+	protected Map<String, Object> storedMap;
 	
 	/**
      * Get all genders
@@ -16,7 +16,7 @@ public enum Gender {
      * 
      * @return {@link Map} of label - gender elements.
      */
-    public Map<String, Gender> getAllGenders()
+    public Map<String, Object> getAllGenders()
     {
         if (null == this.storedMap) {
             this.fillGenders();
@@ -27,7 +27,7 @@ public enum Gender {
     
     private void fillGenders()
     {
-        this.storedMap = new HashMap<String, Gender>();
+        this.storedMap = new LinkedHashMap<String, Object>();
         
         // return a map of english label as key and the enumeration value itself as value
         this.storedMap.put("Man", MAN);

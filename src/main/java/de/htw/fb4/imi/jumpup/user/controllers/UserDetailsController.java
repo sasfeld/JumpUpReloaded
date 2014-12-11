@@ -5,10 +5,14 @@ import java.io.Serializable;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 
+import de.htw.fb4.imi.jumpup.Application;
+import de.htw.fb4.imi.jumpup.Application.LogType;
 import de.htw.fb4.imi.jumpup.controllers.AbstractFacesController;
 import de.htw.fb4.imi.jumpup.settings.BeanNames;
 import de.htw.fb4.imi.jumpup.user.entities.User;
 import de.htw.fb4.imi.jumpup.user.entities.UserDetails;
+import de.htw.fb4.imi.jumpup.util.Gender;
+import de.htw.fb4.imi.jumpup.util.Languages;
 
 /**
  * Controller class for {@link de.htw.fb4.imi.jumpup.user.entities.UserDetails}.
@@ -17,8 +21,7 @@ import de.htw.fb4.imi.jumpup.user.entities.UserDetails;
  * 
  */
 
-@SuppressWarnings("cdi-ambiguous-name")
-@Named(value = BeanNames.REGISTRATION_CONTROLLER)
+@Named(value = BeanNames.USER_DETAILS_CONTROLLER)
 @SessionScoped
 public class UserDetailsController extends AbstractFacesController implements
         Serializable
@@ -33,10 +36,48 @@ public class UserDetailsController extends AbstractFacesController implements
      * {@link UserDetails} for current session {@link User}
      */
     private UserDetails userDetails = new UserDetails();
+    
+    protected Languages languages = Languages.GERMAN;
+    
+    protected Gender genders = Gender.MAN;
+
 
     public UserDetails getUserDetails()
     {
         return userDetails;
+    }    
+
+    /**
+     * @return the languages
+     */
+    public Languages getLanguages()
+    {
+        return languages;
+    }
+
+    /**
+     * @param languages the languages to set
+     */
+    public void setLanguages(Languages languages)
+    {
+        this.languages = languages;
+    }
+
+    /**
+     * @return the genders
+     */
+    public Gender getGenders()
+    {
+        Application.log("In getGenders() " + genders.toString(), LogType.INFO, getClass());
+        return genders;
+    }
+
+    /**
+     * @param genders the genders to set
+     */
+    public void setGenders(Gender genders)
+    {
+        this.genders = genders;
     }
 
 }

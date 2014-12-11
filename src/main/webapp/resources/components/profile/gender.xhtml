@@ -12,8 +12,8 @@
 	</composite:interface>
 	<composite:implementation>
 		<h:outputText value="#{translator.translate('Gender')}: "></h:outputText>
-		<h:selectOneMenu value="#{userDetailsController.userDetails.gender}">
-			<f:selectItems value="#{Gender.getAllGenders()}"></f:selectItem>
+		<h:selectOneMenu value="#{cc.attrs.valueBinding}">
+			<f:selectItems value="#{userDetailsController.genders.allGenders}" />
 		</h:selectOneMenu>
 	</composite:implementation>
 

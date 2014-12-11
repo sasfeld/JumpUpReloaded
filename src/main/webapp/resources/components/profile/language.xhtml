@@ -12,8 +12,8 @@
 	</composite:interface>
 	<composite:implementation>
 		<h:outputText value="#{translator.translate('Language')}: "></h:outputText>
-		<h:selectManyMenu value="#{userDetailsController.userDetails.languages}">
-			<f:selectItems value="#{Languages.getAllLanguages()}"></f:selectItems>
+		<h:selectManyMenu value="#{cc.attrs.valueBinding}">
+			<f:selectItems value="#{userDetailsController.languages.allLanguages}"></f:selectItems>
 		</h:selectManyMenu>
 	</composite:implementation>
 

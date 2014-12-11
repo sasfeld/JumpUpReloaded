@@ -57,6 +57,7 @@ public class UserDetails extends AbstractEntity
     protected Set<Languages> languages;
 
     @Column(name = "gender", nullable = false, updatable = true)
+    @Enumerated(EnumType.ORDINAL)
     protected Gender gender;
 
     @Column(name = "mobilenumber", nullable = false, updatable = true)
