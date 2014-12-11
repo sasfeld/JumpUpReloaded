@@ -38,5 +38,7 @@ public interface BeanNames
     
     String MAIL_CONFIG_READER = "mailConfigReader";
     String MAIL_SMTP_ADAPTER = "mailSmtpAdapter";
+    
+    String NAVIGATION_BEAN = "navigationBean";
 }
 

@@ -62,5 +62,13 @@
    			<to-view-id>/registration/registration.xhtml</to-view-id>
    		</navigation-case>
    </navigation-rule>
+   
+     <navigation-rule>
+   		<from-view-id>*</from-view-id>
+   		<navigation-case>
+   			<from-outcome>to_user_profile</from-outcome>
+   			<to-view-id>/portal/profile/personal.xhtml</to-view-id>
+   		</navigation-case>
+   </navigation-rule>
 
 </faces-config>

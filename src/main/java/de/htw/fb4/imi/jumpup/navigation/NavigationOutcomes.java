@@ -27,5 +27,7 @@ public interface NavigationOutcomes
     String LOGOUT_SUCCESS = "logout_success";
     
     String LOGOUT_FAILURE = "logout_failure";
+    
+    String TO_USER_PROFILE = "to_user_profile"; 
    
 }

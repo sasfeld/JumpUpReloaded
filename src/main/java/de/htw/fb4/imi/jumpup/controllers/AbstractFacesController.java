@@ -20,6 +20,8 @@ public class AbstractFacesController
 {
     @Inject
     protected FacesFacade facesFacade;
+    
+    
 
     protected void addDisplayInfoMessage(final String infoMessage)
     {
