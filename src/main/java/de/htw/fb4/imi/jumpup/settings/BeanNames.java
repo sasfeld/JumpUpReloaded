@@ -18,6 +18,7 @@ public interface BeanNames
     String PASSWORD_HASH_GENERATOR = "password_hash_generator";
     
     String REGISTRATION_CONTROLLER = "registrationController";
+    String EDIT_PROFILE_CONTROLLER = "editProfileController";
     String REGISTRATION_CONFIRMATION_CONTROLLER = "registrationConfirmationController";
     String LOGIN_CONTROLLER = "loginController";
     

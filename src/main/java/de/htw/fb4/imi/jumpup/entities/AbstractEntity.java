@@ -5,6 +5,8 @@
  */
 package de.htw.fb4.imi.jumpup.entities;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -18,9 +20,14 @@ import javax.persistence.MappedSuperclass;
  *
  */
 @MappedSuperclass
-public class AbstractEntity
+public class AbstractEntity implements Serializable
 {
-    @Id
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -3703510461773241613L;
+
+	@Id
     @GeneratedValue
     @Column(name = "identity")
     protected long identity;
