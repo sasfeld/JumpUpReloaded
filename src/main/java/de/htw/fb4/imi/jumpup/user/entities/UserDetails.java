@@ -2,11 +2,17 @@ package de.htw.fb4.imi.jumpup.user.entities;
 
 import java.util.Arrays;
 import java.util.Date;
+import java.util.Set;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.Lob;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -16,7 +22,7 @@ import de.htw.fb4.imi.jumpup.util.Gender;
 import de.htw.fb4.imi.jumpup.util.Languages;
 
 @Entity
-@Table(name = "userdetails")
+@Table(name = "user_details")
 public class UserDetails extends AbstractEntity
 {
 
@@ -44,8 +50,11 @@ public class UserDetails extends AbstractEntity
     @Basic(fetch = FetchType.LAZY)
     protected Byte[] avatar;
 
-    @Column(name = "languages", nullable = false, updatable = true)
-    protected Languages languages;
+    @ElementCollection(targetClass = Languages.class)
+    @JoinTable(name = "languages", joinColumns = @JoinColumn(name = "identity"))
+    @Column(name = "languages", nullable = true, updatable = true)
+    @Enumerated(EnumType.ORDINAL)
+    protected Set<Languages> languages;
 
     @Column(name = "gender", nullable = false, updatable = true)
     protected Gender gender;
@@ -96,12 +105,12 @@ public class UserDetails extends AbstractEntity
         this.avatar = avatar;
     }
 
-    public Languages getLanguages()
+    public Set<Languages> getLanguages()
     {
         return languages;
     }
 
-    public void setLanguages(Languages languages)
+    public void setLanguages(Set<Languages> languages)
     {
         this.languages = languages;
     }

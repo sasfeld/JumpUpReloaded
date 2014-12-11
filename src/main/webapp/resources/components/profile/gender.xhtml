@@ -11,10 +11,10 @@
 		<composite:attribute name="valueBinding" required="true" />
 	</composite:interface>
 	<composite:implementation>
-		<h:outputText value="#{translator.translate('Language')}: "></h:outputText>
-		<h:selectManyMenu value="#{userDetailsController.userDetails.languages}">
-			<f:selectItems value="#{Languages.getAllLanguages()}"></f:selectItems>
-		</h:selectManyMenu>
+		<h:outputText value="#{translator.translate('Gender')}: "></h:outputText>
+		<h:selectOneMenu value="#{userDetailsController.userDetails.gender}">
+			<f:selectItems value="#{Gender.getAllGenders()}"></f:selectItem>
+		</h:selectOneMenu>
 	</composite:implementation>
 
 </html>
