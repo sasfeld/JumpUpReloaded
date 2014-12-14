@@ -37,6 +37,11 @@ public class AbstractEntity implements Serializable
     
     @Column(name = "updated_at", nullable = true, updatable = true)
     protected Long updateTimestamp;
+    
+    public AbstractEntity()
+    {
+        super();
+    }
 
     /**
      * @return the identity
