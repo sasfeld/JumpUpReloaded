@@ -121,7 +121,7 @@ public class EMail extends AbstractValidator
         return true;
     }
 
-    private boolean checkLength(final String eMail)
+    protected boolean checkLength(final String eMail)
     {
         // get values from user.properties configuration file
         int minLength = this.getMinLength();

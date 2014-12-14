@@ -80,7 +80,7 @@ public class Lastname extends AbstractValidator
         return true;
     }
 
-    private boolean checkLength(String lastname)
+    protected boolean checkLength(String lastname)
     {
      // get values from user.properties configuration file
         int minLength = this.getMinLength();

@@ -42,4 +42,11 @@ public interface BeanNames
     String MAIL_SMTP_ADAPTER = "mailSmtpAdapter";
 
     String NAVIGATION_BEAN = "navigationBean";
+    
+    String DATE_OF_BIRTH = "dateOfBirthValidator";
+    String MOBILE_NUMBER_VALIDATOR = "mobileNumberValidator";
+    String SKYPE_VALIDATOR = "skypeValidator";
+    String TOWN_VALIDATOR = "townValidator";
+    String PLACE_OF_BIRTH_VALIDATOR = "placeOfBirthValidator";
+    String COUNTRY_VALIDATOR = "countryValidator";
 }

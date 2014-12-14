@@ -55,7 +55,7 @@ public class Application
      */
     public enum LogType
     {
-        INFO()
+        INFO
         {
             @Override
             /*
@@ -71,7 +71,7 @@ public class Application
             }
         },
 
-        DEBUG()
+        DEBUG
         {
             @Override
             /*
