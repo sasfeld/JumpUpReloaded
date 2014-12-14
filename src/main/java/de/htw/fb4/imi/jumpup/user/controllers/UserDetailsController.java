@@ -105,6 +105,8 @@ public class UserDetailsController extends AbstractFacesController implements
                 for (String error : userDetailsMethod.getErrors()) {
                     this.addDisplayErrorMessage(error);
                 }
+            } else {
+                addDisplayInfoMessage("Your given information have been saved.");
             }
 
         } catch (Exception e) {
