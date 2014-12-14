@@ -94,6 +94,7 @@ public class WebSiteUserDetails implements UserDetailsMethod
             Application.log("WebSiteUserDetails: try to add userDetails",
                     LogType.DEBUG, getClass());
             entityManager.persist(userDetails);
+            entityManager.persist(userDetails.getUser());
             Application.log("WebSiteUserDetails: persist success",
                     LogType.DEBUG, getClass());
         } catch (Exception e) {
