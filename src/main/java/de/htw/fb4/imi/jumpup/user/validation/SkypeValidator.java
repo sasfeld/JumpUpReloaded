@@ -25,7 +25,7 @@ import de.htw.fb4.imi.jumpup.validator.AbstractValidator;
 @RequestScoped
 public class SkypeValidator extends AbstractValidator
 {
-    private static final String PATTERN_SYKPE = "/[a-zA-Z][a-zA-Z0-9\\.,\\-_]*/";
+    private static final String PATTERN_SYKPE = "[a-zA-Z][a-zA-Z0-9\\.,\\-_]*";
 
     @Override    
     /* (non-Javadoc)

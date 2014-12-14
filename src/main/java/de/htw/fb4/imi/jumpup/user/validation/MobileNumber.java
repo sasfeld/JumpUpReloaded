@@ -25,7 +25,7 @@ import de.htw.fb4.imi.jumpup.validator.AbstractValidator;
 @RequestScoped
 public class MobileNumber extends AbstractValidator
 {
-    private static final String REGEX_MOBILE_NUMBER = "/^\\+[0-9]{1,3}[0-9 ]+/";
+    private static final String REGEX_MOBILE_NUMBER = "^\\+[0-9]{1,3}[0-9 ]+";
 
     @Override    
     /* (non-Javadoc)

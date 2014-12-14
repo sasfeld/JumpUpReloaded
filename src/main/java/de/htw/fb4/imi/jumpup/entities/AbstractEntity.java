@@ -41,7 +41,7 @@ public class AbstractEntity implements Serializable
     /**
      * @return the identity
      */
-    public final long getIdentity()
+    public long getIdentity()
     {
         return identity;
     }
@@ -49,7 +49,7 @@ public class AbstractEntity implements Serializable
     /**
      * @param identity the identity to set
      */
-    public final void setIdentity(long identity)
+    public void setIdentity(long identity)
     {
         this.identity = identity;
     }
@@ -57,7 +57,7 @@ public class AbstractEntity implements Serializable
     /**
      * @return the creationTimestamp
      */
-    public final long getCreationTimestamp()
+    public long getCreationTimestamp()
     {
         return creationTimestamp;
     }
@@ -65,7 +65,7 @@ public class AbstractEntity implements Serializable
     /**
      * @param creationTimestamp the creationTimestamp to set
      */
-    public final void setCreationTimestamp(long creationTimestamp)
+    public void setCreationTimestamp(long creationTimestamp)
     {
         this.creationTimestamp = creationTimestamp;
     }
@@ -73,7 +73,7 @@ public class AbstractEntity implements Serializable
     /**
      * @return the updateTimestamp
      */
-    public final Long getUpdateTimestamp()
+    public Long getUpdateTimestamp()
     {
         return updateTimestamp;
     }
@@ -81,7 +81,7 @@ public class AbstractEntity implements Serializable
     /**
      * @param updateTimestamp the updateTimestamp to set
      */
-    public final void setUpdateTimestamp(Long updateTimestamp)
+    public void setUpdateTimestamp(Long updateTimestamp)
     {
         this.updateTimestamp = updateTimestamp;
     }

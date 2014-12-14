@@ -18,6 +18,7 @@
 				p:type="date" 
 				p:title="#{translator.translate('Please enter a valid date of birth.')}"
 				>
+				<f:convertDateTime pattern="yyyy-M-d"></f:convertDateTime>
 				<f:validator binding="#{dateOfBirthValidator}" />
 		</h:inputText>
 	</composite:implementation>

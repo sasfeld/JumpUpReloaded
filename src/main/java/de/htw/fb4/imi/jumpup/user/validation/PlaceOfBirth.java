@@ -26,7 +26,7 @@ import de.htw.fb4.imi.jumpup.validator.AbstractValidator;
 @RequestScoped
 public class PlaceOfBirth extends AbstractValidator
 {
-    private static final String PATTERN_PLACE_OF_BIRTH = "[A-Z- ]+";
+    private static final String PATTERN_PLACE_OF_BIRTH = "[A-Za-z\\- ]+";
 
     @Override    
     /* (non-Javadoc)
