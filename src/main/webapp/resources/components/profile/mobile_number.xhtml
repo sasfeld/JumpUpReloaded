@@ -17,7 +17,7 @@
 				p:required="required"
 				p:title="#{translator.translate('Please enter a valid mobile number with at least ').concat(mobileNumberValidator.getMinLength()).concat(' and maximal ').concat(mobileNumberValidator.getMaxLength()).concat(' characters.')}"
 				p:pattern=".{#{mobileNumberValidator.getMinLength()},#{mobileNumberValidator.getMaxLength()}}">
-				<f:validator binding="#{placeOfBirthValidator}" />
+				<f:validator binding="#{mobileNumberValidator}" />
 		</h:inputText>
 	</composite:implementation>
 

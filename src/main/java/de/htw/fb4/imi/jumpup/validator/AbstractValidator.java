@@ -65,4 +65,17 @@ public abstract class AbstractValidator implements Validator, JumpUpValidator
         return false;
     }
 
+    /**
+     * 
+     * @param mobileNumber
+     * @return
+     */
+    protected boolean checkLength(String placeOfBirth)
+    {        
+        if (placeOfBirth.length() < this.getMinLength() || placeOfBirth.length() > this.getMaxLength()) {
+            return false;
+        }
+        
+        return true;
+    }
 }

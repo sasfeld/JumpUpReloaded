@@ -5,14 +5,16 @@
  */
 package de.htw.fb4.imi.jumpup.user.validation;
 
+import java.util.Date;
 
-
-import javax.faces.bean.RequestScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
 import javax.inject.Named;
 
+import de.htw.fb4.imi.jumpup.Application;
+import de.htw.fb4.imi.jumpup.Application.LogType;
 import de.htw.fb4.imi.jumpup.config.IConfigKeys;
 import de.htw.fb4.imi.jumpup.settings.BeanNames;
 import de.htw.fb4.imi.jumpup.validator.AbstractValidator;
@@ -21,15 +23,13 @@ import de.htw.fb4.imi.jumpup.validator.AbstractValidator;
  * <p></p>
  *
  * @author <a href="mailto:me@saschafeldmann.de">Sascha Feldmann</a>
- * @since 24.11.2014
+ * @since 14.12.2014
  *
  */
-@Named( value = BeanNames.PRENAME_VALIDATOR)
+@Named( value = BeanNames.DATE_OF_BIRTH )
 @RequestScoped
-public class Prename extends AbstractValidator
-{   
-    public static String PATTERN_PRENAME = "[a-zA-Z- ]+";
-
+public class DateOfBirth extends AbstractValidator
+{
     @Override    
     /* (non-Javadoc)
      * @see javax.faces.validator.Validator#validate(javax.faces.context.FacesContext, javax.faces.component.UIComponent, java.lang.Object)
@@ -40,7 +40,7 @@ public class Prename extends AbstractValidator
         // throw validator with invalid entry message per default if validate() returns false
         if (!this.validate(value)) {
             // get first error message or print default
-            String msg = "The prename you entered is not valid.";
+            String msg = "You must be at least " + this.getConfiguredAge() + " years old.";
             if (this.errorMessages.size() > 0) {
                 msg = (String) this.errorMessages.toArray()[0];
             }
@@ -49,74 +49,71 @@ public class Prename extends AbstractValidator
                     msg));
         }
     }
-
-    @Override
-    /* (non-Javadoc)
-     * @see de.htw.fb4.imi.jumpup.util.JumpUpValidator#validate(java.lang.Object)
+    
+    /*
+     * (non-Javadoc)
+     * @see de.htw.fb4.imi.jumpup.validator.AbstractValidator#validate(java.lang.Object)
      */
     public boolean validate(final Object value)
     {
-        final String prename = ((String) value).trim();
+        if (!(value instanceof Date)) {
+            Application.log("validate(): given value is not of type date", LogType.ERROR, getClass());
+            return false;
+        }
         
-        if (!this.checkLength(prename)
-                || !this.checkCharacters(prename)) {
-                return false;
-            }
+        Date dob = (Date) value;
+        
+        if (!this.userHasMinimumAge(dob)) {
+           return false;
+        }
         
         return true;
     }
 
     /**
-     * Check length from user.properties config.
-     * @param prename
+     * Check whether the user has reached the minimum age.
+     * @param dob 
      * @return
      */
-    private boolean checkCharacters(String prename)
+    private boolean userHasMinimumAge(final Date dob)
     {
-        if (!prename.matches(PATTERN_PRENAME)) {
+        int minimumAge = getConfiguredAge();
+        
+        Date current = new Date();        
+        
+        long difference = current.getTime() - dob.getTime();
+
+        // check if difference is below configured years in milliseconds
+        long eighteenYears = 1000 * 60 * 60 * 24 * 365 * minimumAge;
+        if (difference < eighteenYears) {
             return false;
         }
         
         return true;
     }
 
-    protected boolean checkLength(String prename)
+    protected int getConfiguredAge()
     {
-        // get values from user.properties configuration file
-        int minLength = this.getMinLength();
-        int maxLength = this.getMaxLength();
-        
-        if (prename.length() < minLength) {
-            this.errorMessages.add("The prename you entered is too short. Please type in at least " + minLength + " characters.");
-            
-            return false;
-        } else if (prename.length() > maxLength) {
-            this.errorMessages.add("The prename you entered is too long. Please type in maximum " + maxLength + " characters.");
-            
-            return false;
-        }
-        
-        return true;
+        int minimumAge = Integer.parseInt(this.userConfigReader.fetchValue(IConfigKeys.JUMPUP_USER_MINIMUM_AGE));
+        return minimumAge;
     }
 
-    @Override
-    /*
-     * (non-Javadoc)
+    /* (non-Javadoc)
      * @see de.htw.fb4.imi.jumpup.validator.JumpUpValidator#getMinLength()
      */
+    @Override
     public int getMinLength()
     {
-        return Integer.parseInt(userConfigReader.fetchValue(IConfigKeys.JUMPUP_USER_VALIDATION_PRENAME_MIN_LENGTH));
+        return 0;
     }
 
-    @Override
-    /*
-     * (non-Javadoc)
+    /* (non-Javadoc)
      * @see de.htw.fb4.imi.jumpup.validator.JumpUpValidator#getMaxLength()
      */
+    @Override
     public int getMaxLength()
     {
-        return Integer.parseInt(userConfigReader.fetchValue(IConfigKeys.JUMPUP_USER_VALIDATION_PRENAME_MAX_LENGTH));
+        return 10;
     }
 
 }
