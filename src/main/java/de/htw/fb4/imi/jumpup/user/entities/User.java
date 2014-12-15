@@ -7,6 +7,7 @@ package de.htw.fb4.imi.jumpup.user.entities;
 
 import java.util.Arrays;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -35,11 +36,16 @@ import de.htw.fb4.imi.jumpup.user.util.HashGenerable;
     @NamedQuery(name = User.NAME_QUERY_BY_USERNAME, query = "SELECT u FROM User u WHERE u.username = :username"),
     @NamedQuery(name = User.NAME_QUERY_BY_EMAIL, query = "SELECT u FROM User u WHERE u.eMail = :email"),
     @NamedQuery(name = User.NAME_QUERY_LOGIN, query = "SELECT u FROM User u "
+            + "JOIN fetch u.userDetails "
             + "WHERE (u.eMail = :token OR u.username = :token) "
             + "AND u.passwordHash = :passwordHash"
            ),
 })
 public class User extends AbstractEntity {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -4397896384511726160L;
     /**
      * Name of named query to fetch users by username.
      */
@@ -70,13 +76,14 @@ public class User extends AbstractEntity {
     protected byte[] passwordHash;
 
     @Embedded
-    private Residence residence = new Residence();
+    private Residence residence;
 
     @Column(name = "is_confirmed", nullable = false, updatable = true)
     protected Boolean isConfirmed;
 
-    @OneToOne
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     protected UserDetails userDetails;
+    
     /**
      * Hash generable.
      * 
@@ -88,6 +95,8 @@ public class User extends AbstractEntity {
     public User()
     {
         super();
+        
+        this.residence = new Residence();
     }
 
     /**
@@ -219,6 +228,30 @@ public class User extends AbstractEntity {
      */
     public void setHashGenerable(final HashGenerable newPasswordHashGenerable) {
         this.hashGenerable = newPasswordHashGenerable;
+    }
+
+    /**
+     * @return the userDetails
+     */
+    public UserDetails getUserDetails()
+    {
+        return userDetails;
+    }
+
+    /**
+     * @param userDetails the userDetails to set
+     */
+    public void setUserDetails(UserDetails userDetails)
+    {
+        this.userDetails = userDetails;
+    }
+
+    /**
+     * @param eMail the eMail to set
+     */
+    public void seteMail(String eMail)
+    {
+        this.eMail = eMail;
     }
 
     /*

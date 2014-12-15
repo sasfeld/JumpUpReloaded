@@ -80,6 +80,7 @@ public class Login extends AbstractFacesController implements Serializable
                 this.addDisplayErrorMessage(errorMessage);
             }
         } catch (Exception e) {
+            Application.log("loginUser(): " + e.getLocalizedMessage(), LogType.CRITICAL, getClass());
             this.addDisplayErrorMessage("I was not able to log you in.");
         }
 

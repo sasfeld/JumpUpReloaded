@@ -34,22 +34,30 @@ public class UserDetailsController extends AbstractFacesController implements
 	 * 
 	 */
     private static final long serialVersionUID = 39062452564614352L;
-
-    /**
-     * {@link UserDetails} for current session {@link User}
-     */
-    private UserDetails userDetails = new UserDetails();
-
+    
     @Inject
-    protected UserDetailsMethod userDetailsMethod;
-
-    protected Languages languages = Languages.GERMAN;
-
+    protected Login loginController;
+    @Inject
+    protected UserDetailsMethod userDetailsMethod;    
+    protected UserDetails newUserDetails = new UserDetails();
+    protected Languages languages = Languages.GERMAN;    
     protected Gender genders = Gender.MAN;
 
+    /**
+     * Get user details from current user instance OR fresh model.
+     * @return
+     */
     public UserDetails getUserDetails()
     {
-        return userDetails;
+        User currentUser = loginController.getLoginModel().getCurrentUser();
+        Application.log("UserDetailsContoller: current user " + currentUser,
+                LogType.DEBUG, getClass());
+        
+        if (null == currentUser.getUserDetails()) {
+            return this.newUserDetails;
+        }
+        
+        return currentUser.getUserDetails();
     }
 
     /**
@@ -74,8 +82,6 @@ public class UserDetailsController extends AbstractFacesController implements
      */
     public Gender getGenders()
     {
-        Application.log("In getGenders() " + genders.toString(), LogType.DEBUG,
-                getClass());
         return genders;
     }
 

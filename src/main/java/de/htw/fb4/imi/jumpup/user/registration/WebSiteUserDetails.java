@@ -11,13 +11,16 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceUnit;
 
 import de.htw.fb4.imi.jumpup.Application;
 import de.htw.fb4.imi.jumpup.Application.LogType;
 import de.htw.fb4.imi.jumpup.settings.BeanNames;
 import de.htw.fb4.imi.jumpup.settings.PersistenceSettings;
 import de.htw.fb4.imi.jumpup.user.controllers.Login;
+import de.htw.fb4.imi.jumpup.user.entities.User;
 import de.htw.fb4.imi.jumpup.user.entities.UserDetails;
 
 /**
@@ -32,10 +35,9 @@ import de.htw.fb4.imi.jumpup.user.entities.UserDetails;
  */
 @Stateless(name = BeanNames.WEBSITE_USER_DETAILS)
 public class WebSiteUserDetails implements UserDetailsMethod
-{
-
-    @PersistenceContext(unitName = PersistenceSettings.PERSISTENCE_UNIT)
-    protected EntityManager entityManager;
+{   
+    @PersistenceUnit(unitName = PersistenceSettings.PERSISTENCE_UNIT)
+    protected EntityManagerFactory entityManagerFactory;
 
     @Inject
     protected Login login;
@@ -78,6 +80,13 @@ public class WebSiteUserDetails implements UserDetailsMethod
         // TODO Auto-generated method stub
         return null;
     }
+    
+    protected EntityManager getFreshEntityManager()
+    {
+        EntityManager em = this.entityManagerFactory.createEntityManager();
+        
+        return em;
+    }
 
     /*
      * (non-Javadoc)
@@ -89,17 +98,20 @@ public class WebSiteUserDetails implements UserDetailsMethod
     @Override
     public void sendUserDetails(final UserDetails userDetails)
     {
+        EntityManager entityManager = this.getFreshEntityManager();
         try {
-            userDetails.setUser(login.getLoginModel().getCurrentUser());
+            User currentUser = login.getLoginModel().getCurrentUser();
+            
+            userDetails.setUser(currentUser);
             Application.log("WebSiteUserDetails: try to add userDetails",
                     LogType.DEBUG, getClass());
-            entityManager.persist(userDetails);
-            entityManager.persist(userDetails.getUser());
+            entityManager.merge(userDetails);
+
             Application.log("WebSiteUserDetails: persist success",
                     LogType.DEBUG, getClass());
         } catch (Exception e) {
             Application.log(e.getMessage(), LogType.ERROR, getClass());
-            entityManager.getTransaction().rollback();
+            try {entityManager.getTransaction().rollback();} catch (Exception e2) {}
             errors.add("Internal Server Error, please contact the provider or try again.");
         }
 

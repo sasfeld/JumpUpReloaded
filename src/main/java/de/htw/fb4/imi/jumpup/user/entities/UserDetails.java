@@ -31,7 +31,7 @@ public class UserDetails extends AbstractEntity
 	 */
     private static final long serialVersionUID = -4235428005961187774L;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     protected User user;
 
     @Column(name = "dateOfBirth", nullable = false, updatable = true)

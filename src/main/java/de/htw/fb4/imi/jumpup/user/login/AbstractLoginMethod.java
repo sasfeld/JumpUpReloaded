@@ -10,8 +10,9 @@ import java.util.HashSet;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
-import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceUnit;
 import javax.persistence.Query;
 
 import de.htw.fb4.imi.jumpup.ApplicationError;
@@ -37,8 +38,8 @@ public abstract class AbstractLoginMethod implements LoginMethod, Serializable
     @Inject
     protected HashGenerable hashGenerator;
     
-    @PersistenceContext(unitName = PersistenceSettings.PERSISTENCE_UNIT)
-    protected EntityManager entityManager;
+    @PersistenceUnit(unitName = PersistenceSettings.PERSISTENCE_UNIT)
+    protected EntityManagerFactory entityManagerFactory;
 
     protected HashSet<String> errorMessages;
     
@@ -94,15 +95,25 @@ public abstract class AbstractLoginMethod implements LoginMethod, Serializable
         loginModel.setCurrentUser(loggedInUser);
         loginModel.setIsLoggedIn(true);
     }
+    
+    protected EntityManager getFreshEntityManager()
+    {
+        EntityManager em = this.entityManagerFactory.createEntityManager();
+        
+        return em;
+    }
 
     protected User lookForMatchingUser(final LoginModel loginModel) throws ApplicationError
     {
-        Query qAuthentication = this.entityManager
+        // we need a fresh entity manager by the EM factory here, otherwise we will get a LazyLoadException
+        EntityManager em = this.getFreshEntityManager();
+        
+        Query qAuthentication = em
                 .createNamedQuery(User.NAME_QUERY_LOGIN)
                 .setParameter("token", loginModel.getUsernameOrMail())
                 .setParameter("passwordHash", this.getHash(loginModel.getPassword()));
         
-        try {
+        try {           
             User authenticatedUser = (User) qAuthentication.getSingleResult();
             
             // User isn't confirmed yet.
@@ -115,7 +126,7 @@ public abstract class AbstractLoginMethod implements LoginMethod, Serializable
         } catch (NoResultException e) {
             // no user found
             return null;
-        }     
+        }
     }
 
     protected byte[] getHash(final String password) throws ApplicationError
@@ -149,8 +160,10 @@ public abstract class AbstractLoginMethod implements LoginMethod, Serializable
     {
         final int prime = 31;
         int result = 1;
-        result = prime * result
-                + ((entityManager == null) ? 0 : entityManager.hashCode());
+        result = prime
+                * result
+                + ((entityManagerFactory == null) ? 0 : entityManagerFactory
+                        .hashCode());
         result = prime * result
                 + ((errorMessages == null) ? 0 : errorMessages.hashCode());
         result = prime * result
@@ -171,10 +184,10 @@ public abstract class AbstractLoginMethod implements LoginMethod, Serializable
         if (getClass() != obj.getClass())
             return false;
         AbstractLoginMethod other = (AbstractLoginMethod) obj;
-        if (entityManager == null) {
-            if (other.entityManager != null)
+        if (entityManagerFactory == null) {
+            if (other.entityManagerFactory != null)
                 return false;
-        } else if (!entityManager.equals(other.entityManager))
+        } else if (!entityManagerFactory.equals(other.entityManagerFactory))
             return false;
         if (errorMessages == null) {
             if (other.errorMessages != null)
