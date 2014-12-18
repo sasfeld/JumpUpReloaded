@@ -36,7 +36,6 @@ import de.htw.fb4.imi.jumpup.user.util.HashGenerable;
     @NamedQuery(name = User.NAME_QUERY_BY_USERNAME, query = "SELECT u FROM User u WHERE u.username = :username"),
     @NamedQuery(name = User.NAME_QUERY_BY_EMAIL, query = "SELECT u FROM User u WHERE u.eMail = :email"),
     @NamedQuery(name = User.NAME_QUERY_LOGIN, query = "SELECT u FROM User u "
-            + "JOIN fetch u.userDetails "
             + "WHERE (u.eMail = :token OR u.username = :token) "
             + "AND u.passwordHash = :passwordHash"
            ),

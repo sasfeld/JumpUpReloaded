@@ -15,6 +15,8 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceUnit;
 import javax.persistence.Query;
 
+import de.htw.fb4.imi.jumpup.Application;
+import de.htw.fb4.imi.jumpup.Application.LogType;
 import de.htw.fb4.imi.jumpup.ApplicationError;
 import de.htw.fb4.imi.jumpup.settings.PersistenceSettings;
 import de.htw.fb4.imi.jumpup.user.entities.User;
@@ -113,17 +115,26 @@ public abstract class AbstractLoginMethod implements LoginMethod, Serializable
                 .setParameter("token", loginModel.getUsernameOrMail())
                 .setParameter("passwordHash", this.getHash(loginModel.getPassword()));
         
+        Application.log("Login lookForMatchingUser(): Token: " + loginModel.getUsernameOrMail() + "; Password: " + loginModel.getPassword() + "PasswordHash: " + this.getHash(loginModel.getPassword()), LogType.DEBUG, getClass());
+        
+        
         try {           
             User authenticatedUser = (User) qAuthentication.getSingleResult();
             
+            Application.log("Login lookForMatchingUser(): Got user from DB " + authenticatedUser.toString(), LogType.DEBUG, getClass());
+            
             // User isn't confirmed yet.
             if (!authenticatedUser.getIsConfirmed()) {
+                Application.log("Login lookForMatchingUser(): user not confirmed yet", LogType.DEBUG, getClass());
                 this.errorMessages.add("You weren't confirmed yet. Please check your eMails to confirm your account.");
                 return null;
             }
             
+            Application.log("Login lookForMatchingUser(): user was confirmed", LogType.DEBUG, getClass());
+            
             return authenticatedUser;
         } catch (NoResultException e) {
+            Application.log("Login lookForMatchingUser(): no result exception " + e.getMessage(), LogType.DEBUG, getClass());
             // no user found
             return null;
         }
