@@ -11,9 +11,9 @@ import de.htw.fb4.imi.jumpup.Application.LogType;
 import de.htw.fb4.imi.jumpup.controllers.AbstractFacesController;
 import de.htw.fb4.imi.jumpup.navigation.NavigationOutcomes;
 import de.htw.fb4.imi.jumpup.settings.BeanNames;
+import de.htw.fb4.imi.jumpup.user.details.UserDetailsMethod;
 import de.htw.fb4.imi.jumpup.user.entities.User;
 import de.htw.fb4.imi.jumpup.user.entities.UserDetails;
-import de.htw.fb4.imi.jumpup.user.registration.UserDetailsMethod;
 import de.htw.fb4.imi.jumpup.util.Gender;
 import de.htw.fb4.imi.jumpup.util.Languages;
 
@@ -53,11 +53,17 @@ public class UserDetailsController extends AbstractFacesController implements
         Application.log("UserDetailsContoller: current user " + currentUser,
                 LogType.DEBUG, getClass());
         
+        try {
+        
         if (null == currentUser.getUserDetails()) {
             return this.newUserDetails;
         }
         
         return currentUser.getUserDetails();
+        } catch (Exception e) {
+            Application.log("Exception here: " + e.getLocalizedMessage(), LogType.CRITICAL, getClass());
+            throw e;
+        }
     }
 
     /**

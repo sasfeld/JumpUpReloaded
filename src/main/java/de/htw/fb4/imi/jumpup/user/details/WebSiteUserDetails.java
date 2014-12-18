@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2014 Sebastian Renner, Marco Seidler, Sascha Feldmann
  */
-package de.htw.fb4.imi.jumpup.user.registration;
+package de.htw.fb4.imi.jumpup.user.details;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +12,6 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceUnit;
 
 import de.htw.fb4.imi.jumpup.Application;

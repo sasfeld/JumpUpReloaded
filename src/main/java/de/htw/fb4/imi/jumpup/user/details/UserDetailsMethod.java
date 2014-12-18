@@ -1,4 +1,4 @@
-package de.htw.fb4.imi.jumpup.user.registration;
+package de.htw.fb4.imi.jumpup.user.details;
 
 import javax.ejb.Local;
 

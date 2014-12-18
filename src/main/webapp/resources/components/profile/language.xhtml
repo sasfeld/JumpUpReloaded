@@ -12,7 +12,7 @@
 	</composite:interface>
 	<composite:implementation>
 		<h:outputText value="#{translator.translate('Language')}: "></h:outputText>
-		<h:selectManyMenu value="#{cc.attrs.valueBinding}">
+		<h:selectManyMenu value="#{cc.attrs.valueBinding}" collectionType="java.util.HashSet">
 			<f:selectItems value="#{userDetailsController.languages.allLanguages}"></f:selectItems>
 		</h:selectManyMenu>
 	</composite:implementation>

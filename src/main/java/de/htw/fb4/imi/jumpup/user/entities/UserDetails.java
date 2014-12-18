@@ -2,6 +2,7 @@ package de.htw.fb4.imi.jumpup.user.entities;
 
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Basic;
@@ -16,6 +17,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.Lob;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import de.htw.fb4.imi.jumpup.entities.AbstractEntity;
 import de.htw.fb4.imi.jumpup.util.Gender;
@@ -50,11 +52,14 @@ public class UserDetails extends AbstractEntity
     @Basic(fetch = FetchType.LAZY)
     protected Byte[] avatar;
 
-    @ElementCollection(targetClass = Languages.class)
+    @ElementCollection(targetClass = Languages.class, fetch = FetchType.EAGER)
     @JoinTable(name = "languages", joinColumns = @JoinColumn(name = "identity"))
     @Column(name = "languages", nullable = true, updatable = true)
     @Enumerated(EnumType.ORDINAL)
     protected Set<Languages> languages;
+    
+    @Transient
+    protected Set<String> stringLanguages;
 
     @Column(name = "gender", nullable = false, updatable = true)
     @Enumerated(EnumType.ORDINAL)
@@ -114,6 +119,27 @@ public class UserDetails extends AbstractEntity
     public void setLanguages(Set<Languages> languages)
     {
         this.languages = languages;
+    }
+
+    /**
+     * @return the stringLanguages
+     */
+    public Set<String> getStringLanguages()
+    {
+        return stringLanguages;
+    }
+
+    /**
+     * @param stringLanguages the stringLanguages to set
+     */
+    public void setStringLanguages(Set<String> stringLanguages)
+    {
+        this.stringLanguages = stringLanguages;
+        
+        HashSet<Languages> languagesSet = new HashSet<>();
+        for (String language : stringLanguages) {
+            languagesSet.add(Languages.valueOf(language));
+        }
     }
 
     public Gender getGender()
