@@ -31,4 +31,12 @@ public interface LoginMethod extends ErrorPrintable
      * @param loginModel
      */
     void logOut(final LoginModel loginModel); 
+    
+    /**
+     * Check if the user was registered freshly.
+     * 
+     * @param loginModel
+     * @return
+     */
+    boolean isNew(final LoginModel loginModel);
 }

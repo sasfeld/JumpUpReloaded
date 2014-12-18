@@ -236,4 +236,21 @@ public class UserDetails extends AbstractEntity
         return true;
     }
 
+    /**
+     * Check whether the user's details are filled/completed or whether he still needs to complete it.
+     * @return
+     */
+    public boolean isFilled()
+    {
+        if (null == this.avatar 
+                || null == this.dateOfBirth
+                || null == this.gender
+                || null == this.languages
+                || null == this.mobileNumber ) {
+            return false;
+        }
+        
+        return true;
+    }
+
 }

@@ -103,7 +103,7 @@ public abstract class AbstractLoginMethod implements LoginMethod, Serializable
         return em;
     }
 
-    protected User lookForMatchingUser(final LoginModel loginModel) throws ApplicationError
+    protected User  (final LoginModel loginModel) throws ApplicationError
     {
         // we need a fresh entity manager by the EM factory here, otherwise we will get a LazyLoadException
         EntityManager em = this.getFreshEntityManager();
@@ -150,6 +150,19 @@ public abstract class AbstractLoginMethod implements LoginMethod, Serializable
         loginModel.setCurrentUser(null);
         loginModel.setPassword(null);
         loginModel.setUsernameOrMail(null);        
+    }
+    
+    /*
+     * (non-Javadoc)
+     * @see de.htw.fb4.imi.jumpup.user.login.LoginMethod#isNew(de.htw.fb4.imi.jumpup.user.login.LoginModel)
+     */
+    public boolean isNew(final LoginModel loginModel) 
+    {
+        if (null == loginModel.getCurrentUser() || null == loginModel.getCurrentUser().getUserDetails()) {
+            return true;
+        }
+        
+        return loginModel.getCurrentUser().getUserDetails().isFilled();
     }
 
     /* (non-Javadoc)

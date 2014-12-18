@@ -72,6 +72,13 @@ public class Login extends AbstractFacesController implements Serializable
             // registration was performed successfully, so redirect to success
             // page
             if (!this.loginMethod.hasError()) {
+                // redirect to user's profile page if he was registered new
+                if (this.loginMethod.isNew(this.getLoginModel())) {
+                    this.addDisplayInfoMessage("Please fill in your profile information so that the other users know you better.");
+                    return NavigationOutcomes.TO_USER_PROFILE;
+                }
+                
+                // otherwise to default login page
                 return NavigationOutcomes.LOGIN_SUCCESS;
             }
 
