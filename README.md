@@ -32,7 +32,7 @@ Technologies
 ------------
 
 - Backend: J2EE
-- Database Management: Some JPA-Implementation
+- Database Management: Hibernate as JPA implementation with JNDI on a JBoss 7.2
 - Frontend: JQuery, Bootstrap, GoogleMap
 
 

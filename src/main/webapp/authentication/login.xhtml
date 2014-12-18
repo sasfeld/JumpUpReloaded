@@ -31,11 +31,13 @@
 					<div>
 						<h:outputText value="#{translator.translate('Hello').concat(' ').concat(loginController.loginModel.currentUser.prename).concat('!')}" />
 					</div>
-					<div>				
-					<h:form>
-						<h:commandLink value="#{translator.translate('Logout')}"
-							action="#{loginController.logoutUser}"></h:commandLink>
-					</h:form>
+					<div>
+						<h:link value="#{translator.translate('Profile')}" outcome="#{navigationBean.toUserProfileEdit()}"></h:link>
+										
+						<h:form>
+							<h:commandLink value="#{translator.translate('Logout')}"
+								action="#{loginController.logoutUser}"></h:commandLink>
+						</h:form>
 					</div>
 				</section>
 			</c:otherwise>

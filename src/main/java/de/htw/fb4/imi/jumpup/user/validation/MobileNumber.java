@@ -5,15 +5,12 @@
  */
 package de.htw.fb4.imi.jumpup.user.validation;
 
-
-
-import javax.faces.bean.RequestScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
 import javax.inject.Named;
 
-import de.htw.fb4.imi.jumpup.config.IConfigKeys;
 import de.htw.fb4.imi.jumpup.settings.BeanNames;
 import de.htw.fb4.imi.jumpup.validator.AbstractValidator;
 
@@ -21,14 +18,14 @@ import de.htw.fb4.imi.jumpup.validator.AbstractValidator;
  * <p></p>
  *
  * @author <a href="mailto:me@saschafeldmann.de">Sascha Feldmann</a>
- * @since 24.11.2014
+ * @since 14.12.2014
  *
  */
-@Named( value = BeanNames.PRENAME_VALIDATOR)
+@Named(value = BeanNames.MOBILE_NUMBER_VALIDATOR)
 @RequestScoped
-public class Prename extends AbstractValidator
-{   
-    public static String PATTERN_PRENAME = "[a-zA-Z- ]+";
+public class MobileNumber extends AbstractValidator
+{
+    private static final String REGEX_MOBILE_NUMBER = "^\\+[0-9]{1,3}[0-9 ]+";
 
     @Override    
     /* (non-Javadoc)
@@ -40,7 +37,7 @@ public class Prename extends AbstractValidator
         // throw validator with invalid entry message per default if validate() returns false
         if (!this.validate(value)) {
             // get first error message or print default
-            String msg = "The prename you entered is not valid.";
+            String msg = "You entered an invalid mobile number.";
             if (this.errorMessages.size() > 0) {
                 msg = (String) this.errorMessages.toArray()[0];
             }
@@ -56,67 +53,61 @@ public class Prename extends AbstractValidator
      */
     public boolean validate(final Object value)
     {
-        final String prename = ((String) value).trim();
+        final String mobileNumber = ((String) value).trim();
         
-        if (!this.checkLength(prename)
-                || !this.checkCharacters(prename)) {
+        if (!this.checkLength(mobileNumber)
+                || !this.checkPattern(mobileNumber)) {
                 return false;
             }
         
         return true;
     }
-
+    
     /**
-     * Check length from user.properties config.
-     * @param prename
+     * 
+     * @param mobileNumber
      * @return
      */
-    private boolean checkCharacters(String prename)
+    private boolean checkPattern(String mobileNumber)
     {
-        if (!prename.matches(PATTERN_PRENAME)) {
+        if (mobileNumber.matches(REGEX_MOBILE_NUMBER)) {
+            return true;
+        }
+        
+        // else: doesn't match        
+        this.errorMessages.add("The mobile number must have the standard format, e.g. +49 176 9999999");
+        return false;
+    }
+
+    /**
+     * 
+     * @param mobileNumber
+     * @return
+     */
+    protected boolean checkLength(String mobileNumber)
+    {        
+        if (mobileNumber.length() < this.getMinLength() || mobileNumber.length() > this.getMaxLength()) {
             return false;
         }
         
         return true;
     }
 
-    protected boolean checkLength(String prename)
-    {
-        // get values from user.properties configuration file
-        int minLength = this.getMinLength();
-        int maxLength = this.getMaxLength();
-        
-        if (prename.length() < minLength) {
-            this.errorMessages.add("The prename you entered is too short. Please type in at least " + minLength + " characters.");
-            
-            return false;
-        } else if (prename.length() > maxLength) {
-            this.errorMessages.add("The prename you entered is too long. Please type in maximum " + maxLength + " characters.");
-            
-            return false;
-        }
-        
-        return true;
-    }
-
-    @Override
-    /*
-     * (non-Javadoc)
+    /* (non-Javadoc)
      * @see de.htw.fb4.imi.jumpup.validator.JumpUpValidator#getMinLength()
      */
+    @Override
     public int getMinLength()
     {
-        return Integer.parseInt(userConfigReader.fetchValue(IConfigKeys.JUMPUP_USER_VALIDATION_PRENAME_MIN_LENGTH));
+        return 7;
     }
 
-    @Override
-    /*
-     * (non-Javadoc)
+    /* (non-Javadoc)
      * @see de.htw.fb4.imi.jumpup.validator.JumpUpValidator#getMaxLength()
      */
+    @Override
     public int getMaxLength()
     {
-        return Integer.parseInt(userConfigReader.fetchValue(IConfigKeys.JUMPUP_USER_VALIDATION_PRENAME_MAX_LENGTH));
+        return 100;
     }
-
 }

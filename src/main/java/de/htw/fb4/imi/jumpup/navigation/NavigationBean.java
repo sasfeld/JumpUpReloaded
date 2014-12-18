@@ -8,11 +8,14 @@ package de.htw.fb4.imi.jumpup.navigation;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import javax.enterprise.context.ApplicationScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 
 import de.htw.fb4.imi.jumpup.ApplicationError;
+import de.htw.fb4.imi.jumpup.settings.BeanNames;
 
 /**
  * <p></p>
@@ -21,6 +24,8 @@ import de.htw.fb4.imi.jumpup.ApplicationError;
  * @since 28.11.2014
  *
  */
+@Named(value = BeanNames.NAVIGATION_BEAN)
+@ApplicationScoped
 public class NavigationBean implements NavigationOutcomes
 {
 
@@ -65,5 +70,14 @@ public class NavigationBean implements NavigationOutcomes
     public static String redirectToLogin()
     {
         return "index.xhtml?faces-redirect=true";
+    }
+    
+    /**
+     * 
+     * @return
+     */
+    public String toUserProfileEdit()
+    {
+        return TO_USER_PROFILE;
     }
 }

@@ -5,6 +5,8 @@
  */
 package de.htw.fb4.imi.jumpup.entities;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -18,9 +20,14 @@ import javax.persistence.MappedSuperclass;
  *
  */
 @MappedSuperclass
-public class AbstractEntity
+public class AbstractEntity implements Serializable
 {
-    @Id
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -3703510461773241613L;
+
+	@Id
     @GeneratedValue
     @Column(name = "identity")
     protected long identity;
@@ -30,11 +37,16 @@ public class AbstractEntity
     
     @Column(name = "updated_at", nullable = true, updatable = true)
     protected Long updateTimestamp;
+    
+    public AbstractEntity()
+    {
+        super();
+    }
 
     /**
      * @return the identity
      */
-    public final long getIdentity()
+    public long getIdentity()
     {
         return identity;
     }
@@ -42,7 +54,7 @@ public class AbstractEntity
     /**
      * @param identity the identity to set
      */
-    public final void setIdentity(long identity)
+    public void setIdentity(long identity)
     {
         this.identity = identity;
     }
@@ -50,7 +62,7 @@ public class AbstractEntity
     /**
      * @return the creationTimestamp
      */
-    public final long getCreationTimestamp()
+    public long getCreationTimestamp()
     {
         return creationTimestamp;
     }
@@ -58,7 +70,7 @@ public class AbstractEntity
     /**
      * @param creationTimestamp the creationTimestamp to set
      */
-    public final void setCreationTimestamp(long creationTimestamp)
+    public void setCreationTimestamp(long creationTimestamp)
     {
         this.creationTimestamp = creationTimestamp;
     }
@@ -66,7 +78,7 @@ public class AbstractEntity
     /**
      * @return the updateTimestamp
      */
-    public final Long getUpdateTimestamp()
+    public Long getUpdateTimestamp()
     {
         return updateTimestamp;
     }
@@ -74,7 +86,7 @@ public class AbstractEntity
     /**
      * @param updateTimestamp the updateTimestamp to set
      */
-    public final void setUpdateTimestamp(Long updateTimestamp)
+    public void setUpdateTimestamp(Long updateTimestamp)
     {
         this.updateTimestamp = updateTimestamp;
     }

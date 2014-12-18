@@ -47,6 +47,11 @@ public interface IConfigKeys {
     String JUMPUP_MAIL_SMTP_USERNAME = "jumpup.mail.smtp.username";
     String JUMPUP_MAIL_SMTP_PASSWORD = "jumpup.mail.smtp.password";
     String JUMPUP_MAIL_SMTP_PROTOCOL = "jumpup.mail.smtp.protocol";
-    String JUMPUP_MAIL_SMTP_DEBUG = "jumpup.mail.smtp.debug";   
+    String JUMPUP_MAIL_SMTP_DEBUG = "jumpup.mail.smtp.debug";
+    String JUMPUP_USER_MINIMUM_AGE = "jumpup.user.minimum.age";
+    String JUMPUP_USER_PLACE_OF_BIRTH_MIN_LENGTH = "jumpup.user.place_of_birth.min_length";   
+    String JUMPUP_USER_PLACE_OF_BIRTH_MAX_LENGTH = "jumpup.user.place_of_birth.max_length";   
+    String JUMPUP_USER_COUNTRY_MIN_LENGTH = "jumpup.user.country.min_length";   
+    String JUMPUP_USER_COUNTRY_MAX_LENGTH = "jumpup.user.country.max_length";   
 
 }

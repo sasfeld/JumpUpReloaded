@@ -5,6 +5,8 @@
  */
 package de.htw.fb4.imi.jumpup.user.entities;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
@@ -18,8 +20,13 @@ import de.htw.fb4.imi.jumpup.settings.ResidenceSettings;
  *
  */
 @Embeddable
-public class Residence
+public class Residence implements Serializable
 {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 6165017279966202822L;
+
     @Column(name="town", nullable=true, updatable=true, length=ResidenceSettings.MAX_LENGTH_TOWN)
     protected String town;
     
@@ -28,6 +35,11 @@ public class Residence
     
     @Column(name="locale", nullable=true, updatable=true, length=ResidenceSettings.MAXL_LENGTH_LOCALE)
     protected String locale;
+    
+    public Residence()
+    {
+        super();
+    }
 
     /**
      * @return the town

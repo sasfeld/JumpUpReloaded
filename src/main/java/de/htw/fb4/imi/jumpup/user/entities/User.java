@@ -7,11 +7,13 @@ package de.htw.fb4.imi.jumpup.user.entities;
 
 import java.util.Arrays;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -39,6 +41,10 @@ import de.htw.fb4.imi.jumpup.user.util.HashGenerable;
            ),
 })
 public class User extends AbstractEntity {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -4397896384511726160L;
     /**
      * Name of named query to fetch users by username.
      */
@@ -69,11 +75,14 @@ public class User extends AbstractEntity {
     protected byte[] passwordHash;
 
     @Embedded
-    protected Residence residence;
+    private Residence residence;
 
     @Column(name = "is_confirmed", nullable = false, updatable = true)
     protected Boolean isConfirmed;
 
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    protected UserDetails userDetails;
+    
     /**
      * Hash generable.
      * 
@@ -81,11 +90,18 @@ public class User extends AbstractEntity {
      */
     @Transient
     protected HashGenerable hashGenerable;
+    
+    public User()
+    {
+        super();
+        
+        this.residence = new Residence();
+    }
 
     /**
      * @return the username
      */
-    public final String getUsername() {
+    public String getUsername() {
         return username;
     }
 
@@ -93,14 +109,14 @@ public class User extends AbstractEntity {
      * @param username
      *            the username to set
      */
-    public final void setUsername(String username) {
+    public void setUsername(String username) {
         this.username = username;
     }
 
     /**
      * @return the eMail
      */
-    public final String geteMail() {
+    public String geteMail() {
         return eMail;
     }
 
@@ -108,14 +124,14 @@ public class User extends AbstractEntity {
      * @param eMail
      *            the eMail to set
      */
-    public final void setEmail(String eMail) {
+    public void setEmail(String eMail) {
         this.eMail = eMail;
     }
 
     /**
      * @return the prename
      */
-    public final String getPrename() {
+    public String getPrename() {
         return prename;
     }
 
@@ -123,14 +139,14 @@ public class User extends AbstractEntity {
      * @param prename
      *            the prename to set
      */
-    public final void setPrename(String prename) {
+    public void setPrename(String prename) {
         this.prename = prename;
     }
 
     /**
      * @return the lastname
      */
-    public final String getLastname() {
+    public String getLastname() {
         return lastname;
     }
 
@@ -138,14 +154,14 @@ public class User extends AbstractEntity {
      * @param lastname
      *            the lastname to set
      */
-    public final void setLastname(String lastname) {
+    public void setLastname(String lastname) {
         this.lastname = lastname;
     }
 
     /**
      * @return the passwordHash
      */
-    public final byte[] getPasswordHash() {
+    public byte[] getPasswordHash() {
         return passwordHash;
     }
 
@@ -156,7 +172,7 @@ public class User extends AbstractEntity {
      * 
      * @param password
      */
-    public final void setPassword(String password) {
+    public void setPassword(String password) {
         if (null == this.hashGenerable) {
             throw new AssertionError(
                     "No hashGenerable instance given - can't generate password hash. Please make sure that the dependency injection is configured correctly.");
@@ -169,14 +185,14 @@ public class User extends AbstractEntity {
      * @param passwordHash
      *            the passwordHash to set
      */
-    protected final void setPasswordHash(byte[] passwordHash) {
+    protected void setPasswordHash(byte[] passwordHash) {
         this.passwordHash = passwordHash;
     }
 
     /**
      * @return the residence
      */
-    public final Residence getResidence() {
+    public Residence getResidence() {
         return residence;
     }
 
@@ -184,14 +200,14 @@ public class User extends AbstractEntity {
      * @param residence
      *            the residence to set
      */
-    public final void setResidence(Residence residence) {
+    public void setResidence(Residence residence) {
         this.residence = residence;
     }
 
     /**
      * @return the isConfirmed
      */
-    public final Boolean getIsConfirmed() {
+    public Boolean getIsConfirmed() {
         return isConfirmed;
     }
 
@@ -199,7 +215,7 @@ public class User extends AbstractEntity {
      * @param isConfirmed
      *            the isConfirmed to set
      */
-    public final void setIsConfirmed(Boolean isConfirmed) {
+    public void setIsConfirmed(Boolean isConfirmed) {
         this.isConfirmed = isConfirmed;
     }
 
@@ -211,6 +227,30 @@ public class User extends AbstractEntity {
      */
     public void setHashGenerable(final HashGenerable newPasswordHashGenerable) {
         this.hashGenerable = newPasswordHashGenerable;
+    }
+
+    /**
+     * @return the userDetails
+     */
+    public UserDetails getUserDetails()
+    {
+        return userDetails;
+    }
+
+    /**
+     * @param userDetails the userDetails to set
+     */
+    public void setUserDetails(UserDetails userDetails)
+    {
+        this.userDetails = userDetails;
+    }
+
+    /**
+     * @param eMail the eMail to set
+     */
+    public void seteMail(String eMail)
+    {
+        this.eMail = eMail;
     }
 
     /*

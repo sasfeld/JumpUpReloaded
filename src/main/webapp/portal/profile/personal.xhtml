@@ -1,0 +1,44 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:profile="http://java.sun.com/jsf/composite/components/profile"
+	>
+
+<ui:composition template="../../resources/templates/basic/BasicTemplate.xhtml">
+	<ui:define name="content">
+		<div>
+			#{translator.translate('Edit your profile')}
+		</div>
+		<div>	
+			<h:form id="userDetailsForm">
+		    	<h:messages errorClass="errorMessage" infoClass="infoMessage" warnClass="warnMessage"></h:messages>	 	
+			 	<h:panelGrid columns="1">
+		    		<profile:gender valueBinding="#{userDetailsController.userDetails.gender}"/>
+		    		
+		    		<profile:date_of_birth valueBinding="#{userDetailsController.userDetails.dateOfBirth}"/>
+		    		
+		    		<profile:place_of_birth valueBinding="#{userDetailsController.userDetails.placeOfBirth}"/>
+	
+		    		<profile:language valueBinding="#{userDetailsController.userDetails.stringLanguages}"/>
+	
+<!-- 		    		<profile:town valueBinding="#{loginController.loginModel.currentUser.residence.town}"/> -->
+		    		
+<!-- 		    		<profile:country valueBinding="#{loginController.loginModel.currentUser.residence.country}"/>  -->
+		    		
+		    		<profile:mobile_number valueBinding="#{userDetailsController.userDetails.mobileNumber}"/> 
+	
+		    		<profile:skype valueBinding="#{userDetailsController.userDetails.skype}"/>	    		
+		    		
+		    		<h:commandButton value="#{translator.translate('Submit')}"
+	    			action="#{userDetailsController.editProfile}"></h:commandButton>
+		    	</h:panelGrid>	 	
+		    </h:form>
+		</div>
+	</ui:define>
+</ui:composition>
+
+</html>

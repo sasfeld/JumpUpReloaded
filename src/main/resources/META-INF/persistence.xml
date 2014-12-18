@@ -21,6 +21,9 @@
 			<property name="hibernate.cache.use_second_level_cache"	value="true" />
 			<property name="hibernate.cache.use_query_cache" value="true" />
 			
+			<!--  don't close session after commit  -->
+			<property name="current_session_context_class" value="thread" />
+			
 			<!-- SQL IMPORT -->
 			<!-- <property name="hibernate.hbm2ddl.import_files" value="import/import.sql"/> -->			
 		</properties>

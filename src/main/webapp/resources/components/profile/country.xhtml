@@ -1,0 +1,24 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:composite="http://java.sun.com/jsf/composite"
+	xmlns:p="http://xmlns.jcp.org/jsf/passthrough"	
+	xmlns:jsf="http://xmlns.jcp.org/jsf"
+>
+
+	<composite:interface>
+		<composite:attribute name="valueBinding" required="true" />
+	</composite:interface>
+	<composite:implementation>
+		<h:outputText value="#{translator.translate('Country')}: "></h:outputText>
+		<h:inputText id="email" 
+				value="#{cc.attrs.valueBinding}"
+				p:required="required"
+				p:title="#{translator.translate('Please enter a valid country with at least ').concat(countryValidator.getMinLength()).concat(' and maximal ').concat(countryValidator.getMaxLength()).concat(' characters.')}"
+				p:pattern=".{#{countryValidator.getMinLength()},#{countryValidator.getMaxLength()}}">
+				<f:validator binding="#{countryValidator}" />
+		</h:inputText>
+	</composite:implementation>
+
+</html>
