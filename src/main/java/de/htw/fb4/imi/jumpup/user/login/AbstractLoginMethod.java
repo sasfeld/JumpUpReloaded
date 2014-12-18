@@ -103,7 +103,7 @@ public abstract class AbstractLoginMethod implements LoginMethod, Serializable
         return em;
     }
 
-    protected User  (final LoginModel loginModel) throws ApplicationError
+    protected User lookForMatchingUser(final LoginModel loginModel) throws ApplicationError
     {
         // we need a fresh entity manager by the EM factory here, otherwise we will get a LazyLoadException
         EntityManager em = this.getFreshEntityManager();
