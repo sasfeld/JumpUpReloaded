@@ -26,7 +26,7 @@ import de.htw.fb4.imi.jumpup.validator.AbstractValidator;
 @RequestScoped
 public class Country extends AbstractValidator
 {
-    private static final String PATTERN_COUNTRY = "[A-Z- ]+";
+    private static final String PATTERN_COUNTRY = "[A-Za-z- ]+";
 
     @Override    
     /* (non-Javadoc)

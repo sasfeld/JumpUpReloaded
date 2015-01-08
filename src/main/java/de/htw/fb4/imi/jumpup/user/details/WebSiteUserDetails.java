@@ -5,9 +5,6 @@
  */
 package de.htw.fb4.imi.jumpup.user.details;
 
-import java.io.FileReader;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -109,6 +106,7 @@ public class WebSiteUserDetails implements UserDetailsMethod
             userDetails.setUser(currentUser);
             Application.log("WebSiteUserDetails: try to add userDetails",
                     LogType.DEBUG, getClass());
+            entityManager.merge(currentUser);
             entityManager.merge(userDetails);
             entityManager.flush();
             Application.log("WebSiteUserDetails: persist success",

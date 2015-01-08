@@ -26,7 +26,7 @@ import de.htw.fb4.imi.jumpup.validator.AbstractValidator;
 @RequestScoped
 public class Town extends AbstractValidator
 {
-    private static final String PATTERN_TOWN = "[A-Z- ]+";
+    private static final String PATTERN_TOWN = "[A-Za-z- ]+";
 
     @Override    
     /* (non-Javadoc)

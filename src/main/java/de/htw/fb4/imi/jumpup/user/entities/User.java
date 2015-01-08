@@ -9,7 +9,6 @@ import java.util.Arrays;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -18,6 +17,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import de.htw.fb4.imi.jumpup.entities.AbstractEntity;
+import de.htw.fb4.imi.jumpup.settings.ResidenceSettings;
 import de.htw.fb4.imi.jumpup.settings.UserSettings;
 import de.htw.fb4.imi.jumpup.user.util.HashGenerable;
 
@@ -74,8 +74,14 @@ public class User extends AbstractEntity {
     @Column(name = "passwordhash", nullable = false, updatable = true, columnDefinition = "BINARY(32)")
     protected byte[] passwordHash;
 
-    @Embedded
-    private Residence residence;
+    @Column(name="town", nullable=true, updatable=true, length=ResidenceSettings.MAX_LENGTH_TOWN)
+    protected String town;
+    
+    @Column(name="country", nullable=true, updatable=true, length=ResidenceSettings.MAX_LENGTH_COUNTRY)
+    protected String country;
+    
+    @Column(name="locale", nullable=true, updatable=true, length=ResidenceSettings.MAXL_LENGTH_LOCALE)
+    protected String locale;
 
     @Column(name = "is_confirmed", nullable = false, updatable = true)
     protected Boolean isConfirmed;
@@ -95,7 +101,7 @@ public class User extends AbstractEntity {
     {
         super();
         
-        this.residence = new Residence();
+//        this.residence = new Residence();
     }
 
     /**
@@ -190,21 +196,6 @@ public class User extends AbstractEntity {
     }
 
     /**
-     * @return the residence
-     */
-    public Residence getResidence() {
-        return residence;
-    }
-
-    /**
-     * @param residence
-     *            the residence to set
-     */
-    public void setResidence(Residence residence) {
-        this.residence = residence;
-    }
-
-    /**
      * @return the isConfirmed
      */
     public Boolean getIsConfirmed() {
@@ -252,6 +243,55 @@ public class User extends AbstractEntity {
     {
         this.eMail = eMail;
     }
+    
+
+    /**
+     * @return the town
+     */
+    public final String getTown()
+    {
+        return town;
+    }
+
+    /**
+     * @param town the town to set
+     */
+    public final void setTown(String town)
+    {
+        this.town = town;
+    }
+
+    /**
+     * @return the country
+     */
+    public final String getCountry()
+    {
+        return country;
+    }
+
+    /**
+     * @param country the country to set
+     */
+    public final void setCountry(String country)
+    {
+        this.country = country;
+    }
+
+    /**
+     * @return the locale
+     */
+    public final String getLocale()
+    {
+        return locale;
+    }
+
+    /**
+     * @param locale the locale to set
+     */
+    public final void setLocale(String locale)
+    {
+        this.locale = locale;
+    }
 
     /*
      * (non-Javadoc)
@@ -269,8 +309,6 @@ public class User extends AbstractEntity {
                 + ((lastname == null) ? 0 : lastname.hashCode());
         result = prime * result + Arrays.hashCode(passwordHash);
         result = prime * result + ((prename == null) ? 0 : prename.hashCode());
-        result = prime * result
-                + ((residence == null) ? 0 : residence.hashCode());
         result = prime * result
                 + ((username == null) ? 0 : username.hashCode());
         return result;
@@ -312,11 +350,6 @@ public class User extends AbstractEntity {
                 return false;
         } else if (!prename.equals(other.prename))
             return false;
-        if (residence == null) {
-            if (other.residence != null)
-                return false;
-        } else if (!residence.equals(other.residence))
-            return false;
         if (username == null) {
             if (other.username != null)
                 return false;
@@ -343,8 +376,6 @@ public class User extends AbstractEntity {
         builder.append(lastname);
         builder.append(", passwordHash=");
         builder.append(Arrays.toString(passwordHash));
-        builder.append(", residence=");
-        builder.append(residence);
         builder.append(", isConfirmed=");
         builder.append(isConfirmed);
         builder.append("]");

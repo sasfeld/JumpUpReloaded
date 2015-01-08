@@ -5,7 +5,6 @@
  */
 package de.htw.fb4.imi.jumpup.test.user.entities;
 
-import de.htw.fb4.imi.jumpup.user.entities.Residence;
 import de.htw.fb4.imi.jumpup.user.entities.User;
 import de.htw.fb4.imi.jumpup.user.util.HashGenerable;
 import de.htw.fb4.imi.jumpup.user.util.PasswordHashGenerator;
@@ -24,7 +23,6 @@ public class UserFactory
     {
         User newUser = new User();
         newUser.setHashGenerable(newPasswordHashGenerable());
-        newUser.setResidence(newResidence());
         
         return newUser;        
     }
@@ -34,8 +32,4 @@ public class UserFactory
         return new PasswordHashGenerator();
     }
     
-    public static Residence newResidence()
-    {
-        return new Residence();
-    }
 }
