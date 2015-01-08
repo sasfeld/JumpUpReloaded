@@ -13,7 +13,7 @@
 		<div>
 			#{translator.translate('Edit your profile')}
 		</div>
-		<div>	
+		<div>
 			<h:form id="userDetailsForm">
 		    	<h:messages errorClass="errorMessage" infoClass="infoMessage" warnClass="warnMessage"></h:messages>	 	
 			 	<h:panelGrid columns="1">
@@ -37,6 +37,14 @@
 	    			action="#{userDetailsController.editProfile}"></h:commandButton>
 		    	</h:panelGrid>	 	
 		    </h:form>
+		</div>
+		<div>
+			<h:form id="userAvatarForm" enctype="multipart/form-data">
+				 <profile:avatar valueBinding="#{userDetailsController.userDetails.avatarFile}" />
+				 
+				 <h:commandButton value="Upload"
+     				 action="#{userDetailsController.uploadAvatar}"/>
+			</h:form>
 		</div>
 	</ui:define>
 </ui:composition>

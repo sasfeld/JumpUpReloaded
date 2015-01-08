@@ -129,4 +129,32 @@ public class UserDetailsController extends AbstractFacesController implements
 
         return NavigationOutcomes.TO_USER_PROFILE;
     }
+    
+    /**
+     * Action for uploading the {@link User} avatar which is saved in his/her related {@link UserDetails}.
+     * 
+     * @return {@link NavigationOutcomes.TO_USER_PROFILE}
+     */
+    public String uploadAvatar()
+    {
+        try {
+            Application.log("UserDetailsContoller: try to upload avatar",
+                    LogType.DEBUG, getClass());
+            userDetailsMethod.uploadAvatar(getUserDetails());
+            if (userDetailsMethod.hasError()) {
+                for (String error : userDetailsMethod.getErrors()) {
+                    this.addDisplayErrorMessage(error);
+                }
+            } else {
+                addDisplayInfoMessage("Your avatar have been saved.");
+            }
+
+        } catch (Exception e) {
+            Application.log("UserDetailsController: " + e.getMessage(),
+                    LogType.ERROR, getClass());
+            this.addDisplayErrorMessage("Could not upload your avatar.");
+        }
+        
+        return NavigationOutcomes.TO_USER_PROFILE;
+    }
 }

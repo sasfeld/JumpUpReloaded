@@ -8,7 +8,7 @@ import de.htw.fb4.imi.jumpup.util.ErrorPrintable;
 /**
  * 
  * <p>
- * Interface for filling the {@link UserDetails} can tigger
+ * Interface for filling the {@link UserDetails} can trigger
  * {@link ErrorPrintable}.
  * </p>
  * 
@@ -21,12 +21,18 @@ public interface UserDetailsMethod extends ErrorPrintable
 {
 
     /**
-     * Methode checks the given {@link UserDetails} and can tigger
+     * Method checks the given {@link UserDetails} and can trigger
      * {@link ErrorPrintable}.
      * 
      * @param userDetails
      *            - the {@link UserDetails}
      */
     void sendUserDetails(UserDetails userDetails);
+
+    /**
+     * Take the user's avatar and store it in the {@link UserDetails} instance. 
+     * @param userDetails
+     */
+    void uploadAvatar(UserDetails userDetails);
 
 }

@@ -52,6 +52,7 @@ public interface IConfigKeys {
     String JUMPUP_USER_PLACE_OF_BIRTH_MIN_LENGTH = "jumpup.user.place_of_birth.min_length";   
     String JUMPUP_USER_PLACE_OF_BIRTH_MAX_LENGTH = "jumpup.user.place_of_birth.max_length";   
     String JUMPUP_USER_COUNTRY_MIN_LENGTH = "jumpup.user.country.min_length";   
-    String JUMPUP_USER_COUNTRY_MAX_LENGTH = "jumpup.user.country.max_length";   
+    String JUMPUP_USER_COUNTRY_MAX_LENGTH = "jumpup.user.country.max_length";
+    String JUMPUP_USER_AVATAR_MAX_SIZE = "jumpup.user.avatar.max_size";   
 
 }

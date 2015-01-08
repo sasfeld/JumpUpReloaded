@@ -1,5 +1,6 @@
 package de.htw.fb4.imi.jumpup.user.entities;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashSet;
@@ -70,6 +71,9 @@ public class UserDetails extends AbstractEntity
 
     @Column(name = "skype", nullable = false, updatable = true)
     protected String skype;
+    
+    @Transient
+    protected File avatarFile;
 
     public User getUser()
     {
@@ -172,6 +176,23 @@ public class UserDetails extends AbstractEntity
         this.skype = skype;
     }
 
+    /**
+     * @return the avatarFile
+     */
+    public File getAvatarFile()
+    {
+        return avatarFile;
+    }
+
+    /**
+     * Set the file which will be set into the avatar bytecode.
+     * @param avatarFile the avatarFile to set
+     */
+    public void setAvatarFile(File avatarFile)
+    {
+        this.avatarFile = avatarFile;
+    }
+
     @Override
     public int hashCode()
     {
@@ -252,5 +273,4 @@ public class UserDetails extends AbstractEntity
         
         return true;
     }
-
 }

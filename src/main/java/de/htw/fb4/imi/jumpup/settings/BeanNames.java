@@ -49,4 +49,5 @@ public interface BeanNames
     String TOWN_VALIDATOR = "townValidator";
     String PLACE_OF_BIRTH_VALIDATOR = "placeOfBirthValidator";
     String COUNTRY_VALIDATOR = "countryValidator";
+    String AVATAR_FILE_VALIDATOR = "avatarFileValidator";
 }
