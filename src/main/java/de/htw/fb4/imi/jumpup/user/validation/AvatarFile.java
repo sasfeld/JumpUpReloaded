@@ -11,6 +11,8 @@ import javax.faces.validator.ValidatorException;
 import javax.inject.Named;
 import javax.servlet.http.Part;
 
+import de.htw.fb4.imi.jumpup.Application;
+import de.htw.fb4.imi.jumpup.Application.LogType;
 import de.htw.fb4.imi.jumpup.config.IConfigKeys;
 import de.htw.fb4.imi.jumpup.settings.BeanNames;
 import de.htw.fb4.imi.jumpup.validator.AbstractValidator;
@@ -37,6 +39,8 @@ public class AvatarFile extends AbstractValidator
     public void validate(final FacesContext context, final UIComponent component,
             final Object value) throws ValidatorException
     {
+        Application.log("AvatarFile: validating users input",
+                LogType.DEBUG, getClass());
         // throw validator with invalid entry message per default if validate() returns false
         if (!this.validate(value)) {
             // get first error message or print default
@@ -44,6 +48,9 @@ public class AvatarFile extends AbstractValidator
             if (this.errorMessages.size() > 0) {
                 msg = (String) this.errorMessages.toArray()[0];
             }
+            
+            Application.log("AvatarFile: validation failed",
+                    LogType.DEBUG, getClass());
             
             throw new ValidatorException(this.facesFacade.newValidationErrorMessage(msg, 
                     msg));
@@ -71,6 +78,7 @@ public class AvatarFile extends AbstractValidator
         if (!avatarFile.getContentType().equals(CONTENT_TYPE_PNG)
                 || !avatarFile.getContentType().equals(CONTENT_TYPE_JPG)
            ) {
+            this.errorMessages.add("The avatar file must be of type png or jpg.");
             return false;
         }
         return true;
@@ -80,6 +88,7 @@ public class AvatarFile extends AbstractValidator
     {
         if (avatarFile.getSize() > getMaxLength() 
                 || avatarFile.getSize() < getMinLength()) {
+            this.errorMessages.add("The avatar file musn't have more than " + getMaxLength() + " bytes.");
             return false;
         }
         

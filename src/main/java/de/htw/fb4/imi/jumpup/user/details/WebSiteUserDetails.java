@@ -17,6 +17,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
 
+import org.apache.commons.io.IOUtils;
+
 import de.htw.fb4.imi.jumpup.Application;
 import de.htw.fb4.imi.jumpup.Application.LogType;
 import de.htw.fb4.imi.jumpup.settings.BeanNames;
@@ -157,8 +159,7 @@ public class WebSiteUserDetails implements UserDetailsMethod
     private Byte[] readAvatarBytes(UserDetails userDetails)
     {
         try {
-            byte[] fileContents = Files.readAllBytes(Paths.get(userDetails
-                    .getAvatarFile().getAbsolutePath()));
+            byte[] fileContents = IOUtils.toByteArray(userDetails.getAvatarFile().getInputStream());
 
             return this.toWrappedArray(fileContents);
         } catch (Exception e) {

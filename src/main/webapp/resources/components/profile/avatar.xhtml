@@ -12,8 +12,9 @@
 	</composite:interface>
 	<composite:implementation>
 		<h:outputText value="#{translator.translate('Avatar (.png, .jpeg)')}: "></h:outputText>
-		<h:inputFile id="avatar_file" value="#{cc.attrs.valueBinding}">
-			<f:validator binding="#{avatarValidator}" />
+		<h:inputFile id="avatar_file" value="#{cc.attrs.valueBinding}"
+			required="true" requiredMessage="#{translator.translate('Please hand in an avatar file.')}">
+			<f:validator binding="#{avatarFileValidator}" />
 		</h:inputFile>
 	</composite:implementation>
 

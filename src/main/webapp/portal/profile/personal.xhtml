@@ -3,15 +3,15 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:profile="http://java.sun.com/jsf/composite/components/profile"
 	>
 
 <ui:composition template="../../resources/templates/basic/BasicTemplate.xhtml">
 	<ui:define name="content">
 		<div>
-			#{translator.translate('Edit your profile')}
+			<h2>#{translator.translate('Edit your profile')}</h2>
 		</div>
 		<div>
 			<h:form id="userDetailsForm">
@@ -39,11 +39,10 @@
 		    </h:form>
 		</div>
 		<div>
-			<h:form id="userAvatarForm" enctype="multipart/form-data">
-				 <profile:avatar valueBinding="#{userDetailsController.userDetails.avatarFile}" />
-				 
-				 <h:commandButton value="Upload"
-     				 action="#{userDetailsController.uploadAvatar}"/>
+			<h2>#{translator.translate('Change your avatar')}</h2>
+			<h:form id="form" enctype="multipart/form-data">
+			  <h:inputFile id="file" value="#{userDetailsController.userDetails.avatarFile}"/>
+			  <h:commandButton value="Upload" action="#{userDetailsController.uploadAvatar}"/>
 			</h:form>
 		</div>
 	</ui:define>

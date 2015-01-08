@@ -1,6 +1,5 @@
 package de.htw.fb4.imi.jumpup.user.entities;
 
-import java.io.File;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashSet;
@@ -19,6 +18,7 @@ import javax.persistence.Lob;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.servlet.http.Part;
 
 import de.htw.fb4.imi.jumpup.entities.AbstractEntity;
 import de.htw.fb4.imi.jumpup.util.Gender;
@@ -73,7 +73,7 @@ public class UserDetails extends AbstractEntity
     protected String skype;
     
     @Transient
-    protected File avatarFile;
+    protected Part avatarFile;
 
     public User getUser()
     {
@@ -179,7 +179,7 @@ public class UserDetails extends AbstractEntity
     /**
      * @return the avatarFile
      */
-    public File getAvatarFile()
+    public Part getAvatarFile()
     {
         return avatarFile;
     }
@@ -188,7 +188,7 @@ public class UserDetails extends AbstractEntity
      * Set the file which will be set into the avatar bytecode.
      * @param avatarFile the avatarFile to set
      */
-    public void setAvatarFile(File avatarFile)
+    public void setAvatarFile(Part avatarFile)
     {
         this.avatarFile = avatarFile;
     }
