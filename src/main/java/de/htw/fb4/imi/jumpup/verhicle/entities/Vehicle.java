@@ -35,5 +35,71 @@ public class Vehicle extends AbstractEntity
 
     @OneToMany
     @JoinColumn(name = "vehicle")
-    public List<Trip> trips;
+    protected List<Trip> trips;
+
+    /**
+     * @return the trips
+     */
+    public List<Trip> getTrips()
+    {
+        return trips;
+    }
+
+    /**
+     * @param trips the trips to set
+     */
+    public void setTrips(List<Trip> trips)
+    {
+        this.trips = trips;
+    }
+
+    /* (non-Javadoc)
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode()
+    {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((trips == null) ? 0 : trips.hashCode());
+        return result;
+    }
+
+    /* (non-Javadoc)
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object obj)
+    {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Vehicle other = (Vehicle) obj;
+        if (trips == null) {
+            if (other.trips != null)
+                return false;
+        } else if (!trips.equals(other.trips))
+            return false;
+        return true;
+    }
+
+    /* (non-Javadoc)
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString()
+    {
+        StringBuilder builder = new StringBuilder();
+        builder.append("Vehicle [getTrips()=");
+        builder.append(getTrips());
+        builder.append(", hashCode()=");
+        builder.append(hashCode());
+        builder.append("]");
+        return builder.toString();
+    }
+    
+    
 }
