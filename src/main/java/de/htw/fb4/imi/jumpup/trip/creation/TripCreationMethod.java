@@ -9,6 +9,7 @@ import javax.ejb.Local;
 
 import de.htw.fb4.imi.jumpup.trip.entities.Trip;
 import de.htw.fb4.imi.jumpup.user.entities.User;
+import de.htw.fb4.imi.jumpup.util.ErrorPrintable;
 
 /**
  * <p>Business interface to be used within the creation of {@link Trip} entities.</p>
@@ -24,7 +25,7 @@ import de.htw.fb4.imi.jumpup.user.entities.User;
  *
  */
 @Local
-public interface TripCreationMethod
+public interface TripCreationMethod extends ErrorPrintable
 {
     /**
      * Add / persist the given {@link Trip} and do further related work.

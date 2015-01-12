@@ -52,4 +52,5 @@ public interface BeanNames
     String AVATAR_FILE_VALIDATOR = "avatarFileValidator";
     
     String WEBSITE_TRIP_CREATION = "websiteTripCreation";
+    String TRIP_CREATION_CONTROLLER = "tripCreationController";
 }
