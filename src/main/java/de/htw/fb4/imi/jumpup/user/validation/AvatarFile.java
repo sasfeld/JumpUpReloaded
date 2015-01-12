@@ -5,28 +5,32 @@
  */
 package de.htw.fb4.imi.jumpup.user.validation;
 
-import javax.enterprise.context.RequestScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
 import javax.inject.Named;
+import javax.servlet.http.Part;
 
+import de.htw.fb4.imi.jumpup.Application;
+import de.htw.fb4.imi.jumpup.Application.LogType;
 import de.htw.fb4.imi.jumpup.config.IConfigKeys;
 import de.htw.fb4.imi.jumpup.settings.BeanNames;
 import de.htw.fb4.imi.jumpup.validator.AbstractValidator;
 
 /**
- * <p></p>
+ * <p>Validator for the user's avatar file.</p>
+ * 
+ * <p>The file will be uploaded via file upload.</p> 
  *
  * @author <a href="mailto:me@saschafeldmann.de">Sascha Feldmann</a>
- * @since 14.12.2014
+ * @since 08.01.2015
  *
  */
-@Named(value = BeanNames.COUNTRY_VALIDATOR)
-@RequestScoped
-public class Country extends AbstractValidator
+@Named(value = BeanNames.AVATAR_FILE_VALIDATOR)
+public class AvatarFile extends AbstractValidator
 {
-    private static final String PATTERN_COUNTRY = "[A-Za-z- ]+";
+    private static final String CONTENT_TYPE_PNG = "image/png";
+    private static final String CONTENT_TYPE_JPG = "image/jpeg";
 
     @Override    
     /* (non-Javadoc)
@@ -35,13 +39,18 @@ public class Country extends AbstractValidator
     public void validate(final FacesContext context, final UIComponent component,
             final Object value) throws ValidatorException
     {
+        Application.log("AvatarFile: validating users input",
+                LogType.DEBUG, getClass());
         // throw validator with invalid entry message per default if validate() returns false
         if (!this.validate(value)) {
             // get first error message or print default
-            String msg = "You entered an invalid country.";
+            String msg = "Your avatar file is not valid.";
             if (this.errorMessages.size() > 0) {
                 msg = (String) this.errorMessages.toArray()[0];
             }
+            
+            Application.log("AvatarFile: validation failed",
+                    LogType.DEBUG, getClass());
             
             throw new ValidatorException(this.facesFacade.newValidationErrorMessage(msg, 
                     msg));
@@ -54,26 +63,37 @@ public class Country extends AbstractValidator
      */
     public boolean validate(final Object value)
     {
-        final String country = ((String) value).trim();
+        final Part avatarFile = (Part) value;
         
-        if (!this.checkLength(country)
-                || !this.checkPattern(country)) {
+        if (!this.checkLength(avatarFile)
+                || !this.checkType(avatarFile)) {
                 return false;
             }
         
         return true;
     }
-    
-    private boolean checkPattern(String placeOfBirth)
+
+    private boolean checkType(final Part avatarFile)
     {
-        if (placeOfBirth.matches(PATTERN_COUNTRY))
-        {
-          return true;
+        if (!avatarFile.getContentType().equals(CONTENT_TYPE_PNG)
+                || !avatarFile.getContentType().equals(CONTENT_TYPE_JPG)
+           ) {
+            this.errorMessages.add("The avatar file must be of type png or jpg.");
+            return false;
+        }
+        return true;
+    }
+
+    private boolean checkLength(Part avatarFile)
+    {
+        if (avatarFile.getSize() > getMaxLength() 
+                || avatarFile.getSize() < getMinLength()) {
+            this.errorMessages.add("The avatar file musn't have more than " + getMaxLength() + " bytes.");
+            return false;
         }
         
-        return false;
+        return true;
     }
-   
 
     /* (non-Javadoc)
      * @see de.htw.fb4.imi.jumpup.validator.JumpUpValidator#getMinLength()
@@ -81,7 +101,7 @@ public class Country extends AbstractValidator
     @Override
     public int getMinLength()
     {
-        return Integer.parseInt(this.userConfigReader.fetchValue(IConfigKeys.JUMPUP_USER_COUNTRY_MIN_LENGTH));
+        return 0;
     }
 
     /* (non-Javadoc)
@@ -90,7 +110,7 @@ public class Country extends AbstractValidator
     @Override
     public int getMaxLength()
     {
-        return Integer.parseInt(this.userConfigReader.fetchValue(IConfigKeys.JUMPUP_USER_COUNTRY_MAX_LENGTH));
+        return Integer.parseInt(this.userConfigReader.fetchValue(IConfigKeys.JUMPUP_USER_AVATAR_MAX_SIZE));
     }
 
 }

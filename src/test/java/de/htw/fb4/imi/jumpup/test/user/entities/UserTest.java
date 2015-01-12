@@ -74,9 +74,9 @@ public class UserTest
         anotherUser.setLastname("Keks");
         anotherUser.setUsername("cookiesanddonuts");
         
-        anotherUser.getResidence().setCountry("Cookieland");
-        anotherUser.getResidence().setTown("Cookietown");
-        anotherUser.getResidence().setLocale(Locale.CHINESE.getLanguage());
+        anotherUser.setCountry("Cookieland");
+        anotherUser.setTown("Cookietown");
+        anotherUser.setLocale(Locale.CHINESE.getLanguage());
         
         return anotherUser;
     }
@@ -89,9 +89,9 @@ public class UserTest
         this.userEntity.setLastname("Nervbalg");
         this.userEntity.setUsername("kevinnervt");
         
-        this.userEntity.getResidence().setCountry("Schland");
-        this.userEntity.getResidence().setTown("Nervstadt");
-        this.userEntity.getResidence().setLocale(Locale.GERMAN.getLanguage());
+        this.userEntity.setCountry("Schland");
+        this.userEntity.setTown("Nervstadt");
+        this.userEntity.setLocale(Locale.GERMAN.getLanguage());
         
     }
 

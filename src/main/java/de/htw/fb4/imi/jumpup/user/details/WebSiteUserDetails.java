@@ -14,6 +14,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
 
+import org.apache.commons.io.IOUtils;
+
 import de.htw.fb4.imi.jumpup.Application;
 import de.htw.fb4.imi.jumpup.Application.LogType;
 import de.htw.fb4.imi.jumpup.settings.BeanNames;
@@ -34,7 +36,7 @@ import de.htw.fb4.imi.jumpup.user.entities.UserDetails;
  */
 @Stateless(name = BeanNames.WEBSITE_USER_DETAILS)
 public class WebSiteUserDetails implements UserDetailsMethod
-{   
+{
     @PersistenceUnit(unitName = PersistenceSettings.PERSISTENCE_UNIT)
     protected EntityManagerFactory entityManagerFactory;
 
@@ -79,11 +81,11 @@ public class WebSiteUserDetails implements UserDetailsMethod
         // TODO Auto-generated method stub
         return null;
     }
-    
+
     protected EntityManager getFreshEntityManager()
     {
         EntityManager em = this.entityManagerFactory.createEntityManager();
-        
+
         return em;
     }
 
@@ -100,20 +102,89 @@ public class WebSiteUserDetails implements UserDetailsMethod
         EntityManager entityManager = this.getFreshEntityManager();
         try {
             User currentUser = login.getLoginModel().getCurrentUser();
-            
+
             userDetails.setUser(currentUser);
             Application.log("WebSiteUserDetails: try to add userDetails",
                     LogType.DEBUG, getClass());
+            entityManager.merge(currentUser);
             entityManager.merge(userDetails);
-
+            entityManager.flush();
             Application.log("WebSiteUserDetails: persist success",
                     LogType.DEBUG, getClass());
         } catch (Exception e) {
             Application.log(e.getMessage(), LogType.ERROR, getClass());
-            try {entityManager.getTransaction().rollback();} catch (Exception e2) {}
+            try {
+                entityManager.getTransaction().rollback();
+            } catch (Exception e2) {
+            }
             errors.add("Internal Server Error, please contact the provider or try again.");
         }
 
+    }
+
+    @Override
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.htw.fb4.imi.jumpup.user.details.UserDetailsMethod#uploadAvatar(de.
+     * htw.fb4.imi.jumpup.user.entities.UserDetails)
+     */
+    public void uploadAvatar(UserDetails userDetails)
+    {
+        EntityManager entityManager = this.getFreshEntityManager();
+
+        try {
+            Byte[] avatarBytes = this.readAvatarBytes(userDetails);
+
+            if (null != avatarBytes) {
+                userDetails.setAvatar(avatarBytes);
+                entityManager.merge(userDetails);
+                entityManager.flush();
+                
+                Application.log("WebSiteUserDetails: persist of avatar success",
+                        LogType.DEBUG, getClass());
+            }
+        } catch (Exception e) {
+            Application.log(
+                    "readAvatarBytes(): error while setting or saving users avatar.\n"
+                            + e.getMessage(), LogType.ERROR, getClass());
+            try {entityManager.getTransaction().rollback(); } catch (Exception e2) {}
+            errors.add("Internal Server Error, please contact the provider or try again.");
+        }
+    }
+
+    private Byte[] readAvatarBytes(UserDetails userDetails)
+    {
+        try {
+            byte[] fileContents = IOUtils.toByteArray(userDetails.getAvatarFile().getInputStream());
+
+            return this.toWrappedArray(fileContents);
+        } catch (Exception e) {
+            Application.log(
+                    "readAvatarBytes(): error while trying to get avatar file byte array.\n"
+                            + e.getMessage(), LogType.ERROR, getClass());
+            errors.add("Internal Server Error, please contact the provider or try again.");
+        }
+
+        return null;
+    }
+
+    /**
+     * Wrap array into Byte wrapper class.
+     * 
+     * @param fileContents
+     * @return
+     */
+    private Byte[] toWrappedArray(byte[] fileContents)
+    {
+        Byte[] byteArray = new Byte[fileContents.length];
+
+        for (int i = 0; i < byteArray.length; i++) {
+            byteArray[i] = fileContents[i];
+        }
+
+        return byteArray;
     }
 
 }

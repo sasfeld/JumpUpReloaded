@@ -2,18 +2,18 @@
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:profile="http://java.sun.com/jsf/composite/components/profile"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:profile="http://xmlns.jcp.org/jsf/composite/components/profile"
 	>
 
 <ui:composition template="../../resources/templates/basic/BasicTemplate.xhtml">
 	<ui:define name="content">
 		<div>
-			#{translator.translate('Edit your profile')}
+			<h2>#{translator.translate('Edit your profile')}</h2>
 		</div>
-		<div>	
+		<div>
 			<h:form id="userDetailsForm">
 		    	<h:messages errorClass="errorMessage" infoClass="infoMessage" warnClass="warnMessage"></h:messages>	 	
 			 	<h:panelGrid columns="1">
@@ -25,9 +25,9 @@
 	
 		    		<profile:language valueBinding="#{userDetailsController.userDetails.stringLanguages}"/>
 	
-<!-- 		    		<profile:town valueBinding="#{loginController.loginModel.currentUser.residence.town}"/> -->
+		    		<profile:town valueBinding="#{loginController.loginModel.currentUser.town}"/>
 		    		
-<!-- 		    		<profile:country valueBinding="#{loginController.loginModel.currentUser.residence.country}"/>  -->
+		    		<profile:country valueBinding="#{loginController.loginModel.currentUser.country}"/> 
 		    		
 		    		<profile:mobile_number valueBinding="#{userDetailsController.userDetails.mobileNumber}"/> 
 	
@@ -37,6 +37,13 @@
 	    			action="#{userDetailsController.editProfile}"></h:commandButton>
 		    	</h:panelGrid>	 	
 		    </h:form>
+		</div>
+		<div>
+			<h2>#{translator.translate('Change your avatar')}</h2>
+			<h:form id="form" enctype="multipart/form-data">
+			  <h:inputFile id="file" value="#{userDetailsController.userDetails.avatarFile}"/>
+			  <h:commandButton value="Upload" action="#{userDetailsController.uploadAvatar}"/>
+			</h:form>
 		</div>
 	</ui:define>
 </ui:composition>

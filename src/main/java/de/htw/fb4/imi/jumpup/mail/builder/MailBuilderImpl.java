@@ -112,7 +112,7 @@ public class MailBuilderImpl implements MailBuilder
         } catch (IllegalStateException e) {
             // rendering failed
             this.getMailModel().setContentHtml(null);
-            Application.log("addHtmlContent(): Could not render view " + faceletPath + " - will only send txt mail", LogType.ERROR, getClass());
+            Application.log("addHtmlContent(): Could not render view " + faceletPath + " - will only send txt mail\nException: " + e.getMessage(), LogType.ERROR, getClass());
         }
         
         return this;

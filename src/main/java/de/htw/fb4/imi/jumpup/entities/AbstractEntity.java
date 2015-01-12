@@ -6,11 +6,15 @@
 package de.htw.fb4.imi.jumpup.entities;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 
 /**
  * <p></p>
@@ -32,11 +36,11 @@ public class AbstractEntity implements Serializable
     @Column(name = "identity")
     protected long identity;
 
-    @Column(name = "created_at", nullable = false, updatable = false)
-    protected long creationTimestamp;
+    @Column(name = "created_at", nullable = false, insertable = true, updatable = false)
+    protected Timestamp creationTimestamp;
     
-    @Column(name = "updated_at", nullable = true, updatable = true)
-    protected Long updateTimestamp;
+    @Column(name = "updated_at", nullable = true, insertable = false, updatable = true)
+    protected Timestamp updateTimestamp;
     
     public AbstractEntity()
     {
@@ -62,7 +66,7 @@ public class AbstractEntity implements Serializable
     /**
      * @return the creationTimestamp
      */
-    public long getCreationTimestamp()
+    public Timestamp getCreationTimestamp()
     {
         return creationTimestamp;
     }
@@ -70,7 +74,7 @@ public class AbstractEntity implements Serializable
     /**
      * @param creationTimestamp the creationTimestamp to set
      */
-    public void setCreationTimestamp(long creationTimestamp)
+    public void setCreationTimestamp(Timestamp creationTimestamp)
     {
         this.creationTimestamp = creationTimestamp;
     }
@@ -78,7 +82,7 @@ public class AbstractEntity implements Serializable
     /**
      * @return the updateTimestamp
      */
-    public Long getUpdateTimestamp()
+    public Timestamp getUpdateTimestamp()
     {
         return updateTimestamp;
     }
@@ -86,11 +90,41 @@ public class AbstractEntity implements Serializable
     /**
      * @param updateTimestamp the updateTimestamp to set
      */
-    public void setUpdateTimestamp(Long updateTimestamp)
+    public void setUpdateTimestamp(Timestamp updateTimestamp)
     {
         this.updateTimestamp = updateTimestamp;
     }
 
+    @PrePersist
+    /**
+     * Set creation timestamp on creation of entity.
+     */
+    public void onCreate() 
+    {
+        if (null == this.creationTimestamp) {
+            Timestamp timeStamp = this.getCurrentTimestamp();
+            
+            this.setCreationTimestamp(timeStamp);
+        }
+    }
     
-   
+    @PreUpdate
+    /**
+     * Set update timestamp on update of the entity.
+     */
+    public void onUpdate()
+    {
+        Timestamp timeStamp = this.getCurrentTimestamp();
+        
+        this.setUpdateTimestamp(timeStamp);
+    }
+
+    /**
+     * 
+     * @return
+     */
+    private Timestamp getCurrentTimestamp()
+    {
+        return new Timestamp(new Date().getTime());
+    }
 }

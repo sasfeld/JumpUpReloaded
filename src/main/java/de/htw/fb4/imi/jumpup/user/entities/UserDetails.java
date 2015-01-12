@@ -18,6 +18,7 @@ import javax.persistence.Lob;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.servlet.http.Part;
 
 import de.htw.fb4.imi.jumpup.entities.AbstractEntity;
 import de.htw.fb4.imi.jumpup.util.Gender;
@@ -70,6 +71,9 @@ public class UserDetails extends AbstractEntity
 
     @Column(name = "skype", nullable = false, updatable = true)
     protected String skype;
+    
+    @Transient
+    protected Part avatarFile;
 
     public User getUser()
     {
@@ -172,6 +176,23 @@ public class UserDetails extends AbstractEntity
         this.skype = skype;
     }
 
+    /**
+     * @return the avatarFile
+     */
+    public Part getAvatarFile()
+    {
+        return avatarFile;
+    }
+
+    /**
+     * Set the file which will be set into the avatar bytecode.
+     * @param avatarFile the avatarFile to set
+     */
+    public void setAvatarFile(Part avatarFile)
+    {
+        this.avatarFile = avatarFile;
+    }
+
     @Override
     public int hashCode()
     {
@@ -252,5 +273,4 @@ public class UserDetails extends AbstractEntity
         
         return true;
     }
-
 }

@@ -8,7 +8,7 @@
 	
 #{translator.translate("Username")}: #{registrationController.registrationModel.registeredUser.username}
 
-#{translator.translate("You can login here:")}: #{NavigationBean.pathToApp().concat(NavigationBean.redirectToLogin())}
+#{translator.translate("You can login here")}: #{registrationController.registrationModel.loginLink}
 
 -------------------------------------------------
 	
