@@ -56,6 +56,12 @@ public class WebsiteTripCreation implements TripCreationMethod, ErrorPrintable
     
     protected Set<String> errorMessages;
     
+    
+    public WebsiteTripCreation()
+    {
+        super();
+    }
+    
     /**
      * Create fresh entity manager.
      * @return
