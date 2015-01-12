@@ -100,6 +100,8 @@ public class Registration extends AbstractFacesController
                 } catch (Exception e) {
                     this.addDisplayErrorMessage("Could not send the registration success mail, but your registration was successful. You can login now.");
                 }
+                
+                this.addDisplayInfoMessage("You were confirmed successfully. You can now login.");
                 return NavigationBean.redirectToLogin();                
             }
             // else:

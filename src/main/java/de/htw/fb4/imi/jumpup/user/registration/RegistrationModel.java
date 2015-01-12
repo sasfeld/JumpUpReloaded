@@ -175,8 +175,16 @@ public class RegistrationModel
         }
         
          return NavigationBean.pathToApp() + "/" + NavigationBean.toRegistration() + "registration_confirm.xhtml?user=" 
-                    + this.registeredUser.getUsername() + "&hash=" + new String(this.hashGenerable.generateHash(this.registeredUser.getUsername()));
+                    + this.registeredUser.getUsername() + "&hash=" + this.getRegisteredUser().getCreationTimestamp().getTime();
+    }
     
+    /**
+     * Get link to login sent in success mails.
+     * @return
+     */
+    public String getLoginLink()
+    {
+        return NavigationBean.pathToApp().concat("/" + NavigationBean.redirectToLogin());
     }
     
     /**

@@ -40,6 +40,12 @@ import de.htw.fb4.imi.jumpup.util.StringUtil;
  */
 public abstract class AbstractRegistrationMethod implements RegistrationMethod
 {
+    /**
+     * Allowed tolerance in milliseconds between the creation date of the {@link User} entity and the given confirmation hash (sent via mail).
+     * 
+     */
+    private static final int TOLERANCE_CONFIRMATION_CREATION_TIMES = 1000;
+
     protected HashSet<String> errorMessages;
     
     @Inject
@@ -269,11 +275,27 @@ public abstract class AbstractRegistrationMethod implements RegistrationMethod
     private boolean checkConfirmationHash(final RegistrationModel registrationModel,
             final User matchingUser)
     {        
-        String usernameHash = new String(this.hashGenerator.generateHash(matchingUser.getUsername()));
-        Application.log("UsernameHash: " + usernameHash, LogType.INFO, getClass());
+        long usernameTimestamp = matchingUser.getCreationTimestamp().getTime();
+        Application.log("UsernameHash: " + usernameTimestamp, LogType.INFO, getClass());
         Application.log("getHashForConfirmation: " + registrationModel.getHashForConfirmation(), LogType.INFO, getClass());
+        
+        long givenTimestamp = 0;
+        try {
+           givenTimestamp = Long.parseLong(registrationModel.getHashForConfirmation());  
+        } catch (NumberFormatException e) {
+            Application.log("User confirmation: invalid format of confirmation hash.\nException: " 
+                        + e.getMessage() + "\nUser: " + matchingUser.toString(), 
+                        LogType.ERROR, 
+                        getClass());
+            return false;
+        }
             
-        return usernameHash.equals(registrationModel.getHashForConfirmation());
+        // check whether difference is in tolerance area of 100 milliseconds
+        if (Math.abs(givenTimestamp - usernameTimestamp) < TOLERANCE_CONFIRMATION_CREATION_TIMES) {
+            return true;
+        }
+        
+        return false;
     }
 
     /**

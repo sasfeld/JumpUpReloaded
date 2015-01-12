@@ -17,7 +17,7 @@
 	<p>
 		<ul>
 			<li>#{translator.translate("Username")}: #{registrationController.registrationModel.registeredUser.username}</li>
-			<li>#{translator.translate("You can login here:")}: #{NavigationBean.pathToApp().concat(NavigationBean.redirectToLogin())}</li>
+			<li>#{translator.translate("You can login here")}: <h:outputLink value="#{registrationController.registrationModel.loginLink}">#{translator.translate("Login")}</h:outputLink></li>
 		</ul>
 	</p>
 	
