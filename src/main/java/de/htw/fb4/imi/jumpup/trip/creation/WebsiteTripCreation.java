@@ -10,6 +10,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -20,6 +21,7 @@ import de.htw.fb4.imi.jumpup.Application;
 import de.htw.fb4.imi.jumpup.Application.LogType;
 import de.htw.fb4.imi.jumpup.mail.MailAdapter;
 import de.htw.fb4.imi.jumpup.mail.builder.MailBuilder;
+import de.htw.fb4.imi.jumpup.settings.BeanNames;
 import de.htw.fb4.imi.jumpup.settings.PersistenceSettings;
 import de.htw.fb4.imi.jumpup.translate.Translatable;
 import de.htw.fb4.imi.jumpup.trip.entities.Trip;
@@ -34,7 +36,8 @@ import de.htw.fb4.imi.jumpup.util.ErrorPrintable;
  * @since 12.01.2015
  *
  */
-public class AbstractTripCreation implements TripCreationMethod, ErrorPrintable
+@Stateless(name = BeanNames.WEBSITE_TRIP_CREATION)
+public class WebsiteTripCreation implements TripCreationMethod, ErrorPrintable
 {
     @PersistenceUnit(unitName = PersistenceSettings.PERSISTENCE_UNIT)
     protected EntityManagerFactory entityManagerFactory;
