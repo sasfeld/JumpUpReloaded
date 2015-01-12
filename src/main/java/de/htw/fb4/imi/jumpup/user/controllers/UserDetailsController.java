@@ -155,6 +155,6 @@ public class UserDetailsController extends AbstractFacesController implements
             this.addDisplayErrorMessage("Could not upload your avatar.");
         }
         
-        return NavigationOutcomes.TO_USER_PROFILE;
+        return null;
     }
 }
