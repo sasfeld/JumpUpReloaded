@@ -5,6 +5,7 @@
  */
 package de.htw.fb4.imi.jumpup.trip.entities;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -17,6 +18,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 import de.htw.fb4.imi.jumpup.entities.AbstractEntity;
+import de.htw.fb4.imi.jumpup.user.entities.User;
 import de.htw.fb4.imi.jumpup.verhicle.entities.Vehicle;
 
 /**
@@ -83,6 +85,12 @@ public class Trip extends AbstractEntity
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "trips")
     protected Vehicle vehicle;
+    
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    protected User driver;
+    
+    @Column(name = "cancelation_datetime", nullable = true, updatable = false, unique = false)
+    protected Timestamp cancelationDateTime;
 
     /**
      * @return the startpoint
@@ -292,6 +300,47 @@ public class Trip extends AbstractEntity
         this.vehicle = vehicle;
     }
 
+    /**
+     * @return the driver
+     */
+    public User getDriver()
+    {
+        return driver;
+    }
+
+    /**
+     * @param driver the driver to set
+     */
+    public void setDriver(User driver)
+    {
+        this.driver = driver;
+    }
+
+    /**
+     * @return the cancelationDateTime
+     */
+    public Timestamp getCancelationDateTime()
+    {
+        return cancelationDateTime;
+    }
+
+    /**
+     * @param cancelationDateTime the cancelationDateTime to set
+     */
+    public void setCancelationDateTime(Timestamp cancelationDateTime)
+    {
+        this.cancelationDateTime = cancelationDateTime;
+    }
+
+    /**
+     * Check whether the trip was cancelled by the driver.
+     * @return
+     */
+    public boolean wasCancelled()
+    {
+        return null == this.getCancelationDateTime();
+    }
+    
     /* (non-Javadoc)
      * @see java.lang.Object#hashCode()
      */

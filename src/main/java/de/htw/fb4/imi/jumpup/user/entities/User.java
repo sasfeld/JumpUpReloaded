@@ -5,13 +5,17 @@
  */
 package de.htw.fb4.imi.jumpup.user.entities;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -19,6 +23,7 @@ import javax.persistence.Transient;
 import de.htw.fb4.imi.jumpup.entities.AbstractEntity;
 import de.htw.fb4.imi.jumpup.settings.ResidenceSettings;
 import de.htw.fb4.imi.jumpup.settings.UserSettings;
+import de.htw.fb4.imi.jumpup.trip.entities.Trip;
 import de.htw.fb4.imi.jumpup.user.util.HashGenerable;
 
 /**
@@ -89,6 +94,9 @@ public class User extends AbstractEntity {
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     protected UserDetails userDetails;
     
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "driver")
+    protected List<Trip> offeredTrips;
+    
     /**
      * Hash generable.
      * 
@@ -101,7 +109,12 @@ public class User extends AbstractEntity {
     {
         super();
         
-//        this.residence = new Residence();
+        this.initalize();
+    }
+
+    private void initalize()
+    {
+        this.offeredTrips = new ArrayList<>();        
     }
 
     /**
@@ -291,6 +304,22 @@ public class User extends AbstractEntity {
     public final void setLocale(String locale)
     {
         this.locale = locale;
+    }
+
+    /**
+     * @return the offeredTrips
+     */
+    public List<Trip> getOfferedTrips()
+    {
+        return offeredTrips;
+    }
+
+    /**
+     * @param offeredTrips the offeredTrips to set
+     */
+    public void setOfferedTrips(List<Trip> offeredTrips)
+    {
+        this.offeredTrips = offeredTrips;
     }
 
     /*
