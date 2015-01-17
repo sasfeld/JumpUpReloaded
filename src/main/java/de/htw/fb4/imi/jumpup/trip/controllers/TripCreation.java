@@ -8,13 +8,17 @@ package de.htw.fb4.imi.jumpup.trip.controllers;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityNotFoundException;
+import javax.persistence.PersistenceContext;
 
 import de.htw.fb4.imi.jumpup.Application;
 import de.htw.fb4.imi.jumpup.Application.LogType;
 import de.htw.fb4.imi.jumpup.controllers.AbstractFacesController;
 import de.htw.fb4.imi.jumpup.navigation.NavigationOutcomes;
 import de.htw.fb4.imi.jumpup.settings.BeanNames;
+import de.htw.fb4.imi.jumpup.settings.PersistenceSettings;
 import de.htw.fb4.imi.jumpup.trip.creation.TripCreationMethod;
 import de.htw.fb4.imi.jumpup.trip.entities.Trip;
 
@@ -33,6 +37,13 @@ public class TripCreation extends AbstractFacesController
     protected TripCreationMethod tripCreationMethod;
     protected Trip trip;    
    
+    @PersistenceContext(unitName = PersistenceSettings.PERSISTENCE_UNIT)
+    protected EntityManagerFactory entityManagerFactory;
+    
+    protected EntityManager getFreshEntityManager()
+    {
+        return this.entityManagerFactory.createEntityManager();
+    }
     
     /**
      * Trip ID (used in edit mode only).

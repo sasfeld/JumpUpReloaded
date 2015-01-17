@@ -5,6 +5,9 @@
  */
 package de.htw.fb4.imi.jumpup.trip.validation;
 
+import javax.inject.Named;
+
+import de.htw.fb4.imi.jumpup.settings.BeanNames;
 import de.htw.fb4.imi.jumpup.trip.util.TripConfigKeys;
 
 /**
@@ -14,6 +17,7 @@ import de.htw.fb4.imi.jumpup.trip.util.TripConfigKeys;
  * @since 17.01.2015
  *
  */
+@Named(value = BeanNames.LOCATION_VALIDATOR)
 public class LocationValidator extends AbstractTripValidator
 {
     private static final String PATTERN_LOCATION = "^[A-Za-z0-9-.]+$";

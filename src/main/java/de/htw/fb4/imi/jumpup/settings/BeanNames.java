@@ -50,6 +50,7 @@ public interface BeanNames
     String PLACE_OF_BIRTH_VALIDATOR = "placeOfBirthValidator";
     String COUNTRY_VALIDATOR = "countryValidator";
     String AVATAR_FILE_VALIDATOR = "avatarFileValidator";
+    String LOCATION_VALIDATOR = "locationValidator";
     
     String WEBSITE_TRIP_CREATION = "websiteTripCreation";
     String TRIP_CREATION_CONTROLLER = "tripCreationController";
