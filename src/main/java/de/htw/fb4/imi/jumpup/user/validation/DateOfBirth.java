@@ -8,16 +8,12 @@ package de.htw.fb4.imi.jumpup.user.validation;
 import java.util.Date;
 
 import javax.enterprise.context.RequestScoped;
-import javax.faces.component.UIComponent;
-import javax.faces.context.FacesContext;
-import javax.faces.validator.ValidatorException;
 import javax.inject.Named;
 
 import de.htw.fb4.imi.jumpup.Application;
 import de.htw.fb4.imi.jumpup.Application.LogType;
 import de.htw.fb4.imi.jumpup.config.IConfigKeys;
 import de.htw.fb4.imi.jumpup.settings.BeanNames;
-import de.htw.fb4.imi.jumpup.validator.AbstractValidator;
 
 /**
  * <p></p>
@@ -28,28 +24,8 @@ import de.htw.fb4.imi.jumpup.validator.AbstractValidator;
  */
 @Named( value = BeanNames.DATE_OF_BIRTH )
 @RequestScoped
-public class DateOfBirth extends AbstractValidator
-{
-    @Override    
-    /* (non-Javadoc)
-     * @see javax.faces.validator.Validator#validate(javax.faces.context.FacesContext, javax.faces.component.UIComponent, java.lang.Object)
-     */
-    public void validate(final FacesContext context, final UIComponent component,
-            final Object value) throws ValidatorException
-    {
-        // throw validator with invalid entry message per default if validate() returns false
-        if (!this.validate(value)) {
-            // get first error message or print default
-            String msg = "You must be at least " + this.getConfiguredAge() + " years old.";
-            if (this.errorMessages.size() > 0) {
-                msg = (String) this.errorMessages.toArray()[0];
-            }
-            
-            throw new ValidatorException(this.facesFacade.newValidationErrorMessage(msg, 
-                    msg));
-        }
-    }
-    
+public class DateOfBirth extends AbstractUserValidator
+{    
     /*
      * (non-Javadoc)
      * @see de.htw.fb4.imi.jumpup.validator.AbstractValidator#validate(java.lang.Object)
@@ -114,6 +90,15 @@ public class DateOfBirth extends AbstractValidator
     public int getMaxLength()
     {
         return 10;
+    }
+    
+    /*
+     * (non-Javadoc)
+     * @see de.htw.fb4.imi.jumpup.validator.AbstractValidator#getDefaultFailureMessage()
+     */
+    protected String getDefaultFailureMessage()
+    {
+        return "You must be at least " + this.getConfiguredAge() + " years old.";
     }
 
 }

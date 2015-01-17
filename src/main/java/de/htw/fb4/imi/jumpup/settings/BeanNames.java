@@ -15,7 +15,6 @@ package de.htw.fb4.imi.jumpup.settings;
  */
 public interface BeanNames
 {
-
     String PASSWORD_HASH_GENERATOR = "password_hash_generator";
 
     String REGISTRATION_CONTROLLER = "registrationController";
@@ -37,8 +36,9 @@ public interface BeanNames
     String USERNAME_OR_MAIL_VALIDATOR = "emailOrUsernameValidator";
 
     String USER_CONFIG_READER = "userConfigReader";
-
     String MAIL_CONFIG_READER = "mailConfigReader";
+    String TRIP_CONFIG_READER = "tripConfigReader";
+    
     String MAIL_SMTP_ADAPTER = "mailSmtpAdapter";
 
     String NAVIGATION_BEAN = "navigationBean";

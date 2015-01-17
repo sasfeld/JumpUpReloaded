@@ -10,9 +10,6 @@ package de.htw.fb4.imi.jumpup.user.validation;
 import java.util.regex.Pattern;
 
 import javax.faces.bean.RequestScoped;
-import javax.faces.component.UIComponent;
-import javax.faces.context.FacesContext;
-import javax.faces.validator.ValidatorException;
 import javax.inject.Named;
 import javax.persistence.Query;
 
@@ -20,7 +17,6 @@ import de.htw.fb4.imi.jumpup.ApplicationError;
 import de.htw.fb4.imi.jumpup.settings.BeanNames;
 import de.htw.fb4.imi.jumpup.user.entities.User;
 import de.htw.fb4.imi.jumpup.user.util.ConfigReader;
-import de.htw.fb4.imi.jumpup.validator.AbstractValidator;
 
 /**
  * <p></p>
@@ -31,32 +27,12 @@ import de.htw.fb4.imi.jumpup.validator.AbstractValidator;
  */
 @Named( value = BeanNames.EMAIL_VALIDATOR)
 @RequestScoped
-public class EMail extends AbstractValidator
+public class EMail extends AbstractUserValidator
 {   
     public static String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
                     + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
     
     private boolean dbCheck = true;
-
-    @Override    
-    /* (non-Javadoc)
-     * @see javax.faces.validator.Validator#validate(javax.faces.context.FacesContext, javax.faces.component.UIComponent, java.lang.Object)
-     */
-    public void validate(final FacesContext context, final UIComponent component,
-            final Object value) throws ValidatorException
-    {
-        // throw validator with invalid entry message per default if validate() returns false
-        if (!this.validate(value)) {
-            // get first error message or print default
-            String msg = "You entered an invalid eMail.";
-            if (this.errorMessages.size() > 0) {
-                msg = (String) this.errorMessages.toArray()[0];
-            }
-            
-            throw new ValidatorException(this.facesFacade.newValidationErrorMessage(msg, 
-                    msg));
-        }
-    }
 
     @Override
     /* (non-Javadoc)
@@ -178,5 +154,13 @@ public class EMail extends AbstractValidator
     {
         return 255;
     }
-
+    
+    /*
+     * (non-Javadoc)
+     * @see de.htw.fb4.imi.jumpup.validator.AbstractValidator#getDefaultFailureMessage()
+     */
+    protected String getDefaultFailureMessage()
+    {
+        return "You entered an invalid eMail.";
+    }
 }

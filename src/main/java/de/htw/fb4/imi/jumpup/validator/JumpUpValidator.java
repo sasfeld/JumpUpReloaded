@@ -39,4 +39,11 @@ public interface JumpUpValidator
      * @return
      */
     int getMaxLength();
+    
+    /**
+     * <p>Get the validation REGEX pattern to be used within the frontend.</p>
+     * 
+     * @return
+     */
+    String getFrontendValidationPattern();
 }
