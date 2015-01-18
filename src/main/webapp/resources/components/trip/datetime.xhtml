@@ -8,6 +8,7 @@
 >
 
 	<composite:interface>
+		<composite:attribute name="jsfId" required="true" />
 		<composite:attribute name="valueBinding" required="true" />
 		<composite:attribute name="label" required="true" />
 		<composite:attribute name="validatorBean" required="true" />
@@ -15,8 +16,9 @@
 		<composite:attribute name="validationMessage" required="true" />
 	</composite:interface>
 	<composite:implementation>
+	
 		<h:outputText value="#{translator.translate(cc.attrs.label)}: "></h:outputText>
-		<h:inputText id="datetime" 
+		<h:inputText id="#{cc.attrs.jsfId}" 
 				value="#{cc.attrs.valueBinding}"
 				p:type="datetime-local"
 				p:required="#{cc.attrs.isRequired}"
@@ -24,6 +26,8 @@
 				<f:validator binding="#{cc.attrs.validatorBean}" />
 				<f:convertDateTime pattern="yyyy-M-d"></f:convertDateTime>
 		</h:inputText>
+		
+		<h:message for="#{cc.attrs.jsfId}" styleClass="validation_error" />
 	</composite:implementation>
 
 </html>

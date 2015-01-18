@@ -55,6 +55,7 @@ public interface BeanNames
     String LONGITUDE_VALIDATOR = "longitudeValidator";
     String START_DATETIME_VALIDATOR = "startDatetimeValidator";
     String END_DATETIME_VALIDATOR = "endDatetimeValidator";
+    String PRICE_VALIDATOR = "priceValidator";
     
     String WEBSITE_TRIP_CREATION = "websiteTripCreation";
     String TRIP_CREATION_CONTROLLER = "tripCreationController";

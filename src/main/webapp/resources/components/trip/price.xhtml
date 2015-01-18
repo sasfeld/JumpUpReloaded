@@ -21,7 +21,10 @@
 				value="#{cc.attrs.valueBinding}"
 				p:required="#{cc.attrs.isRequired}"
 				p:title="#{translator.translate(cc.attrs.validationMessage)}"
-				p:pattern="#{cc.attrs.validatorBean.getFrontendValidationPattern()}">
+				p:type="number"
+				p:step="any"
+				p:pattern="#{cc.attrs.validatorBean.frontendValidationPattern}"
+				>
 				<f:validator binding="#{cc.attrs.validatorBean}" />
 		</h:inputText>
 		

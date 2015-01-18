@@ -15,6 +15,7 @@
 		  	<h:messages errorClass="errorMessage" infoClass="infoMessage" warnClass="warnMessage"></h:messages>	 	
 		  		 <h:panelGrid columns="1">
 					<trip:location 
+						jsfId="start_location"
 						label="Start location"
 						valueBinding="#{tripCreationController.trip.startpoint}"
 						isRequired="required"
@@ -22,6 +23,7 @@
 						validatorBean="#{locationValidator}"/>				
 				
 					<trip:location 
+						jsfId="end_location"
 						label="End location"
 						valueBinding="#{tripCreationController.trip.endpoint}"
 						isRequired="required"
@@ -49,6 +51,7 @@
 						validatorBean="#{longitudeValidator}"/>
 						
 					<trip:datetime 
+						jsfId="start_date_time"
 						label="Departure date and time"
 						valueBinding="#{tripCreationController.trip.startDateTime}"
 						isRequired="required"
@@ -56,11 +59,20 @@
 						validatorBean="#{startDatetimeValidator}"/>
 						
 					<trip:datetime 
+						jsfId="end_date_time"
 						label="Estimated arrival date and time"
 						valueBinding="#{tripCreationController.trip.endDateTime}"
 						isRequired="required"
 						validationMessage="Please enter the estimated end date and time of your trip"
-						validatorBean="#{endDatetimeValidator}"/>		
+						validatorBean="#{endDatetimeValidator}"/>
+						
+					<trip:price 
+						jsfId="price"
+						label="Overall price"
+						valueBinding="#{tripCreationController.trip.price}"
+						isRequired="required"
+						validationMessage="Please enter the overall price that you want to be paid (from start to end location)"
+						validatorBean="#{priceValidator}"/>			
 				</h:panelGrid>
 				
 				<h:commandButton value="#{translator.translate('Create trip')}"
