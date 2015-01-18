@@ -12,6 +12,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceUnit;
 
 import de.htw.fb4.imi.jumpup.Application;
 import de.htw.fb4.imi.jumpup.Application.LogType;
@@ -37,7 +38,7 @@ public class TripCreation extends AbstractFacesController
     protected TripCreationMethod tripCreationMethod;
     protected Trip trip;    
    
-    @PersistenceContext(unitName = PersistenceSettings.PERSISTENCE_UNIT)
+    @PersistenceUnit(unitName = PersistenceSettings.PERSISTENCE_UNIT)
     protected EntityManagerFactory entityManagerFactory;
     
     protected EntityManager getFreshEntityManager()
@@ -56,12 +57,15 @@ public class TripCreation extends AbstractFacesController
         if (null != this.tripId) {
             try {
                 // Load from DB
+                Application.log("TripCreation: tripId " + tripId + "given, trying to load from DB...", LogType.DEBUG, getClass());
                 this.trip = this.getFreshEntityManager().find(Trip.class, this.tripId);
             } catch (EntityNotFoundException e) {
                 // not found - switch to Add mode
+                Application.log("TripCreation: could not find entity, creating new...", LogType.DEBUG, getClass());
                 this.trip = new Trip();
             }
         } else if (null == this.trip) {
+            Application.log("TripCreation: No tripId given, creating new...", LogType.DEBUG, getClass());
             this.trip = new Trip();
         }
         
@@ -128,7 +132,7 @@ public class TripCreation extends AbstractFacesController
                     this.addDisplayErrorMessage(error);
                 }
             } else {
-                addDisplayInfoMessage("Your trip was added.");
+                addDisplayInfoMessage("Your trip was edited.");
             }
 
         } catch (Exception e) {

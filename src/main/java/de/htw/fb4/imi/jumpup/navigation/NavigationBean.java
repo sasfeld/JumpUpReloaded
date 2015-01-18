@@ -80,4 +80,9 @@ public class NavigationBean implements NavigationOutcomes
     {
         return TO_USER_PROFILE;
     }
+    
+    public String toAddTrip()
+    {
+        return TO_ADD_TRIP;
+    }
 }

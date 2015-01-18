@@ -10,9 +10,9 @@
 	<composite:interface>
 		<composite:attribute name="valueBinding" required="true" />
 		<composite:attribute name="label" required="true" />
-		<composite:attribute name="validator" required="true" />
-		<composite:attribute name="isRequired" required="true" />
-		<composite:attribute name="validationMessage" required="true" />
+<!-- 		<composite:attribute name="validator" required="true" /> -->
+<!-- 		<composite:attribute name="isRequired" required="true" /> -->
+<!-- 		<composite:attribute name="validationMessage" required="true" /> -->
 	</composite:interface>
 	<composite:implementation>
 		<h:outputText value="#{translator.translate(cc.attrs.label)}: "></h:outputText>
@@ -20,7 +20,7 @@
 				value="#{cc.attrs.valueBinding}"
 				p:required="#{cc.attrs.isRequired}"
 				p:title="#{translator.translate(cc.attrs.validationMessage)}"
-				p:pattern=".{#{cc.attrs.validator.getMinLength()},#{cc.attrs.validator.getMaxLength()}}">
+				p:pattern="#{cc.attrs.validator.getFrontendValidationPattern()}">
 				<f:validator binding="#{cc.attrs.validator}" />
 		</h:inputText>
 	</composite:implementation>

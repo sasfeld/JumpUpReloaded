@@ -1,0 +1,41 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:trip="http://xmlns.jcp.org/jsf/composite/components/trip"
+>
+
+<ui:composition template="../../resources/templates/basic/BasicTemplate.xhtml">
+	
+	<ui:define name="content">
+		<h:form id="userDetailsForm">
+		  	<h:messages errorClass="errorMessage" infoClass="infoMessage" warnClass="warnMessage"></h:messages>	 	
+		  		 <h:panelGrid columns="1">
+					<trip:location 
+						label="Start location"
+						valueBinding="#{tripCreationController.trip.startpoint}"
+						isRequired="required"
+						validationMessage="Please enter the start location of your trip"
+						validator="#{locationValidator}"/>				
+				
+					<trip:location 
+						label="End location"
+						valueBinding="#{tripCreationController.trip.endpoint}"
+						isRequired="required"
+						validationMessage="Please enter the end location of your trip"
+						validator="#{locationValidator}"/>				
+
+				</h:panelGrid>
+				
+				<h:commandButton value="#{translator.translate('Create trip')}"
+	    			action="#{tripCreationController.addTrip}"></h:commandButton>
+			</h:form>
+	</ui:define>
+	
+</ui:composition>
+	
+	
+</html>

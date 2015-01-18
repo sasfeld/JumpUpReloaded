@@ -63,11 +63,27 @@
    		</navigation-case>
    </navigation-rule>
    
-     <navigation-rule>
+   <navigation-rule>
    		<from-view-id>*</from-view-id>
    		<navigation-case>
    			<from-outcome>to_user_profile</from-outcome>
    			<to-view-id>/portal/profile/personal.xhtml</to-view-id>
+   		</navigation-case>
+   </navigation-rule>
+   
+   <navigation-rule>
+   		<from-view-id>*</from-view-id>
+   		<navigation-case>
+   			<from-outcome>to_add_trip</from-outcome>
+   			<to-view-id>/portal/trip/create.xhtml</to-view-id>
+   		</navigation-case>
+   </navigation-rule>
+   
+   <navigation-rule>
+   		<from-view-id>*</from-view-id>
+   		<navigation-case>
+   			<from-outcome>to_edit_trip</from-outcome>
+   			<to-view-id>/portal/trip/create.xhtml</to-view-id>
    		</navigation-case>
    </navigation-rule>
 
