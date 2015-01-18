@@ -11,7 +11,6 @@ import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityNotFoundException;
-import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceUnit;
 
 import de.htw.fb4.imi.jumpup.Application;
@@ -51,7 +50,13 @@ public class TripCreation extends AbstractFacesController
      */
     protected Long tripId;
     
-    
+    /**
+     * Get {@link Trip}.
+     * 
+     * Load from DB if the tripID was set, or create new.
+     * 
+     * @return
+     */
     public Trip getTrip()
     {
         if (null != this.tripId) {

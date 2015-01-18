@@ -16,4 +16,6 @@ public interface TripConfigKeys
 {
     String JUMPUP_TRIP_VALIDATION_LOCATION_MIN_LENGTH = "jumpup.trip.validation.location.min_length";
     String JUMPUP_TRIP_VALIDATION_LOCATION_MAX_LENGTH = "jumpup.trip.validation.location.max_length";
+    
+    String JUMPUP_TRIP_VALIDATION_START_END_DATETIME_MIN_HOURS_IN_FUTURE = "jumpup.trip.validation.start_end_datetime.min_hours_in_future";
 }

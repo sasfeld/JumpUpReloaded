@@ -16,12 +16,13 @@
 	</composite:interface>
 	<composite:implementation>
 		<h:outputText value="#{translator.translate(cc.attrs.label)}: "></h:outputText>
-		<h:inputText id="email" 
+		<h:inputText id="datetime" 
 				value="#{cc.attrs.valueBinding}"
+				p:type="datetime-local"
 				p:required="#{cc.attrs.isRequired}"
-				p:title="#{translator.translate(cc.attrs.validationMessage)}"
-				p:pattern="#{cc.attrs.validatorBean.getFrontendValidationPattern()}">
+				p:title="#{translator.translate(cc.attrs.validationMessage)}">
 				<f:validator binding="#{cc.attrs.validatorBean}" />
+				<f:convertDateTime pattern="yyyy-M-d"></f:convertDateTime>
 		</h:inputText>
 	</composite:implementation>
 

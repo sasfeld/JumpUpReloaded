@@ -59,16 +59,16 @@ public class Trip extends AbstractEntity
     protected float longStartpoint;
 
     @Column(name = "latendpoint", nullable = false, updatable = true, unique = false)
-    protected float latEntpoint;
+    protected float latEndpoint;
 
     @Column(name = "longendpoint", nullable = false, updatable = true, unique = false)
     protected float longEndpoint;
 
     @Column(name = "startdate", nullable = false, updatable = true, unique = false)
-    protected  Date startDate;
+    protected Timestamp startDateTime;
 
     @Column(name = "enddate", nullable = false, updatable = true, unique = false)
-    protected Date endDate;
+    protected Timestamp endDateTime;
 
     @Column(name = "price", nullable = false, updatable = true, unique = false)
     protected float price;
@@ -159,17 +159,17 @@ public class Trip extends AbstractEntity
     /**
      * @return the latEntpoint
      */
-    public float getLatEntpoint()
+    public float getLatEndpoint()
     {
-        return latEntpoint;
+        return latEndpoint;
     }
 
     /**
-     * @param latEntpoint the latEntpoint to set
+     * @param latEndpoint the latEntpoint to set
      */
-    public void setLatEntpoint(float latEntpoint)
+    public void setLatEndpoint(float latEndpoint)
     {
-        this.latEntpoint = latEntpoint;
+        this.latEndpoint = latEndpoint;
     }
 
     /**
@@ -189,35 +189,61 @@ public class Trip extends AbstractEntity
     }
 
     /**
-     * @return the startDate
+     * @return the startDateTime
      */
-    public Date getStartDate()
+    public Date getStartDateTime()
     {
-        return startDate;
+        if (null == this.startDateTime) {
+            return new Date();
+        }
+        
+        return new Date(this.startDateTime.getTime());
     }
 
     /**
-     * @param startDate the startDate to set
+     * @param startDateTime the startDateTime to set
      */
-    public void setStartDate(Date startDate)
+    public void setStartDateTime(Timestamp startDateTime)
     {
-        this.startDate = startDate;
+        this.startDateTime = startDateTime;
+    }
+    
+    /**
+     * 
+     * @param startDateTime
+     */
+    public void setStartDateTime(Date startDateTime)
+    {
+        this.setStartDateTime(new Timestamp(startDateTime.getTime()));
     }
 
     /**
-     * @return the endDate
+     * @return the endDateTime
      */
-    public Date getEndDate()
+    public Date getEndDateTime()
     {
-        return endDate;
+        if (null == this.endDateTime) {
+            return new Date();
+        }
+        
+        return new Date(this.endDateTime.getTime());
     }
 
     /**
-     * @param endDate the endDate to set
+     * @param endDateTime the endDateTime to set
      */
-    public void setEndDate(Date endDate)
+    public void setEndDateTime(Timestamp endDateTime)
     {
-        this.endDate = endDate;
+        this.endDateTime = endDateTime;
+    }
+    
+    /**
+     * 
+     * @param endDateTime
+     */
+    public void setEndDateTime(Date endDateTime)
+    {
+        this.setEndDateTime(new Timestamp(startDateTime.getTime()));
     }
 
     /**
@@ -349,10 +375,9 @@ public class Trip extends AbstractEntity
     {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((endDate == null) ? 0 : endDate.hashCode());
         result = prime * result
                 + ((endpoint == null) ? 0 : endpoint.hashCode());
-        result = prime * result + Float.floatToIntBits(latEntpoint);
+        result = prime * result + Float.floatToIntBits(latEndpoint);
         result = prime * result + Float.floatToIntBits(latStartpoint);
         result = prime * result + Float.floatToIntBits(longEndpoint);
         result = prime * result + Float.floatToIntBits(longStartpoint);
@@ -362,7 +387,7 @@ public class Trip extends AbstractEntity
                 + ((overViewPath == null) ? 0 : overViewPath.hashCode());
         result = prime * result + Float.floatToIntBits(price);
         result = prime * result
-                + ((startDate == null) ? 0 : startDate.hashCode());
+                + ((startDateTime == null) ? 0 : startDateTime.hashCode());
         result = prime * result
                 + ((startpoint == null) ? 0 : startpoint.hashCode());
         result = prime * result + ((vehicle == null) ? 0 : vehicle.hashCode());
@@ -384,18 +409,13 @@ public class Trip extends AbstractEntity
         if (getClass() != obj.getClass())
             return false;
         Trip other = (Trip) obj;
-        if (endDate == null) {
-            if (other.endDate != null)
-                return false;
-        } else if (!endDate.equals(other.endDate))
-            return false;
         if (endpoint == null) {
             if (other.endpoint != null)
                 return false;
         } else if (!endpoint.equals(other.endpoint))
             return false;
-        if (Float.floatToIntBits(latEntpoint) != Float
-                .floatToIntBits(other.latEntpoint))
+        if (Float.floatToIntBits(latEndpoint) != Float
+                .floatToIntBits(other.latEndpoint))
             return false;
         if (Float.floatToIntBits(latStartpoint) != Float
                 .floatToIntBits(other.latStartpoint))
@@ -418,10 +438,10 @@ public class Trip extends AbstractEntity
             return false;
         if (Float.floatToIntBits(price) != Float.floatToIntBits(other.price))
             return false;
-        if (startDate == null) {
-            if (other.startDate != null)
+        if (startDateTime == null) {
+            if (other.startDateTime != null)
                 return false;
-        } else if (!startDate.equals(other.startDate))
+        } else if (!startDateTime.equals(other.startDateTime))
             return false;
         if (startpoint == null) {
             if (other.startpoint != null)
@@ -457,13 +477,9 @@ public class Trip extends AbstractEntity
         builder.append(", getLongStartpoint()=");
         builder.append(getLongStartpoint());
         builder.append(", getLatEntpoint()=");
-        builder.append(getLatEntpoint());
+        builder.append(getLatEndpoint());
         builder.append(", getLongEndpoint()=");
         builder.append(getLongEndpoint());
-        builder.append(", getStartDate()=");
-        builder.append(getStartDate());
-        builder.append(", getEndDate()=");
-        builder.append(getEndDate());
         builder.append(", getPrice()=");
         builder.append(getPrice());
         builder.append(", getOverViewPath()=");

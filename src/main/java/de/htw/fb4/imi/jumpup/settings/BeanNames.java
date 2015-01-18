@@ -51,6 +51,10 @@ public interface BeanNames
     String COUNTRY_VALIDATOR = "countryValidator";
     String AVATAR_FILE_VALIDATOR = "avatarFileValidator";
     String LOCATION_VALIDATOR = "locationValidator";
+    String LATITUDE_VALIDATOR = "latitudeValidator";
+    String LONGITUDE_VALIDATOR = "longitudeValidator";
+    String START_DATETIME_VALIDATOR = "startDatetimeValidator";
+    String END_DATETIME_VALIDATOR = "endDatetimeValidator";
     
     String WEBSITE_TRIP_CREATION = "websiteTripCreation";
     String TRIP_CREATION_CONTROLLER = "tripCreationController";

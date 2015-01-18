@@ -19,15 +19,48 @@
 						valueBinding="#{tripCreationController.trip.startpoint}"
 						isRequired="required"
 						validationMessage="Please enter the start location of your trip"
-						validator="#{locationValidator}"/>				
+						validatorBean="#{locationValidator}"/>				
 				
 					<trip:location 
 						label="End location"
 						valueBinding="#{tripCreationController.trip.endpoint}"
 						isRequired="required"
 						validationMessage="Please enter the end location of your trip"
-						validator="#{locationValidator}"/>				
-
+						validatorBean="#{locationValidator}"/>	
+						
+					<trip:latLng
+						valueBinding="#{tripCreationController.trip.latStartpoint}"
+						isRequired="required"
+						validatorBean="#{latitudeValidator}"/>	
+						
+					<trip:latLng
+						valueBinding="#{tripCreationController.trip.longStartpoint}"
+						isRequired="required"
+						validatorBean="#{longitudeValidator}"/>
+						
+					<trip:latLng
+						valueBinding="#{tripCreationController.trip.latEndpoint}"
+						isRequired="required"
+						validatorBean="#{latitudeValidator}"/>	
+						
+					<trip:latLng
+						valueBinding="#{tripCreationController.trip.longEndpoint}"
+						isRequired="required"
+						validatorBean="#{longitudeValidator}"/>
+						
+					<trip:datetime 
+						label="Departure date and time"
+						valueBinding="#{tripCreationController.trip.startDateTime}"
+						isRequired="required"
+						validationMessage="Please enter the start date and time of your trip"
+						validatorBean="#{startDatetimeValidator}"/>
+						
+					<trip:datetime 
+						label="Estimated arrival date and time"
+						valueBinding="#{tripCreationController.trip.endDateTime}"
+						isRequired="required"
+						validationMessage="Please enter the estimated end date and time of your trip"
+						validatorBean="#{endDatetimeValidator}"/>		
 				</h:panelGrid>
 				
 				<h:commandButton value="#{translator.translate('Create trip')}"
