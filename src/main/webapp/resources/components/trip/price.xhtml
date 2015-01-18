@@ -24,6 +24,8 @@
 				p:type="number"
 				p:step="any"
 				p:pattern="#{cc.attrs.validatorBean.frontendValidationPattern}"
+				p:min="#{cc.attrs.validatorBean.minPrice}"
+				p:max="#{cc.attrs.validatorBean.maxPrice}"
 				>
 				<f:validator binding="#{cc.attrs.validatorBean}" />
 		</h:inputText>

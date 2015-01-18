@@ -76,11 +76,11 @@ public class Trip extends AbstractEntity
     @Column(name = "overviewpath", nullable = false, updatable = true, unique = false)
     protected String overViewPath;
 
-    @Column(name = "viawaypoints", nullable = false, updatable = true, unique = false)
+    @Column(name = "viawaypoints", nullable = true, updatable = true, unique = false)
     protected String viaWaypoints;
 
     @Column(name = "numberofseats", nullable = false, updatable = true, unique = false)
-    protected Byte numberOfSeats;
+    protected Integer numberOfSeats;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "trips")
@@ -297,7 +297,7 @@ public class Trip extends AbstractEntity
     /**
      * @return the numberOfSeats
      */
-    public Byte getNumberOfSeats()
+    public Integer getNumberOfSeats()
     {
         return numberOfSeats;
     }
@@ -305,7 +305,7 @@ public class Trip extends AbstractEntity
     /**
      * @param numberOfSeats the numberOfSeats to set
      */
-    public void setNumberOfSeats(Byte numberOfSeats)
+    public void setNumberOfSeats(Integer numberOfSeats)
     {
         this.numberOfSeats = numberOfSeats;
     }

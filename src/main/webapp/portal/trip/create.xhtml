@@ -72,7 +72,27 @@
 						valueBinding="#{tripCreationController.trip.price}"
 						isRequired="required"
 						validationMessage="Please enter the overall price that you want to be paid (from start to end location)"
-						validatorBean="#{priceValidator}"/>			
+						validatorBean="#{priceValidator}"/>		
+						
+					<trip:overview_path
+						jsfId="overview_path"
+						valueBinding="#{tripCreationController.trip.overViewPath}"
+						isRequired="required"
+						validatorBean="#{overviewPathValidator}"/>		
+						
+					<trip:via_waypoints
+						jsfId="via_waypoints"
+						valueBinding="#{tripCreationController.trip.viaWaypoints}"
+						validatorBean="#{overviewPathValidator}"/>	
+						
+					<trip:number_seats 
+						jsfId="numberSeats"
+						label="Number of Seats"
+						valueBinding="#{tripCreationController.trip.numberOfSeats}"
+						isRequired="required"
+						validationMessage="Please enter the number of seats that you want to offer"
+						validatorBean="#{numberSeatsValidator}"/>									
+					
 				</h:panelGrid>
 				
 				<h:commandButton value="#{translator.translate('Create trip')}"

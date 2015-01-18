@@ -57,14 +57,26 @@ public class PriceValidator extends AbstractTripValidator
 
     private boolean checkRange(Float price)
     {
-        Float minPrice = Float.parseFloat(this.tripConfigReader.fetchValue(TripConfigKeys.JUMPUP_TRIP_VALIDATION_PRICE_MIN_VALUE_IN_EURO)); 
-        Float maxPrice = Float.parseFloat(this.tripConfigReader.fetchValue(TripConfigKeys.JUMPUP_TRIP_VALIDATION_PRICE_MAX_VALUE_IN_EURO)); 
+        Float minPrice = getMinPrice(); 
+        Float maxPrice = getMaxPrice(); 
          
         if (price >= minPrice && price <= maxPrice) {
             return true;
         }
         
         return false;
+    }
+
+    public Float getMaxPrice()
+    {
+        Float maxPrice = Float.parseFloat(this.tripConfigReader.fetchValue(TripConfigKeys.JUMPUP_TRIP_VALIDATION_PRICE_MAX_VALUE_IN_EURO));
+        return maxPrice;
+    }
+
+    public Float getMinPrice()
+    {
+        Float minPrice = Float.parseFloat(this.tripConfigReader.fetchValue(TripConfigKeys.JUMPUP_TRIP_VALIDATION_PRICE_MIN_VALUE_IN_EURO));
+        return minPrice;
     }
 
     /* (non-Javadoc)
@@ -92,7 +104,7 @@ public class PriceValidator extends AbstractTripValidator
      */
     protected String getDefaultFailureMessage()
     {
-        return "You entered an invalid price.";
+        return "Please enter a price between " + this.getMinPrice() + " and " + this.getMaxPrice() + " euros.";
     }
     
     /*

@@ -21,4 +21,7 @@ public interface TripConfigKeys
     
     String JUMPUP_TRIP_VALIDATION_PRICE_MIN_VALUE_IN_EURO = "jumpup.trip.validation.price.min_value_in_euro";
     String JUMPUP_TRIP_VALIDATION_PRICE_MAX_VALUE_IN_EURO = "jumpup.trip.validation.price.max_value_in_euro";
+    
+    String JUMPUP_TRIP_VALIDATION_NUMBER_SEATS_MIN_VALUE = "jumpup.trip.validation.number_seats.min_value";
+    String JUMPUP_TRIP_VALIDATION_NUMBER_SEATS_MAX_VALUE = "jumpup.trip.validation.number_seats.max_value";
 }

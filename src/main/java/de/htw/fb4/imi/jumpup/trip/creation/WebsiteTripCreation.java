@@ -135,7 +135,9 @@ public class WebsiteTripCreation implements TripCreationMethod, ErrorPrintable
     @Override
     public void addTrip(final Trip trip)
     {
-        try {
+        this.reset();
+        
+        try {         
             this.persistTrip(trip);
             this.sendTripAddedMailToDriver(trip);
         } catch ( Exception e ) {
@@ -168,6 +170,8 @@ public class WebsiteTripCreation implements TripCreationMethod, ErrorPrintable
     @Override
     public void changeTrip(final Trip trip)
     {
+        this.reset();
+        
         try {
             this.updateTrip(trip);
             this.sendTripUpdatedMailToDriver(trip);
@@ -204,6 +208,8 @@ public class WebsiteTripCreation implements TripCreationMethod, ErrorPrintable
     @Override
     public void cancelTrip(final Trip trip)
     {
+        this.reset();
+        
         try {
             this.softDeleteTrip(trip);
             this.sendTripCanceledMailToDriver(trip);
