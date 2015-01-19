@@ -85,4 +85,27 @@ public class NavigationBean implements NavigationOutcomes
     {
         return TO_ADD_TRIP;
     }
+    
+    public String toEditTrip(Integer tripId)
+    {
+        if (null == tripId) {
+            return toAddTrip();
+        }
+        
+        return pathToApp() + "/portal/trip/create.xhtml" + "?trip=" + tripId;
+    }
+    
+    public String toCancelTrip(Integer tripId)
+    {
+        if (null == tripId) {
+            return toAddTrip();
+        }
+        
+        return pathToApp() + "/portal/trip/cancel.xhtml" + "?trip=" + tripId;
+    }
+    
+    public String toListOfferedTrips()
+    {
+        return TO_LIST_OFFERED_TRIPS;
+    }
 }

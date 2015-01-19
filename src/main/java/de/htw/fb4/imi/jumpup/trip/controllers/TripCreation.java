@@ -21,6 +21,7 @@ import de.htw.fb4.imi.jumpup.settings.BeanNames;
 import de.htw.fb4.imi.jumpup.settings.PersistenceSettings;
 import de.htw.fb4.imi.jumpup.trip.creation.TripCreationMethod;
 import de.htw.fb4.imi.jumpup.trip.entities.Trip;
+import de.htw.fb4.imi.jumpup.user.controllers.Login;
 
 /**
  * <p></p>
@@ -39,6 +40,9 @@ public class TripCreation extends AbstractFacesController
    
     @PersistenceUnit(unitName = PersistenceSettings.PERSISTENCE_UNIT)
     protected EntityManagerFactory entityManagerFactory;
+    
+    @Inject
+    protected Login loginController;
     
     protected EntityManager getFreshEntityManager()
     {
@@ -64,12 +68,20 @@ public class TripCreation extends AbstractFacesController
                 // Load from DB
                 Application.log("TripCreation: tripId " + tripId + "given, trying to load from DB...", LogType.DEBUG, getClass());
                 this.trip = this.getFreshEntityManager().find(Trip.class, this.tripId);
+                
+                // ensure that the trip belongs to the logged-in customer
+                if (this.tripDoesNotBelongToLoggedInCustomer(trip)) {
+                    Application.log("TripCreation: the customer " + loginController.getLoginModel().getCurrentUser().getIdentity() 
+                            + " tried to manipulate a trip that doesn't belong to him. Trip ID: " + trip.getIdentity(), LogType.CRITICAL, getClass());
+                    this.trip = null;
+                }
             } catch (EntityNotFoundException e) {
                 // not found - switch to Add mode
-                Application.log("TripCreation: could not find entity, creating new...", LogType.DEBUG, getClass());
-                this.trip = new Trip();
+                this.trip = null;
             }
-        } else if (null == this.trip) {
+        } 
+        
+        if (null == this.trip) {
             Application.log("TripCreation: No tripId given, creating new...", LogType.DEBUG, getClass());
             this.trip = new Trip();
         }
@@ -77,6 +89,12 @@ public class TripCreation extends AbstractFacesController
         return this.trip;
     }
     
+    private boolean tripDoesNotBelongToLoggedInCustomer(Trip trip)
+    {
+        return !(loginController.getLoginModel().getCurrentUser().getIdentity()
+                == trip.getDriver().getIdentity());
+    }
+
     /**
      * @return the tripId
      */
@@ -127,6 +145,11 @@ public class TripCreation extends AbstractFacesController
      */
     public String editTrip()
     {
+        // no trip ID given
+        if (null == this.getTripId()) {
+            return NavigationOutcomes.TO_LIST_OFFERED_TRIPS;
+        }
+        
         try {
             Application.log("TripCreation: try to edit trip",
                     LogType.DEBUG, getClass());
@@ -143,14 +166,44 @@ public class TripCreation extends AbstractFacesController
         } catch (Exception e) {
             Application.log("UserDetailsController: " + e.getMessage(),
                     LogType.ERROR, getClass());
-            this.addDisplayErrorMessage("Could not add you trip. Please contact our customer care team.");
+            this.addDisplayErrorMessage("Could not add your trip. Please contact our customer care team.");
         }
 
         return NavigationOutcomes.TO_EDIT_TRIP;
     }
 
+    /**
+     * Action for trip cancelation (soft-deletion), only if the trip ID is given.
+     * @return
+     */
+   public String cancelTrip()
+   {
+       // no trip ID given
+       if (null == this.getTripId()) {
+           return NavigationOutcomes.TO_LIST_OFFERED_TRIPS;
+       }
+       
+       try {
+           Application.log("TripCreation: try to cancel trip",
+                   LogType.DEBUG, getClass());
+           tripCreationMethod.cancelTrip(getTrip());
+           
+           if (tripCreationMethod.hasError()) {
+               for (String error : tripCreationMethod.getErrors()) {
+                   this.addDisplayErrorMessage(error);
+               }
+           } else {
+               addDisplayInfoMessage("Your trip was canceled.");
+           }
 
-   
+       } catch (Exception e) {
+           Application.log("UserDetailsController: " + e.getMessage(),
+                   LogType.ERROR, getClass());
+           this.addDisplayErrorMessage("Could not cancel your trip. Please contact our customer care team.");
+       }
+
+       return NavigationOutcomes.TO_LIST_OFFERED_TRIPS;
+   }
     
     
 

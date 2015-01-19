@@ -62,6 +62,7 @@ public class WebsiteTripCreation implements TripCreationMethod, ErrorPrintable
         super();
     }
     
+
     /**
      * Create fresh entity manager.
      * @return
@@ -225,11 +226,14 @@ public class WebsiteTripCreation implements TripCreationMethod, ErrorPrintable
      * @param trip
      */
     private void softDeleteTrip(Trip trip)
-    {        
+    {  
+        Timestamp currentTimestamp = this.getCurrentTimestamp();
+        Application.log("softDeleteTrip: cancelling trip with ID " + trip.getIdentity() + " and setting timestamp " + currentTimestamp.toString(), LogType.DEBUG, getClass());
+        
         EntityManager entityManager = this.getFreshEntityManager();
         
-        trip.setCancelationDateTime(this.getCurrentTimestamp());    
-        
+        trip.setCancelationDateTime(currentTimestamp);        
+
         entityManager.merge(trip);
         entityManager.flush();
     }    

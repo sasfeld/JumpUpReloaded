@@ -17,6 +17,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
+import de.htw.fb4.imi.jumpup.Application;
+import de.htw.fb4.imi.jumpup.Application.LogType;
 import de.htw.fb4.imi.jumpup.entities.AbstractEntity;
 import de.htw.fb4.imi.jumpup.user.entities.User;
 import de.htw.fb4.imi.jumpup.verhicle.entities.Vehicle;
@@ -89,7 +91,7 @@ public class Trip extends AbstractEntity
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     protected User driver;
     
-    @Column(name = "cancelation_datetime", nullable = true, updatable = false, unique = false)
+    @Column(name = "cancelation_datetime", nullable = true, updatable = true, unique = false)
     protected Timestamp cancelationDateTime;
 
     /**
@@ -364,9 +366,12 @@ public class Trip extends AbstractEntity
      */
     public boolean wasCancelled()
     {
-        return null == this.getCancelationDateTime();
+        boolean wasCancelled = null != this.getCancelationDateTime();
+        
+        Application.log("Trip " + getIdentity() + " was cancelled: " + wasCancelled, LogType.DEBUG, getClass());
+        return wasCancelled;
     }
-    
+
     /* (non-Javadoc)
      * @see java.lang.Object#hashCode()
      */
@@ -375,6 +380,13 @@ public class Trip extends AbstractEntity
     {
         final int prime = 31;
         int result = 1;
+        result = prime
+                * result
+                + ((cancelationDateTime == null) ? 0 : cancelationDateTime
+                        .hashCode());
+        result = prime * result + ((driver == null) ? 0 : driver.hashCode());
+        result = prime * result
+                + ((endDateTime == null) ? 0 : endDateTime.hashCode());
         result = prime * result
                 + ((endpoint == null) ? 0 : endpoint.hashCode());
         result = prime * result + Float.floatToIntBits(latEndpoint);
@@ -409,6 +421,21 @@ public class Trip extends AbstractEntity
         if (getClass() != obj.getClass())
             return false;
         Trip other = (Trip) obj;
+        if (cancelationDateTime == null) {
+            if (other.cancelationDateTime != null)
+                return false;
+        } else if (!cancelationDateTime.equals(other.cancelationDateTime))
+            return false;
+        if (driver == null) {
+            if (other.driver != null)
+                return false;
+        } else if (!driver.equals(other.driver))
+            return false;
+        if (endDateTime == null) {
+            if (other.endDateTime != null)
+                return false;
+        } else if (!endDateTime.equals(other.endDateTime))
+            return false;
         if (endpoint == null) {
             if (other.endpoint != null)
                 return false;
@@ -468,33 +495,40 @@ public class Trip extends AbstractEntity
     public String toString()
     {
         StringBuilder builder = new StringBuilder();
-        builder.append("Trip [getStartpoint()=");
-        builder.append(getStartpoint());
-        builder.append(", getEndpoint()=");
-        builder.append(getEndpoint());
-        builder.append(", getLatStartpoint()=");
-        builder.append(getLatStartpoint());
-        builder.append(", getLongStartpoint()=");
-        builder.append(getLongStartpoint());
-        builder.append(", getLatEntpoint()=");
-        builder.append(getLatEndpoint());
-        builder.append(", getLongEndpoint()=");
-        builder.append(getLongEndpoint());
-        builder.append(", getPrice()=");
-        builder.append(getPrice());
-        builder.append(", getOverViewPath()=");
-        builder.append(getOverViewPath());
-        builder.append(", getViaWaypoints()=");
-        builder.append(getViaWaypoints());
-        builder.append(", getNumberOfSeats()=");
-        builder.append(getNumberOfSeats());
-        builder.append(", getVehicle()=");
-        builder.append(getVehicle());
-        builder.append(", hashCode()=");
-        builder.append(hashCode());
+        builder.append("Trip [startpoint=");
+        builder.append(startpoint);
+        builder.append(", endpoint=");
+        builder.append(endpoint);
+        builder.append(", latStartpoint=");
+        builder.append(latStartpoint);
+        builder.append(", longStartpoint=");
+        builder.append(longStartpoint);
+        builder.append(", latEndpoint=");
+        builder.append(latEndpoint);
+        builder.append(", longEndpoint=");
+        builder.append(longEndpoint);
+        builder.append(", startDateTime=");
+        builder.append(startDateTime);
+        builder.append(", endDateTime=");
+        builder.append(endDateTime);
+        builder.append(", price=");
+        builder.append(price);
+        builder.append(", overViewPath=");
+        builder.append(overViewPath);
+        builder.append(", viaWaypoints=");
+        builder.append(viaWaypoints);
+        builder.append(", numberOfSeats=");
+        builder.append(numberOfSeats);
+        builder.append(", vehicle=");
+        builder.append(vehicle);
+        builder.append(", driver=");
+        builder.append(driver);
+        builder.append(", cancelationDateTime=");
+        builder.append(cancelationDateTime);
         builder.append("]");
         return builder.toString();
     }
-
+    
+    
     
 }

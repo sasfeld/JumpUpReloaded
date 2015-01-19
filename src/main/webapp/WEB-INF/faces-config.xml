@@ -86,5 +86,21 @@
    			<to-view-id>/portal/trip/create.xhtml</to-view-id>
    		</navigation-case>
    </navigation-rule>
+   
+   <navigation-rule>
+   		<from-view-id>*</from-view-id>
+   		<navigation-case>
+   			<from-outcome>to_cancel_trip</from-outcome>
+   			<to-view-id>/portal/trip/cancel.xhtml</to-view-id>
+   		</navigation-case>
+   </navigation-rule>
+   
+   <navigation-rule>
+   		<from-view-id>*</from-view-id>
+   		<navigation-case>
+   			<from-outcome>to_list_offered_trips</from-outcome>
+   			<to-view-id>/portal/trip/list_offered.xhtml</to-view-id>
+   		</navigation-case>
+   </navigation-rule>
 
 </faces-config>
