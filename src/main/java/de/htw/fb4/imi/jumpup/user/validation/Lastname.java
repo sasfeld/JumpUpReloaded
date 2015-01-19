@@ -8,14 +8,10 @@ package de.htw.fb4.imi.jumpup.user.validation;
 
 
 import javax.faces.bean.RequestScoped;
-import javax.faces.component.UIComponent;
-import javax.faces.context.FacesContext;
-import javax.faces.validator.ValidatorException;
 import javax.inject.Named;
 
 import de.htw.fb4.imi.jumpup.config.IConfigKeys;
 import de.htw.fb4.imi.jumpup.settings.BeanNames;
-import de.htw.fb4.imi.jumpup.validator.AbstractValidator;
 
 /**
  * <p></p>
@@ -26,29 +22,10 @@ import de.htw.fb4.imi.jumpup.validator.AbstractValidator;
  */
 @Named( value = BeanNames.LASTNAME_VALIDATOR)
 @RequestScoped
-public class Lastname extends AbstractValidator
+public class Lastname extends AbstractUserValidator
 {   
     public static String PATTERN_LASTNAME = "[a-zA-Z- ]+";
 
-    @Override    
-    /* (non-Javadoc)
-     * @see javax.faces.validator.Validator#validate(javax.faces.context.FacesContext, javax.faces.component.UIComponent, java.lang.Object)
-     */
-    public void validate(final FacesContext context, final UIComponent component,
-            final Object value) throws ValidatorException
-    {
-        // throw validator with invalid entry message per default if validate() returns false
-        if (!this.validate(value)) {
-            // get first error message or print default
-            String msg = "The lastname you entered is not valid.";
-            if (this.errorMessages.size() > 0) {
-                msg = (String) this.errorMessages.toArray()[0];
-            }
-            
-            throw new ValidatorException(this.facesFacade.newValidationErrorMessage(msg, 
-                    msg));
-        }
-    }
 
     @Override
     /* (non-Javadoc)
@@ -117,6 +94,15 @@ public class Lastname extends AbstractValidator
     public int getMaxLength()
     {
         return Integer.parseInt(userConfigReader.fetchValue(IConfigKeys.JUMPUP_USER_VALIDATION_LASTNAME_MAX_LENGTH));
+    }
+    
+    /*
+     * (non-Javadoc)
+     * @see de.htw.fb4.imi.jumpup.validator.AbstractValidator#getDefaultFailureMessage()
+     */
+    protected String getDefaultFailureMessage()
+    {
+        return "The lastname you entered is not valid.";
     }
 
 }

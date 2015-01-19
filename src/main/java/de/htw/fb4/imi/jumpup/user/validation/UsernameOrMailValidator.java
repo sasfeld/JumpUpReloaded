@@ -6,13 +6,9 @@
 package de.htw.fb4.imi.jumpup.user.validation;
 
 import javax.enterprise.context.RequestScoped;
-import javax.faces.component.UIComponent;
-import javax.faces.context.FacesContext;
-import javax.faces.validator.ValidatorException;
 import javax.inject.Named;
 
 import de.htw.fb4.imi.jumpup.settings.BeanNames;
-import de.htw.fb4.imi.jumpup.validator.AbstractValidator;
 import de.htw.fb4.imi.jumpup.validator.JumpUpValidator;
 
 /**
@@ -24,7 +20,7 @@ import de.htw.fb4.imi.jumpup.validator.JumpUpValidator;
  */
 @Named( value = BeanNames.USERNAME_OR_MAIL_VALIDATOR )
 @RequestScoped
-public class UsernameOrMailValidator extends AbstractValidator
+public class UsernameOrMailValidator extends AbstractUserValidator
 {
     protected JumpUpValidator eMailValidator;
     protected JumpUpValidator userValidator;
@@ -41,19 +37,6 @@ public class UsernameOrMailValidator extends AbstractValidator
             this.userValidator = new Username();
             ((Username) this.userValidator).enableDBCheck(false);
             ((Username) this.userValidator).setConfigReader(this.userConfigReader);
-        }
-    }
-    
-    /* (non-Javadoc)
-     * @see javax.faces.validator.Validator#validate(javax.faces.context.FacesContext, javax.faces.component.UIComponent, java.lang.Object)
-     */
-    public void validate(final FacesContext context, final UIComponent component,
-            final Object value) throws ValidatorException
-    {
-        // throw validator with invalid entry message per default if validate() returns false
-        if (!this.validate(value)) {
-            throw new ValidatorException(this.facesFacade.newValidationErrorMessage("Invalid username or eMail.", 
-                    "Please type in a correct username or eMail."));
         }
     }
 
@@ -101,5 +84,13 @@ public class UsernameOrMailValidator extends AbstractValidator
         
         return this.userValidator.getMaxLength();
     }
-
+    
+    /*
+     * (non-Javadoc)
+     * @see de.htw.fb4.imi.jumpup.validator.AbstractValidator#getDefaultFailureMessage()
+     */
+    protected String getDefaultFailureMessage()
+    {
+        return "Please type in a correct username or eMail.";
+    }
 }

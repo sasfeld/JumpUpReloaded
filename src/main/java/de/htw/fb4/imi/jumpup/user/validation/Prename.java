@@ -8,14 +8,10 @@ package de.htw.fb4.imi.jumpup.user.validation;
 
 
 import javax.faces.bean.RequestScoped;
-import javax.faces.component.UIComponent;
-import javax.faces.context.FacesContext;
-import javax.faces.validator.ValidatorException;
 import javax.inject.Named;
 
 import de.htw.fb4.imi.jumpup.config.IConfigKeys;
 import de.htw.fb4.imi.jumpup.settings.BeanNames;
-import de.htw.fb4.imi.jumpup.validator.AbstractValidator;
 
 /**
  * <p></p>
@@ -26,29 +22,10 @@ import de.htw.fb4.imi.jumpup.validator.AbstractValidator;
  */
 @Named( value = BeanNames.PRENAME_VALIDATOR)
 @RequestScoped
-public class Prename extends AbstractValidator
+public class Prename extends AbstractUserValidator
 {   
     public static String PATTERN_PRENAME = "[a-zA-Z- ]+";
 
-    @Override    
-    /* (non-Javadoc)
-     * @see javax.faces.validator.Validator#validate(javax.faces.context.FacesContext, javax.faces.component.UIComponent, java.lang.Object)
-     */
-    public void validate(final FacesContext context, final UIComponent component,
-            final Object value) throws ValidatorException
-    {
-        // throw validator with invalid entry message per default if validate() returns false
-        if (!this.validate(value)) {
-            // get first error message or print default
-            String msg = "The prename you entered is not valid.";
-            if (this.errorMessages.size() > 0) {
-                msg = (String) this.errorMessages.toArray()[0];
-            }
-            
-            throw new ValidatorException(this.facesFacade.newValidationErrorMessage(msg, 
-                    msg));
-        }
-    }
 
     @Override
     /* (non-Javadoc)
@@ -119,4 +96,12 @@ public class Prename extends AbstractValidator
         return Integer.parseInt(userConfigReader.fetchValue(IConfigKeys.JUMPUP_USER_VALIDATION_PRENAME_MAX_LENGTH));
     }
 
+    /*
+     * (non-Javadoc)
+     * @see de.htw.fb4.imi.jumpup.validator.AbstractValidator#getDefaultFailureMessage()
+     */
+    protected String getDefaultFailureMessage()
+    {
+        return "The prename you entered is not valid.";
+    }
 }

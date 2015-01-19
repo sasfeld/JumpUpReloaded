@@ -29,5 +29,13 @@ public interface NavigationOutcomes
     String LOGOUT_FAILURE = "logout_failure";
     
     String TO_USER_PROFILE = "to_user_profile"; 
+    
+    String TO_ADD_TRIP = "to_add_trip";
+    
+    String TO_EDIT_TRIP = "to_edit_trip";
+    
+    String TO_CANCEL_TRIP = "to_cancel_trip";
+    
+    String TO_LIST_OFFERED_TRIPS = "to_list_offered_trips";
    
 }

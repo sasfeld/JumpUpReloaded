@@ -47,7 +47,7 @@ public class Login extends AbstractFacesController implements Serializable
 
     @Inject
     protected LoginMethod loginMethod;
-
+    
     /**
      * @return the loginModel
      */

@@ -18,7 +18,6 @@ import de.htw.fb4.imi.jumpup.Application;
 import de.htw.fb4.imi.jumpup.Application.LogType;
 import de.htw.fb4.imi.jumpup.config.IConfigKeys;
 import de.htw.fb4.imi.jumpup.settings.BeanNames;
-import de.htw.fb4.imi.jumpup.validator.AbstractValidator;
 
 /**
  * <p></p>
@@ -29,7 +28,7 @@ import de.htw.fb4.imi.jumpup.validator.AbstractValidator;
  */
 @Named( value = BeanNames.REPEAT_PASSWORD_VALIDATOR )
 @RequestScoped
-public class ConfirmPassword extends AbstractValidator
+public class ConfirmPassword extends AbstractUserValidator
 {       
     public static String PATTERN_NUMERICAL = ".*[0-9]+.*";
     public static String PATTERN_ALPHA = ".*[a-zA-Z]+.*";
@@ -55,7 +54,7 @@ public class ConfirmPassword extends AbstractValidator
         // throw validator with invalid entry message per default if validate() returns false
         if (!this.validate(compareValues)) {            
             throw new ValidatorException(this.facesFacade.newValidationErrorMessage("The passwords don't match.", 
-                    "The passwords you entered don't match. Please type in again."));
+                    this.getDefaultFailureMessage()));
         }
     }
 
@@ -100,5 +99,11 @@ public class ConfirmPassword extends AbstractValidator
     public int getMaxLength()
     {
         return Integer.parseInt(userConfigReader.fetchValue(IConfigKeys.JUMPUP_USER_VALIDATION_PASSWORD_MAX_LENGTH));
+    }
+
+    @Override
+    protected String getDefaultFailureMessage()
+    {
+        return "The passwords you entered don't match. Please type in again.";
     }
 }
