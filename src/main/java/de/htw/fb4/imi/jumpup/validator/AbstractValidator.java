@@ -8,7 +8,6 @@ package de.htw.fb4.imi.jumpup.validator;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.ejb.EJB;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.Validator;
@@ -19,9 +18,9 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceUnit;
 
-import de.htw.fb4.imi.jumpup.settings.BeanNames;
+import de.htw.fb4.imi.jumpup.Application;
+import de.htw.fb4.imi.jumpup.Application.LogType;
 import de.htw.fb4.imi.jumpup.settings.PersistenceSettings;
-import de.htw.fb4.imi.jumpup.user.util.ConfigReader;
 import de.htw.fb4.imi.jumpup.util.FacesFacade;
 
 /**
@@ -42,9 +41,6 @@ public abstract class AbstractValidator implements Validator, JumpUpValidator
     @Inject
     protected FacesFacade facesFacade;
     
-    @EJB( beanName = BeanNames.USER_CONFIG_READER )
-    protected ConfigReader userConfigReader;
-    
     protected Set<String> errorMessages = new HashSet<>();
     
 
@@ -55,11 +51,30 @@ public abstract class AbstractValidator implements Validator, JumpUpValidator
     public void validate(final FacesContext context, final UIComponent component,
             final Object value) throws ValidatorException
     {
+        Application.log(getClass() + " validating users input",
+                LogType.DEBUG, getClass());
+       
         // throw validator with invalid entry message per default if validate() returns false
         if (!this.validate(value)) {
-            throw new ValidatorException(this.facesFacade.newValidationErrorMessage("Invalid entry", "Invalid entry"));
+            // get first error message or print default
+            String msg = this.getDefaultFailureMessage();
+            if (this.errorMessages.size() > 0) {
+                msg = (String) this.errorMessages.toArray()[0];
+            }
+            
+            Application.log(getClass() + " validation failed",
+                    LogType.DEBUG, getClass());
+            
+            throw new ValidatorException(this.facesFacade.newValidationErrorMessage(msg, 
+                    msg));
         }
     }
+ 
+    /**
+     * Define the default validation failure message to be shown.
+     * @return
+     */
+    protected abstract String getDefaultFailureMessage();
 
     @Override
     /* (non-Javadoc)
@@ -72,15 +87,25 @@ public abstract class AbstractValidator implements Validator, JumpUpValidator
 
     /**
      * 
-     * @param mobileNumber
+     * @param value
      * @return
      */
-    protected boolean checkLength(String placeOfBirth)
+    protected boolean checkLength(String value)
     {        
-        if (placeOfBirth.length() < this.getMinLength() || placeOfBirth.length() > this.getMaxLength()) {
+        if (value.length() < this.getMinLength() || value.length() > this.getMaxLength()) {
             return false;
         }
         
         return true;
+    }    
+    
+    /*
+     * (non-Javadoc)
+     * @see de.htw.fb4.imi.jumpup.validator.JumpUpValidator#getFrontendValidationPattern()
+     */
+    public String getFrontendValidationPattern()
+    {
+        // the default validation pattern is the minimum and maximum string length.
+        return ".{" + this.getMinLength() + "," + this.getMaxLength() + "}";
     }
 }

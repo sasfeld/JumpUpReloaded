@@ -32,8 +32,12 @@
 						<h:outputText value="#{translator.translate('Hello').concat(' ').concat(loginController.loginModel.currentUser.prename).concat('!')}" />
 					</div>
 					<div>
-						<h:link value="#{translator.translate('Profile')}" outcome="#{navigationBean.toUserProfileEdit()}"></h:link>
-										
+						<h:panelGrid columns="2">
+							<h:link value="#{translator.translate('Profile')}" outcome="#{navigationBean.toUserProfileEdit()}"></h:link>
+							<h:link value="#{translator.translate('Offer trip')}" outcome="#{navigationBean.toAddTrip()}"></h:link>
+							<h:link value="#{translator.translate('Show my trips')}" outcome="#{navigationBean.toListOfferedTrips()}"></h:link>
+						</h:panelGrid>		
+								
 						<h:form>
 							<h:commandLink value="#{translator.translate('Logout')}"
 								action="#{loginController.logoutUser}"></h:commandLink>

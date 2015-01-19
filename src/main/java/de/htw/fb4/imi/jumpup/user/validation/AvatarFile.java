@@ -5,17 +5,11 @@
  */
 package de.htw.fb4.imi.jumpup.user.validation;
 
-import javax.faces.component.UIComponent;
-import javax.faces.context.FacesContext;
-import javax.faces.validator.ValidatorException;
 import javax.inject.Named;
 import javax.servlet.http.Part;
 
-import de.htw.fb4.imi.jumpup.Application;
-import de.htw.fb4.imi.jumpup.Application.LogType;
 import de.htw.fb4.imi.jumpup.config.IConfigKeys;
 import de.htw.fb4.imi.jumpup.settings.BeanNames;
-import de.htw.fb4.imi.jumpup.validator.AbstractValidator;
 
 /**
  * <p>Validator for the user's avatar file.</p>
@@ -27,35 +21,12 @@ import de.htw.fb4.imi.jumpup.validator.AbstractValidator;
  *
  */
 @Named(value = BeanNames.AVATAR_FILE_VALIDATOR)
-public class AvatarFile extends AbstractValidator
+public class AvatarFile extends AbstractUserValidator
 {
     private static final String CONTENT_TYPE_PNG = "image/png";
     private static final String CONTENT_TYPE_JPG = "image/jpeg";
 
-    @Override    
-    /* (non-Javadoc)
-     * @see javax.faces.validator.Validator#validate(javax.faces.context.FacesContext, javax.faces.component.UIComponent, java.lang.Object)
-     */
-    public void validate(final FacesContext context, final UIComponent component,
-            final Object value) throws ValidatorException
-    {
-        Application.log("AvatarFile: validating users input",
-                LogType.DEBUG, getClass());
-        // throw validator with invalid entry message per default if validate() returns false
-        if (!this.validate(value)) {
-            // get first error message or print default
-            String msg = "Your avatar file is not valid.";
-            if (this.errorMessages.size() > 0) {
-                msg = (String) this.errorMessages.toArray()[0];
-            }
-            
-            Application.log("AvatarFile: validation failed",
-                    LogType.DEBUG, getClass());
-            
-            throw new ValidatorException(this.facesFacade.newValidationErrorMessage(msg, 
-                    msg));
-        }
-    }
+    
 
     @Override
     /* (non-Javadoc)
@@ -113,4 +84,13 @@ public class AvatarFile extends AbstractValidator
         return Integer.parseInt(this.userConfigReader.fetchValue(IConfigKeys.JUMPUP_USER_AVATAR_MAX_SIZE));
     }
 
+    @Override
+    /*
+     * (non-Javadoc)
+     * @see de.htw.fb4.imi.jumpup.validator.AbstractValidator#getDefaultFailureMessage()
+     */
+    protected String getDefaultFailureMessage()
+    {
+        return "Your avatar file is not valid.";
+    }
 }

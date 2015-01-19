@@ -8,9 +8,6 @@ package de.htw.fb4.imi.jumpup.user.validation;
 
 
 import javax.faces.bean.RequestScoped;
-import javax.faces.component.UIComponent;
-import javax.faces.context.FacesContext;
-import javax.faces.validator.ValidatorException;
 import javax.inject.Named;
 import javax.persistence.Query;
 
@@ -20,7 +17,6 @@ import de.htw.fb4.imi.jumpup.config.IConfigKeys;
 import de.htw.fb4.imi.jumpup.settings.BeanNames;
 import de.htw.fb4.imi.jumpup.user.entities.User;
 import de.htw.fb4.imi.jumpup.user.util.ConfigReader;
-import de.htw.fb4.imi.jumpup.validator.AbstractValidator;
 
 /**
  * <p></p>
@@ -31,25 +27,12 @@ import de.htw.fb4.imi.jumpup.validator.AbstractValidator;
  */
 @Named( value = BeanNames.USERNAME_VALIDATOR)
 @RequestScoped
-public class Username extends AbstractValidator
+public class Username extends AbstractUserValidator
 {   
     public static String USERNAME_PATTERN = "[a-zA-Z0-9_-]+";
     
     private boolean dbCheck = true;
 
-    @Override    
-    /* (non-Javadoc)
-     * @see javax.faces.validator.Validator#validate(javax.faces.context.FacesContext, javax.faces.component.UIComponent, java.lang.Object)
-     */
-    public void validate(final FacesContext context, final UIComponent component,
-            final Object value) throws ValidatorException
-    {
-        // throw validator with invalid entry message per default if validate() returns false
-        if (!this.validate(value)) {
-            throw new ValidatorException(this.facesFacade.newValidationErrorMessage("The username already exists.", 
-                    "The username was already taken by another registered user. Please try another one."));
-        }
-    }
 
     @Override
     /* (non-Javadoc)
@@ -111,6 +94,7 @@ public class Username extends AbstractValidator
         Query query = entityManager.createNamedQuery(User.NAME_QUERY_BY_USERNAME).
                 setParameter("username", username);
         if ( 0 < query.getResultList().size()) {
+            this.errorMessages.add("A user with username " + username + "already exists. Please choose another one");
             return true;
         }
         
@@ -153,5 +137,14 @@ public class Username extends AbstractValidator
     public int getMaxLength()
     {
         return Integer.parseInt(userConfigReader.fetchValue(IConfigKeys.JUMPUP_USER_VALIDATION_USERNAME_MAX_LENGTH));
+    }
+    
+    /*
+     * (non-Javadoc)
+     * @see de.htw.fb4.imi.jumpup.validator.AbstractValidator#getDefaultFailureMessage()
+     */
+    protected String getDefaultFailureMessage()
+    {
+        return "You entered an invalid username.";
     }
 }

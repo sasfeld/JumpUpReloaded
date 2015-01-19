@@ -15,7 +15,6 @@ package de.htw.fb4.imi.jumpup.settings;
  */
 public interface BeanNames
 {
-
     String PASSWORD_HASH_GENERATOR = "password_hash_generator";
 
     String REGISTRATION_CONTROLLER = "registrationController";
@@ -25,6 +24,7 @@ public interface BeanNames
 
     String WEBSITE_REGISTRATION = "website_registration";
     String WEBSITE_USER_DETAILS = "website_userDetails";
+    String WEBSITE_TRIP_QUERY = "website_tripQuery";
 
     String TRANSLATOR = "translator";
 
@@ -37,8 +37,9 @@ public interface BeanNames
     String USERNAME_OR_MAIL_VALIDATOR = "emailOrUsernameValidator";
 
     String USER_CONFIG_READER = "userConfigReader";
-
     String MAIL_CONFIG_READER = "mailConfigReader";
+    String TRIP_CONFIG_READER = "tripConfigReader";
+    
     String MAIL_SMTP_ADAPTER = "mailSmtpAdapter";
 
     String NAVIGATION_BEAN = "navigationBean";
@@ -50,4 +51,17 @@ public interface BeanNames
     String PLACE_OF_BIRTH_VALIDATOR = "placeOfBirthValidator";
     String COUNTRY_VALIDATOR = "countryValidator";
     String AVATAR_FILE_VALIDATOR = "avatarFileValidator";
+    String LOCATION_VALIDATOR = "locationValidator";
+    String LATITUDE_VALIDATOR = "latitudeValidator";
+    String LONGITUDE_VALIDATOR = "longitudeValidator";
+    String START_DATETIME_VALIDATOR = "startDatetimeValidator";
+    String END_DATETIME_VALIDATOR = "endDatetimeValidator";
+    String PRICE_VALIDATOR = "priceValidator";
+    String OVERVIEW_PATH_VALIDATOR = "overviewPathValidator";
+    String VIA_WAYPOINTS_VALIDATOR = "viaWaypointsValidator";
+    String NUMBER_SEATS_VALIDATOR = "numberSeatsValidator";
+    
+    String WEBSITE_TRIP_CREATION = "websiteTripCreation";
+    String TRIP_CREATION_CONTROLLER = "tripCreationController";
+    String TRIP_QUERY_CONTROLLER = "tripQueryController";
 }

@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:trip="http://xmlns.jcp.org/jsf/composite/components/trip"
+>
+
+<ui:composition template="../../resources/templates/basic/BasicTemplate.xhtml">
+	
+	<ui:define name="content">
+			<c:choose>
+				<c:when test="#{null != tripQueryController.offeredTrips and tripQueryController.offeredTrips.size() > 0}">
+					<h:dataTable value="#{tripQueryController.offeredTrips}" var="trip"
+						styleClass="trips-table"
+						headerClass="trips-table-header"
+						rowClasses="trips-table-row">
+						<h:column>
+							<f:facet name="header">#{translator.translate('Start location')}</f:facet>
+							
+							#{trip.startpoint}
+						</h:column>
+						
+						<h:column>
+							<f:facet name="header">#{translator.translate('End location')}</f:facet>
+						
+							#{trip.endpoint}
+						</h:column>
+						
+						<h:column>
+							<f:facet name="header">#{translator.translate('Departure')}</f:facet>
+						
+							#{trip.startDateTime}
+						</h:column>
+						
+						<h:column>
+							<f:facet name="header">#{translator.translate('Number of seats')}</f:facet>
+						
+							#{trip.numberOfSeats}
+						</h:column>
+						
+						<h:column>
+							<f:facet name="header">#{translator.translate('Edit the trip')}</f:facet>
+						
+							<h:outputLink value="#{navigationBean.toEditTrip(trip.identity)}"
+							  rendered="#{!trip.wasCancelled()}">#{translator.translate('Edit')}</h:outputLink>
+							  
+							<h:outputText value="#{translator.translate('CANCELED')}" 
+							 rendered="#{trip.wasCancelled()}" />
+						</h:column>
+						
+						<h:column>
+							<f:facet name="header">#{translator.translate('Cancel the trip')}</f:facet>
+							
+							<h:outputLink value="#{navigationBean.toCancelTrip(trip.identity)}"
+							 rendered="#{!trip.wasCancelled()}">#{translator.translate('Cancel')}</h:outputLink>
+							 
+							 <h:outputText value="#{translator.translate('CANCELED')}" 
+							 rendered="#{trip.wasCancelled()}" />
+						</h:column>
+					</h:dataTable>
+				</c:when>
+				<c:otherwise>
+					<p>#{translator.translate('You did not offer any trip yet.')}</p>
+					
+					<p><h:link value="#{translator.translate('Offer a trip now')}" outcome="#{navigationBean.toAddTrip()}"></h:link></p>			
+				</c:otherwise>
+			</c:choose>
+	</ui:define>
+	
+</ui:composition>
+	
+	
+</html>

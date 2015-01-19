@@ -6,9 +6,6 @@
 package de.htw.fb4.imi.jumpup.user.validation;
 
 import javax.enterprise.context.RequestScoped;
-import javax.faces.component.UIComponent;
-import javax.faces.context.FacesContext;
-import javax.faces.validator.ValidatorException;
 import javax.inject.Named;
 
 import de.htw.fb4.imi.jumpup.settings.BeanNames;
@@ -27,25 +24,6 @@ public class SkypeValidator extends AbstractValidator
 {
     private static final String PATTERN_SYKPE = "[a-zA-Z][a-zA-Z0-9\\.,\\-_]*";
 
-    @Override    
-    /* (non-Javadoc)
-     * @see javax.faces.validator.Validator#validate(javax.faces.context.FacesContext, javax.faces.component.UIComponent, java.lang.Object)
-     */
-    public void validate(final FacesContext context, final UIComponent component,
-            final Object value) throws ValidatorException
-    {
-        // throw validator with invalid entry message per default if validate() returns false
-        if (!this.validate(value)) {
-            // get first error message or print default
-            String msg = "You entered an invalid skype account name.";
-            if (this.errorMessages.size() > 0) {
-                msg = (String) this.errorMessages.toArray()[0];
-            }
-            
-            throw new ValidatorException(this.facesFacade.newValidationErrorMessage(msg, 
-                    msg));
-        }
-    }
 
     @Override
     /* (non-Javadoc)
@@ -90,5 +68,13 @@ public class SkypeValidator extends AbstractValidator
     {
         return 31;
     }
-
+    
+    /*
+     * (non-Javadoc)
+     * @see de.htw.fb4.imi.jumpup.validator.AbstractValidator#getDefaultFailureMessage()
+     */
+    protected String getDefaultFailureMessage()
+    {
+        return "You entered an invalid skype account name.";
+    }
 }
