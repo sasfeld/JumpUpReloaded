@@ -132,4 +132,7 @@ $(document).ready(function() {
 	}
 	;
 	
+	// initially show persisted route (EDIT mode)
+	updateRoute();
+	
 });
