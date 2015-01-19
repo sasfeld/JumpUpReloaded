@@ -12,6 +12,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -20,6 +21,7 @@ import javax.persistence.Table;
 import de.htw.fb4.imi.jumpup.Application;
 import de.htw.fb4.imi.jumpup.Application.LogType;
 import de.htw.fb4.imi.jumpup.entities.AbstractEntity;
+import de.htw.fb4.imi.jumpup.settings.PersistenceSettings;
 import de.htw.fb4.imi.jumpup.user.entities.User;
 import de.htw.fb4.imi.jumpup.verhicle.entities.Vehicle;
 
@@ -75,7 +77,8 @@ public class Trip extends AbstractEntity
     @Column(name = "price", nullable = false, updatable = true, unique = false)
     protected float price;
 
-    @Column(name = "overviewpath", nullable = false, updatable = true, unique = false)
+    @Lob
+    @Column(name = "overviewpath", nullable = false, updatable = true, unique = false, length = PersistenceSettings.LONG_TEXT_MAX_LENGTH)
     protected String overViewPath;
 
     @Column(name = "viawaypoints", nullable = true, updatable = true, unique = false)

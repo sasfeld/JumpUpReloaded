@@ -11,9 +11,10 @@
 		<composite:attribute name="valueBinding" required="true" />
 		<composite:attribute name="validatorBean" required="true" />
 		<composite:attribute name="isRequired" required="true" />
+		<composite:attribute name="cssClass" required="true" />
 	</composite:interface>
 	<composite:implementation>
-		<h:inputHidden id="latitude" 
+		<h:inputHidden id="#{cc.attrs.cssClass}" 
 				value="#{cc.attrs.valueBinding}"
 				p:required="#{cc.attrs.isRequired}"
 				p:pattern="#{cc.attrs.validatorBean.getFrontendValidationPattern()}">

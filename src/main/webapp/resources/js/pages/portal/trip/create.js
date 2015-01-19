@@ -22,22 +22,21 @@ $(document).ready(function() {
 	var	REF_MAP_DIRECTIONS = "#directions";
 	
 	var ADDTRIP_REF_FORM = 'form[name="createTripForm"]';
-	
-	var	REF_ADDTRIP_INPUT_STARTCOORD = ADDTRIP_REF_FORM
-			+ ' input[name="startCoordinate"]';
-	var	REF_ADDTRIP_INPUT_ENDCOORD = ADDTRIP_REF_FORM
-			+ ' input[name="endCoordinate"]';		
+		
 	var	REF_ADDTRIP_INPUT_START = ADDTRIP_REF_FORM
 			+ ' .start_location';
 	var	REF_ADDTRIP_INPUT_END = ADDTRIP_REF_FORM
 			+ ' .end_location';
+	var	REF_ADDTRIP_VIA_WAYPOINTS = ADDTRIP_REF_FORM
+	+ ' .via_waypoints';
+	var	REF_ADDTRIP_OVERVIEW_PATH = ADDTRIP_REF_FORM
+	+ ' .overview_path';
+	
 	
 	// load googlemap controller
 	console.log("Instanciating google map controller...");
 	
 	var ctrlOptions = {
-			"input_start_coord" : $(REF_ADDTRIP_INPUT_STARTCOORD),
-			"input_end_coord" : $(REF_ADDTRIP_INPUT_ENDCOORD),
 		};
 	var mapOptions = {
 			"map_canvas" : $(REF_MAP_CANVAS)[0],
@@ -53,6 +52,39 @@ $(document).ready(function() {
 				ctrlOptions);
 	
 	/*
+	 * Draw Route and Display
+	 */
+	function updateRoute() {
+		var startPointValue = $(
+				REF_ADDTRIP_INPUT_START)
+				.val();
+		var endPointValue = $(
+				REF_ADDTRIP_INPUT_END)
+				.val();
+		var viaWaypoints = $(
+				REF_ADDTRIP_VIA_WAYPOINTS)
+				.val();
+
+		var waypointsArray = null;
+		if ("" != viaWaypoints) {
+			waypointsArray = mapCtrl
+					.toOverviewArray(viaWaypoints);
+		}
+
+		if (0 != startPointValue.length
+				&& 0 != endPointValue) {
+			console
+					.log("main.js: showing new route");
+			mapCtrl.showRoute(null,
+					startPointValue,
+					endPointValue,
+					waypointsArray,
+					false);
+		}
+		;
+	}
+	
+	/*
 	 * Bind GoogleMap Autcomplete on start location field
 	 */
 	if ($(REF_ADDTRIP_INPUT_START).length > 0) {
@@ -65,13 +97,13 @@ $(document).ready(function() {
 						function(place) {
 							// start place
 							// changed
-
-							validStart = place.geometry.location;
+							console.log(place);
+							var validStart = place.formatted_address;
 							$(
 									REF_ADDTRIP_INPUT_START)
 									.val(
 											validStart);
-//							updateRoute();
+							updateRoute();
 						});
 	}
 	;
@@ -90,12 +122,12 @@ $(document).ready(function() {
 							// end place
 							// changed
 
-							validEnd = place.geometry.location;
+							var validEnd = place.formatted_address;
 							$(
 									REF_ADDTRIP_INPUT_END)
 									.val(
 											validEnd);
-//							updateRoute();
+							updateRoute();
 						});
 	}
 	;

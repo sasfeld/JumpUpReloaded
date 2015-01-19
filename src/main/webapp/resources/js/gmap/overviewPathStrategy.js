@@ -15,6 +15,8 @@ this.de.htw.fb4.imi.jumpup = this.de.htw.fb4.imi.jumpup || {};
 this.de.htw.fb4.imi.jumpup.trip = this.de.htw.fb4.imi.jumpup.trip || {};
 
 ( function() {
+	var vec2 = de.htw.fb4.imi.jumpup.trip.vec2;
+	
 	/*
 	 * Abstract super class.
 	 */
@@ -69,6 +71,8 @@ this.de.htw.fb4.imi.jumpup.trip = this.de.htw.fb4.imi.jumpup.trip || {};
 	 * Line from a to b. Return distance of p from line.
 	 */
 	function distance(a, b, p) {
+		console.log("overviewPath: distance() function");
+		
 		var vecA = vec2.fromLatLngToVec2( a );
 		var vecB = vec2.fromLatLngToVec2( b );
 		var vecP = vec2.fromLatLngToVec2( p );

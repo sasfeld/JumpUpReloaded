@@ -19,6 +19,7 @@
 	</ui:define>
 	
 	<ui:define name="content">
+		<h:outputScript library="js" name="lib/vec2.js" target="head"/>
 		<h:outputScript library="js" name="gmap/googlemap.js" target="head"/>
 		<h:outputScript library="js" name="gmap/mapcontroller.js" target="head"/>
 		<h:outputScript library="js" name="gmap/overviewPathStrategy.js" target="head"/>
@@ -51,21 +52,25 @@
 					<trip:latLng
 						valueBinding="#{tripCreationController.trip.latStartpoint}"
 						isRequired="required"
+						cssClass="latitude_start"
 						validatorBean="#{latitudeValidator}"/>	
 						
 					<trip:latLng
 						valueBinding="#{tripCreationController.trip.longStartpoint}"
 						isRequired="required"
+						cssClass="longitude_start"
 						validatorBean="#{longitudeValidator}"/>
 						
 					<trip:latLng
 						valueBinding="#{tripCreationController.trip.latEndpoint}"
 						isRequired="required"
+						cssClass="latitude_end"
 						validatorBean="#{latitudeValidator}"/>	
 						
 					<trip:latLng
 						valueBinding="#{tripCreationController.trip.longEndpoint}"
 						isRequired="required"
+						cssClass="longitude_end"
 						validatorBean="#{longitudeValidator}"/>
 						
 					<trip:datetime 
@@ -96,10 +101,12 @@
 						jsfId="overview_path"
 						valueBinding="#{tripCreationController.trip.overViewPath}"
 						isRequired="required"
+						cssClass="overview_path"
 						validatorBean="#{overviewPathValidator}"/>		
 						
 					<trip:via_waypoints
 						jsfId="via_waypoints"
+						cssClass="via_waypoints"
 						valueBinding="#{tripCreationController.trip.viaWaypoints}"
 						validatorBean="#{overviewPathValidator}"/>	
 						

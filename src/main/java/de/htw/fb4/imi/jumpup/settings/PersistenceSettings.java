@@ -18,4 +18,9 @@ public interface PersistenceSettings
      * Name of the persistence unit to be used.
      */
     String PERSISTENCE_UNIT = "database";  
+    
+    /**
+     * Max length of strings that need to be longer than VARCHAR(255) -> default.
+     */
+    int LONG_TEXT_MAX_LENGTH = 1000000;
 }

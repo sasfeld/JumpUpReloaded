@@ -20,7 +20,7 @@ import de.htw.fb4.imi.jumpup.trip.util.TripConfigKeys;
 @Named(value = BeanNames.LOCATION_VALIDATOR)
 public class LocationValidator extends AbstractTripValidator
 {
-    private static final String PATTERN_LOCATION = "^[A-Za-z0-9-.]+$";
+    private static final String PATTERN_LOCATION = "^[A-Za-z0-9-., ]+$";
 
     @Override
     /* (non-Javadoc)

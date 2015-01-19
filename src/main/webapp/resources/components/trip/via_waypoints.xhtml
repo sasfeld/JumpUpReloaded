@@ -11,10 +11,12 @@
 		<composite:attribute name="jsfId" required="true" />
 		<composite:attribute name="valueBinding" required="true" />
 		<composite:attribute name="validatorBean" required="true" />
+		<composite:attribute name="cssClass" required="true" />
 	</composite:interface>
 	<composite:implementation>
 		<h:inputHidden id="#{cc.attrs.jsfId}" 
 				value="#{cc.attrs.valueBinding}"
+				styleClass="#{cc.attrs.cssClass}"
 				>
 				<f:validator binding="#{cc.attrs.validatorBean}" />
 		</h:inputHidden>
