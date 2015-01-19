@@ -5,6 +5,7 @@
  */
 package de.htw.fb4.imi.jumpup.trip.controllers;
 
+import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -21,6 +22,7 @@ import de.htw.fb4.imi.jumpup.settings.BeanNames;
 import de.htw.fb4.imi.jumpup.settings.PersistenceSettings;
 import de.htw.fb4.imi.jumpup.trip.creation.TripCreationMethod;
 import de.htw.fb4.imi.jumpup.trip.entities.Trip;
+import de.htw.fb4.imi.jumpup.trip.util.ConfigReader;
 import de.htw.fb4.imi.jumpup.user.controllers.Login;
 
 /**
@@ -44,15 +46,36 @@ public class TripCreation extends AbstractFacesController
     @Inject
     protected Login loginController;
     
+    @EJB(beanName = BeanNames.TRIP_CONFIG_READER)
+    protected ConfigReader tripConfigReader;
+    
+    
+    /**
+     * Trip ID (used in edit mode only).
+     */
+    protected Long tripId;
+    
     protected EntityManager getFreshEntityManager()
     {
         return this.entityManagerFactory.createEntityManager();
     }
     
     /**
-     * Trip ID (used in edit mode only).
+     * @return the tripConfigReader
      */
-    protected Long tripId;
+    public ConfigReader getTripConfigReader()
+    {
+        return tripConfigReader;
+    }
+
+    /**
+     * @param tripConfigReader the tripConfigReader to set
+     */
+    public void setTripConfigReader(ConfigReader tripConfigReader)
+    {
+        this.tripConfigReader = tripConfigReader;
+    }
+
     
     /**
      * Get {@link Trip}.

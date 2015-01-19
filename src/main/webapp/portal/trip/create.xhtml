@@ -9,14 +9,26 @@
 	xmlns:trip="http://xmlns.jcp.org/jsf/composite/components/trip"
 >
 
-<ui:composition template="../../resources/templates/basic/BasicTemplate.xhtml">
+<ui:composition template="../../resources/templates/basic/BasicTemplate.xhtml">	
 	<f:metadata>
 			<f:viewParam id="tripId" name="trip" value="#{tripCreationController.tripId}" />
 	</f:metadata>
 	
+	<ui:define name="head_beginning">
+		<script src="#{tripCreationController.tripConfigReader.fetchValue('jumpup.trip.googlemap.api')}"></script> 
+	</ui:define>
+	
 	<ui:define name="content">
+		<h:outputScript library="js" name="gmap/googlemap.js" target="head"/>
+		<h:outputScript library="js" name="gmap/mapcontroller.js" target="head"/>
+		<h:outputScript library="js" name="gmap/overviewPathStrategy.js" target="head"/>
+		<h:outputScript library="js" name="pages/portal/trip/create.js" target="head"/>
+		<h:outputStylesheet library="css" name="pages/portal/trip/create.css" />
+		
 		<h:form id="userDetailsForm">
-		  	<h:messages errorClass="errorMessage" infoClass="infoMessage" warnClass="warnMessage"></h:messages>	 	
+		  	<h:messages errorClass="errorMessage" infoClass="infoMessage" warnClass="warnMessage"></h:messages>
+		  	  <div class="rows-two">
+		  		<div class="col-left">
 		  		 <h:panelGrid columns="1">
 					<trip:location 
 						jsfId="start_location"
@@ -109,6 +121,13 @@
 			    			action="#{tripCreationController.editTrip}"></h:commandButton>
 			    	</c:otherwise>
 		    	</c:choose>
+		    	
+		    	</div>
+		    	<div class="col-right">
+		    		<div id="map_canvas" />
+		    		<div id="geocoding" />
+		    	</div> 
+		      </div>
 			</h:form>
 	</ui:define>
 	

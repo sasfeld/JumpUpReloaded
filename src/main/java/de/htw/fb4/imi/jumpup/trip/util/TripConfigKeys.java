@@ -24,4 +24,6 @@ public interface TripConfigKeys
     
     String JUMPUP_TRIP_VALIDATION_NUMBER_SEATS_MIN_VALUE = "jumpup.trip.validation.number_seats.min_value";
     String JUMPUP_TRIP_VALIDATION_NUMBER_SEATS_MAX_VALUE = "jumpup.trip.validation.number_seats.max_value";
+    
+    String JUMPUP_TRIP_GOOGLEMAP_API = "jumpup.trip.googlemap.api";
 }
