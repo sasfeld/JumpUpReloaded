@@ -21,16 +21,16 @@ $(document).ready(function() {
 	var	REF_MAP_GEOCODING = "#geocoding";
 	var	REF_MAP_DIRECTIONS = "#directions";
 	
-	var ADDTRIP_REF_FORM = 'form[name="AddTripForm"]';
+	var ADDTRIP_REF_FORM = 'form[name="createTripForm"]';
 	
 	var	REF_ADDTRIP_INPUT_STARTCOORD = ADDTRIP_REF_FORM
 			+ ' input[name="startCoordinate"]';
 	var	REF_ADDTRIP_INPUT_ENDCOORD = ADDTRIP_REF_FORM
 			+ ' input[name="endCoordinate"]';		
 	var	REF_ADDTRIP_INPUT_START = ADDTRIP_REF_FORM
-			+ ' input[name="startPoint"]';
+			+ ' .start_location';
 	var	REF_ADDTRIP_INPUT_END = ADDTRIP_REF_FORM
-			+ ' input[name="endPoint"]';
+			+ ' .end_location';
 	
 	// load googlemap controller
 	console.log("Instanciating google map controller...");
@@ -71,7 +71,7 @@ $(document).ready(function() {
 									REF_ADDTRIP_INPUT_START)
 									.val(
 											validStart);
-							updateRoute();
+//							updateRoute();
 						});
 	}
 	;
@@ -95,7 +95,7 @@ $(document).ready(function() {
 									REF_ADDTRIP_INPUT_END)
 									.val(
 											validEnd);
-							updateRoute();
+//							updateRoute();
 						});
 	}
 	;

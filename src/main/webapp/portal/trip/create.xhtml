@@ -25,7 +25,7 @@
 		<h:outputScript library="js" name="pages/portal/trip/create.js" target="head"/>
 		<h:outputStylesheet library="css" name="pages/portal/trip/create.css" />
 		
-		<h:form id="userDetailsForm">
+		<h:form id="createTripForm">
 		  	<h:messages errorClass="errorMessage" infoClass="infoMessage" warnClass="warnMessage"></h:messages>
 		  	  <div class="rows-two">
 		  		<div class="col-left">
@@ -36,6 +36,7 @@
 						valueBinding="#{tripCreationController.trip.startpoint}"
 						isRequired="required"
 						validationMessage="Please enter the start location of your trip"
+						cssClass="start_location"
 						validatorBean="#{locationValidator}"/>				
 				
 					<trip:location 
@@ -44,6 +45,7 @@
 						valueBinding="#{tripCreationController.trip.endpoint}"
 						isRequired="required"
 						validationMessage="Please enter the end location of your trip"
+						cssClass="end_location"
 						validatorBean="#{locationValidator}"/>	
 						
 					<trip:latLng
