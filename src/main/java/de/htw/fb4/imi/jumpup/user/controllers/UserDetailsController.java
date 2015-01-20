@@ -34,17 +34,18 @@ public class UserDetailsController extends AbstractFacesController implements
 	 * 
 	 */
     private static final long serialVersionUID = 39062452564614352L;
-    
+
     @Inject
     protected Login loginController;
     @Inject
-    protected UserDetailsMethod userDetailsMethod;    
+    protected UserDetailsMethod userDetailsMethod;
     protected UserDetails newUserDetails = new UserDetails();
-    protected Languages languages = Languages.GERMAN;    
+    protected Languages languages = Languages.GERMAN;
     protected Gender genders = Gender.MAN;
 
     /**
      * Get user details from current user instance OR fresh model.
+     * 
      * @return
      */
     public UserDetails getUserDetails()
@@ -52,16 +53,17 @@ public class UserDetailsController extends AbstractFacesController implements
         User currentUser = loginController.getLoginModel().getCurrentUser();
         Application.log("UserDetailsContoller: current user " + currentUser,
                 LogType.DEBUG, getClass());
-        
+
         try {
-        
-        if (null == currentUser.getUserDetails()) {
-            return this.newUserDetails;
-        }
-        
-        return currentUser.getUserDetails();
+
+            if (null == currentUser.getUserDetails()) {
+                return this.newUserDetails;
+            }
+
+            return currentUser.getUserDetails();
         } catch (Exception e) {
-            Application.log("Exception here: " + e.getLocalizedMessage(), LogType.CRITICAL, getClass());
+            Application.log("Exception here: " + e.getLocalizedMessage(),
+                    LogType.CRITICAL, getClass());
             throw e;
         }
     }
@@ -129,14 +131,19 @@ public class UserDetailsController extends AbstractFacesController implements
 
         return NavigationOutcomes.TO_USER_PROFILE;
     }
-    
+
     /**
-     * Action for uploading the {@link User} avatar which is saved in his/her related {@link UserDetails}.
+     * Action for uploading the {@link User} avatar which is saved in his/her
+     * related {@link UserDetails}.
      * 
      * @return {@link NavigationOutcomes.TO_USER_PROFILE}
      */
+
     public String uploadAvatar()
     {
+        Application.log(
+                "UserDetailsController: upload Avatar has been triggered",
+                LogType.DEBUG, getClass());
         try {
             Application.log("UserDetailsContoller: try to upload avatar",
                     LogType.DEBUG, getClass());
@@ -154,7 +161,7 @@ public class UserDetailsController extends AbstractFacesController implements
                     LogType.ERROR, getClass());
             this.addDisplayErrorMessage("Could not upload your avatar.");
         }
-        
+
         return null;
     }
 }

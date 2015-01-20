@@ -6,6 +6,7 @@
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
     xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:profile="http://xmlns.jcp.org/jsf/composite/components/profile"
+	xmlns:p="http://primefaces.org/ui"
 	>
 
 <ui:composition template="../../resources/templates/basic/BasicTemplate.xhtml">
@@ -36,12 +37,15 @@
 		    		<h:commandButton value="#{translator.translate('Submit')}"
 	    			action="#{userDetailsController.editProfile}"></h:commandButton>
 		    	</h:panelGrid>	 	
+		    	
+		    	 <p:fileUpload fileUploadListener="#{fileUploadController.upload}" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" sizeLimit="100000" description="Select Images"/>
+		    	
 		    </h:form>
 		</div>
 		<div>
 			<h2>#{translator.translate('Change your avatar')}</h2>
-			<h:form id="form" enctype="multipart/form-data">
-			  <h:inputFile id="file" value="#{userDetailsController.userDetails.avatarFile}"/>
+			<h:form id="form" enctype="multipart/form-data" method="post">
+			  <h:inputFile id="file" value="#{userDetailsController.userDetails.avatar}"/>
 			  <h:commandButton value="Upload" action="#{userDetailsController.uploadAvatar}"/>
 			</h:form>
 		</div>
