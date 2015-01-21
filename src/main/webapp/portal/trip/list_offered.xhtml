@@ -33,7 +33,13 @@
 						<h:column>
 							<f:facet name="header">#{translator.translate('Departure')}</f:facet>
 						
-							#{trip.startDateTime}
+							#{localeHelper.formatDateTime(tripCreationController.trip.startDateTime)}
+						</h:column>
+						
+						<h:column>
+							<f:facet name="header">#{translator.translate('Price')}</f:facet>
+						
+							#{trip.price}
 						</h:column>
 						
 						<h:column>
