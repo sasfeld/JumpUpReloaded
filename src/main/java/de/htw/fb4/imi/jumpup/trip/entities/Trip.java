@@ -374,6 +374,65 @@ public class Trip extends AbstractEntity
         Application.log("Trip " + getIdentity() + " was cancelled: " + wasCancelled, LogType.DEBUG, getClass());
         return wasCancelled;
     }
+    
+    /**
+     * Check whether the trip can still be edited:
+     * <ul>
+     *  <li>if it is in the future</li>
+     *  <li>if it was not cancelled yet</li>
+     *  <li>if it has no (confirmed) bookings yet</li>
+     * </ul>
+     * @return
+     */
+    public boolean canBeEdited()
+    {
+        return this.isInFuture() 
+                && !this.wasCancelled() 
+                && !this.hasBookings();
+    }
+    
+    /**
+     * Check whether the trip can still be canceled.
+     * 
+     * <ul>
+     *  <li>if takes place in the future.</li>
+     *  <li>if it wasn't cancelled yet.</li>
+     * </ul>
+     * @return
+     */
+    public boolean canBeCancelled()
+    {
+        return this.isInFuture()
+                && !this.wasCancelled();
+    }
+
+    /**
+     * TODO check whether the trip has booking relations
+     * @return
+     */
+    public boolean hasBookings()
+    {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    /**
+     * Check whether the trip is in future, return true.
+     * 
+     * Otherwise return false (the trip is in past).
+     * 
+     * @return
+     */
+    public boolean isInFuture()
+    {
+        if (null == this.getStartDateTime()) {
+            return false;
+        }
+        
+        long currentTime = System.currentTimeMillis();
+        
+        return (this.getStartDateTime().getTime() - currentTime) > 0;
+    }
 
     /* (non-Javadoc)
      * @see java.lang.Object#hashCode()

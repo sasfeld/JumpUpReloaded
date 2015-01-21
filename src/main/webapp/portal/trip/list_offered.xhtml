@@ -44,9 +44,9 @@
 						
 						<h:column>
 							<f:facet name="header">#{translator.translate('Edit the trip')}</f:facet>
-						
+							
 							<h:outputLink value="#{navigationBean.toEditTrip(trip.identity)}"
-							  rendered="#{!trip.wasCancelled()}">#{translator.translate('Edit')}</h:outputLink>
+							  rendered="#{trip.canBeEdited()}">#{translator.translate('Edit')}</h:outputLink>
 							  
 							<h:outputText value="#{translator.translate('CANCELED')}" 
 							 rendered="#{trip.wasCancelled()}" />
@@ -56,7 +56,7 @@
 							<f:facet name="header">#{translator.translate('Cancel the trip')}</f:facet>
 							
 							<h:outputLink value="#{navigationBean.toCancelTrip(trip.identity)}"
-							 rendered="#{!trip.wasCancelled()}">#{translator.translate('Cancel')}</h:outputLink>
+							 rendered="#{trip.canBeCancelled()}">#{translator.translate('Cancel')}</h:outputLink>
 							 
 							 <h:outputText value="#{translator.translate('CANCELED')}" 
 							 rendered="#{trip.wasCancelled()}" />
