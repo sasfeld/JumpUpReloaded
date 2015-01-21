@@ -7,13 +7,21 @@ package de.htw.fb4.imi.jumpup.mail.builder;
 
 import java.io.File;
 
+import javax.ejb.EJB;
 import javax.ejb.Stateful;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+
+import org.apache.commons.lang.exception.ExceptionUtils;
 
 import de.htw.fb4.imi.jumpup.Application;
 import de.htw.fb4.imi.jumpup.Application.LogType;
+import de.htw.fb4.imi.jumpup.config.IConfigKeys;
 import de.htw.fb4.imi.jumpup.mail.MailModel;
+import de.htw.fb4.imi.jumpup.mail.util.ConfigReader;
+import de.htw.fb4.imi.jumpup.settings.BeanNames;
 import de.htw.fb4.imi.jumpup.util.FaceletRenderer;
 import de.htw.fb4.imi.jumpup.util.FacesFacade;
 import de.htw.fb4.imi.jumpup.util.TemplateHandler;
@@ -36,6 +44,9 @@ public class MailBuilderImpl implements MailBuilder
     protected TemplateHandler templateHandler;
     
     protected MailModel mailModel;
+    
+    @EJB(beanName = BeanNames.MAIL_CONFIG_READER)
+    protected ConfigReader mailConfigReader;
     
     /**
      * Get template renderer.
@@ -125,7 +136,28 @@ public class MailBuilderImpl implements MailBuilder
      */
     public MailModel getBuildedMailModel()
     {
+        MailModel mailModel = this.getMailModel();
+        
+        // set default sender
+        try {
+            mailModel.setSender(new InternetAddress(this.mailConfigReader.fetchValue(IConfigKeys.JUMPUP_MAIL_DEFAULT_SENDER)));
+        } catch (AddressException e) {
+            Application.log("getBuildedMailModel(): the default sender mail as configured in mail.properties.local is malformed. Will not set the sender.\nException: " 
+                    + e.getMessage() + "\n"
+                    + ExceptionUtils.getFullStackTrace(e), LogType.ERROR, getClass());
+        }
+        
         return this.getMailModel();
+    }
+
+    @Override
+    /*
+     * (non-Javadoc)
+     * @see de.htw.fb4.imi.jumpup.mail.builder.MailBuilder#reset()
+     */
+    public void reset()
+    {
+       this.mailModel = null;        
     }
 
 }

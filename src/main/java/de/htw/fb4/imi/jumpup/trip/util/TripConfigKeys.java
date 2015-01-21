@@ -26,4 +26,9 @@ public interface TripConfigKeys
     String JUMPUP_TRIP_VALIDATION_NUMBER_SEATS_MAX_VALUE = "jumpup.trip.validation.number_seats.max_value";
     
     String JUMPUP_TRIP_GOOGLEMAP_API = "jumpup.trip.googlemap.api";
+    
+    String JUMPUP_TRIP_CREATED_MAIL_TEMPLATE_TXT = "jumpup.trip.created.mail.template.txt";
+    String JUMPUP_TRIP_CHANGED_MAIL_TEMPLATE_TXT = "jumpup.trip.changed.mail.template.txt";
+    String JUMPUP_TRIP_CANCELED_MAIL_DRIVER_TEMPLATE_TXT = "jumpup.trip.canceled.mail_driver.template.txt";
+    String JUMPUP_TRIP_CANCELED_MAIL_PASSENGER_TEMPLATE_TXT = "jumpup.trip.canceled.mail_passenger.template.txt";
 }

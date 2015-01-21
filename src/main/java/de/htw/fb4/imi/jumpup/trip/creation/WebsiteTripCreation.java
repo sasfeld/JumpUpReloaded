@@ -5,29 +5,39 @@
  */
 package de.htw.fb4.imi.jumpup.trip.creation;
 
+import java.io.File;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
 import javax.resource.spi.IllegalStateException;
 
+import org.apache.commons.lang.exception.ExceptionUtils;
+
 import de.htw.fb4.imi.jumpup.Application;
 import de.htw.fb4.imi.jumpup.Application.LogType;
 import de.htw.fb4.imi.jumpup.mail.MailAdapter;
+import de.htw.fb4.imi.jumpup.mail.MailModel;
 import de.htw.fb4.imi.jumpup.mail.builder.MailBuilder;
 import de.htw.fb4.imi.jumpup.settings.BeanNames;
 import de.htw.fb4.imi.jumpup.settings.PersistenceSettings;
 import de.htw.fb4.imi.jumpup.translate.Translatable;
 import de.htw.fb4.imi.jumpup.trip.entities.Trip;
+import de.htw.fb4.imi.jumpup.trip.util.ConfigReader;
+import de.htw.fb4.imi.jumpup.trip.util.TripConfigKeys;
 import de.htw.fb4.imi.jumpup.user.controllers.Login;
 import de.htw.fb4.imi.jumpup.user.entities.User;
 import de.htw.fb4.imi.jumpup.util.ErrorPrintable;
+import de.htw.fb4.imi.jumpup.util.FileUtil;
 
 /**
  * <p></p>
@@ -53,6 +63,9 @@ public class WebsiteTripCreation implements TripCreationMethod, ErrorPrintable
     
     @Inject
     protected Login loginController;
+    
+    @EJB(name = BeanNames.TRIP_CONFIG_READER)
+    protected ConfigReader tripConfigReader;
     
     protected Set<String> errorMessages;
     
@@ -80,6 +93,7 @@ public class WebsiteTripCreation implements TripCreationMethod, ErrorPrintable
     protected void reset()
     {
         this.errorMessages = new HashSet<>();
+        this.mailBuilder.reset();
     }
     
     /**
@@ -147,10 +161,32 @@ public class WebsiteTripCreation implements TripCreationMethod, ErrorPrintable
         }
     }
 
-    private void sendTripAddedMailToDriver(final Trip trip)
+    protected void sendTripAddedMailToDriver(final Trip trip)
+    {        
+        try {
+            buildTxtMail(TripConfigKeys.JUMPUP_TRIP_CREATED_MAIL_TEMPLATE_TXT);
+            MailModel m = this.mailBuilder.getBuildedMailModel()
+                    .addRecipient(new InternetAddress(trip.getDriver().geteMail()))
+                    .setSubject(this.translator.translate("JumpUp.Me - Your trip was added"));
+            
+            this.mailAdapter.sendHtmlMail(m);
+        } catch (AddressException e) {
+            Application.log("sendTripAddedMailToDriver(): the recipient mail of the driver is malformed. Will not set the sender.\nException: "
+                    + e.getMessage() + "\n"
+                    + ExceptionUtils.getFullStackTrace(e), LogType.ERROR, getClass());
+            this.errorMessages.add("We could not send an confirmation mail.");
+        } catch (Exception e) {
+            Application.log("sendTripAddedMailToDriver(): error while sending trip updated mail to driver.\nException: "
+                    + e.getMessage() + "\n"
+                    + ExceptionUtils.getFullStackTrace(e), LogType.ERROR, getClass());
+            this.errorMessages.add("We could not send an confirmation mail.");
+        }      
+    }
+
+    protected void buildTxtMail(String txtTemplateConfigKey)
     {
-        // TODO Auto-generated method stub
-        
+        File templateFile = new File(FileUtil.getPathToWebInfFolder(), this.tripConfigReader.fetchValue(txtTemplateConfigKey));
+        this.mailBuilder.addPlainTextContent(templateFile);
     }
 
     protected void persistTrip(final Trip trip) throws IllegalStateException
@@ -192,9 +228,24 @@ public class WebsiteTripCreation implements TripCreationMethod, ErrorPrintable
     }
     
     private void sendTripUpdatedMailToDriver(Trip trip)
-    {
-        // TODO Auto-generated method stub
-        
+    {        
+        try {
+            buildTxtMail(TripConfigKeys.JUMPUP_TRIP_CHANGED_MAIL_TEMPLATE_TXT);
+            MailModel m = this.mailBuilder.getBuildedMailModel()
+                    .addRecipient(new InternetAddress(trip.getDriver().geteMail()))
+                    .setSubject(this.translator.translate("JumpUp.Me - Your trip was changed"));
+            this.mailAdapter.sendHtmlMail(m);
+        } catch (AddressException e) {
+            Application.log("sendTripUpdatedMailToDriver(): the recipient mail of the driver is malformed. Will not set the sender.\nException: "
+                    + e.getMessage() + "\n"
+                    + ExceptionUtils.getFullStackTrace(e), LogType.ERROR, getClass());
+            this.errorMessages.add("We could not send an confirmation mail.");
+        } catch (Exception e) {
+            Application.log("sendTripUpdatedMailToDriver(): error while sending trip updated mail to driver.\nException: "
+                    + e.getMessage() + "\n"
+                    + ExceptionUtils.getFullStackTrace(e), LogType.ERROR, getClass());
+            this.errorMessages.add("We could not send an confirmation mail.");
+        }
     }
 
     private void sendTripUpdatedMailToPassengers(Trip trip)
@@ -236,19 +287,32 @@ public class WebsiteTripCreation implements TripCreationMethod, ErrorPrintable
 
         entityManager.merge(trip);
         entityManager.flush();
-    }    
-  
+    }      
 
     private void sendTripCanceledMailToDriver(Trip trip)
-    {
-        // TODO Auto-generated method stub
-        
+    {        
+        try {
+            buildTxtMail(TripConfigKeys.JUMPUP_TRIP_CANCELED_MAIL_DRIVER_TEMPLATE_TXT);
+            MailModel m = this.mailBuilder.getBuildedMailModel()
+                    .addRecipient(new InternetAddress(trip.getDriver().geteMail()))
+                    .setSubject(this.translator.translate("JumpUp.Me - Your trip was canceled"));
+            this.mailAdapter.sendHtmlMail(m);
+        } catch (AddressException e) {
+            Application.log("sendTripCanceledMailToDriver(): the recipient mail of the driver is malformed. Will not set the sender.\nException: "
+                    + e.getMessage() + "\n"
+                    + ExceptionUtils.getFullStackTrace(e), LogType.ERROR, getClass());
+            this.errorMessages.add("We could not send an confirmation mail.");
+        } catch (Exception e) {
+            Application.log("sendTripAddedMailToDriver(): error while sending trip updated mail to driver.\nException: "
+                    + e.getMessage() + "\n"
+                    + ExceptionUtils.getFullStackTrace(e), LogType.ERROR, getClass());
+            this.errorMessages.add("We could not send an confirmation mail.");
+        }                
     }
     
     private void sendTripCanceledMailToPassengers(Trip trip)
     {
-        // TODO Auto-generated method stub
-        
+        // TODO Auto-generated method stub        
     }
     
     private Timestamp getCurrentTimestamp()

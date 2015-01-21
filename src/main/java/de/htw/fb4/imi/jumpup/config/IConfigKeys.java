@@ -54,5 +54,6 @@ public interface IConfigKeys {
     String JUMPUP_USER_COUNTRY_MIN_LENGTH = "jumpup.user.country.min_length";   
     String JUMPUP_USER_COUNTRY_MAX_LENGTH = "jumpup.user.country.max_length";
     String JUMPUP_USER_AVATAR_MAX_SIZE = "jumpup.user.avatar.max_size";   
+    String JUMPUP_MAIL_DEFAULT_SENDER = "jumpup.mail.default.sender";
 
 }

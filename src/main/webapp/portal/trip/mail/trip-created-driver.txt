@@ -1,0 +1,24 @@
+#{translator.translate('You added a trip')}, #{loginController.loginModel.currentUser.prename}! 
+
+#{translator.translate('We are sending this e-mail to confirm the trip that you added.')}
+#{translator.translate('Please check the trip data below:')}
+
+-------------------------------------
+
+#{translator.translate('Start location')}: #{tripCreationController.trip.startpoint}
+#{translator.translate('End location')}: #{tripCreationController.trip.endpoint}
+
+#{translator.translate('Departure date')}: #{localeHelper.formatDate(tripCreationController.trip.startDateTime)}
+-> #{translator.translate('Time')}: #{localeHelper.formatTime(tripCreationController.trip.startDateTime)}
+
+#{translator.translate('Estimated arrival date')}: #{localeHelper.formatDate(tripCreationController.trip.endDateTime)}
+-> #{translator.translate('Time')}: #{localeHelper.formatTime(tripCreationController.trip.endDateTime)}
+
+-------------------------------------
+
+#{translator.translate('You can still change the trip data until the first booking.')} 
+
+#{translator.translate('You can change it here:')} #{navigationBean.toEditTrip(tripCreationController.trip.identity)}
+
+#{translator.translate("Greetings")}, 
+#{translator.translate("Your JumpUp.Me - Team")}

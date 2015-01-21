@@ -24,6 +24,11 @@ import de.htw.fb4.imi.jumpup.mail.MailModel;
 public interface MailBuilder
 {
     /**
+     * Reset current state.
+     */
+    void reset();
+    
+    /**
      * <p>Add plain text content by the given template file.</p>
      * 
      * <p>The template file can be a *.txt for example.</p>

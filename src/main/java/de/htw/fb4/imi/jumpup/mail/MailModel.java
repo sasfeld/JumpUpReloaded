@@ -82,15 +82,17 @@ public class MailModel
      * </p>
      * 
      * @param recipient
+     * @return 
      * @throws NullPointerException
      */
-    public void addRecipient(final InternetAddress recipient)
+    public MailModel addRecipient(final InternetAddress recipient)
     {
         if (null == recipient) {
             throw new NullPointerException("Null is not allowed as value for recipient.");
         }        
         
         this.recipients.add(recipient);
+        return this;
     }
     
     /**
@@ -112,10 +114,13 @@ public class MailModel
 
     /**
      * @param subject the subject to set
+     * @return 
      */
-    public void setSubject(String subject)
+    public MailModel setSubject(String subject)
     {
         this.subject = subject;
+        
+        return this;
     }
 
     /**
