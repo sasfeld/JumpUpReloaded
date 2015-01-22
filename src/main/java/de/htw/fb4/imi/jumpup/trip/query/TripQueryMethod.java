@@ -11,6 +11,7 @@ import javax.ejb.Local;
 
 import de.htw.fb4.imi.jumpup.trip.entities.Trip;
 import de.htw.fb4.imi.jumpup.user.entities.User;
+import de.htw.fb4.imi.jumpup.util.ErrorPrintable;
 
 /**
  * <p>This EJB offers services to:</p> 
@@ -25,7 +26,7 @@ import de.htw.fb4.imi.jumpup.user.entities.User;
  *
  */
 @Local
-public interface TripQueryMethod
+public interface TripQueryMethod extends ErrorPrintable
 {
     
     /**

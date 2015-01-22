@@ -78,7 +78,14 @@ public class TripQuery extends AbstractFacesController implements Serializable
         try {
             User loggedInUser = loginController.getLoginModel().getCurrentUser();
                         
-            return this.tripQueryMethod.getOfferedTrips(loggedInUser);
+            List<Trip> offeredTrips = this.tripQueryMethod.getOfferedTrips(loggedInUser);
+            
+            // print last error message if given
+            if (this.tripQueryMethod.hasError()) {
+                this.addDisplayErrorMessage(this.tripQueryMethod.getErrors()[0]);
+            }
+            
+            return offeredTrips;
         } catch (Exception e) {
             Application.log("getOfferedTrips(): an exception occured:" + e.getMessage() 
                     + "\n" + ExceptionUtils.getStackTrace(e) , LogType.CRITICAL, getClass());

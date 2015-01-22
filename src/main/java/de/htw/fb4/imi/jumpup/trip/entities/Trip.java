@@ -40,11 +40,13 @@ import de.htw.fb4.imi.jumpup.verhicle.entities.Vehicle;
 @Entity
 @Table(name = "trip")
 @NamedQueries({
+        @NamedQuery(name = Trip.NAME_QUERY_BY_USER, query = "SELECT t FROM Trip t WHERE t.driver = :driver"),
         @NamedQuery(name = Trip.NAME_QUERY_BY_STARTPOINT, query = "SELECT t FROM Trip t WHERE t.startpoint = :startpoint"),
         @NamedQuery(name = Trip.NAME_QUERY_BY_ENDPOINT, query = "SELECT t FROM Trip t WHERE t.endpoint = :endpoint") })
 public class Trip extends AbstractEntity
 {
 
+    public static final String NAME_QUERY_BY_USER = "QUERY_BY_USER";
     public static final String NAME_QUERY_BY_STARTPOINT = "QUERY_BY_STARTPOINT";
     public static final String NAME_QUERY_BY_ENDPOINT = "QUERY_BY_ENDPOINT";
 
@@ -103,6 +105,13 @@ public class Trip extends AbstractEntity
     @Column(name = "cancelation_datetime", nullable = true, updatable = true, unique = false)
     protected Timestamp cancelationDateTime;
 
+    @Column(name = "distance_meters", nullable = false, updatable = true)
+    protected long distanceMeters;
+    
+    @Column(name = "duration_seconds", nullable = false, updatable = true)
+    protected long durationSeconds;
+    
+    
     /**
      * @return the startpoint
      */
@@ -467,21 +476,41 @@ public class Trip extends AbstractEntity
         this.bookings = bookings;
     }
 
-    @Override
-    public String toString()
+    /**
+     * @return the distanceMeters
+     */
+    public long getDistanceMeters()
     {
-        return "Trip [bookings=" + bookings + ", startpoint=" + startpoint
-                + ", endpoint=" + endpoint + ", latStartpoint=" + latStartpoint
-                + ", longStartpoint=" + longStartpoint + ", latEndpoint="
-                + latEndpoint + ", longEndpoint=" + longEndpoint
-                + ", startDateTime=" + startDateTime + ", endDateTime="
-                + endDateTime + ", price=" + price + ", overViewPath="
-                + overViewPath + ", viaWaypoints=" + viaWaypoints
-                + ", numberOfSeats=" + numberOfSeats + ", vehicle=" + vehicle
-                + ", driver=" + driver + ", cancelationDateTime="
-                + cancelationDateTime + "]";
+        return distanceMeters;
     }
 
+    /**
+     * @param distanceMeters the distanceMeters to set
+     */
+    public void setDistanceMeters(long distanceMeters)
+    {
+        this.distanceMeters = distanceMeters;
+    }
+
+    /**
+     * @return the durationSeconds
+     */
+    public long getDurationSeconds()
+    {
+        return durationSeconds;
+    }
+
+    /**
+     * @param durationSeconds the durationSeconds to set
+     */
+    public void setDurationSeconds(long durationSeconds)
+    {
+        this.durationSeconds = durationSeconds;
+    }
+
+    /* (non-Javadoc)
+     * @see java.lang.Object#hashCode()
+     */
     @Override
     public int hashCode()
     {
@@ -493,7 +522,11 @@ public class Trip extends AbstractEntity
                 * result
                 + ((cancelationDateTime == null) ? 0 : cancelationDateTime
                         .hashCode());
+        result = prime * result
+                + (int) (distanceMeters ^ (distanceMeters >>> 32));
         result = prime * result + ((driver == null) ? 0 : driver.hashCode());
+        result = prime * result
+                + (int) (durationSeconds ^ (durationSeconds >>> 32));
         result = prime * result
                 + ((endDateTime == null) ? 0 : endDateTime.hashCode());
         result = prime * result
@@ -537,10 +570,14 @@ public class Trip extends AbstractEntity
                 return false;
         } else if (!cancelationDateTime.equals(other.cancelationDateTime))
             return false;
+        if (distanceMeters != other.distanceMeters)
+            return false;
         if (driver == null) {
             if (other.driver != null)
                 return false;
         } else if (!driver.equals(other.driver))
+            return false;
+        if (durationSeconds != other.durationSeconds)
             return false;
         if (endDateTime == null) {
             if (other.endDateTime != null)
@@ -599,4 +636,48 @@ public class Trip extends AbstractEntity
         return true;
     }
 
+    /* (non-Javadoc)
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString()
+    {
+        StringBuilder builder = new StringBuilder();
+        builder.append("Trip [startpoint=");
+        builder.append(startpoint);
+        builder.append(", endpoint=");
+        builder.append(endpoint);
+        builder.append(", latStartpoint=");
+        builder.append(latStartpoint);
+        builder.append(", longStartpoint=");
+        builder.append(longStartpoint);
+        builder.append(", latEndpoint=");
+        builder.append(latEndpoint);
+        builder.append(", longEndpoint=");
+        builder.append(longEndpoint);
+        builder.append(", startDateTime=");
+        builder.append(startDateTime);
+        builder.append(", endDateTime=");
+        builder.append(endDateTime);
+        builder.append(", price=");
+        builder.append(price);
+        builder.append(", overViewPath=");
+        builder.append(overViewPath);
+        builder.append(", viaWaypoints=");
+        builder.append(viaWaypoints);
+        builder.append(", numberOfSeats=");
+        builder.append(numberOfSeats);
+        builder.append(", vehicle=");
+        builder.append(vehicle);
+        builder.append(", driver=");
+        builder.append(driver);
+        builder.append(", cancelationDateTime=");
+        builder.append(cancelationDateTime);
+        builder.append(", distanceMeters=");
+        builder.append(distanceMeters);
+        builder.append(", durationSeconds=");
+        builder.append(durationSeconds);
+        builder.append("]");
+        return builder.toString();
+    }
 }
