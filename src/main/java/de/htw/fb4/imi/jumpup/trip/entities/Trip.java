@@ -97,6 +97,13 @@ public class Trip extends AbstractEntity
     @Column(name = "cancelation_datetime", nullable = true, updatable = true, unique = false)
     protected Timestamp cancelationDateTime;
 
+    @Column(name = "distance_meters", nullable = false, updatable = true)
+    protected long distanceMeters;
+    
+    @Column(name = "duration_seconds", nullable = false, updatable = true)
+    protected long durationSeconds;
+    
+    
     /**
      * @return the startpoint
      */
@@ -434,6 +441,38 @@ public class Trip extends AbstractEntity
         return (this.getStartDateTime().getTime() - currentTime) > 0;
     }
 
+    /**
+     * @return the distanceMeters
+     */
+    public long getDistanceMeters()
+    {
+        return distanceMeters;
+    }
+
+    /**
+     * @param distanceMeters the distanceMeters to set
+     */
+    public void setDistanceMeters(long distanceMeters)
+    {
+        this.distanceMeters = distanceMeters;
+    }
+
+    /**
+     * @return the durationSeconds
+     */
+    public long getDurationSeconds()
+    {
+        return durationSeconds;
+    }
+
+    /**
+     * @param durationSeconds the durationSeconds to set
+     */
+    public void setDurationSeconds(long durationSeconds)
+    {
+        this.durationSeconds = durationSeconds;
+    }
+
     /* (non-Javadoc)
      * @see java.lang.Object#hashCode()
      */
@@ -446,7 +485,11 @@ public class Trip extends AbstractEntity
                 * result
                 + ((cancelationDateTime == null) ? 0 : cancelationDateTime
                         .hashCode());
+        result = prime * result
+                + (int) (distanceMeters ^ (distanceMeters >>> 32));
         result = prime * result + ((driver == null) ? 0 : driver.hashCode());
+        result = prime * result
+                + (int) (durationSeconds ^ (durationSeconds >>> 32));
         result = prime * result
                 + ((endDateTime == null) ? 0 : endDateTime.hashCode());
         result = prime * result
@@ -488,10 +531,14 @@ public class Trip extends AbstractEntity
                 return false;
         } else if (!cancelationDateTime.equals(other.cancelationDateTime))
             return false;
+        if (distanceMeters != other.distanceMeters)
+            return false;
         if (driver == null) {
             if (other.driver != null)
                 return false;
         } else if (!driver.equals(other.driver))
+            return false;
+        if (durationSeconds != other.durationSeconds)
             return false;
         if (endDateTime == null) {
             if (other.endDateTime != null)
@@ -587,6 +634,10 @@ public class Trip extends AbstractEntity
         builder.append(driver);
         builder.append(", cancelationDateTime=");
         builder.append(cancelationDateTime);
+        builder.append(", distanceMeters=");
+        builder.append(distanceMeters);
+        builder.append(", durationSeconds=");
+        builder.append(durationSeconds);
         builder.append("]");
         return builder.toString();
     }

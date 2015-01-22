@@ -33,11 +33,13 @@ this.de.htw.fb4.imi.jumpup.trip = this.de.htw.fb4.imi.jumpup.trip || {};
 	REF_ADDTRIP_INPUT_ENDCOORD_VISIBLE =  ADDTRIP_REF_FORM
 	+ ' .end_location';;
 	var
-	REF_ADDTRIP_INPUT_DURATION = 'input[name="duration"]';
+	REF_ADDTRIP_INPUT_DURATION = ADDTRIP_REF_FORM
+	+ " input[name$='duration']";
 	var
-	REF_ADDTRIP_INPUT_DISTANCE = 'input[name="distance"]';
+	REF_ADDTRIP_INPUT_DISTANCE = ADDTRIP_REF_FORM
+	+ " input[name$='distance']";
 	var
-	REF_ADDTRIP_INPUT_OVERVIEW_PATH = ADDTRIP_REF_FORM
+	REF_ADDTRIP_INPUT_OVERVIEW_PATH =  ADDTRIP_REF_FORM
 	+ " input[name$='overview_path']";
 	var
 	REF_ADDTRIP_INPUT_VIA_WAYPOINTS = ADDTRIP_REF_FORM
