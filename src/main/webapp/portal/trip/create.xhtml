@@ -110,6 +110,20 @@
 						valueBinding="#{tripCreationController.trip.viaWaypoints}"
 						validatorBean="#{overviewPathValidator}"/>	
 						
+					<trip:basic_numeric
+						jsfId="duration"
+						valueBinding="#{tripCreationController.trip.durationSeconds}"/>	
+						
+					<trip:basic_numeric
+						jsfId="distance"
+						valueBinding="#{tripCreationController.trip.distanceMeters}"/>	
+						
+					<trip:via_waypoints
+						jsfId="via_waypoints"
+						cssClass="via_waypoints"
+						valueBinding="#{tripCreationController.trip.viaWaypoints}"
+						validatorBean="#{overviewPathValidator}"/>	
+						
 					<trip:number_seats 
 						jsfId="numberSeats"
 						label="Number of Seats"
