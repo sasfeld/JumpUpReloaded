@@ -7,6 +7,7 @@ package de.htw.fb4.imi.jumpup.trip.entities;
 
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,10 +17,12 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import de.htw.fb4.imi.jumpup.Application;
 import de.htw.fb4.imi.jumpup.Application.LogType;
+import de.htw.fb4.imi.jumpup.booking.entities.Booking;
 import de.htw.fb4.imi.jumpup.entities.AbstractEntity;
 import de.htw.fb4.imi.jumpup.settings.PersistenceSettings;
 import de.htw.fb4.imi.jumpup.user.entities.User;
@@ -49,6 +52,9 @@ public class Trip extends AbstractEntity
      * 
      */
     private static final long serialVersionUID = -3854579506642418644L;
+
+    @OneToMany(mappedBy = "trip")
+    private List<Booking> bookings;
 
     @Column(name = "startpoint", nullable = false, updatable = true, unique = false)
     protected String startpoint;
@@ -90,10 +96,10 @@ public class Trip extends AbstractEntity
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "trips")
     protected Vehicle vehicle;
-    
+
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     protected User driver;
-    
+
     @Column(name = "cancelation_datetime", nullable = true, updatable = true, unique = false)
     protected Timestamp cancelationDateTime;
 
@@ -106,7 +112,8 @@ public class Trip extends AbstractEntity
     }
 
     /**
-     * @param startpoint the startpoint to set
+     * @param startpoint
+     *            the startpoint to set
      */
     public void setStartpoint(String startpoint)
     {
@@ -122,7 +129,8 @@ public class Trip extends AbstractEntity
     }
 
     /**
-     * @param endpoint the endpoint to set
+     * @param endpoint
+     *            the endpoint to set
      */
     public void setEndpoint(String endpoint)
     {
@@ -138,7 +146,8 @@ public class Trip extends AbstractEntity
     }
 
     /**
-     * @param latStartpoint the latStartpoint to set
+     * @param latStartpoint
+     *            the latStartpoint to set
      */
     public void setLatStartpoint(float latStartpoint)
     {
@@ -154,7 +163,8 @@ public class Trip extends AbstractEntity
     }
 
     /**
-     * @param longStartpoint the longStartpoint to set
+     * @param longStartpoint
+     *            the longStartpoint to set
      */
     public void setLongStartpoint(float longStartpoint)
     {
@@ -170,7 +180,8 @@ public class Trip extends AbstractEntity
     }
 
     /**
-     * @param latEndpoint the latEntpoint to set
+     * @param latEndpoint
+     *            the latEntpoint to set
      */
     public void setLatEndpoint(float latEndpoint)
     {
@@ -186,7 +197,8 @@ public class Trip extends AbstractEntity
     }
 
     /**
-     * @param longEndpoint the longEndpoint to set
+     * @param longEndpoint
+     *            the longEndpoint to set
      */
     public void setLongEndpoint(float longEndpoint)
     {
@@ -201,18 +213,19 @@ public class Trip extends AbstractEntity
         if (null == this.startDateTime) {
             return new Date();
         }
-        
+
         return new Date(this.startDateTime.getTime());
     }
 
     /**
-     * @param startDateTime the startDateTime to set
+     * @param startDateTime
+     *            the startDateTime to set
      */
     public void setStartDateTime(Timestamp startDateTime)
     {
         this.startDateTime = startDateTime;
     }
-    
+
     /**
      * 
      * @param startDateTime
@@ -230,18 +243,19 @@ public class Trip extends AbstractEntity
         if (null == this.endDateTime) {
             return new Date();
         }
-        
+
         return new Date(this.endDateTime.getTime());
     }
 
     /**
-     * @param endDateTime the endDateTime to set
+     * @param endDateTime
+     *            the endDateTime to set
      */
     public void setEndDateTime(Timestamp endDateTime)
     {
         this.endDateTime = endDateTime;
     }
-    
+
     /**
      * 
      * @param endDateTime
@@ -260,7 +274,8 @@ public class Trip extends AbstractEntity
     }
 
     /**
-     * @param price the price to set
+     * @param price
+     *            the price to set
      */
     public void setPrice(float price)
     {
@@ -276,7 +291,8 @@ public class Trip extends AbstractEntity
     }
 
     /**
-     * @param overViewPath the overViewPath to set
+     * @param overViewPath
+     *            the overViewPath to set
      */
     public void setOverViewPath(String overViewPath)
     {
@@ -292,7 +308,8 @@ public class Trip extends AbstractEntity
     }
 
     /**
-     * @param viaWaypoints the viaWaypoints to set
+     * @param viaWaypoints
+     *            the viaWaypoints to set
      */
     public void setViaWaypoints(String viaWaypoints)
     {
@@ -308,7 +325,8 @@ public class Trip extends AbstractEntity
     }
 
     /**
-     * @param numberOfSeats the numberOfSeats to set
+     * @param numberOfSeats
+     *            the numberOfSeats to set
      */
     public void setNumberOfSeats(Integer numberOfSeats)
     {
@@ -324,7 +342,8 @@ public class Trip extends AbstractEntity
     }
 
     /**
-     * @param vehicle the vehicle to set
+     * @param vehicle
+     *            the vehicle to set
      */
     public void setVehicle(Vehicle vehicle)
     {
@@ -340,7 +359,8 @@ public class Trip extends AbstractEntity
     }
 
     /**
-     * @param driver the driver to set
+     * @param driver
+     *            the driver to set
      */
     public void setDriver(User driver)
     {
@@ -356,7 +376,8 @@ public class Trip extends AbstractEntity
     }
 
     /**
-     * @param cancelationDateTime the cancelationDateTime to set
+     * @param cancelationDateTime
+     *            the cancelationDateTime to set
      */
     public void setCancelationDateTime(Timestamp cancelationDateTime)
     {
@@ -365,49 +386,51 @@ public class Trip extends AbstractEntity
 
     /**
      * Check whether the trip was cancelled by the driver.
+     * 
      * @return
      */
     public boolean wasCancelled()
     {
         boolean wasCancelled = null != this.getCancelationDateTime();
-        
-        Application.log("Trip " + getIdentity() + " was cancelled: " + wasCancelled, LogType.DEBUG, getClass());
+
+        Application.log("Trip " + getIdentity() + " was cancelled: "
+                + wasCancelled, LogType.DEBUG, getClass());
         return wasCancelled;
     }
-    
+
     /**
      * Check whether the trip can still be edited:
      * <ul>
-     *  <li>if it is in the future</li>
-     *  <li>if it was not cancelled yet</li>
-     *  <li>if it has no (confirmed) bookings yet</li>
+     * <li>if it is in the future</li>
+     * <li>if it was not cancelled yet</li>
+     * <li>if it has no (confirmed) bookings yet</li>
      * </ul>
+     * 
      * @return
      */
     public boolean canBeEdited()
     {
-        return this.isInFuture() 
-                && !this.wasCancelled() 
-                && !this.hasBookings();
+        return this.isInFuture() && !this.wasCancelled() && !this.hasBookings();
     }
-    
+
     /**
      * Check whether the trip can still be canceled.
      * 
      * <ul>
-     *  <li>if takes place in the future.</li>
-     *  <li>if it wasn't cancelled yet.</li>
+     * <li>if takes place in the future.</li>
+     * <li>if it wasn't cancelled yet.</li>
      * </ul>
+     * 
      * @return
      */
     public boolean canBeCancelled()
     {
-        return this.isInFuture()
-                && !this.wasCancelled();
+        return this.isInFuture() && !this.wasCancelled();
     }
 
     /**
      * TODO check whether the trip has booking relations
+     * 
      * @return
      */
     public boolean hasBookings()
@@ -428,20 +451,44 @@ public class Trip extends AbstractEntity
         if (null == this.getStartDateTime()) {
             return false;
         }
-        
+
         long currentTime = System.currentTimeMillis();
-        
+
         return (this.getStartDateTime().getTime() - currentTime) > 0;
     }
 
-    /* (non-Javadoc)
-     * @see java.lang.Object#hashCode()
-     */
+    public List<Booking> getBookings()
+    {
+        return bookings;
+    }
+
+    public void setBookings(List<Booking> bookings)
+    {
+        this.bookings = bookings;
+    }
+
+    @Override
+    public String toString()
+    {
+        return "Trip [bookings=" + bookings + ", startpoint=" + startpoint
+                + ", endpoint=" + endpoint + ", latStartpoint=" + latStartpoint
+                + ", longStartpoint=" + longStartpoint + ", latEndpoint="
+                + latEndpoint + ", longEndpoint=" + longEndpoint
+                + ", startDateTime=" + startDateTime + ", endDateTime="
+                + endDateTime + ", price=" + price + ", overViewPath="
+                + overViewPath + ", viaWaypoints=" + viaWaypoints
+                + ", numberOfSeats=" + numberOfSeats + ", vehicle=" + vehicle
+                + ", driver=" + driver + ", cancelationDateTime="
+                + cancelationDateTime + "]";
+    }
+
     @Override
     public int hashCode()
     {
         final int prime = 31;
         int result = 1;
+        result = prime * result
+                + ((bookings == null) ? 0 : bookings.hashCode());
         result = prime
                 * result
                 + ((cancelationDateTime == null) ? 0 : cancelationDateTime
@@ -470,9 +517,6 @@ public class Trip extends AbstractEntity
         return result;
     }
 
-    /* (non-Javadoc)
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
     @Override
     public boolean equals(Object obj)
     {
@@ -483,6 +527,11 @@ public class Trip extends AbstractEntity
         if (getClass() != obj.getClass())
             return false;
         Trip other = (Trip) obj;
+        if (bookings == null) {
+            if (other.bookings != null)
+                return false;
+        } else if (!bookings.equals(other.bookings))
+            return false;
         if (cancelationDateTime == null) {
             if (other.cancelationDateTime != null)
                 return false;
@@ -550,47 +599,4 @@ public class Trip extends AbstractEntity
         return true;
     }
 
-    /* (non-Javadoc)
-     * @see java.lang.Object#toString()
-     */
-    @Override
-    public String toString()
-    {
-        StringBuilder builder = new StringBuilder();
-        builder.append("Trip [startpoint=");
-        builder.append(startpoint);
-        builder.append(", endpoint=");
-        builder.append(endpoint);
-        builder.append(", latStartpoint=");
-        builder.append(latStartpoint);
-        builder.append(", longStartpoint=");
-        builder.append(longStartpoint);
-        builder.append(", latEndpoint=");
-        builder.append(latEndpoint);
-        builder.append(", longEndpoint=");
-        builder.append(longEndpoint);
-        builder.append(", startDateTime=");
-        builder.append(startDateTime);
-        builder.append(", endDateTime=");
-        builder.append(endDateTime);
-        builder.append(", price=");
-        builder.append(price);
-        builder.append(", overViewPath=");
-        builder.append(overViewPath);
-        builder.append(", viaWaypoints=");
-        builder.append(viaWaypoints);
-        builder.append(", numberOfSeats=");
-        builder.append(numberOfSeats);
-        builder.append(", vehicle=");
-        builder.append(vehicle);
-        builder.append(", driver=");
-        builder.append(driver);
-        builder.append(", cancelationDateTime=");
-        builder.append(cancelationDateTime);
-        builder.append("]");
-        return builder.toString();
-    }
-    
-    
-    
 }
