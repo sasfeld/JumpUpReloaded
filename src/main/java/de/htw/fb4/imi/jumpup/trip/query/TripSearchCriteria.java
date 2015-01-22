@@ -23,7 +23,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.PROPERTY)
-public class TripSearch
+public class TripSearchCriteria
 {
     protected String startPoint;    
     protected Float latStartPoint;
@@ -215,6 +215,7 @@ public class TripSearch
     {
         this.maxDistance = maxDistance;
     }
+   
 
     /* (non-Javadoc)
      * @see java.lang.Object#hashCode()
@@ -259,7 +260,7 @@ public class TripSearch
             return false;
         if (getClass() != obj.getClass())
             return false;
-        TripSearch other = (TripSearch) obj;
+        TripSearchCriteria other = (TripSearchCriteria) obj;
         if (dateFrom == null) {
             if (other.dateFrom != null)
                 return false;

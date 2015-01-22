@@ -65,5 +65,9 @@ public interface BeanNames
     String TRIP_CREATION_CONTROLLER = "tripCreationController";
     String TRIP_QUERY_CONTROLLER = "tripQueryController";
     
+    String TRIP_SEARCH_FILTER_CHAIN = "tripSearchFilterChain";
+    
     String LOCALE_HELPER = "localeHelper";
+    
+    
 }

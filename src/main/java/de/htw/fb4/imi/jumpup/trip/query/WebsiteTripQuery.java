@@ -5,9 +5,12 @@
  */
 package de.htw.fb4.imi.jumpup.trip.query;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -20,6 +23,7 @@ import de.htw.fb4.imi.jumpup.Application.LogType;
 import de.htw.fb4.imi.jumpup.settings.BeanNames;
 import de.htw.fb4.imi.jumpup.settings.PersistenceSettings;
 import de.htw.fb4.imi.jumpup.trip.entities.Trip;
+import de.htw.fb4.imi.jumpup.trip.query.filter.TripFilter;
 import de.htw.fb4.imi.jumpup.user.entities.User;
 
 /**
@@ -35,6 +39,9 @@ public class WebsiteTripQuery implements TripQueryMethod
     @PersistenceUnit(unitName = PersistenceSettings.PERSISTENCE_UNIT)
     protected EntityManagerFactory entityManagerFactory;
     
+    @EJB(name = BeanNames.TRIP_SEARCH_FILTER_CHAIN)
+    protected TripFilter tripSearchFilterChain;
+    
     protected List<String> messages;
 
     /**
@@ -47,6 +54,37 @@ public class WebsiteTripQuery implements TripQueryMethod
 
         return em;
     }    
+    
+    @Override
+    /*
+     * (non-Javadoc)
+     * @see de.htw.fb4.imi.jumpup.util.ErrorPrintable#hasError()
+     */
+    public boolean hasError()
+    {
+        return !this.messages.isEmpty();
+    }
+
+    @Override
+    /*
+     * (non-Javadoc)
+     * @see de.htw.fb4.imi.jumpup.util.ErrorPrintable#getErrors()
+     */
+    public String[] getErrors()
+    {
+        return this.messages.toArray(new String[this.messages.size()]);
+    }
+
+    @Override
+    /*
+     * (non-Javadoc)
+     * @see de.htw.fb4.imi.jumpup.util.ErrorPrintable#getSingleErrorString()
+     */
+    public String getSingleErrorString()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
     
     /* (non-Javadoc)
      * @see de.htw.fb4.imi.jumpup.trip.query.TripQueryMethod#getOfferedTrips(de.htw.fb4.imi.jumpup.user.entities.User)
@@ -84,36 +122,67 @@ public class WebsiteTripQuery implements TripQueryMethod
         
         return em;
     }
+   
 
     @Override
-    /*
-     * (non-Javadoc)
-     * @see de.htw.fb4.imi.jumpup.util.ErrorPrintable#hasError()
-     */
-    public boolean hasError()
+    public List<Trip> searchForTrips(TripSearchCriteria tripSearchModel)
     {
-        return !this.messages.isEmpty();
+        List<Trip> matchedTrips = this.prepareCriteriaSearch(tripSearchModel);
+        
+        List<Trip> filteredTrips = this.triggerFilteringChain(tripSearchModel, matchedTrips);
+        
+        return filteredTrips;
     }
 
-    @Override
-    /*
-     * (non-Javadoc)
-     * @see de.htw.fb4.imi.jumpup.util.ErrorPrintable#getErrors()
-     */
-    public String[] getErrors()
+    private List<Trip> triggerFilteringChain(TripSearchCriteria tripSearchCriteria, List<Trip> matchedTrips)
     {
-        return this.messages.toArray(new String[this.messages.size()]);
+        if (null == matchedTrips) {
+            return new ArrayList<Trip>();
+        }
+        
+        this.tripSearchFilterChain.setCriteria(tripSearchCriteria);
+        return this.tripSearchFilterChain.applyFilter(matchedTrips);        
     }
 
-    @Override
-    /*
-     * (non-Javadoc)
-     * @see de.htw.fb4.imi.jumpup.util.ErrorPrintable#getSingleErrorString()
-     */
-    public String getSingleErrorString()
+    private List<Trip> prepareCriteriaSearch(TripSearchCriteria tripSearchModel)
     {
-        // TODO Auto-generated method stub
+        EntityManager em = this.getFreshEntityManager();
+        
+        String startPoint = tripSearchModel.getStartPoint();        
+        String endPoint = tripSearchModel.getEndPoint();        
+        Float startLat = tripSearchModel.getLatStartPoint();        
+        Float startLong = tripSearchModel.getLongStartPoint();       
+        Float endLat = tripSearchModel.getLatEndPoint();   
+        Float endLong = tripSearchModel.getLongEndPoint();       
+        Timestamp dateFromTimeStamp = this.convertToTimestamp(tripSearchModel.getDateFrom());
+        Timestamp dateToTimeStamp = this.convertToTimestamp(tripSearchModel.getDateTo());
+        Float priceFrom = tripSearchModel.getPriceFrom();
+        Float priceTo = tripSearchModel.getPriceTo();
+        Integer maxDistance = tripSearchModel.getMaxDistance();
+        
+        try {
+            return em.createNamedQuery(Trip.NAME_CRITERIA_QUERY, Trip.class)
+                .setParameter("dateFrom", dateFromTimeStamp)
+                .setParameter("dateTo", dateToTimeStamp)
+                .setParameter("priceFrom", priceFrom)
+                .setParameter("priceTo", priceTo)
+                .getResultList();
+        } catch (Exception e) {
+            this.messages.add("Error while searching for trips by the given criteria");
+            Application.log("prepareCriteriaSearch(): exception " + e.getMessage() + "\nstack:" 
+                    + ExceptionUtils.getFullStackTrace(e), LogType.ERROR, getClass());               
+        }
+        
         return null;
+    }
+
+    private Timestamp convertToTimestamp(Date date)
+    {
+        if (null == date) {
+            return null;
+        }
+        
+        return new Timestamp(date.getTime());
     }
 
 }
