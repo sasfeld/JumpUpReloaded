@@ -34,5 +34,13 @@ public interface TripQueryMethod
      * @return
      */
     List<Trip> getOfferedTrips(final User user);    
+    
+    /**
+     * Get trips that match the criteria as given by the {@link TripSearch} instance.
+     * 
+     * @param tripSearchModel
+     * @return a list of {@link Trip} which can be empty if the criteria was not met
+     */
+    List<Trip> searchForTrips(final TripSearch tripSearchModel);
 
 }
