@@ -28,9 +28,7 @@ $(document).ready(function() {
 	var	REF_ADDTRIP_INPUT_END = ADDTRIP_REF_FORM
 			+ ' .end_location';
 	var	REF_ADDTRIP_VIA_WAYPOINTS = ADDTRIP_REF_FORM
-	+ ' .via_waypoints';
-	var	REF_ADDTRIP_OVERVIEW_PATH = ADDTRIP_REF_FORM
-	+ ' .overview_path';
+	+ " input[name$='via_waypoints']";
 	
 	
 	// load googlemap controller
