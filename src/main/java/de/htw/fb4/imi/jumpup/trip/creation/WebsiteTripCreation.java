@@ -196,8 +196,21 @@ public class WebsiteTripCreation implements TripCreationMethod, ErrorPrintable
         
         // set driver to current logged in user and persist trip
         trip.setDriver(currentUser);
-        entityManager.persist(trip);        
+        currentUser.getOfferedTrips().add(trip);
+        entityManager.persist(trip);              
+        persistCurrentUser(entityManager, currentUser);
         entityManager.flush();
+    }
+
+    /**
+     * Refresh currently logged in user to have actual database state and return the most recent offered trips for example.
+     * @param entityManager
+     * @param currentUser
+     */
+    protected void persistCurrentUser(EntityManager entityManager,
+            User currentUser)
+    {
+        entityManager.persist(entityManager.contains(currentUser) ? currentUser : entityManager.merge(currentUser));
     }
    
 
@@ -219,11 +232,11 @@ public class WebsiteTripCreation implements TripCreationMethod, ErrorPrintable
         }
     }   
 
-    private void updateTrip(Trip trip)
+    private void updateTrip(Trip trip) throws IllegalStateException
     {
         EntityManager entityManager = this.getFreshEntityManager();
         
-        entityManager.merge(trip);        
+        entityManager.merge(trip);  
         entityManager.flush();
     }
     
@@ -275,8 +288,9 @@ public class WebsiteTripCreation implements TripCreationMethod, ErrorPrintable
     /**
      * Soft-Delete means: only cancel the trip. It will not appear in the listings anymore, but the entity still exists.
      * @param trip
+     * @throws IllegalStateException 
      */
-    private void softDeleteTrip(Trip trip)
+    private void softDeleteTrip(Trip trip) throws IllegalStateException
     {  
         Timestamp currentTimestamp = this.getCurrentTimestamp();
         Application.log("softDeleteTrip: cancelling trip with ID " + trip.getIdentity() + " and setting timestamp " + currentTimestamp.toString(), LogType.DEBUG, getClass());

@@ -37,11 +37,13 @@ import de.htw.fb4.imi.jumpup.verhicle.entities.Vehicle;
 @Entity
 @Table(name = "trip")
 @NamedQueries({
+        @NamedQuery(name = Trip.NAME_QUERY_BY_USER, query = "SELECT t FROM Trip t WHERE t.driver = :driver"),
         @NamedQuery(name = Trip.NAME_QUERY_BY_STARTPOINT, query = "SELECT t FROM Trip t WHERE t.startpoint = :startpoint"),
         @NamedQuery(name = Trip.NAME_QUERY_BY_ENDPOINT, query = "SELECT t FROM Trip t WHERE t.endpoint = :endpoint") })
 public class Trip extends AbstractEntity
 {
 
+    public static final String NAME_QUERY_BY_USER = "QUERY_BY_USER";
     public static final String NAME_QUERY_BY_STARTPOINT = "QUERY_BY_STARTPOINT";
     public static final String NAME_QUERY_BY_ENDPOINT = "QUERY_BY_ENDPOINT";
 
