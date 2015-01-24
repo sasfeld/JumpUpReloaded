@@ -31,13 +31,13 @@ import de.htw.fb4.imi.jumpup.user.entities.User;
 @Entity
 @Table(name = "booking")
 @NamedQueries({
-        @NamedQuery(name = Booking.NAME_QUERY_BY_STARTPOINT, query = "SELECT b FROM Booking b WHERE b.startpoint = :startpoint"),
-        @NamedQuery(name = Booking.NAME_QUERY_BY_ENDPOINT, query = "SELECT b FROM Booking b WHERE b.endpoint = :endpoint") })
+        @NamedQuery(name = Booking.NAME_QUERY_BY_STARTPOINT, query = "SELECT b FROM Booking b WHERE b.startPoint = :startpoint"),
+        @NamedQuery(name = Booking.NAME_QUERY_BY_ENDPOINT, query = "SELECT b FROM Booking b WHERE b.endPoint = :endpoint") })
 public class Booking extends AbstractEntity
 {
 
-    public static final String NAME_QUERY_BY_STARTPOINT = "QUERY_BY_STARTPOINT";
-    public static final String NAME_QUERY_BY_ENDPOINT = "QUERY_BY_ENDPOINT";
+    public static final String NAME_QUERY_BY_STARTPOINT = "BOOKING_QUERY_BY_STARTPOINT";
+    public static final String NAME_QUERY_BY_ENDPOINT = "BOOKING_QUERY_BY_ENDPOINT";
 
     /**
      * 
@@ -67,7 +67,7 @@ public class Booking extends AbstractEntity
     private Trip trip;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "bookings")
+    @JoinColumn(name = "passengers")
     private User passenger;
 
     public String getStartPoint()

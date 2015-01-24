@@ -25,6 +25,7 @@ import de.htw.fb4.imi.jumpup.settings.BeanNames;
 import de.htw.fb4.imi.jumpup.settings.PersistenceSettings;
 import de.htw.fb4.imi.jumpup.trip.entities.Trip;
 import de.htw.fb4.imi.jumpup.trip.query.filter.TripFilter;
+import de.htw.fb4.imi.jumpup.trip.query.filter.TripSearchFilterChain;
 import de.htw.fb4.imi.jumpup.user.controllers.Login;
 import de.htw.fb4.imi.jumpup.user.entities.User;
 
@@ -41,8 +42,8 @@ public class WebsiteTripQuery implements TripQueryMethod
     @PersistenceUnit(unitName = PersistenceSettings.PERSISTENCE_UNIT)
     protected EntityManagerFactory entityManagerFactory;
     
-    @EJB(name = BeanNames.TRIP_SEARCH_FILTER_CHAIN)
-    protected TripFilter tripSearchFilterChain;
+    @Inject
+    protected TripSearchFilterChain tripSearchFilterChain;
     
     @Inject
     protected Login loginController;    

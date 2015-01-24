@@ -56,10 +56,10 @@ import de.htw.fb4.imi.jumpup.verhicle.entities.Vehicle;
 public class Trip extends AbstractEntity
 {
 
-    public static final String NAME_QUERY_BY_USER = "QUERY_BY_USER";
-    public static final String NAME_QUERY_BY_STARTPOINT = "QUERY_BY_STARTPOINT";
-    public static final String NAME_QUERY_BY_ENDPOINT = "QUERY_BY_ENDPOINT";
-    public static final String NAME_CRITERIA_QUERY = "QUERY_BY_CRITERIA";
+    public static final String NAME_QUERY_BY_USER = "TRIP_QUERY_BY_USER";
+    public static final String NAME_QUERY_BY_STARTPOINT = "TRIP_QUERY_BY_STARTPOINT";
+    public static final String NAME_QUERY_BY_ENDPOINT = "TRIP_QUERY_BY_ENDPOINT";
+    public static final String NAME_CRITERIA_QUERY = "TRIP_QUERY_BY_CRITERIA";
 
     /**
      * 

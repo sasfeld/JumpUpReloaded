@@ -17,7 +17,7 @@ import de.htw.fb4.imi.jumpup.trip.query.TripSearchCriteria;
  * @since 22.01.2015
  *
  */
-public class AbstractTripFilter implements TripFilter
+public abstract class AbstractTripFilter implements TripFilter
 {
     protected TripFilter decoratingTripFilter;
     protected TripSearchCriteria tripSearchCriteria;

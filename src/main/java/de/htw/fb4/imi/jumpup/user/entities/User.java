@@ -371,8 +371,6 @@ public class User extends AbstractEntity
     {
         final int prime = 31;
         int result = 1;
-        result = prime * result
-                + ((bookings == null) ? 0 : bookings.hashCode());
         result = prime * result + ((country == null) ? 0 : country.hashCode());
         result = prime * result + ((eMail == null) ? 0 : eMail.hashCode());
         result = prime * result
@@ -382,13 +380,9 @@ public class User extends AbstractEntity
         result = prime * result
                 + ((lastname == null) ? 0 : lastname.hashCode());
         result = prime * result + ((locale == null) ? 0 : locale.hashCode());
-        result = prime * result
-                + ((offeredTrips == null) ? 0 : offeredTrips.hashCode());
         result = prime * result + Arrays.hashCode(passwordHash);
         result = prime * result + ((prename == null) ? 0 : prename.hashCode());
         result = prime * result + ((town == null) ? 0 : town.hashCode());
-        result = prime * result
-                + ((userDetails == null) ? 0 : userDetails.hashCode());
         result = prime * result
                 + ((username == null) ? 0 : username.hashCode());
         return result;
