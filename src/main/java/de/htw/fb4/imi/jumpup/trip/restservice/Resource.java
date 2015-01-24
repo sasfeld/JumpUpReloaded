@@ -5,14 +5,25 @@
  */
 package de.htw.fb4.imi.jumpup.trip.restservice;
 
+import java.util.List;
+
+import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
+
+import org.apache.commons.lang.exception.ExceptionUtils;
 
 import de.htw.fb4.imi.jumpup.Application;
 import de.htw.fb4.imi.jumpup.Application.LogType;
+import de.htw.fb4.imi.jumpup.trip.entities.Trip;
+import de.htw.fb4.imi.jumpup.trip.query.TripQueryMethod;
+import de.htw.fb4.imi.jumpup.trip.query.TripSearchCriteria;
 
 /**
  * <p>
@@ -26,21 +37,39 @@ import de.htw.fb4.imi.jumpup.Application.LogType;
 @Path("/lookuptrips")
 public class Resource
 {
+    @Inject
+    protected TripQueryMethod tripQueryMethod;
 
     /**
      * 
-     * @param tripSearch
+     * @param tripCriteria
      * @return
      */
     @POST
-    @Path("/")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Status searchForTrip(final TripSearchEntity tripSearch)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response searchForTrip(final TripSearchCriteria tripCriteria)
     {
-        Application.log("Resource: TripSearchEntity= " + tripSearch,
+        Application.log("Resource: TripSearchCriteria= " + tripCriteria,
                 LogType.DEBUG, getClass());
 
-        return Status.OK;
+        try {
+            List<Trip> matchedTrips = tripQueryMethod.searchForTrips(tripCriteria);
+            
+            return Response
+                    .ok(matchedTrips)
+                    .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
+                    .build();
+        } catch (Exception e) {
+            Application.log("searchForTrip(): exception " + e.getMessage() + "\nStack trace:\n" + ExceptionUtils.getFullStackTrace(e),
+                    LogType.ERROR, getClass());
+            
+            return Response
+                    .status(Status.INTERNAL_SERVER_ERROR)
+                    .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
+                    .build();
+        }
     }
+    
 
 }
