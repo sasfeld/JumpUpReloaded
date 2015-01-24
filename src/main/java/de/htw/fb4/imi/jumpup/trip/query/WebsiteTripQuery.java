@@ -125,6 +125,10 @@ public class WebsiteTripQuery implements TripQueryMethod
    
 
     @Override
+    /*
+     * (non-Javadoc)
+     * @see de.htw.fb4.imi.jumpup.trip.query.TripQueryMethod#searchForTrips(de.htw.fb4.imi.jumpup.trip.query.TripSearchCriteria)
+     */
     public List<Trip> searchForTrips(TripSearchCriteria tripSearchModel)
     {
         List<Trip> matchedTrips = this.prepareCriteriaSearch(tripSearchModel);
@@ -147,18 +151,11 @@ public class WebsiteTripQuery implements TripQueryMethod
     private List<Trip> prepareCriteriaSearch(TripSearchCriteria tripSearchModel)
     {
         EntityManager em = this.getFreshEntityManager();
-        
-        String startPoint = tripSearchModel.getStartPoint();        
-        String endPoint = tripSearchModel.getEndPoint();        
-        Float startLat = tripSearchModel.getLatStartPoint();        
-        Float startLong = tripSearchModel.getLongStartPoint();       
-        Float endLat = tripSearchModel.getLatEndPoint();   
-        Float endLong = tripSearchModel.getLongEndPoint();       
+              
         Timestamp dateFromTimeStamp = this.convertToTimestamp(tripSearchModel.getDateFrom());
         Timestamp dateToTimeStamp = this.convertToTimestamp(tripSearchModel.getDateTo());
         Float priceFrom = tripSearchModel.getPriceFrom();
         Float priceTo = tripSearchModel.getPriceTo();
-        Integer maxDistance = tripSearchModel.getMaxDistance();
         
         try {
             return em.createNamedQuery(Trip.NAME_CRITERIA_QUERY, Trip.class)

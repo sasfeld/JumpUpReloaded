@@ -5,10 +5,13 @@
  */
 package de.htw.fb4.imi.jumpup.trip.query.filter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import de.htw.fb4.imi.jumpup.trip.entities.Trip;
 import de.htw.fb4.imi.jumpup.trip.query.TripSearchCriteria;
+import de.htw.fb4.imi.jumpup.util.math.CoordinateUtil;
+import de.htw.fb4.imi.jumpup.util.math.Coordinates;
 
 /**
  * <p>This filter is the most important one. <br />
@@ -33,7 +36,83 @@ public class NearbyTripsFilter extends AbstractTripFilter
     @Override
     public List<Trip> applyFilter(final List<Trip> givenTrips)
     {
-        // TODO implement
-        return super.applyFilter(givenTrips);
+        if (null == super.tripSearchCriteria) {
+            throw new NullPointerException("You need to set tripSearchCriteria before calling applyFilter");
+        }
+        
+        List<Trip> preFilteredTrips =  super.applyFilter(givenTrips);
+        
+        List<Trip> filteredTrips = this.findNearbyTrips(preFilteredTrips);
+        
+        return filteredTrips;
+    }
+
+    private List<Trip> findNearbyTrips(List<Trip> preFilteredTrips)
+    {
+        List<Trip> nearbyTrips = new ArrayList<Trip>();
+        
+        for (Trip trip : preFilteredTrips) {
+            if (this.isNearPassenger(trip)) {
+                nearbyTrips.add(trip);
+            }
+        }
+        
+        return nearbyTrips;
+    }
+
+    private boolean isNearPassenger(Trip trip)
+    {
+        Coordinates tripStart = new Coordinates(trip.getLatStartpoint(), trip.getLongStartpoint());
+        Coordinates tripEnd = new Coordinates(trip.getLatEndpoint(), trip.getLongEndpoint());
+        
+        Coordinates passengersStart = new Coordinates(this.tripSearchCriteria.getLatStartPoint(), this.tripSearchCriteria.getLongStartPoint());
+        Coordinates passengersEnd = new Coordinates(this.tripSearchCriteria.getLatEndPoint(), this.tripSearchCriteria.getLongEndPoint());
+        
+        if (this.isNearLocation(tripStart, passengersStart)                
+            && this.isNearLocation(tripEnd, passengersEnd)) {
+            // passenger's start and endpoint are near driver's start and endpoint
+            return true;
+        }
+        
+        // otherwise iterate over waypoints
+        if (this.isNearPath(trip.getOverViewPath(), passengersStart, passengersEnd)) {
+            return true;
+        }
+        
+        return false;
+    }
+
+    private boolean isNearPath(String overViewPath,
+            Coordinates passengersStart, Coordinates passengersEnd)
+    {
+        boolean isNearPassengerStartLocation = false;
+        boolean isNearPassengerEndLocation = false;
+        
+        for (Coordinates tripWaypoint : CoordinateUtil.parseCoordinateSetBy(overViewPath)) {
+            if (!isNearPassengerStartLocation && this.isNearLocation(tripWaypoint, passengersStart)) {
+                isNearPassengerStartLocation = true;
+            }
+            
+            if (!isNearPassengerEndLocation && this.isNearLocation(tripWaypoint, passengersEnd)) {
+                isNearPassengerEndLocation = true;
+            }          
+            
+            // break if near start and end location was found to avoid redundant work
+            if (isNearPassengerStartLocation && isNearPassengerEndLocation) {
+                break;
+            }
+            
+        }
+        
+        return (isNearPassengerStartLocation && isNearPassengerEndLocation);
+    }
+
+    private boolean isNearLocation(Coordinates tripCoordinates, Coordinates passengersCoordinates)
+    {        
+        if (CoordinateUtil.calculateDistanceBetween(tripCoordinates, passengersCoordinates) < this.tripSearchCriteria.getMaxDistance()) {
+            return true;
+        }
+        
+        return false;
     }
 }
