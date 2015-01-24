@@ -12,6 +12,7 @@ import java.util.List;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
@@ -24,6 +25,7 @@ import de.htw.fb4.imi.jumpup.settings.BeanNames;
 import de.htw.fb4.imi.jumpup.settings.PersistenceSettings;
 import de.htw.fb4.imi.jumpup.trip.entities.Trip;
 import de.htw.fb4.imi.jumpup.trip.query.filter.TripFilter;
+import de.htw.fb4.imi.jumpup.user.controllers.Login;
 import de.htw.fb4.imi.jumpup.user.entities.User;
 
 /**
@@ -41,6 +43,9 @@ public class WebsiteTripQuery implements TripQueryMethod
     
     @EJB(name = BeanNames.TRIP_SEARCH_FILTER_CHAIN)
     protected TripFilter tripSearchFilterChain;
+    
+    @Inject
+    protected Login loginController;    
     
     protected List<String> messages;
 
@@ -148,6 +153,11 @@ public class WebsiteTripQuery implements TripQueryMethod
         return this.tripSearchFilterChain.applyFilter(matchedTrips);        
     }
 
+    /**
+     * Search {@link Trip} instances by basic criteria.
+     * @param tripSearchModel
+     * @return
+     */
     private List<Trip> prepareCriteriaSearch(TripSearchCriteria tripSearchModel)
     {
         EntityManager em = this.getFreshEntityManager();
@@ -158,11 +168,13 @@ public class WebsiteTripQuery implements TripQueryMethod
         Float priceTo = tripSearchModel.getPriceTo();
         
         try {
+            // search within date and price range, exclude trips offered by currently logged-in user
             return em.createNamedQuery(Trip.NAME_CRITERIA_QUERY, Trip.class)
                 .setParameter("dateFrom", dateFromTimeStamp)
                 .setParameter("dateTo", dateToTimeStamp)
                 .setParameter("priceFrom", priceFrom)
                 .setParameter("priceTo", priceTo)
+                .setParameter("passenger", this.getCurrentlyLoggedInUser())
                 .getResultList();
         } catch (Exception e) {
             this.messages.add("Error while searching for trips by the given criteria");
@@ -173,6 +185,20 @@ public class WebsiteTripQuery implements TripQueryMethod
         return null;
     }
 
+    /**
+     * Get currently logged-in user.
+     * @return
+     */
+    private User getCurrentlyLoggedInUser()
+    {
+        return loginController.getLoginModel().getCurrentUser();
+    }
+
+    /**
+     * Convert from date to {@link Timestamp}.
+     * @param date
+     * @return
+     */
     private Timestamp convertToTimestamp(Date date)
     {
         if (null == date) {
