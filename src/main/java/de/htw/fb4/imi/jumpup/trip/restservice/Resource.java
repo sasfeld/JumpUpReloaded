@@ -7,7 +7,9 @@ package de.htw.fb4.imi.jumpup.trip.restservice;
 
 import java.util.List;
 
+import javax.faces.bean.RequestScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -34,7 +36,9 @@ import de.htw.fb4.imi.jumpup.trip.query.TripSearchCriteria;
  * @since 24.01.2015
  * 
  */
+@Named
 @Path("/lookuptrips")
+@RequestScoped
 public class Resource
 {
     @Inject
