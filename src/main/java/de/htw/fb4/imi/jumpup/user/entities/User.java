@@ -357,13 +357,11 @@ public class User extends AbstractEntity
     @Override
     public String toString()
     {
-        return "User [bookings=" + bookings + ", username=" + username
+        return "User [username=" + username
                 + ", eMail=" + eMail + ", prename=" + prename + ", lastname="
                 + lastname + ", passwordHash=" + Arrays.toString(passwordHash)
                 + ", town=" + town + ", country=" + country + ", locale="
-                + locale + ", isConfirmed=" + isConfirmed + ", userDetails="
-                + userDetails + ", offeredTrips=" + offeredTrips
-                + ", hashGenerable=" + hashGenerable + "]";
+                + locale + ", isConfirmed=" + isConfirmed + ", hashGenerable=" + hashGenerable + "]";
     }
 
     @Override
@@ -397,12 +395,7 @@ public class User extends AbstractEntity
             return false;
         if (getClass() != obj.getClass())
             return false;
-        User other = (User) obj;
-        if (bookings == null) {
-            if (other.bookings != null)
-                return false;
-        } else if (!bookings.equals(other.bookings))
-            return false;
+        User other = (User) obj;        
         if (country == null) {
             if (other.country != null)
                 return false;
@@ -432,12 +425,7 @@ public class User extends AbstractEntity
             if (other.locale != null)
                 return false;
         } else if (!locale.equals(other.locale))
-            return false;
-        if (offeredTrips == null) {
-            if (other.offeredTrips != null)
-                return false;
-        } else if (!offeredTrips.equals(other.offeredTrips))
-            return false;
+            return false;       
         if (!Arrays.equals(passwordHash, other.passwordHash))
             return false;
         if (prename == null) {
@@ -449,12 +437,7 @@ public class User extends AbstractEntity
             if (other.town != null)
                 return false;
         } else if (!town.equals(other.town))
-            return false;
-        if (userDetails == null) {
-            if (other.userDetails != null)
-                return false;
-        } else if (!userDetails.equals(other.userDetails))
-            return false;
+            return false;   
         if (username == null) {
             if (other.username != null)
                 return false;
