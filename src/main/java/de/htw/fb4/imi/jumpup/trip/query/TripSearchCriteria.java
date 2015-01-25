@@ -5,7 +5,7 @@
  */
 package de.htw.fb4.imi.jumpup.trip.query;
 
-import java.util.Date;
+import java.sql.Date;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -151,6 +151,14 @@ public class TripSearchCriteria
     {
         this.dateFrom = dateFrom;
     }
+    
+    /**
+     * @param dateFrom the dateFrom to set
+     */
+    public void setDateFrom(java.util.Date dateFrom)
+    {
+        this.setDateFrom(new Date(dateFrom.getTime()));
+    }
 
     /**
      * @return the dateTo
@@ -167,6 +175,14 @@ public class TripSearchCriteria
     {
         this.dateTo = dateTo;
     }
+    
+    /**
+     * @param dateFrom the dateFrom to set
+     */
+    public void setDateTo(java.util.Date dateTo)
+    {
+        this.setDateTo(new Date(dateFrom.getTime()));
+    }    
 
     /**
      * @return the priceFrom

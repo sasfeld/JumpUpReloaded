@@ -34,12 +34,17 @@ public class Application
 
     static {
         jBossLoggers = new HashMap<>();
-        String s = FacesContext.getCurrentInstance().getExternalContext()
-                .getInitParameter("javax.faces.PROJECT_STAGE");
-
-        log("JSF Config Mode: " + s, LogType.INFO, Application.class);
-
-        debugMode = s.equals("Development") ? true : false;
+        
+        if (null != FacesContext.getCurrentInstance()) {
+            String s = FacesContext.getCurrentInstance().getExternalContext()
+                    .getInitParameter("javax.faces.PROJECT_STAGE");
+    
+            log("JSF Config Mode: " + s, LogType.INFO, Application.class);
+    
+            debugMode = s.equals("Development") ? true : false;
+        } else {
+            debugMode = true;
+        }
     }
 
     /**
