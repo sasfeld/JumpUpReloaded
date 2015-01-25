@@ -5,39 +5,46 @@
  */
 package de.htw.fb4.imi.jumpup.trip.query;
 
-import java.sql.Date;
+import java.text.ParseException;
+import java.util.Date;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import de.htw.fb4.imi.jumpup.util.LocaleHelper;
+
 /**
- * <p>Query-Model for queries that are done via REST service.</p>
+ * <p>
+ * Query-Model for queries that are done via REST service.
+ * </p>
  * 
- * <p>This model will be bound by XML / JSON.</p>
+ * <p>
+ * This model will be bound by XML / JSON.
+ * </p>
  * 
- *
+ * 
  * @author <a href="mailto:me@saschafeldmann.de">Sascha Feldmann</a>
  * @since 22.01.2015
- *
+ * 
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.PROPERTY)
 public class TripSearchCriteria
 {
-    protected String startPoint;    
+    protected String startPoint;
     protected Float latStartPoint;
     protected Float longStartPoint;
     protected Float latEndPoint;
-    protected Float longEndPoint;    
+    protected Float longEndPoint;
     protected String endPoint;
-    
+
     protected Date dateFrom;
     protected Date dateTo;
-    
+
     protected Float priceFrom;
     protected Float priceTo;
-    
+
     protected Integer maxDistance;
 
     /**
@@ -49,7 +56,8 @@ public class TripSearchCriteria
     }
 
     /**
-     * @param startPoint the startPoint to set
+     * @param startPoint
+     *            the startPoint to set
      */
     public void setStartPoint(String startPoint)
     {
@@ -65,7 +73,8 @@ public class TripSearchCriteria
     }
 
     /**
-     * @param latStartPoint the latStartPoint to set
+     * @param latStartPoint
+     *            the latStartPoint to set
      */
     public void setLatStartPoint(Float latStartPoint)
     {
@@ -81,7 +90,8 @@ public class TripSearchCriteria
     }
 
     /**
-     * @param longStartPoint the longStartPoint to set
+     * @param longStartPoint
+     *            the longStartPoint to set
      */
     public void setLongStartPoint(Float longStartPoint)
     {
@@ -97,7 +107,8 @@ public class TripSearchCriteria
     }
 
     /**
-     * @param latEndPoint the latEndPoint to set
+     * @param latEndPoint
+     *            the latEndPoint to set
      */
     public void setLatEndPoint(Float latEndPoint)
     {
@@ -113,7 +124,8 @@ public class TripSearchCriteria
     }
 
     /**
-     * @param longEndPoint the longEndPoint to set
+     * @param longEndPoint
+     *            the longEndPoint to set
      */
     public void setLongEndPoint(Float longEndPoint)
     {
@@ -129,7 +141,8 @@ public class TripSearchCriteria
     }
 
     /**
-     * @param endPoint the endPoint to set
+     * @param endPoint
+     *            the endPoint to set
      */
     public void setEndPoint(String endPoint)
     {
@@ -145,19 +158,13 @@ public class TripSearchCriteria
     }
 
     /**
-     * @param dateFrom the dateFrom to set
+     * @param dateFrom
+     *            the dateFrom to set
+     * @throws ParseException
      */
-    public void setDateFrom(Date dateFrom)
+    public void setDateFrom(String dateFrom) throws ParseException
     {
-        this.dateFrom = dateFrom;
-    }
-    
-    /**
-     * @param dateFrom the dateFrom to set
-     */
-    public void setDateFrom(java.util.Date dateFrom)
-    {
-        this.setDateFrom(new Date(dateFrom.getTime()));
+        this.dateFrom = new LocaleHelper().parseDateFromString(dateFrom);
     }
 
     /**
@@ -169,20 +176,14 @@ public class TripSearchCriteria
     }
 
     /**
-     * @param dateTo the dateTo to set
+     * @param dateTo
+     *            the dateTo to set
+     * @throws ParseException
      */
-    public void setDateTo(Date dateTo)
+    public void setDateTo(String dateTo) throws ParseException
     {
-        this.dateTo = dateTo;
+        this.dateTo = new LocaleHelper().parseDateFromString(dateTo);
     }
-    
-    /**
-     * @param dateFrom the dateFrom to set
-     */
-    public void setDateTo(java.util.Date dateTo)
-    {
-        this.setDateTo(new Date(dateFrom.getTime()));
-    }    
 
     /**
      * @return the priceFrom
@@ -193,7 +194,8 @@ public class TripSearchCriteria
     }
 
     /**
-     * @param priceFrom the priceFrom to set
+     * @param priceFrom
+     *            the priceFrom to set
      */
     public void setPriceFrom(Float priceFrom)
     {
@@ -209,7 +211,8 @@ public class TripSearchCriteria
     }
 
     /**
-     * @param priceTo the priceTo to set
+     * @param priceTo
+     *            the priceTo to set
      */
     public void setPriceTo(Float priceTo)
     {
@@ -225,15 +228,17 @@ public class TripSearchCriteria
     }
 
     /**
-     * @param maxDistance the maxDistance to set
+     * @param maxDistance
+     *            the maxDistance to set
      */
     public void setMaxDistance(Integer maxDistance)
     {
         this.maxDistance = maxDistance;
     }
-   
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see java.lang.Object#hashCode()
      */
     @Override
@@ -264,7 +269,9 @@ public class TripSearchCriteria
         return result;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
@@ -335,7 +342,9 @@ public class TripSearchCriteria
         return true;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see java.lang.Object#toString()
      */
     @Override
@@ -366,6 +375,6 @@ public class TripSearchCriteria
         builder.append(maxDistance);
         builder.append("]");
         return builder.toString();
-    }   
+    }
 
 }
