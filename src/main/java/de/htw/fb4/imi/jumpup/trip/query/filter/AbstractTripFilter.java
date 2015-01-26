@@ -8,7 +8,7 @@ package de.htw.fb4.imi.jumpup.trip.query.filter;
 import java.util.List;
 
 import de.htw.fb4.imi.jumpup.trip.entities.Trip;
-import de.htw.fb4.imi.jumpup.trip.query.TripSearchCriteria;
+import de.htw.fb4.imi.jumpup.trip.restservice.model.TripSearchCriteria;
 
 /**
  * <p>The AbstractFilter realizes the decorator.</p>

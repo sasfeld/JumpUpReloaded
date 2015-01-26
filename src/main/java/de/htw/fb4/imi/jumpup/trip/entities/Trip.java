@@ -43,6 +43,7 @@ import de.htw.fb4.imi.jumpup.verhicle.entities.Vehicle;
         @NamedQuery(name = Trip.NAME_QUERY_BY_USER, query = "SELECT t FROM Trip t WHERE t.driver = :driver"),
         @NamedQuery(name = Trip.NAME_QUERY_BY_STARTPOINT, query = "SELECT t FROM Trip t WHERE t.startpoint = :startpoint"),
         @NamedQuery(name = Trip.NAME_QUERY_BY_ENDPOINT, query = "SELECT t FROM Trip t WHERE t.endpoint = :endpoint"), 
+        @NamedQuery(name = Trip.NAME_QUERY_ALL, query = "SELECT t FROM Trip t"), 
         @NamedQuery(name = Trip.NAME_CRITERIA_QUERY, query = "SELECT t FROM Trip t WHERE"
                 + " t.cancelationDateTime IS NOT NULL"
                 + " AND (t.driver != :passenger)"
@@ -59,6 +60,7 @@ public class Trip extends AbstractEntity
     public static final String NAME_QUERY_BY_USER = "TRIP_QUERY_BY_USER";
     public static final String NAME_QUERY_BY_STARTPOINT = "TRIP_QUERY_BY_STARTPOINT";
     public static final String NAME_QUERY_BY_ENDPOINT = "TRIP_QUERY_BY_ENDPOINT";
+    public static final String NAME_QUERY_ALL = "TRIP_FETCH_ALL";
     public static final String NAME_CRITERIA_QUERY = "TRIP_QUERY_BY_CRITERIA";
 
     /**

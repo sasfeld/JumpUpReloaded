@@ -10,6 +10,8 @@ import java.util.List;
 import javax.ejb.Local;
 
 import de.htw.fb4.imi.jumpup.trip.entities.Trip;
+import de.htw.fb4.imi.jumpup.trip.restservice.model.SingleTripQueryResult;
+import de.htw.fb4.imi.jumpup.trip.restservice.model.TripSearchCriteria;
 import de.htw.fb4.imi.jumpup.user.entities.User;
 import de.htw.fb4.imi.jumpup.util.ErrorPrintable;
 
@@ -42,6 +44,6 @@ public interface TripQueryMethod extends ErrorPrintable
      * @param tripSearchModel
      * @return a list of {@link Trip} which can be empty if the criteria was not met
      */
-    List<Trip> searchForTrips(final TripSearchCriteria tripSearchModel);
+    List<SingleTripQueryResult> searchForTrips(final TripSearchCriteria tripSearchModel);
 
 }

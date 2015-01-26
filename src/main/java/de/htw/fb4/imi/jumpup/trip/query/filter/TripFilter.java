@@ -10,7 +10,7 @@ import java.util.List;
 import javax.ejb.Local;
 
 import de.htw.fb4.imi.jumpup.trip.entities.Trip;
-import de.htw.fb4.imi.jumpup.trip.query.TripSearchCriteria;
+import de.htw.fb4.imi.jumpup.trip.restservice.model.TripSearchCriteria;
 
 /**
  * <p>Filter {@link Trip} entities.</p>

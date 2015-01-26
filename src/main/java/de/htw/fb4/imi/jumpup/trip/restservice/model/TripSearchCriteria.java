@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2014-2015 Sebastian Renner, Marco Seidler, Sascha Feldmann
  */
-package de.htw.fb4.imi.jumpup.trip.query;
+package de.htw.fb4.imi.jumpup.trip.restservice.model;
 
 import java.text.ParseException;
 import java.util.Date;

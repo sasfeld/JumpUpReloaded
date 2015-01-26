@@ -23,9 +23,9 @@ import org.apache.commons.lang.exception.ExceptionUtils;
 
 import de.htw.fb4.imi.jumpup.Application;
 import de.htw.fb4.imi.jumpup.Application.LogType;
-import de.htw.fb4.imi.jumpup.trip.entities.Trip;
 import de.htw.fb4.imi.jumpup.trip.query.TripQueryMethod;
-import de.htw.fb4.imi.jumpup.trip.query.TripSearchCriteria;
+import de.htw.fb4.imi.jumpup.trip.restservice.model.SingleTripQueryResult;
+import de.htw.fb4.imi.jumpup.trip.restservice.model.TripSearchCriteria;
 
 /**
  * <p>
@@ -58,7 +58,7 @@ public class Resource
                 LogType.DEBUG, getClass());
 
         try {
-            List<Trip> matchedTrips = tripQueryMethod.searchForTrips(tripCriteria);
+            List<SingleTripQueryResult> matchedTrips = tripQueryMethod.searchForTrips(tripCriteria);
             
             return Response
                     .ok(matchedTrips)

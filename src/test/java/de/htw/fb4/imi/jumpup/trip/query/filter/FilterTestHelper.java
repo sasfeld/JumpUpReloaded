@@ -6,7 +6,7 @@
 package de.htw.fb4.imi.jumpup.trip.query.filter;
 
 import de.htw.fb4.imi.jumpup.trip.entities.Trip;
-import de.htw.fb4.imi.jumpup.trip.query.TripSearchCriteria;
+import de.htw.fb4.imi.jumpup.trip.restservice.model.TripSearchCriteria;
 import de.htw.fb4.imi.jumpup.util.math.Coordinates;
 
 /**

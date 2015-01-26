@@ -24,6 +24,9 @@ import de.htw.fb4.imi.jumpup.settings.BeanNames;
 import de.htw.fb4.imi.jumpup.settings.PersistenceSettings;
 import de.htw.fb4.imi.jumpup.trip.entities.Trip;
 import de.htw.fb4.imi.jumpup.trip.query.filter.TripSearchFilterChain;
+import de.htw.fb4.imi.jumpup.trip.restservice.QueryResultFactory;
+import de.htw.fb4.imi.jumpup.trip.restservice.model.SingleTripQueryResult;
+import de.htw.fb4.imi.jumpup.trip.restservice.model.TripSearchCriteria;
 import de.htw.fb4.imi.jumpup.user.controllers.Login;
 import de.htw.fb4.imi.jumpup.user.entities.User;
 
@@ -133,13 +136,34 @@ public class WebsiteTripQuery implements TripQueryMethod
      * (non-Javadoc)
      * @see de.htw.fb4.imi.jumpup.trip.query.TripQueryMethod#searchForTrips(de.htw.fb4.imi.jumpup.trip.query.TripSearchCriteria)
      */
-    public List<Trip> searchForTrips(TripSearchCriteria tripSearchModel)
+    public List<SingleTripQueryResult> searchForTrips(TripSearchCriteria tripSearchModel)
     {
         List<Trip> matchedTrips = this.prepareCriteriaSearch(tripSearchModel);
         
+        Application.log("got trips from HQL: " + matchedTrips, LogType.DEBUG, getClass());
+        
         List<Trip> filteredTrips = this.triggerFilteringChain(tripSearchModel, matchedTrips);
         
-        return filteredTrips;
+        Application.log("filtered trips: " + filteredTrips, LogType.DEBUG, getClass());
+        
+        return this.toQueryResultList(filteredTrips);
+    }
+
+    private List<SingleTripQueryResult> toQueryResultList(
+            List<Trip> filteredTrips)
+    {
+        List<SingleTripQueryResult> list = new ArrayList<SingleTripQueryResult>();
+        
+        for (Trip filteredTrip : filteredTrips) {
+            list.add(this.toSingleTripQueryResult(filteredTrip));
+        }
+        
+        return list;
+    }
+
+    private SingleTripQueryResult toSingleTripQueryResult(Trip filteredTrip)
+    {
+        return QueryResultFactory.newSingleTripQueryResult(filteredTrip);
     }
 
     private List<Trip> triggerFilteringChain(TripSearchCriteria tripSearchCriteria, List<Trip> matchedTrips)
@@ -168,13 +192,15 @@ public class WebsiteTripQuery implements TripQueryMethod
         
         try {
             // search within date and price range, exclude trips offered by currently logged-in user
-            return em.createNamedQuery(Trip.NAME_CRITERIA_QUERY, Trip.class)
-                .setParameter("dateFrom", dateFromTimeStamp)
-                .setParameter("dateTo", dateToTimeStamp)
-                .setParameter("priceFrom", priceFrom)
-                .setParameter("priceTo", priceTo)
-                .setParameter("passenger", this.getCurrentlyLoggedInUser())
-                .getResultList();
+            
+            return em.createNamedQuery(Trip.NAME_QUERY_ALL, Trip.class) .getResultList();
+//            return em.createNamedQuery(Trip.NAME_CRITERIA_QUERY, Trip.class)
+//                .setParameter("dateFrom", null)
+//                .setParameter("dateTo", null)
+//                .setParameter("priceFrom", null)
+//                .setParameter("priceTo", null)
+//                .setParameter("passenger", null)
+//                .getResultList();
         } catch (Exception e) {
             this.messages.add("Error while searching for trips by the given criteria");
             Application.log("prepareCriteriaSearch(): exception " + e.getMessage() + "\nstack:" 
