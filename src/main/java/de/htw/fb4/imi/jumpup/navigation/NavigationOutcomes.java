@@ -37,5 +37,7 @@ public interface NavigationOutcomes
     String TO_CANCEL_TRIP = "to_cancel_trip";
     
     String TO_LIST_OFFERED_TRIPS = "to_list_offered_trips";
+    
+    String TO_LOOK_FOR_TRIPS = "to_look_for_trips";
    
 }

@@ -1,34 +1,37 @@
-[  
-   {  
-      "driver":{  
-         "username":"sasfeld",
-         "email":"admin@groupelite.de",
-         "prename":"Palmer Delgado",
-         "lastname":"French",
-         "town":null,
-         "country":null,
-         "gender":"MAN",
-         "mobileNumber":"+49 176",
-         "skype":"cof1990",
-         "spokenLanguages":[  
+{  
+   "trips":[  
+      {  
+         "driver":{  
+            "username":"sasfeld",
+            "email":"admin@groupelite.de",
+            "prename":"Palmer Delgado",
+            "lastname":"French",
+            "town":null,
+            "country":null,
+            "gender":"MAN",
+            "mobileNumber":"+49 176",
+            "skype":"cof1990",
+            "spokenLanguages":[  
 
-         ]
-      },
-      "vehicle":{  
-         "manufactor":"BMW"
-      },
-      "trip":{  
-         "startpoint":"Berlin, Deutschland",
-         "endpoint":"Trier, Deutschland",
-         "latStartpoint":52.52,
-         "longStartpoint":13.405,
-         "latEndpoint":49.75,
-         "longEndpoint":6.63714,
-         "startDateTime":1422835200000,
-         "endDateTime":1422835200000,
-         "price":30.0,
-         "viaWaypoints":"",
-         "numberOfSeats":3
+            ]
+         },
+         "vehicle":{  
+            "manufactor":"BMW"
+         },
+         "trip":{  
+            "id":35,
+            "startpoint":"Berlin, Deutschland",
+            "endpoint":"Trier, Deutschland",
+            "latStartpoint":52.52,
+            "longStartpoint":13.405,
+            "latEndpoint":49.75,
+            "longEndpoint":6.63714,
+            "startDateTime":1422835200000,
+            "endDateTime":1422835200000,
+            "price":30.0,
+            "viaWaypoints":"",
+            "numberOfSeats":3
+         }
       }
-   }
-]
+   ]
+}

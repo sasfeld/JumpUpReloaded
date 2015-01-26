@@ -1,0 +1,126 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:trip="http://xmlns.jcp.org/jsf/composite/components/trip"
+>
+
+<ui:composition template="../../resources/templates/basic/BasicTemplate.xhtml">		
+	<ui:define name="head_beginning">
+		<script src="#{tripCreationController.tripConfigReader.fetchValue('jumpup.trip.googlemap.api')}"></script> 
+	</ui:define>
+	
+	<ui:define name="content">
+		<h:outputScript library="js" name="lib/vec2.js" target="head"/>
+		<h:outputScript library="js" name="gmap/googlemap.js" target="head"/>
+		<h:outputScript library="js" name="gmap/mapcontroller.js" target="head"/>
+		<h:outputScript library="js" name="gmap/overviewPathStrategy.js" target="head"/>
+		<h:outputScript library="js" name="gmap/tripscontroller.js" target="head"/>
+<!-- 		<h:outputScript library="js" name="pages/portal/trip/tripinfo.js" target="head"/> -->
+		<h:outputScript library="js" name="pages/portal/trip/lookuptrips.js" target="head"/>
+		<h:outputStylesheet library="css" name="pages/portal/trip/create.css" />
+		
+		<h:form id="createTripForm">
+		  	<h:messages errorClass="errorMessage" infoClass="infoMessage" warnClass="warnMessage"></h:messages>
+		  	  <div class="rows-two">
+		  		<div class="col-left">
+		  		 <h:panelGrid columns="1">
+					<trip:location 
+						jsfId="start_location"
+						label="Start location"
+						isRequired="required"
+						validationMessage="Please enter the start location of your trip"
+						cssClass="start_location"
+						validatorBean="#{locationValidator}"/>				
+				
+					<trip:location 
+						jsfId="end_location"
+						label="End location"
+						isRequired="required"
+						validationMessage="Please enter the end location of your trip"
+						cssClass="end_location"
+						validatorBean="#{locationValidator}"/>	
+						
+					<trip:latLng
+						isRequired="required"
+						cssClass="latitude_start"
+						validatorBean="#{latitudeValidator}"/>	
+						
+					<trip:latLng
+						isRequired="required"
+						cssClass="longitude_start"
+						validatorBean="#{longitudeValidator}"/>
+						
+					<trip:latLng
+						isRequired="required"
+						cssClass="latitude_end"
+						validatorBean="#{latitudeValidator}"/>	
+						
+					<trip:latLng
+						isRequired="required"
+						cssClass="longitude_end"
+						validatorBean="#{longitudeValidator}"/>
+						
+					<trip:datetime 
+						jsfId="date_from"
+						label="Date from"
+						isRequired="required"
+						validationMessage="Please enter the start date and time of your trip"
+						validatorBean="#{startDatetimeValidator}"/>
+						
+					<trip:datetime 
+						jsfId="date_to"
+						label="Date to"
+						isRequired="required"
+						validationMessage="Please enter the estimated end date and time of your trip"
+						validatorBean="#{endDatetimeValidator}"/>
+						
+					<trip:price 
+						jsfId="price_from"
+						label="Price from"
+						isRequired="required"
+						validationMessage="Please enter the overall price that you want to be paid (from start to end location)"
+						validatorBean="#{priceValidator}"/>		
+						
+					<trip:price 
+						jsfId="price_to"
+						label="Price to"
+						isRequired="required"
+						validationMessage="Please enter the overall price that you want to be paid (from start to end location)"
+						validatorBean="#{priceValidator}"/>							
+						
+					<trip:basic_numeric
+						jsfId="duration"
+						valueBinding="#{tripCreationController.trip.durationSeconds}"/>	
+						
+					<trip:basic_numeric
+						jsfId="max_distance"
+						valueBinding="#{tripCreationController.trip.distanceMeters}"/>	
+						
+					<trip:via_waypoints
+						jsfId="via_waypoints"
+						cssClass="via_waypoints"
+						valueBinding="#{tripCreationController.trip.viaWaypoints}"
+						validatorBean="#{overviewPathValidator}"/>			
+				</h:panelGrid>
+				
+				<h:commandButton value="#{translator.translate('Look for trips')}" type="button"
+				  id="look_for_trips"/>
+		    	
+		    	</div>
+		    	<div class="col-right">
+		    		<div id="map_canvas" />
+		    		<div id="geocoding" />
+		    	</div> 
+		      </div>
+			</h:form>
+	</ui:define>
+	
+</ui:composition>
+	
+	
+</html>

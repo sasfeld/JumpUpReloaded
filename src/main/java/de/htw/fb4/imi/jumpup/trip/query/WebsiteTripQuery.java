@@ -22,10 +22,12 @@ import de.htw.fb4.imi.jumpup.Application;
 import de.htw.fb4.imi.jumpup.Application.LogType;
 import de.htw.fb4.imi.jumpup.settings.BeanNames;
 import de.htw.fb4.imi.jumpup.settings.PersistenceSettings;
+import de.htw.fb4.imi.jumpup.translate.Translatable;
 import de.htw.fb4.imi.jumpup.trip.entities.Trip;
 import de.htw.fb4.imi.jumpup.trip.query.filter.TripSearchFilterChain;
 import de.htw.fb4.imi.jumpup.trip.restservice.QueryResultFactory;
 import de.htw.fb4.imi.jumpup.trip.restservice.model.SingleTripQueryResult;
+import de.htw.fb4.imi.jumpup.trip.restservice.model.TripQueryResults;
 import de.htw.fb4.imi.jumpup.trip.restservice.model.TripSearchCriteria;
 import de.htw.fb4.imi.jumpup.user.controllers.Login;
 import de.htw.fb4.imi.jumpup.user.entities.User;
@@ -48,6 +50,9 @@ public class WebsiteTripQuery implements TripQueryMethod
     
     @Inject
     protected Login loginController;    
+    
+    @Inject
+    protected Translatable translator;
     
     protected List<String> messages;
 
@@ -136,7 +141,7 @@ public class WebsiteTripQuery implements TripQueryMethod
      * (non-Javadoc)
      * @see de.htw.fb4.imi.jumpup.trip.query.TripQueryMethod#searchForTrips(de.htw.fb4.imi.jumpup.trip.query.TripSearchCriteria)
      */
-    public List<SingleTripQueryResult> searchForTrips(TripSearchCriteria tripSearchModel)
+    public TripQueryResults searchForTrips(TripSearchCriteria tripSearchModel)
     {
         List<Trip> matchedTrips = this.prepareCriteriaSearch(tripSearchModel);
         
@@ -149,16 +154,16 @@ public class WebsiteTripQuery implements TripQueryMethod
         return this.toQueryResultList(filteredTrips);
     }
 
-    private List<SingleTripQueryResult> toQueryResultList(
+    private TripQueryResults toQueryResultList(
             List<Trip> filteredTrips)
     {
         List<SingleTripQueryResult> list = new ArrayList<SingleTripQueryResult>();
         
         for (Trip filteredTrip : filteredTrips) {
             list.add(this.toSingleTripQueryResult(filteredTrip));
-        }
+        }        
         
-        return list;
+        return QueryResultFactory.newTripQueryResults(list);
     }
 
     private SingleTripQueryResult toSingleTripQueryResult(Trip filteredTrip)
@@ -233,4 +238,13 @@ public class WebsiteTripQuery implements TripQueryMethod
         return new Timestamp(date.getTime());
     }
 
+    @Override
+    /*
+     * (non-Javadoc)
+     * @see de.htw.fb4.imi.jumpup.trip.query.TripQueryMethod#getNoTripsResult()
+     */
+    public TripQueryNoResults getNoTripsResult()
+    {
+        return QueryResultFactory.newNoTripsResult(this.translator.translate("Sorry, we didn't find any trips that matched your criteria. Please try again and be less restrictive."));
+    }
 }

@@ -7,9 +7,12 @@ package de.htw.fb4.imi.jumpup.trip.restservice;
 
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.List;
 
 import de.htw.fb4.imi.jumpup.trip.entities.Trip;
+import de.htw.fb4.imi.jumpup.trip.query.TripQueryNoResults;
 import de.htw.fb4.imi.jumpup.trip.restservice.model.SingleTripQueryResult;
+import de.htw.fb4.imi.jumpup.trip.restservice.model.TripQueryResults;
 import de.htw.fb4.imi.jumpup.user.entities.User;
 import de.htw.fb4.imi.jumpup.verhicle.entities.Vehicle;
 
@@ -41,7 +44,8 @@ public class QueryResultFactory
     
     private static void fillFromTripEntity(
             SingleTripQueryResult singleTripQueryResult, Trip trip)
-    {
+    {        
+        singleTripQueryResult.getTrip().setId(trip.getIdentity());
         singleTripQueryResult.getTrip().setStartpoint(trip.getStartpoint());
         singleTripQueryResult.getTrip().setEndpoint(trip.getEndpoint());
         singleTripQueryResult.getTrip().setLatStartpoint(trip.getLatStartpoint());
@@ -87,6 +91,29 @@ public class QueryResultFactory
     private static Timestamp toTimestamp(Date startDateTime)
     {
         return new Timestamp(startDateTime.getTime());
+    }
+
+    /**
+     * 
+     * @param message
+     * @return
+     */
+    public static TripQueryNoResults newNoTripsResult(String message)
+    {
+        TripQueryNoResults noResults = new TripQueryNoResults();
+        
+        noResults.setNoTrips(true);
+        noResults.setMessage(message);
+        
+        return noResults;
+    }
+
+    public static TripQueryResults newTripQueryResults(
+            List<SingleTripQueryResult> list)
+    {
+        TripQueryResults results = new TripQueryResults();
+        results.setTrips(list);
+        return results;
     }
 
 }

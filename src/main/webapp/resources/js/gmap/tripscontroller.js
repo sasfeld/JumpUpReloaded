@@ -14,10 +14,8 @@ this.de.htw.fb4.imi = this.de.htw.fb4.imi || {};
 this.de.htw.fb4.imi.jumpup = this.de.htw.fb4.imi.jumpup || {};
 this.de.htw.fb4.imi.jumpup.trip = this.de.htw.fb4.imi.jumpup.trip || {};
 
-$(document)
-		.ready(
-				function() {
-			const
+(function() {
+			var
 			REF_ACCORDION = "#accordion";
 			// stores the only existing instance
 			var _this;
@@ -55,21 +53,16 @@ $(document)
 				var mapCtrl = _this.options.mapCtrl;
 				// clear map
 				mapCtrl.gmap.removeRoutes();
-				var messages = data.messages;
+
 				var viewOptions = {
 					"accordion" : $(REF_ACCORDION),
 					"startLatLng" : _this.startLatLng,
 					"endLatLng" : _this.endLatLng,
-					"messages" : messages,
 				};
 				
-				var tripInfoView = new TripInfo(viewOptions, mapCtrl.select);
+				var tripInfoView = new de.htw.fb4.imi.jumpup.trip.TripInfo(viewOptions, mapCtrl.select);
 
-				if (data.validationFail == true) {
-					console.log(data.validationMessages);
-					// @TODO show validation fails to the user...
-					alert(data.userMessage);
-				} else if (data.noTrips == true) {
+				if (data.isNoTrips == true) {
 					console.log(data);
 					alert(data.userMessage);
 				}				
@@ -80,7 +73,7 @@ $(document)
 					// inform gui
 					if (data.trips.length > 0) {
 						for ( var tripIndex = 0; tripIndex < data.trips.length; tripIndex++) {
-							var trip = data.trips[tripIndex];
+							var trip = data.trips[tripIndex].trip;
 
 							var viaWaypoints = trip.viaWaypoints;
 
@@ -97,8 +90,8 @@ $(document)
 							}
 							// TODO get multiple routes working.
 							if (null != startCoord && null != endCoord) {
-								mapCtrl.showRoute(trip.id, trip.startCoord,
-										trip.endCoord, waypointsArray,
+								mapCtrl.showRoute(trip.id, trip.startpoint,
+										trip.endpoint, waypointsArray,
 										multiple, tripInfoView.select);
 								multiple = true;
 							}
@@ -134,8 +127,8 @@ $(document)
 				console.log("TripsController: fetchTrips");
 				console.log("startCoord: " + startCoord);
 				console.log("endCoord: " + endCoord);
-				console.log("startDate: " + startDate);
-				console.log("endDate: " + endDate);
+				console.log("startDate: " + dateFrom);
+				console.log("endDate: " + dateTo);
 				console.log("priceFrom: " + priceFrom);
 				console.log("priceTo: " + priceTo);
 				console.log("userId: " + this.options.userId);
@@ -145,23 +138,24 @@ $(document)
 
 				$.ajax({
 					url : this.options.getTripsUrl,
-					data : {
+					data : JSON.stringify({
 						"startPoint" : startPoint,
+						"latStartPoint" : startCoord.lat,
+						"longStartPoint" : startCoord.long,
 						"endPoint"   : endPoint,
-						"startCoord" : startCoord,
-						"endCoord" : endCoord,
-						"startDate" : startDate,
-						"endDate" : endDate,
+						"latEndPoint" : endCoord.lat,
+						"longEndPoint" : startCoord.long,
+						"dateFrom" : dateFrom,
+						"dateTo" : dateTo,
 						"priceFrom" : priceFrom,
 						"priceTo" : priceTo,
-						"userId" : __this.options.userId,
 						"maxDistance" : maxDistance,
-					},
-					dataType : 'json',
+					}),
+					contentType : 'application/json',
+					dataType : 'application/json',
 					type : "POST",
 					success : this.handleServerResponse,
 					error : this.handleError,
 				});
 			};
-});
-
+}())

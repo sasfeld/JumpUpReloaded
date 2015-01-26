@@ -34,6 +34,8 @@
 					<div>
 						<h:panelGrid columns="2">
 							<h:link value="#{translator.translate('Profile')}" outcome="#{navigationBean.toUserProfileEdit()}"></h:link>
+							<h:link value="#{translator.translate('Look for trips')}" outcome="#{navigationBean.toLookForTrips()}"></h:link>
+							
 							<h:link value="#{translator.translate('Offer trip')}" outcome="#{navigationBean.toAddTrip()}"></h:link>
 							<h:link value="#{translator.translate('Show my trips')}" outcome="#{navigationBean.toListOfferedTrips()}"></h:link>
 						</h:panelGrid>		

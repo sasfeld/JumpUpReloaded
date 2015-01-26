@@ -42,6 +42,7 @@ public class SingleTripQueryResult implements Serializable
          */
         private static final long serialVersionUID = 5450451948907569162L;
 
+        protected Integer id;      
         protected String username;
         protected String email;
         protected String prename;
@@ -53,7 +54,7 @@ public class SingleTripQueryResult implements Serializable
         protected String skype;
         protected Set<Languages> spokenLanguages;
 
-        /**
+        /** 
          * @return the username
          */
         public String getUsername()
@@ -259,6 +260,8 @@ public class SingleTripQueryResult implements Serializable
          * 
          */
         private static final long serialVersionUID = -8609518419139415328L;
+        
+        protected long id;      
         protected String startpoint;
         protected String endpoint;
         protected float latStartpoint;
@@ -270,6 +273,23 @@ public class SingleTripQueryResult implements Serializable
         protected float price;
         protected String viaWaypoints;
         protected Integer numberOfSeats;
+        
+        
+        /**
+         * @return the id
+         */
+        public long getId()
+        {
+            return id;
+        }
+
+        /**
+         * @param l the id to set
+         */
+        public void setId(long l)
+        {
+            this.id = l;
+        }
 
         /**
          * @return the startpoint

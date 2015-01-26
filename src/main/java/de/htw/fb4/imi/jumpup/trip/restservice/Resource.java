@@ -5,8 +5,6 @@
  */
 package de.htw.fb4.imi.jumpup.trip.restservice;
 
-import java.util.List;
-
 import javax.faces.bean.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -24,7 +22,7 @@ import org.apache.commons.lang.exception.ExceptionUtils;
 import de.htw.fb4.imi.jumpup.Application;
 import de.htw.fb4.imi.jumpup.Application.LogType;
 import de.htw.fb4.imi.jumpup.trip.query.TripQueryMethod;
-import de.htw.fb4.imi.jumpup.trip.restservice.model.SingleTripQueryResult;
+import de.htw.fb4.imi.jumpup.trip.restservice.model.TripQueryResults;
 import de.htw.fb4.imi.jumpup.trip.restservice.model.TripSearchCriteria;
 
 /**
@@ -58,8 +56,16 @@ public class Resource
                 LogType.DEBUG, getClass());
 
         try {
-            List<SingleTripQueryResult> matchedTrips = tripQueryMethod.searchForTrips(tripCriteria);
+            TripQueryResults matchedTrips = tripQueryMethod.searchForTrips(tripCriteria);
             
+            // no trips found
+            if (0 == matchedTrips.getTrips().size()) {
+                return Response
+                        .ok(tripQueryMethod.getNoTripsResult())
+                        .build();
+            }
+            
+            // trips found
             return Response
                     .ok(matchedTrips)
                     .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)

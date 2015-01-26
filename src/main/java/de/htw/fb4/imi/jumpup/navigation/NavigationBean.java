@@ -108,4 +108,9 @@ public class NavigationBean implements NavigationOutcomes
     {
         return TO_LIST_OFFERED_TRIPS;
     }
+    
+    public String toLookForTrips()
+    {
+        return TO_LOOK_FOR_TRIPS;
+    }
 }

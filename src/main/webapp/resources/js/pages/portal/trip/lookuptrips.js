@@ -14,9 +14,7 @@ this.de.htw.fb4.imi = this.de.htw.fb4.imi || {};
 this.de.htw.fb4.imi.jumpup = this.de.htw.fb4.imi.jumpup || {};
 this.de.htw.fb4.imi.jumpup.trip = this.de.htw.fb4.imi.jumpup.trip || {};
 
-$(document)
-		.ready(
-				function() {
+$(document).ready(function() {
 					var REF_MAP_CANVAS = "#map_canvas";
 					var REF_MAP_TEXTBOX = "#textbox";
 					var REF_MAP_GEOCODING = "#geocoding";
@@ -25,9 +23,9 @@ $(document)
 					var ADDTRIP_REF_FORM = 'form[name="createTripForm"]';
 
 					var REF_TRIPS_INPUT_START = ADDTRIP_REF_FORM
-							+ ' .start_location';
+							+ " input[name$='start_location']";
 					var REF_TRIPS_INPUT_END = ADDTRIP_REF_FORM
-							+ ' .end_location';
+							+ " input[name$='end_location']";
 					var	REF_TRIPS_INPUT_LAT_START = ADDTRIP_REF_FORM
 					+ " input[name$='latitude_start']";
 					var	REF_TRIPS_INPUT_LONG_START = ADDTRIP_REF_FORM
@@ -46,7 +44,9 @@ $(document)
 					+ " input[name$='price_to']"
 					var REF_TRIPS_MAX_DISTANCE = ADDTRIP_REF_FORM
 					+ " input[name$='max_distance']"
-			
+					var REF_TRIPS_BTN = ADDTRIP_REF_FORM
+					+ " input[name$='look_for_trips']"
+					
 					var REF_TRIPS_USER_ID = ADDTRIP_REF_FORM
 							+ " input[name$='current_user_id']";
 
@@ -64,6 +64,7 @@ $(document)
 					mapOptions["selectable"] = true;
 					mapOptions["showDirectionsPanel"] = false;
 
+					console.log("map options: " + mapOptions);
 					var mapCtrl = new de.htw.fb4.imi.jumpup.trip.MapController(
 							mapOptions, ctrlOptions);
 
@@ -71,43 +72,51 @@ $(document)
 					 * ..:: initialize tripsController ::..
 					 */
 					var tripsOptions = {
-						"getTripsUrl" : "rest/lookuptrips",
+						"getTripsUrl" : "/JumpUpReloaded/rest/lookuptrips",
 						"mapCtrl" : mapCtrl,
 						"userId" : $(REF_TRIPS_USER_ID).val(),
 					};
 					var tripsCtrl = new de.htw.fb4.imi.jumpup.trip.TripsController(tripsOptions);
 
-					if ($(REF_TRIPS_START_POINT).length > 0) {
+					if ($(REF_TRIPS_INPUT_START).length > 0) {
 						console
 								.log("main.js: Binding input field for start in LookUpTrips");
 						// auto completion for start point
 						mapCtrl.gmap
 								.setAutocomplete(
-										$(REF_TRIPS_START_POINT),
+										$(REF_TRIPS_INPUT_START),
 										function(place) {
-											validStart = place.geometry.location;
-											$(REF_TRIPS_START_POINT).val(
+											var validStart = place.formatted_address;
+											$(REF_TRIPS_INPUT_START).val(
 													validStart);
-											$(REF_TRIPS_START_COORD).val(
-													place.geometry.location);
+											
+											$(REF_TRIPS_INPUT_LAT_START).val(
+													place.geometry.location.lat);
+											$(REF_TRIPS_INPUT_LONG_START).val(
+													place.geometry.location.long);
+											
 											tripsCtrl
 													.setStartCoord(place.geometry.location);
 										});
 					}
 					;
-					if ($(REF_TRIPS_END_POINT).length > 0) {
+					if ($(REF_TRIPS_INPUT_END).length > 0) {
 						console
 								.log("main.js: Binding input field for end in LookUpTrips");
 						// auto completion for start point
 						mapCtrl.gmap
 								.setAutocomplete(
-										$(REF_TRIPS_END_POINT),
+										$(REF_TRIPS_INPUT_END),
 										function(place) {
-											validStart = place.geometry.location;
-											$(REF_TRIPS_END_POINT).val(
-													validStart);
-											$(REF_TRIPS_END_COORD).val(
-													place.geometry.location);
+											var validEnd = place.formatted_address;
+											$(REF_TRIPS_INPUT_END).val(
+													validEnd);
+											
+											$(REF_TRIPS_INPUT_LAT_END).val(
+													place.geometry.location.lat);
+											$(REF_TRIPS_INPUT_LONG_END).val(
+													place.geometry.location.long);
+											
 											tripsCtrl
 													.setEndCoord(place.geometry.location);
 										});
@@ -121,20 +130,26 @@ $(document)
 									(function() {
 										console
 												.log("lookuptrips ... button clicked...");
-										startPoint = $(REF_TRIPS_START_POINT)
+										var startPoint = $(REF_TRIPS_INPUT_START)
 												.val();
-										endPoint = $(REF_TRIPS_END_POINT).val();
-										startCoord = $(REF_TRIPS_START_COORD)
+										var endPoint = $(REF_TRIPS_INPUT_END).val();
+										var startCoord = {
+												"lat" : $(REF_TRIPS_INPUT_LAT_START).val(),
+												"long" : $(REF_TRIPS_INPUT_LONG_START).val(),
+										};
+										var endCoord = {
+												"lat" : $(REF_TRIPS_INPUT_LAT_END).val(),
+												"long" : $(REF_TRIPS_INPUT_LONG_END).val(),
+										};
+										var startDate = $(REF_TRIPS_START_DATE)
 												.val();
-										endCoord = $(REF_TRIPS_END_COORD).val();
-										startDate = $(REF_TRIPS_START_DATE)
+										var endDate = $(REF_TRIPS_END_DATE).val();
+										var priceFrom = $(REF_TRIPS_PRICE_FROM)
 												.val();
-										endDate = $(REF_TRIPS_END_DATE).val();
-										priceFrom = $(REF_TRIPS_PRICE_FROM)
+										var priceTo = $(REF_TRIPS_PRICE_TO).val();
+										var maxDistance = $(REF_TRIPS_MAX_DISTANCE)
 												.val();
-										priceTo = $(REF_TRIPS_PRICE_TO).val();
-										maxDistance = $(REF_TRIPS_MAX_DISTANCE)
-												.val();
+										
 										if (null != tripsCtrl) {
 											tripsCtrl.fetchTrips(startPoint,
 													endPoint, startCoord,
@@ -144,4 +159,4 @@ $(document)
 										}
 									}));
 
-				});
+})

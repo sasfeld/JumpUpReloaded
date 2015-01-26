@@ -25,6 +25,8 @@ var _this;
 	de.htw.fb4.imi.jumpup.trip.GoogleMap = function(options) { 
 
 	_this = this;
+	
+	console.log("map options: " + options);
 
 	this.selected = undefined;
 
