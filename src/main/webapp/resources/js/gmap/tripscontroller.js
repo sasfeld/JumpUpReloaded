@@ -60,7 +60,7 @@ this.de.htw.fb4.imi.jumpup.trip = this.de.htw.fb4.imi.jumpup.trip || {};
 						"endLatLng" : _this.endLatLng,
 					};
 					
-//					var tripInfoView = new de.htw.fb4.imi.jumpup.trip.TripInfo(viewOptions, mapCtrl.select);
+					var tripInfoView = new de.htw.fb4.imi.jumpup.trip.TripInfo(viewOptions, mapCtrl.select);
 	
 					if (data.noTrips == true) {
 						console.log(data);
@@ -73,7 +73,8 @@ this.de.htw.fb4.imi.jumpup.trip = this.de.htw.fb4.imi.jumpup.trip || {};
 						// inform gui
 						if (data.trips.length > 0) {
 							for ( var tripIndex = 0; tripIndex < data.trips.length; tripIndex++) {
-								var trip = data.trips[tripIndex].trip;
+								var singleTripQueryResult = data.trips[tripIndex];
+								var trip = singleTripQueryResult.trip;
 	
 								var viaWaypoints = trip.viaWaypoints;
 	
@@ -95,7 +96,7 @@ this.de.htw.fb4.imi.jumpup.trip = this.de.htw.fb4.imi.jumpup.trip || {};
 
 								// build selection view for user
 								
-	//							tripInfoView.addTrip(trip)
+								tripInfoView.addTrip(singleTripQueryResult);
 							}
 							;
 	
@@ -105,7 +106,7 @@ this.de.htw.fb4.imi.jumpup.trip = this.de.htw.fb4.imi.jumpup.trip || {};
 				;
 
 				// activate accordion
-//				tripInfoView.reloadAccordion();
+				tripInfoView.reloadAccordion();
 			};
 
 			/*

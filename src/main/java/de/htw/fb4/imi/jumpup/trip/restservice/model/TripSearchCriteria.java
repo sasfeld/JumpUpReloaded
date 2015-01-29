@@ -224,7 +224,7 @@ public class TripSearchCriteria
     }
 
     /**
-     * @return the maxDistance
+     * @return the maxDistance in kilometers
      */
     public Integer getMaxDistance()
     {
@@ -233,7 +233,7 @@ public class TripSearchCriteria
 
     /**
      * @param maxDistance
-     *            the maxDistance to set
+     *            the maxDistance in kilometers to set
      */
     public void setMaxDistance(Integer maxDistance)
     {

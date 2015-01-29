@@ -6,11 +6,12 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import de.htw.fb4.imi.jumpup.Application;
+import de.htw.fb4.imi.jumpup.Application.LogType;
 import de.htw.fb4.imi.jumpup.booking.BookingEJB;
 import de.htw.fb4.imi.jumpup.booking.entities.Booking;
 import de.htw.fb4.imi.jumpup.controllers.AbstractFacesController;
 import de.htw.fb4.imi.jumpup.settings.BeanNames;
-import de.htw.fb4.imi.jumpup.user.controllers.Login;
 
 /**
  * 
@@ -35,25 +36,21 @@ public class BookingDetailsController extends AbstractFacesController implements
     private static final long serialVersionUID = -4989295237379145060L;
 
     @Inject
-    private Login loginController;
-
-    @Inject
     private BookingEJB bookingEJB;
 
     private long tripId;
 
     private Booking booking = new Booking();
 
+    
     public String bindBookingData()
     {
-
-        booking.setPassenger(loginController.getLoginModel().getCurrentUser());
-
-        bookingEJB.getTripByID(tripId);
+        bookingEJB.createBooking(this.getBooking(), this.getTripId());
 
         return null;
     }
 
+  
     public Booking getBooking()
     {
         return booking;
@@ -71,6 +68,7 @@ public class BookingDetailsController extends AbstractFacesController implements
 
     public void setTripId(long tripId)
     {
+        Application.log("Setting tripID " + tripId, LogType.DEBUG, getClass());
         this.tripId = tripId;
     }
 

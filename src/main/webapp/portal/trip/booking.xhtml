@@ -11,38 +11,38 @@
 
 <ui:composition template="../../resources/templates/basic/BasicTemplate.xhtml">
 	<f:metadata>
-			<f:viewParam id="tripId" name="trip" value="#{bookingDetailsController.tripId}" />
-			<f:viewParam id="startpoint" name="trip" value="#{bookingDetailsController.booking.startpoint}" />
-			<f:viewParam id="endpoint" name="trip" value="#{bookingDetailsController.booking.endpoint}" />
-			<f:viewParam id="startLatitude" name="trip" value="#{bookingDetailsController.booking.startLatitude}" />
-			<f:viewParam id="startLongitude" name="trip" value="#{bookingDetailsController.booking.startLongitude}" />
-			<f:viewParam id="endLatitude" name="trip" value="#{bookingDetailsController.booking.endLatitude}" />
-			<f:viewParam id="endLongitude" name="trip" value="#{bookingDetailsController.booking.endLongitude}" />
+			<f:viewParam id="tripId" name="tripId" value="#{bookingDetailsController.tripId}" />
+			<f:viewParam id="startpoint" name="startpoint" value="#{bookingDetailsController.booking.startPoint}" />
+			<f:viewParam id="endpoint" name="endpoint" value="#{bookingDetailsController.booking.endPoint}" />
+			<f:viewParam id="startLatitude" name="startLatitude" value="#{bookingDetailsController.booking.startLatitude}" />
+			<f:viewParam id="startLongitude" name="startLongitude" value="#{bookingDetailsController.booking.startLongitude}" />
+			<f:viewParam id="endLatitude" name="endLatitude" value="#{bookingDetailsController.booking.endLatitude}" />
+			<f:viewParam id="endLongitude" name="endLongitude" value="#{bookingDetailsController.booking.endLongitude}" />
 	</f:metadata>
 	
 	<ui:define name="content">
 		
-		<p>Hallo #{bookingDetailsController.booking.passenger.prename}.</p>
+		<p>#{translator.translate('Hello')} #{loginController.loginModel.currentUser.prename}.</p>
 		<div>
-		You have selected the following Trip: 
+		#{translator.translate('You have selected the following Trip')}: 
 		 
-			 <h:panelGrid id="grid" columns="2">
-								
-				<h:outputLabel value="Startpoint" for = "startpoint"/>
-				<h:inputText id="startpoint" class="textInput" value="#{bookingDetailsController.booking.startpoint}" readonly="true" />
-				
-				<h:outputLabel value="Endpoint" for = "endpoint"/>
-				<h:inputText id="endpoint" class="textInput" value="#{bookingDetailsController.booking.endpoint}" readonly="true" />
-				
-				<h:outputLabel value="Startpoint" for = "startpoint"/>
-				<h:inputText id="startpoint" class="textInput" value="#{bookingDetailsController.booking.startpoint}" readonly="true" />
-			
-			</h:panelGrid>
-			
-		<p>Do you want to book it?
-		<h:commandButton action="" value="submit" /> 
-		</p>
+		 	<h:form>
+					 <h:panelGrid id="grid" columns="2">
+										
+						<h:outputLabel value="Startpoint" for = "inp_startpoint"/>
+						<h:inputText id="inp_startpoint" class="textInput" value="#{bookingDetailsController.booking.startPoint}" readonly="true" />
+						
+						<h:outputLabel value="Endpoint" for = "inp_endpoint"/>
+						<h:inputText id="inp_endpoint" class="textInput" value="#{bookingDetailsController.booking.endPoint}" readonly="true" />
+					
+					</h:panelGrid>
+					
+					<p>#{translator.translate('Do you want to book it')}?
+					<h:commandButton action="#{bookingDetailsController.bindBookingData}" value="submit" /> 		
+					</p>
+			</h:form>
 		</div>
+		
 		
 	</ui:define>
 	

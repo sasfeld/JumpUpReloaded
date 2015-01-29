@@ -14,6 +14,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
+import de.htw.fb4.imi.jumpup.Application;
+import de.htw.fb4.imi.jumpup.Application.LogType;
 import de.htw.fb4.imi.jumpup.entities.AbstractEntity;
 import de.htw.fb4.imi.jumpup.trip.entities.Trip;
 import de.htw.fb4.imi.jumpup.user.entities.User;
@@ -77,6 +79,7 @@ public class Booking extends AbstractEntity
 
     public void setStartPoint(String startPoint)
     {
+        Application.log("binding startPoint..." + startPoint, LogType.DEBUG, getClass());
         this.startPoint = startPoint;
     }
 
@@ -87,6 +90,7 @@ public class Booking extends AbstractEntity
 
     public void setEndPoint(String endPoint)
     {
+        Application.log("binding endPoint..." + endPoint, LogType.DEBUG, getClass());
         this.endPoint = endPoint;
     }
 

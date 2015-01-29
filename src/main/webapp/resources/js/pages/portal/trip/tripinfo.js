@@ -37,26 +37,33 @@ this.de.htw.fb4.imi.jumpup.trip = this.de.htw.fb4.imi.jumpup.trip || {};
 	PARAM_PRICE_TO = "priceTo";
 	var
 	PARAM_MAX_DISTANCE = "maxDistance";
+	
 	var
-	TRIPS_REF_FORM = 'form[name="LookUpTripsForm"]';
-	var
-	REF_TRIPS_START_COORD = TRIPS_REF_FORM + ' input[name="startCoord"]';
-	var
-	REF_TRIPS_END_COORD = TRIPS_REF_FORM + ' input[name="endCoord"]';
-	var
-	REF_TRIPS_START_POINT = TRIPS_REF_FORM + ' input[name="startPoint"]';
-	var
-	REF_TRIPS_END_POINT = TRIPS_REF_FORM + ' input[name="endPoint"]';
-	var
-	REF_TRIPS_START_DATE = TRIPS_REF_FORM + ' input[name="startDate"]';
-	var
-	REF_TRIPS_END_DATE = TRIPS_REF_FORM + ' input[name="endDate"]';
-	var
-	REF_TRIPS_PRICE_FROM = TRIPS_REF_FORM + ' input[name="priceFrom"]';
-	var
-	REF_TRIPS_PRICE_TO = TRIPS_REF_FORM + ' input[name="priceTo"]';
-	var
-	REF_TRIPS_MAX_DISTANCE = TRIPS_REF_FORM + ' input[name="maxDistance"]';
+	TRIPS_REF_FORM = 'form[name="lookForTripsForm"]';
+	var REF_TRIPS_INPUT_START = TRIPS_REF_FORM
+	+ " input[name$='start_location']";
+	var REF_TRIPS_INPUT_END = TRIPS_REF_FORM
+		+ " input[name$='end_location']";
+	var	REF_TRIPS_INPUT_LAT_START = TRIPS_REF_FORM
+	+ " input[name$='latitude_start']";
+	var	REF_TRIPS_INPUT_LONG_START = TRIPS_REF_FORM
+	+ " input[name$='longitude_start']";
+	var	REF_TRIPS_INPUT_LAT_END = TRIPS_REF_FORM
+	+ " input[name$='latitude_end']";
+	var	REF_TRIPS_INPUT_LONG_END = TRIPS_REF_FORM
+	+ " input[name$='longitude_end']";
+	var REF_TRIPS_START_DATE = TRIPS_REF_FORM
+	+ " input[name$='date_from']";
+	var REF_TRIPS_END_DATE = TRIPS_REF_FORM
+	+ " input[name$='date_to']";
+	var REF_TRIPS_PRICE_FROM = TRIPS_REF_FORM
+	+ " input[name$='price_from']";
+	var REF_TRIPS_PRICE_TO = TRIPS_REF_FORM
+	+ " input[name$='price_to']";
+	var REF_TRIPS_MAX_DISTANCE = TRIPS_REF_FORM
+	+ " input[name$='max_distance']";
+	var REF_TRIPS_BTN = TRIPS_REF_FORM
+	+ " input[name$='look_for_trips']";
 
 	// was the accordion already initialized? important for the destroy()
 	// function on the accordion
@@ -78,8 +85,8 @@ this.de.htw.fb4.imi.jumpup.trip = this.de.htw.fb4.imi.jumpup.trip || {};
 		this.idMapReversed = new Object();
 		this.length = 0;
 		this.callbackSelect = callbackSelect;
-		this.inputStartPoint = $(REF_TRIPS_START_POINT);
-		this.inputEndPoint = $(REF_TRIPS_END_POINT);
+		this.inputStartPoint = $(REF_TRIPS_INPUT_START);
+		this.inputEndPoint = $(REF_TRIPS_INPUT_END);
 		this.inputDateFrom = $(REF_TRIPS_START_DATE);
 		this.inputDateTo = $(REF_TRIPS_END_DATE);
 		this.inputPriceFrom = $(REF_TRIPS_PRICE_FROM);
@@ -247,30 +254,35 @@ this.de.htw.fb4.imi.jumpup.trip = this.de.htw.fb4.imi.jumpup.trip || {};
 	/**
 	 * Render one incoming trip.
 	 * 
-	 * @param trip
+	 * @param tripQueryResult
 	 *            the returned trip.
 	 */
-	de.htw.fb4.imi.jumpup.trip.TripInfo.prototype.addTrip = function(trip) {
+	de.htw.fb4.imi.jumpup.trip.TripInfo.prototype.addTrip = function(tripQueryResult) {
+		var trip = tripQueryResult.trip;
+		var driver = tripQueryResult.driver;
+		
 		var messages = this.options.messages;
 		var id = trip.id;
-		var startPoint = trip.startPoint;
-		var endPoint = trip.endPoint;
-		var startDate = trip.startDate;
-		var priceForPassenger = trip.priceRecommendation; // price
-		// recommendation by
-		// the backend
-		var driversPrice = trip.price;
-		var driver = trip.driver;
-		var startCoord = trip.startCoord;
-		var endCoord = trip.endCoord;
-		var overviewPath = trip.overviewPath;
-		var numberBookings = trip.numberBookings;
-		var maxSeats = trip.maxSeats;
-		var vehicle = trip.vehicle;
+		var startPoint = trip.startpoint;
+		var endPoint = trip.endpoint;
+		var startDate = trip.startDateTime;
+//		var priceForPassenger = trip.priceRecommendation; // price
+//		// recommendation by
+//		// the backend
+//		var driversPrice = trip.price;
+		var startLat = trip.latStartpoint;
+		var startLong =trip.longStartpoint;
+		var endLat = trip.latEndpoint;
+		var endLong =trip.longEndpoint;
+//		var numberBookings = trip.numberBookings;
+		var maxSeats =trip.numberOfSeats;
+//		var vehicle = trip.vehicle;
 		this.idMap[id] = this.length;
 		this.idMapReversed[this.length++] = id;
-		var distFromPassLoc = Math.round(trip.distanceFromPassengersLocation);
-		var distFromPassDest = Math.round(trip.distanceFromPassengersDestination);
+//		var distFromPassLoc = Math.round(trip.distanceFromPassengersLocation);
+		var distFromPassLoc = 0;
+//		var distFromPassDest = Math.round(trip.distanceFromPassengersDestination);
+		var distFromPassDest = 0;
 
 		this.addHeadline("<span class=\"highlighting\">" + startPoint + "</span> " + messages.to
 				+ " <span class=\"highlighting\">" + endPoint + "</span>");
@@ -287,11 +299,11 @@ this.de.htw.fb4.imi.jumpup.trip = this.de.htw.fb4.imi.jumpup.trip || {};
 				+ "<li class=\"vehicletooltip\" id=\"" + (id + 100) + "\"><span class=\"ui-accordion-content-key\">"
 				+ messages.vehicle + ":</span><span class=\"tooltip-highlight\">" + vehicle.brand + " " + vehicle.type
 				+ "</span></li> " + "</ul>";
-		bodyStr = this.addBookingForm(id, bodyStr, priceForPassenger);
+//		bodyStr = this.addBookingForm(id, bodyStr, priceForPassenger);
 		this.addBody(bodyStr);
 
-		this.buildTooltip(id, driver);
-		this.buildVehicleTooltip(id + 100, vehicle);
+//		this.buildTooltip(id, driver);
+//		this.buildVehicleTooltip(id + 100, vehicle);
 	};
-}())
+}());
 
