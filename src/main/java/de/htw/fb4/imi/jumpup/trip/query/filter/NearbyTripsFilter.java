@@ -40,6 +40,11 @@ public class NearbyTripsFilter extends AbstractTripFilter
             throw new NullPointerException("You need to set tripSearchCriteria before calling applyFilter");
         }
         
+        if (null == super.tripSearchCriteria.getLatStartPoint() || null == super.tripSearchCriteria.getLongStartPoint()
+            || null == super.tripSearchCriteria.getLatEndPoint() || null == super.tripSearchCriteria.getLongEndPoint()) {
+            throw new NullPointerException("Null value given for latStartPoint, longStartPoint, latEndPoint or longEndpoint.");
+        }
+        
         List<Trip> preFilteredTrips =  super.applyFilter(givenTrips);
         
         List<Trip> filteredTrips = this.findNearbyTrips(preFilteredTrips);
@@ -109,6 +114,17 @@ public class NearbyTripsFilter extends AbstractTripFilter
 
     private boolean isNearLocation(Coordinates tripCoordinates, Coordinates passengersCoordinates)
     {        
+        if (null == tripCoordinates) {
+            throw new NullPointerException("Nullpointer for tripCoordinates");
+        }
+        if (null == passengersCoordinates) {
+            throw new NullPointerException("Nullpointer for passengersCoordinates");
+        }
+        if (null == this.tripSearchCriteria.getMaxDistance()) {
+            throw new NullPointerException("Nullpointer for tripSearchCriteria:maxDistance");
+        }
+        
+        
         if (CoordinateUtil.calculateDistanceBetween(tripCoordinates, passengersCoordinates) < this.tripSearchCriteria.getMaxDistance()) {
             return true;
         }

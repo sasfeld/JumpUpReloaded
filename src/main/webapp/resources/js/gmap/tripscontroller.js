@@ -49,60 +49,62 @@ this.de.htw.fb4.imi.jumpup.trip = this.de.htw.fb4.imi.jumpup.trip || {};
 			 * @param data
 			 */
 			de.htw.fb4.imi.jumpup.trip.TripsController.prototype.handleServerResponse = function(data) {
-				// TripInfo view helper
-				var mapCtrl = _this.options.mapCtrl;
-				// clear map
-				mapCtrl.gmap.removeRoutes();
-
-				var viewOptions = {
-					"accordion" : $(REF_ACCORDION),
-					"startLatLng" : _this.startLatLng,
-					"endLatLng" : _this.endLatLng,
-				};
-				
-				var tripInfoView = new de.htw.fb4.imi.jumpup.trip.TripInfo(viewOptions, mapCtrl.select);
-
-				if (data.isNoTrips == true) {
-					console.log(data);
-					alert(data.userMessage);
-				}				
-				else {
-					// bad request?
-					console.log(data);
-					var multiple = false;
-					// inform gui
-					if (data.trips.length > 0) {
-						for ( var tripIndex = 0; tripIndex < data.trips.length; tripIndex++) {
-							var trip = data.trips[tripIndex].trip;
-
-							var viaWaypoints = trip.viaWaypoints;
-
-							var waypointsArray = new Array();
-							if (viaWaypoints != null) {
-								waypointsArray = viaWaypoints.split(";");
-								waypointsArray.pop(); // last empty element
-								for ( var i = 0; i < waypointsArray.length; i++) {
-									waypointsArray[i] = "(" + waypointsArray[i]
-											+ ")";
+				if (4 ==  data.readyState) {
+					// TripInfo view helper
+					var mapCtrl = _this.options.mapCtrl;
+					// clear map
+					mapCtrl.gmap.removeRoutes();
+	
+					var viewOptions = {
+						"accordion" : $(REF_ACCORDION),
+						"startLatLng" : _this.startLatLng,
+						"endLatLng" : _this.endLatLng,
+					};
+					
+					var tripInfoView = new de.htw.fb4.imi.jumpup.trip.TripInfo(viewOptions, mapCtrl.select);
+	
+					if (data.noTrips == true) {
+						console.log(data);
+						alert(data.userMessage);
+					}				
+					else {
+						// bad request?
+						console.log(data);
+						var multiple = false;
+						// inform gui
+						if (data.trips.length > 0) {
+							for ( var tripIndex = 0; tripIndex < data.trips.length; tripIndex++) {
+								var trip = data.trips[tripIndex].trip;
+	
+								var viaWaypoints = trip.viaWaypoints;
+	
+								var waypointsArray = new Array();
+								if (viaWaypoints != null) {
+									waypointsArray = viaWaypoints.split(";");
+									waypointsArray.pop(); // last empty element
+									for ( var i = 0; i < waypointsArray.length; i++) {
+										waypointsArray[i] = "(" + waypointsArray[i]
+												+ ")";
+									}
+									console.log("trips.js: waypoints array: "
+											+ waypointsArray);
 								}
-								console.log("trips.js: waypoints array: "
-										+ waypointsArray);
+								// TODO get multiple routes working.
+								if (null != startCoord && null != endCoord) {
+									mapCtrl.showRoute(trip.id, trip.startpoint,
+											trip.endpoint, waypointsArray,
+											multiple, tripInfoView.select);
+									multiple = true;
+								}
+								// build selection view for user
+								
+	//							tripInfoView.addTrip(trip)
 							}
-							// TODO get multiple routes working.
-							if (null != startCoord && null != endCoord) {
-								mapCtrl.showRoute(trip.id, trip.startpoint,
-										trip.endpoint, waypointsArray,
-										multiple, tripInfoView.select);
-								multiple = true;
-							}
-							// build selection view for user
-							
-//							tripInfoView.addTrip(trip)
+							;
+	
 						}
 						;
-
 					}
-					;
 				}
 				;
 

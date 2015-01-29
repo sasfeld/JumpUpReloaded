@@ -20,7 +20,7 @@ $(document).ready(function() {
 					var REF_MAP_GEOCODING = "#geocoding";
 					var REF_MAP_DIRECTIONS = "#directions";
 
-					var ADDTRIP_REF_FORM = 'form[name="createTripForm"]';
+					var ADDTRIP_REF_FORM = "form[name='lookForTripsForm']";
 
 					var REF_TRIPS_INPUT_START = ADDTRIP_REF_FORM
 							+ " input[name$='start_location']";
@@ -49,6 +49,8 @@ $(document).ready(function() {
 					
 					var REF_TRIPS_USER_ID = ADDTRIP_REF_FORM
 							+ " input[name$='current_user_id']";
+					
+					console.log("element test: " + $(REF_TRIPS_INPUT_LAT_START));
 
 					// load googlemap controller
 					console.log("Instanciating google map controller...");
@@ -91,9 +93,17 @@ $(document).ready(function() {
 													validStart);
 											
 											$(REF_TRIPS_INPUT_LAT_START).val(
-													place.geometry.location.lat);
+													place.geometry.location.lat());
+											if (undefined == place.geometry.location.lat()) {
+												console.log('Error setting location latitude!');
+											}
+											console.log($(REF_TRIPS_INPUT_LAT_START));
+											console.log(place.geometry.location.lng());
+											if (undefined == place.geometry.location.lng()) {
+												console.log('Error setting location lng!');
+											}
 											$(REF_TRIPS_INPUT_LONG_START).val(
-													place.geometry.location.long);
+													place.geometry.location.lng());
 											
 											tripsCtrl
 													.setStartCoord(place.geometry.location);
@@ -113,9 +123,15 @@ $(document).ready(function() {
 													validEnd);
 											
 											$(REF_TRIPS_INPUT_LAT_END).val(
-													place.geometry.location.lat);
+													place.geometry.location.lat());
+											if (undefined == place.geometry.location.lat()) {
+												console.log('Error setting location latitude!');
+											}
 											$(REF_TRIPS_INPUT_LONG_END).val(
-													place.geometry.location.long);
+													place.geometry.location.lng());
+											if (undefined == place.geometry.location.lng()) {
+												console.log('Error setting location latitude!');
+											}
 											
 											tripsCtrl
 													.setEndCoord(place.geometry.location);
@@ -137,10 +153,13 @@ $(document).ready(function() {
 												"lat" : $(REF_TRIPS_INPUT_LAT_START).val(),
 												"long" : $(REF_TRIPS_INPUT_LONG_START).val(),
 										};
+										console.log(REF_TRIPS_INPUT_LAT_START);
+										console.log("lookForTrips: sending start coordinates " + $(REF_TRIPS_INPUT_LAT_START).val());
 										var endCoord = {
 												"lat" : $(REF_TRIPS_INPUT_LAT_END).val(),
 												"long" : $(REF_TRIPS_INPUT_LONG_END).val(),
 										};
+										console.log("lookForTrips: sending end coordinates " + endCoord.lat);
 										var startDate = $(REF_TRIPS_START_DATE)
 												.val();
 										var endDate = $(REF_TRIPS_END_DATE).val();

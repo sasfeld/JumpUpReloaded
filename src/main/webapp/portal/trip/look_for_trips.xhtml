@@ -24,7 +24,7 @@
 		<h:outputScript library="js" name="pages/portal/trip/lookuptrips.js" target="head"/>
 		<h:outputStylesheet library="css" name="pages/portal/trip/create.css" />
 		
-		<h:form id="createTripForm">
+		<h:form id="lookForTripsForm">
 		  	<h:messages errorClass="errorMessage" infoClass="infoMessage" warnClass="warnMessage"></h:messages>
 		  	  <div class="rows-two">
 		  		<div class="col-left">
@@ -95,11 +95,14 @@
 						
 					<trip:basic_numeric
 						jsfId="duration"
-						valueBinding="#{tripCreationController.trip.durationSeconds}"/>	
+						valueBinding="#{tripCreationController.trip.durationSeconds}"/>							
 						
 					<trip:basic_numeric
+						showLabel="#{translator.translate('Distance (kilometer)')}"
+						helpText="#{translator.translate('Please type in the maximum kilometers that you are able to travel to the driver')}"
 						jsfId="max_distance"
-						valueBinding="#{tripCreationController.trip.distanceMeters}"/>	
+						valueBinding="#{tripCreationController.trip.distanceMeters}"
+						isHidden="false"/>	
 						
 					<trip:via_waypoints
 						jsfId="via_waypoints"

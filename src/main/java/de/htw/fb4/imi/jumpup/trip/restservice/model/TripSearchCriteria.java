@@ -164,7 +164,9 @@ public class TripSearchCriteria
      */
     public void setDateFrom(String dateFrom) throws ParseException
     {
-        this.dateFrom = new LocaleHelper().parseDateFromString(dateFrom);
+        if (null != dateFrom && !"".equals(dateFrom)) {
+            this.dateFrom = new LocaleHelper().parseDateFromString(dateFrom);
+        }
     }
 
     /**
@@ -182,7 +184,9 @@ public class TripSearchCriteria
      */
     public void setDateTo(String dateTo) throws ParseException
     {
-        this.dateTo = new LocaleHelper().parseDateFromString(dateTo);
+        if (null != dateTo && !"".equals(dateTo)) {
+            this.dateTo = new LocaleHelper().parseDateFromString(dateTo);
+        }
     }
 
     /**
