@@ -49,7 +49,6 @@ this.de.htw.fb4.imi.jumpup.trip = this.de.htw.fb4.imi.jumpup.trip || {};
 			 * @param data
 			 */
 			de.htw.fb4.imi.jumpup.trip.TripsController.prototype.handleServerResponse = function(data) {
-				if (4 ==  data.readyState) {
 					// TripInfo view helper
 					var mapCtrl = _this.options.mapCtrl;
 					// clear map
@@ -61,11 +60,11 @@ this.de.htw.fb4.imi.jumpup.trip = this.de.htw.fb4.imi.jumpup.trip || {};
 						"endLatLng" : _this.endLatLng,
 					};
 					
-					var tripInfoView = new de.htw.fb4.imi.jumpup.trip.TripInfo(viewOptions, mapCtrl.select);
+//					var tripInfoView = new de.htw.fb4.imi.jumpup.trip.TripInfo(viewOptions, mapCtrl.select);
 	
 					if (data.noTrips == true) {
 						console.log(data);
-						alert(data.userMessage);
+						alert(data.message);
 					}				
 					else {
 						// bad request?
@@ -89,13 +88,11 @@ this.de.htw.fb4.imi.jumpup.trip = this.de.htw.fb4.imi.jumpup.trip || {};
 									console.log("trips.js: waypoints array: "
 											+ waypointsArray);
 								}
-								// TODO get multiple routes working.
-								if (null != startCoord && null != endCoord) {
-									mapCtrl.showRoute(trip.id, trip.startpoint,
-											trip.endpoint, waypointsArray,
-											multiple, tripInfoView.select);
-									multiple = true;
-								}
+
+								mapCtrl.showRoute(trip.id, trip.startpoint,
+										trip.endpoint, waypointsArray,
+										multiple, function() {});
+
 								// build selection view for user
 								
 	//							tripInfoView.addTrip(trip)
@@ -105,7 +102,6 @@ this.de.htw.fb4.imi.jumpup.trip = this.de.htw.fb4.imi.jumpup.trip || {};
 						}
 						;
 					}
-				}
 				;
 
 				// activate accordion
@@ -119,6 +115,7 @@ this.de.htw.fb4.imi.jumpup.trip = this.de.htw.fb4.imi.jumpup.trip || {};
 					thrownError) {
 				console.log("TripsController: handleError");
 				console.log(xhr);
+				console.log(thrownError);
 			};
 
 			/*
@@ -154,7 +151,6 @@ this.de.htw.fb4.imi.jumpup.trip = this.de.htw.fb4.imi.jumpup.trip || {};
 						"maxDistance" : maxDistance,
 					}),
 					contentType : 'application/json',
-					dataType : 'application/json',
 					type : "POST",
 					success : this.handleServerResponse,
 					error : this.handleError,
