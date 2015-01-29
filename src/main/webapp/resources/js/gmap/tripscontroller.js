@@ -69,10 +69,11 @@ this.de.htw.fb4.imi.jumpup.trip = this.de.htw.fb4.imi.jumpup.trip || {};
 					else {
 						// bad request?
 						console.log(data);
-						var multiple = false;
+						var multiple = true;
 						// inform gui
 						if (data.trips.length > 0) {
-							for ( var tripIndex = 0; tripIndex < data.trips.length; tripIndex++) {
+							console.log("Trips length: " + data.trips.length);
+							for ( var tripIndex = 0; tripIndex < data.trips.length; tripIndex++) {								
 								var singleTripQueryResult = data.trips[tripIndex];
 								var trip = singleTripQueryResult.trip;
 	
@@ -90,6 +91,7 @@ this.de.htw.fb4.imi.jumpup.trip = this.de.htw.fb4.imi.jumpup.trip || {};
 											+ waypointsArray);
 								}
 
+								console.log("Showing route... " + tripIndex);
 								mapCtrl.showRoute(trip.id, trip.startpoint,
 										trip.endpoint, waypointsArray,
 										multiple, function() {});

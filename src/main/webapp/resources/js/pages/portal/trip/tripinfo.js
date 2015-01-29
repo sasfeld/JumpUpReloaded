@@ -260,8 +260,21 @@ this.de.htw.fb4.imi.jumpup.trip = this.de.htw.fb4.imi.jumpup.trip || {};
 	de.htw.fb4.imi.jumpup.trip.TripInfo.prototype.addTrip = function(tripQueryResult) {
 		var trip = tripQueryResult.trip;
 		var driver = tripQueryResult.driver;
+		var vehicle = tripQueryResult.vehicle;
 		
-		var messages = this.options.messages;
+		// TODO deliver via options and translated
+//		var messages = this.options.messages;
+		var messages = {
+				"to" : "to",
+				"locationDistance" : 0,
+				"destination_distance" : 0,
+				"start_date" : "somedate",
+				"driver" : "driver",
+				"overall_price" : 0,
+				"current_bookings" : 0,
+				"destination_distance" : 0,
+				"vehicle" : 0,				
+		};
 		var id = trip.id;
 		var startPoint = trip.startpoint;
 		var endPoint = trip.endpoint;
@@ -269,12 +282,13 @@ this.de.htw.fb4.imi.jumpup.trip = this.de.htw.fb4.imi.jumpup.trip || {};
 //		var priceForPassenger = trip.priceRecommendation; // price
 //		// recommendation by
 //		// the backend
-//		var driversPrice = trip.price;
+		var driversPrice = trip.price;
 		var startLat = trip.latStartpoint;
 		var startLong =trip.longStartpoint;
 		var endLat = trip.latEndpoint;
 		var endLong =trip.longEndpoint;
-//		var numberBookings = trip.numberBookings;
+		// TODO return number of bookings
+		var numberBookings = 1;
 		var maxSeats =trip.numberOfSeats;
 //		var vehicle = trip.vehicle;
 		this.idMap[id] = this.length;
@@ -297,7 +311,7 @@ this.de.htw.fb4.imi.jumpup.trip = this.de.htw.fb4.imi.jumpup.trip || {};
 				+ ":</span>" + driversPrice + "</li>" + "<li><span class=\"ui-accordion-content-key\">"
 				+ messages.current_bookings + ":</span>" + numberBookings + "/" + maxSeats + "</li>"
 				+ "<li class=\"vehicletooltip\" id=\"" + (id + 100) + "\"><span class=\"ui-accordion-content-key\">"
-				+ messages.vehicle + ":</span><span class=\"tooltip-highlight\">" + vehicle.brand + " " + vehicle.type
+				+ messages.vehicle + ":</span><span class=\"tooltip-highlight\">" + vehicle.manufactor 
 				+ "</span></li> " + "</ul>";
 //		bodyStr = this.addBookingForm(id, bodyStr, priceForPassenger);
 		this.addBody(bodyStr);
