@@ -8,6 +8,7 @@ package de.htw.fb4.imi.jumpup.booking;
 import javax.ejb.Local;
 
 import de.htw.fb4.imi.jumpup.booking.entities.Booking;
+import de.htw.fb4.imi.jumpup.trip.entities.Trip;
 import de.htw.fb4.imi.jumpup.util.ErrorPrintable;
 
 /**
@@ -22,14 +23,21 @@ public interface BookingMethod extends ErrorPrintable
 {
 
     /**
+     * Get a {@link Trip} entity by ID.
+     * @param id
+     * @return
+     */
+    Trip getTripByID(long id);
+    
+    /**
      * Prepare and persist the given booking.
      * 
      * Also trigger e-Mail notifcations.
      * @param booking
-     * @param tripId
+     * @param trip
      * @return
      */
-    void createBooking(Booking booking, long tripId);
+    void createBooking(Booking booking, Trip trip);
     
     /**
      * Send the booking confirmation mail to the passenger.

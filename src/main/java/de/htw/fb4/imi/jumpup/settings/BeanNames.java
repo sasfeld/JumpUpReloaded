@@ -72,5 +72,6 @@ public interface BeanNames
     String LOCALE_HELPER = "localeHelper";
     
     String QUERY_RESULT_FACTORY = "queryResultFactory";
+    String BOOKING_EJB = "bookingEjb";
 
 }

@@ -25,7 +25,7 @@
 		
 		<p>#{translator.translate('Hello')} #{loginController.loginModel.currentUser.prename}.</p>
 		<div>
-		#{translator.translate('You have selected the following Trip')}: 
+		#{translator.translate('You have selected the following (partial) trip')}: <br />
 		 
 		 	<h:form>
 					 <h:panelGrid id="grid" columns="1">
@@ -75,12 +75,46 @@
 						cssClass="longitude_end"
 						readOnly="true"
 						validatorBean="#{longitudeValidator}"/>
+					
+					<p>#{translator.translate('Trip information by the driver:')}</p>
+					
+					<trip:location 
+						jsfId="driver_start_location"
+						label="Start location"
+						valueBinding="#{bookingDetailsController.trip.startpoint}"
+						cssClass="start_location"
+						readOnly="true"/>	
+						
+					<trip:location 
+						jsfId="driver_end_location"
+						label="End location"
+						valueBinding="#{bookingDetailsController.trip.endpoint}"
+						cssClass="end_location"
+						readOnly="true"/>	
+						
+					<trip:datetime 
+						jsfId="driver_start_date_time"
+						label="Departure date and time"
+						valueBinding="#{bookingDetailsController.trip.startDateTime}"
+						readOnly="true"/>
+						
+					<trip:datetime 
+						jsfId="driver_end_date_time"
+						label="Estimated arrival date and time"
+						valueBinding="#{bookingDetailsController.trip.endDateTime}"
+						readOnly="true"/>	
+						
+					<trip:number_seats 
+						jsfId="driver_numberSeats"
+						label="Number of Seats"
+						valueBinding="#{bookingDetailsController.trip.numberOfSeats}"
+						readOnly="true"/>									
 						
 					
 					</h:panelGrid>
 					
 					<p>#{translator.translate('Do you want to book it')}?
-					<h:commandButton action="#{bookingDetailsController.bindBookingData}" value="submit" /> 		
+						<h:commandButton action="#{bookingDetailsController.bindBookingData}" value="#{translator.translate('Confirm booking')}" /> 		
 					</p>
 					<h:messages errorClass="errorMessage" infoClass="infoMessage" warnClass="warnMessage"></h:messages>
 			</h:form>

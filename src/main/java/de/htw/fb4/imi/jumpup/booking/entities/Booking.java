@@ -15,8 +15,6 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import de.htw.fb4.imi.jumpup.Application;
-import de.htw.fb4.imi.jumpup.Application.LogType;
 import de.htw.fb4.imi.jumpup.entities.AbstractEntity;
 import de.htw.fb4.imi.jumpup.trip.entities.Trip;
 import de.htw.fb4.imi.jumpup.user.entities.User;
@@ -35,12 +33,14 @@ import de.htw.fb4.imi.jumpup.user.entities.User;
 @Table(name = "booking")
 @NamedQueries({
         @NamedQuery(name = Booking.NAME_QUERY_BY_STARTPOINT, query = "SELECT b FROM Booking b WHERE b.startPoint = :startpoint"),
-        @NamedQuery(name = Booking.NAME_QUERY_BY_ENDPOINT, query = "SELECT b FROM Booking b WHERE b.endPoint = :endpoint") })
+        @NamedQuery(name = Booking.NAME_QUERY_BY_ENDPOINT, query = "SELECT b FROM Booking b WHERE b.endPoint = :endpoint"),
+        @NamedQuery(name = Booking.NAME_QUERY_BY_TRIP, query = "SELECT b FROM Booking b WHERE b.trip = :trip") })
 public class Booking extends AbstractEntity
 {
 
     public static final String NAME_QUERY_BY_STARTPOINT = "BOOKING_QUERY_BY_STARTPOINT";
     public static final String NAME_QUERY_BY_ENDPOINT = "BOOKING_QUERY_BY_ENDPOINT";
+    public static final String NAME_QUERY_BY_TRIP = "BOOKING_QUERY_BY_TRIP";
 
     /**
      * 
@@ -66,11 +66,11 @@ public class Booking extends AbstractEntity
     private float endLongitude;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "bookings")
+    @JoinColumn(name = "tripIdentity")
     private Trip trip;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "passengers")
+    @JoinColumn(name = "passengerIdentity")
     private User passenger;
     
     @Transient
@@ -83,7 +83,6 @@ public class Booking extends AbstractEntity
 
     public void setStartPoint(String startPoint)
     {
-        Application.log("binding startPoint..." + startPoint, LogType.DEBUG, getClass());
         this.startPoint = startPoint;
     }
 
@@ -94,7 +93,6 @@ public class Booking extends AbstractEntity
 
     public void setEndPoint(String endPoint)
     {
-        Application.log("binding endPoint..." + endPoint, LogType.DEBUG, getClass());
         this.endPoint = endPoint;
     }
 

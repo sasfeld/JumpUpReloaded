@@ -451,14 +451,70 @@ public class Trip extends AbstractEntity
     }
 
     /**
-     * TODO check whether the trip has booking relations
+     * Check whether the trip has booking relations
      * 
      * @return
      */
     public boolean hasBookings()
     {
-        // TODO Auto-generated method stub
-        return false;
+        return (null != this.getBookings() && this.getBookings().size() > 0);
+    }
+    
+    /**
+     * <p>Check whether this trip can still be booked.<br />Therefore, it must met the following criteria:</p>
+     * <ul>
+     *  <li>The trip wasn't cancelled.</li>
+     *  <li>The trip takes place in the future.</li>
+     *  <li>There are still places left.</li>       
+     * </ul>
+     * 
+     * @return
+     */
+    public boolean canBeBooked()
+    {
+        return !this.wasCancelled()
+            && this.isInFuture()
+            && this.getNumberOfBookings() < this.getNumberOfSeats();
+    }
+    
+    /**
+     * <p>Check whether this trip can still be booked.<br />Therefore, it must met the following criteria:</p>
+     * <ul>
+     *  <li>The trip wasn't cancelled.</li>
+     *  <li>The trip takes place in the future.</li>
+     *  <li>There are still places left.</li>
+     *  <li>The given {@link User} didn't book it yet.</li>       
+     * </ul>
+     * 
+     * @param currentUser the {@link User} who wants to book the trip
+     * @return
+     */
+    public boolean canBeBooked(User currentUser)
+    {
+        if (!this.canBeBooked()) {
+            return false;
+        }
+        
+        for (Booking booking : this.bookings) {
+            if (booking.getPassenger().getIdentity() == currentUser.getIdentity()) {
+                return false;
+            }
+        }
+        
+        return true;
+    }
+    
+    /**
+     * Get the number of bookings.
+     * @return
+     */
+    public Integer getNumberOfBookings()
+    {
+        if (null == this.getBookings()) {
+            throw new NullPointerException("getNumberOfBookings(): No bookings given.");
+        }
+        
+        return this.getBookings().size();
     }
 
     /**
@@ -699,4 +755,5 @@ public class Trip extends AbstractEntity
         builder.append("]");
         return builder.toString();
     }
+   
 }

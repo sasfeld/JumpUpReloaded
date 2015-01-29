@@ -5,13 +5,15 @@ import java.io.Serializable;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.persistence.NoResultException;
 
 import de.htw.fb4.imi.jumpup.Application;
 import de.htw.fb4.imi.jumpup.Application.LogType;
-import de.htw.fb4.imi.jumpup.booking.BookingEJB;
+import de.htw.fb4.imi.jumpup.booking.BookingMethod;
 import de.htw.fb4.imi.jumpup.booking.entities.Booking;
 import de.htw.fb4.imi.jumpup.controllers.AbstractFacesController;
 import de.htw.fb4.imi.jumpup.settings.BeanNames;
+import de.htw.fb4.imi.jumpup.trip.entities.Trip;
 
 /**
  * 
@@ -36,9 +38,11 @@ public class BookingDetailsController extends AbstractFacesController implements
     private static final long serialVersionUID = -4989295237379145060L;
 
     @Inject
-    private BookingEJB bookingEJB;
+    private BookingMethod bookingEJB;
 
     private long tripId;
+    
+    protected Trip trip;
 
     private Booking booking = new Booking();
 
@@ -49,7 +53,7 @@ public class BookingDetailsController extends AbstractFacesController implements
     public String bindBookingData()
     {
         try {
-            bookingEJB.createBooking(this.getBooking(), this.getTripId());
+            bookingEJB.createBooking(this.getBooking(), this.getTrip());
             
             if (bookingEJB.hasError()) {
                 // show first error message
@@ -81,6 +85,20 @@ public class BookingDetailsController extends AbstractFacesController implements
     public long getTripId()
     {
         return tripId;
+    }
+    
+    public Trip getTrip()
+    {
+        if (null == this.trip) {
+           try {
+               this.trip =  this.bookingEJB.getTripByID(this.getTripId());
+           } catch (NoResultException e) {
+               this.addDisplayErrorMessage("Could not find any matching trip.");
+               return null;
+           }      
+        }
+        
+        return this.trip;
     }
 
     public void setTripId(long tripId)

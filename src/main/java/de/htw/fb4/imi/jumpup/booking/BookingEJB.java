@@ -11,7 +11,6 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
@@ -20,24 +19,25 @@ import org.apache.commons.lang.exception.ExceptionUtils;
 import de.htw.fb4.imi.jumpup.Application;
 import de.htw.fb4.imi.jumpup.Application.LogType;
 import de.htw.fb4.imi.jumpup.booking.entities.Booking;
+import de.htw.fb4.imi.jumpup.settings.BeanNames;
 import de.htw.fb4.imi.jumpup.trip.entities.Trip;
 import de.htw.fb4.imi.jumpup.trip.restservice.QueryResultFactory;
 import de.htw.fb4.imi.jumpup.trip.restservice.model.TripSearchCriteria;
 import de.htw.fb4.imi.jumpup.user.controllers.Login;
 import de.htw.fb4.imi.jumpup.user.entities.User;
 
-@Stateless
+@Stateless(name = BeanNames.BOOKING_EJB)
 public class BookingEJB implements BookingMethod
 {
     @PersistenceContext
     private EntityManager em;
-    
+
     @Inject
     private Login loginController;
-    
+
     @Inject
     protected QueryResultFactory queryResultFactory;
-    
+
     protected List<String> errors;
 
     protected void reset()
@@ -47,6 +47,7 @@ public class BookingEJB implements BookingMethod
 
     /**
      * Load the given trip by ID.
+     * 
      * @param id
      * @return
      */
@@ -58,34 +59,53 @@ public class BookingEJB implements BookingMethod
         return (Trip) query.getSingleResult();
 
     }
-    
+
     @Override
     /*
      * (non-Javadoc)
-     * @see de.htw.fb4.imi.jumpup.booking.BookingMethod#createBooking(de.htw.fb4.imi.jumpup.booking.entities.Booking, long)
+     * 
+     * @see
+     * de.htw.fb4.imi.jumpup.booking.BookingMethod#createBooking(de.htw.fb4.
+     * imi.jumpup.booking.entities.Booking, long)
      */
-    public void createBooking(Booking booking, long tripId)
+    public void createBooking(Booking booking, Trip trip)
     {
-        this.reset();    
+        this.reset();
+
+        // The trip cannot be booked anymore
+        this.loadBookings(trip);
         
-        try {
-            Trip trip =  this.getTripByID(tripId);
-            
-            if (!this.checkBookingHash(booking, trip)) {
-                Application.log("createBooking(): booking hash check showed that booking data was manipulated. User ID: " + getCurrentUser().getIdentity()
-                        + "Booking data: " + booking, LogType.CRITICAL, getClass());
-                
-                this.errors.add("The given booking data is invalid. Please return to the trip page and try again.");
-                return;
-            }
-            
-            this.completeBooking(booking, trip);
-            this.persistBooking(booking);
-        } catch (NoResultException e) {
-            this.errors.add("Could not find any matching trip.");
+        if (!trip.canBeBooked(getCurrentUser())) {
+            this.errors
+                    .add("We are sorry to tell you that this trip can't be booked anymore. Please search for other trips in our big community!");
             return;
-        }       
+        }
+
+        // Hash check to make sure that the request parameters were not
+        // manipulated
+        if (!this.checkBookingHash(booking, trip)) {
+            Application
+                    .log("createBooking(): booking hash check showed that booking data was manipulated. User ID: "
+                            + getCurrentUser().getIdentity()
+                            + " Booking data: " + booking + " Trip: " + trip,
+                            LogType.CRITICAL, getClass());
+
+            this.errors
+                    .add("The given booking data is invalid. Please return to the trip page and try again.");
+            return;
+        }
+
+        this.completeBooking(booking, trip);
+        this.persistBooking(booking);
     }
+
+    private void loadBookings(Trip trip)
+    {
+        final Query query = this.em.createNamedQuery(Booking.NAME_QUERY_BY_TRIP,
+                Booking.class);
+        query.setParameter("trip", trip);
+        trip.setBookings(query.getResultList()); 
+     }
 
     private void persistBooking(Booking booking)
     {
@@ -93,31 +113,38 @@ public class BookingEJB implements BookingMethod
             this.em.persist(booking);
             this.em.flush();
         } catch (Exception e) {
-            Application.log("persistBooking: exception " + e.getMessage() + "\nStack trace:\n" + ExceptionUtils.getFullStackTrace(e), LogType.ERROR, getClass());
-            this.errors.add("Could not save your booking. Please contact the customer care team.");
+            Application.log("persistBooking: exception " + e.getMessage()
+                    + "\nStack trace:\n" + ExceptionUtils.getFullStackTrace(e),
+                    LogType.ERROR, getClass());
+            this.errors
+                    .add("Could not save your booking. Please contact the customer care team.");
         }
     }
 
     private void completeBooking(Booking booking, Trip trip)
     {
         booking.setTrip(trip);
-        booking.setPassenger(this.getCurrentUser());        
+        booking.setPassenger(this.getCurrentUser());
     }
 
     /**
-     * Check whether the POSTed booking hash matches the one calculated by the related {@link TripSearchCriteria}.
+     * Check whether the POSTed booking hash matches the one calculated by the
+     * related {@link TripSearchCriteria}.
+     * 
      * @param booking
      * @param trip
      * @return
      */
     private boolean checkBookingHash(Booking booking, Trip trip)
     {
-        TripSearchCriteria reconstructedSearchCriteria = this.queryResultFactory.newTripSearchCriteriaBy(booking);
-        
-        if (!booking.getBookingHash().equals(reconstructedSearchCriteria.createBookingHash(trip))) {
+        TripSearchCriteria reconstructedSearchCriteria = this.queryResultFactory
+                .newTripSearchCriteriaBy(booking);
+
+        if (!booking.getBookingHash().equals(
+                reconstructedSearchCriteria.createBookingHash(trip))) {
             return false;
         }
-        
+
         return true;
     }
 
@@ -129,23 +156,29 @@ public class BookingEJB implements BookingMethod
     @Override
     /*
      * (non-Javadoc)
-     * @see de.htw.fb4.imi.jumpup.booking.BookingMethod#sendBookingConfirmationToPassenger(de.htw.fb4.imi.jumpup.booking.entities.Booking)
+     * 
+     * @see de.htw.fb4.imi.jumpup.booking.BookingMethod#
+     * sendBookingConfirmationToPassenger
+     * (de.htw.fb4.imi.jumpup.booking.entities.Booking)
      */
     public void sendBookingConfirmationToPassenger(Booking booking)
     {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
     /*
      * (non-Javadoc)
-     * @see de.htw.fb4.imi.jumpup.booking.BookingMethod#sendBookingInformationToDriver(de.htw.fb4.imi.jumpup.booking.entities.Booking)
+     * 
+     * @see
+     * de.htw.fb4.imi.jumpup.booking.BookingMethod#sendBookingInformationToDriver
+     * (de.htw.fb4.imi.jumpup.booking.entities.Booking)
      */
     public void sendBookingInformationToDriver(Booking booking)
     {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
