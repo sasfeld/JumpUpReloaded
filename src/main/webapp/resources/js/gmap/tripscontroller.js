@@ -52,23 +52,7 @@ this.de.htw.fb4.imi.jumpup.trip = this.de.htw.fb4.imi.jumpup.trip || {};
 					// TripInfo view helper
 					var mapCtrl = _this.options.mapCtrl;
 					// clear map
-					mapCtrl.gmap.removeRoutes();
-	
-					var viewOptions = {
-						"to" : "to",
-						"locationDistance" : "Distance to Start",
-						"start_date" : "Departure Date",
-						"driver" : "Driver",
-						"overall_price" : "Overall Price",
-						"current_bookings" : "Number of Bookings",
-						"destination_distance" : "Distance to Destination",
-						"vehicle" : "Vehicle",				
-						"accordion" : $(REF_ACCORDION),
-						"startLatLng" : _this.startLatLng,
-						"endLatLng" : _this.endLatLng,
-					};
-					
-					var tripInfoView = new de.htw.fb4.imi.jumpup.trip.TripInfo(viewOptions, mapCtrl.select);
+					mapCtrl.gmap.removeRoutes();					
 	
 					if (data.noTrips == true) {
 						console.log(data);
@@ -77,10 +61,31 @@ this.de.htw.fb4.imi.jumpup.trip = this.de.htw.fb4.imi.jumpup.trip || {};
 					else {
 						// bad request?
 						console.log(data);
+						
+						var translations = data.translations;
+						var viewOptions = {
+								"messages" : {
+									"to" : translations.to,
+									"locationDistance" : translations.locationDistance,
+									"start_date" : translations.startDate,
+									"driver" : translations.driver,
+									"overall_price" : translations.overallPrice,
+									"current_bookings" : translations.numberBookings,
+									"destination_distance" : translations.destinationDistance,
+									"vehicle" : translations.vehicle,
+									"book" : translations.book,
+									"bookTooltip" : translations.bookTooltip,
+								},
+								"accordion" : $(REF_ACCORDION),
+								"startLatLng" : _this.startLatLng,
+								"endLatLng" : _this.endLatLng,
+							};
+							
+						var tripInfoView = new de.htw.fb4.imi.jumpup.trip.TripInfo(viewOptions, mapCtrl.select);
+							
 						var multiple = true;
 						// inform gui
 						if (data.trips.length > 0) {
-							console.log("Trips length: " + data.trips.length);
 							for ( var tripIndex = 0; tripIndex < data.trips.length; tripIndex++) {								
 								var singleTripQueryResult = data.trips[tripIndex];
 								var trip = singleTripQueryResult.trip;

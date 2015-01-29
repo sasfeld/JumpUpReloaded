@@ -40,6 +40,8 @@ public class TripQueryResults
         protected String numberBookings = "Number of bookings";
         protected String destinationDistance = "Distance to destination";
         protected String vehicle = "Vehicle";
+        protected String book = "Book";
+        protected String bookTooltip = "Click to book this trip now";
         
         /**
          * @return the to
@@ -152,13 +154,40 @@ public class TripQueryResults
         public void setVehicle(String vehicle)
         {
             this.vehicle = vehicle;
+        }
+        /**
+         * @return the book
+         */
+        public String getBook()
+        {
+            return book;
+        }
+        /**
+         * @param book the book to set
+         */
+        public void setBook(String book)
+        {
+            this.book = book;
+        }
+        /**
+         * @return the bookTooltip
+         */
+        public String getBookTooltip()
+        {
+            return bookTooltip;
+        }
+        /**
+         * @param bookTooltip the bookTooltip to set
+         */
+        public void setBookTooltip(String bookTooltip)
+        {
+            this.bookTooltip = bookTooltip;
         }               
         
     }
     
     protected List<SingleTripQueryResult> trips = new ArrayList<SingleTripQueryResult>();
     protected Translations translations = new Translations();
-    protected String bookingUrl;
     
 
     /**
@@ -184,21 +213,5 @@ public class TripQueryResults
     {
         return translations;
     }
-
-    /**
-     * @return the bookingUrl
-     */
-    public String getBookingUrl()
-    {
-        return bookingUrl;
-    }
-
-    /**
-     * @param bookingUrl the bookingUrl to set
-     */
-    public void setBookingUrl(String bookingUrl)
-    {
-        this.bookingUrl = bookingUrl;
-    }   
     
 }

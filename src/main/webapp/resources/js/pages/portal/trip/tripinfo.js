@@ -251,22 +251,11 @@ this.de.htw.fb4.imi.jumpup.trip = this.de.htw.fb4.imi.jumpup.trip || {};
 		});
 	};
 	
-	de.htw.fb4.imi.jumpup.trip.TripInfo.prototype.addBookingForm = function(tripId, bodyStr, systemPrice) {
+	de.htw.fb4.imi.jumpup.trip.TripInfo.prototype.addBookingForm = function(trip, bodyStr) {
 		var messages = this.options.messages;
-		bodyStr += '<form action="' + BOOKING_URL + '" method="POST">' + '<input type="hidden" name="'
-				+ PARAM_TRIP_ID + '" value="' + tripId + '" />' + messages.price_recom + ': <input type="text" name="'
-				+ PARAM_RECOM_PRICE + '" value="' + systemPrice + '" />' + '<input type="hidden" name="'
-				+ PARAM_RECOM_START_POINT + '" value="' + this.inputStartPoint.val() + '" />'
-				+ '<input type="hidden" name="' + PARAM_RECOM_END_POINT + '" value="' + this.inputEndPoint.val()
-				+ '" />' + '<input type="hidden" name="' + PARAM_DATE_FROM + '" value="' + this.inputDateFrom.val()
-				+ '" />' + '<input type="hidden" name="' + PARAM_DATE_TO + '" value="' + this.inputDateTo.val()
-				+ '" />' + '<input type="hidden" name="' + PARAM_PRICE_FROM + '" value="' + this.inputPriceFrom.val()
-				+ '" />' + '<input type="hidden" name="' + PARAM_PRICE_TO + '" value="' + this.inputPriceTo.val()
-				+ '" />' + '<input type="hidden" name="' + PARAM_RECOM_START_COORD + '" value="'
-				+ this.options.startLatLng + '" />' + '<input type="hidden" name="' + PARAM_RECOM_END_COORD
-				+ '" value="' + this.options.endLatLng + '" />' + '<input type="hidden" name="' + PARAM_MAX_DISTANCE
-				+ '" value="' + this.inputMaxDistance.val() + '" />'
-				+ '<input class="booking_submit_button" type="submit" value="' + messages.book + '" />' + '</form>';
+		
+		bodyStr += '<p><a href="'+ trip.bookingUrl + '" title="' + messages.bookTooltip + '">' + messages.book + '</a></p>'; 
+		
 		return bodyStr;
 	};
 
@@ -333,7 +322,7 @@ this.de.htw.fb4.imi.jumpup.trip = this.de.htw.fb4.imi.jumpup.trip || {};
 				+ "<li class=\"vehicletooltip\" id=\"" + (id + 100) + "\"><span class=\"ui-accordion-content-key\">"
 				+ messages.vehicle + ":</span><span class=\"tooltip-highlight\">" + vehicle.manufactor 
 				+ "</span></li> " + "</ul>";
-		bodyStr = this.addBookingForm(tripId, bodyStr, priceForPassenger);
+		bodyStr = this.addBookingForm(trip, bodyStr);
 		this.addBody(bodyStr);
 
 //		this.buildTooltip(id, driver);

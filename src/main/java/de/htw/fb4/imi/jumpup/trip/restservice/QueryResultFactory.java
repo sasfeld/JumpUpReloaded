@@ -144,6 +144,8 @@ public class QueryResultFactory
         translations.setStartDate(translator.translate(translations.getStartDate()));
         translations.setTo(translator.translate(translations.getTo()));
         translations.setVehicle(translator.translate(translations.getVehicle()));        
+        translations.setBook(translator.translate(translations.getBook()));
+        translations.setBookTooltip(translator.translate(translations.getBookTooltip()));
     }
 
 }
