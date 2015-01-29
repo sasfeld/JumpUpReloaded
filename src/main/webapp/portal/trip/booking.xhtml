@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:trip="http://xmlns.jcp.org/jsf/composite/components/trip"
+>
+
+<ui:composition template="../../resources/templates/basic/BasicTemplate.xhtml">
+	<f:metadata>
+			<f:viewParam id="tripId" name="trip" value="#{bookingDetailsController.tripId}" />
+			<f:viewParam id="startpoint" name="trip" value="#{bookingDetailsController.booking.startpoint}" />
+			<f:viewParam id="endpoint" name="trip" value="#{bookingDetailsController.booking.endpoint}" />
+			<f:viewParam id="startLatitude" name="trip" value="#{bookingDetailsController.booking.startLatitude}" />
+			<f:viewParam id="startLongitude" name="trip" value="#{bookingDetailsController.booking.startLongitude}" />
+			<f:viewParam id="endLatitude" name="trip" value="#{bookingDetailsController.booking.endLatitude}" />
+			<f:viewParam id="endLongitude" name="trip" value="#{bookingDetailsController.booking.endLongitude}" />
+	</f:metadata>
+	
+	<ui:define name="content">
+		
+		<p>Hallo #{bookingDetailsController.booking.passenger.prename}.</p>
+		<div>
+		You have selected the following Trip: 
+		 
+			 <h:panelGrid id="grid" columns="2">
+								
+				<h:outputLabel value="Startpoint" for = "startpoint"/>
+				<h:inputText id="startpoint" class="textInput" value="#{bookingDetailsController.booking.startpoint}" readonly="true" />
+				
+				<h:outputLabel value="Endpoint" for = "endpoint"/>
+				<h:inputText id="endpoint" class="textInput" value="#{bookingDetailsController.booking.endpoint}" readonly="true" />
+				
+				<h:outputLabel value="Startpoint" for = "startpoint"/>
+				<h:inputText id="startpoint" class="textInput" value="#{bookingDetailsController.booking.startpoint}" readonly="true" />
+			
+			</h:panelGrid>
+			
+		<p>Do you want to book it?
+		<h:commandButton action="" value="submit" /> 
+		</p>
+		</div>
+		
+	</ui:define>
+	
+</ui:composition>
+
+</html>
