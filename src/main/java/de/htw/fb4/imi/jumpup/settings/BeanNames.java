@@ -70,5 +70,7 @@ public interface BeanNames
     String TRIP_SEARCH_FILTER_CHAIN = "tripSearchFilterChain";
 
     String LOCALE_HELPER = "localeHelper";
+    
+    String QUERY_RESULT_FACTORY = "queryResultFactory";
 
 }

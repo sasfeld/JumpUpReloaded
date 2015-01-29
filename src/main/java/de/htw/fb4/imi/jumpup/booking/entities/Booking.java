@@ -13,6 +13,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import de.htw.fb4.imi.jumpup.Application;
 import de.htw.fb4.imi.jumpup.Application.LogType;
@@ -71,6 +72,9 @@ public class Booking extends AbstractEntity
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "passengers")
     private User passenger;
+    
+    @Transient
+    protected String bookingHash;
 
     public String getStartPoint()
     {
@@ -152,6 +156,22 @@ public class Booking extends AbstractEntity
     public void setPassenger(User passenger)
     {
         this.passenger = passenger;
+    }
+
+    /**
+     * @return the bookingHash
+     */
+    public String getBookingHash()
+    {
+        return bookingHash;
+    }
+
+    /**
+     * @param bookingHash the bookingHash to set
+     */
+    public void setBookingHash(String bookingHash)
+    {
+        this.bookingHash = bookingHash;
     }
 
     @Override

@@ -14,7 +14,7 @@ this.de.htw.fb4.imi.jumpup.trip = this.de.htw.fb4.imi.jumpup.trip || {};
 
 ( function() {
 	var
-	BOOKING_ACTION = "booktrip";
+	BOOKING_URL = "booktrip";
 	var
 	PARAM_TRIP_ID = "tripId";
 	var
@@ -112,24 +112,24 @@ this.de.htw.fb4.imi.jumpup.trip = this.de.htw.fb4.imi.jumpup.trip || {};
 		this.accordion.append("<h3>" + title + "</h3>");
 	};
 
-	de.htw.fb4.imi.jumpup.trip.TripInfo.prototype.addBookingForm = function(tripId, bodyStr, systemPrice) {
-		var messages = this.options.messages;
-		bodyStr += '<form action="' + BOOKING_ACTION + '" method="POST">' + '<input type="hidden" name="'
-				+ PARAM_TRIP_ID + '" value="' + tripId + '" />' + messages.price_recom + ': <input type="text" name="'
-				+ PARAM_RECOM_PRICE + '" value="' + systemPrice + '" />' + '<input type="hidden" name="'
-				+ PARAM_RECOM_START_POINT + '" value="' + this.inputStartPoint.val() + '" />'
-				+ '<input type="hidden" name="' + PARAM_RECOM_END_POINT + '" value="' + this.inputEndPoint.val()
-				+ '" />' + '<input type="hidden" name="' + PARAM_DATE_FROM + '" value="' + this.inputDateFrom.val()
-				+ '" />' + '<input type="hidden" name="' + PARAM_DATE_TO + '" value="' + this.inputDateTo.val()
-				+ '" />' + '<input type="hidden" name="' + PARAM_PRICE_FROM + '" value="' + this.inputPriceFrom.val()
-				+ '" />' + '<input type="hidden" name="' + PARAM_PRICE_TO + '" value="' + this.inputPriceTo.val()
-				+ '" />' + '<input type="hidden" name="' + PARAM_RECOM_START_COORD + '" value="'
-				+ this.options.startLatLng + '" />' + '<input type="hidden" name="' + PARAM_RECOM_END_COORD
-				+ '" value="' + this.options.endLatLng + '" />' + '<input type="hidden" name="' + PARAM_MAX_DISTANCE
-				+ '" value="' + this.inputMaxDistance.val() + '" />'
-				+ '<input class="booking_submit_button" type="submit" value="' + messages.book + '" />' + '</form>';
-		return bodyStr;
-	};
+//	de.htw.fb4.imi.jumpup.trip.TripInfo.prototype.addBookingForm = function(tripId, bodyStr, systemPrice) {
+//		var messages = this.options.messages;
+//		bodyStr += '<form action="' + BOOKING_ACTION + '" method="POST">' + '<input type="hidden" name="'
+//				+ PARAM_TRIP_ID + '" value="' + tripId + '" />' + messages.price_recom + ': <input type="text" name="'
+//				+ PARAM_RECOM_PRICE + '" value="' + systemPrice + '" />' + '<input type="hidden" name="'
+//				+ PARAM_RECOM_START_POINT + '" value="' + this.inputStartPoint.val() + '" />'
+//				+ '<input type="hidden" name="' + PARAM_RECOM_END_POINT + '" value="' + this.inputEndPoint.val()
+//				+ '" />' + '<input type="hidden" name="' + PARAM_DATE_FROM + '" value="' + this.inputDateFrom.val()
+//				+ '" />' + '<input type="hidden" name="' + PARAM_DATE_TO + '" value="' + this.inputDateTo.val()
+//				+ '" />' + '<input type="hidden" name="' + PARAM_PRICE_FROM + '" value="' + this.inputPriceFrom.val()
+//				+ '" />' + '<input type="hidden" name="' + PARAM_PRICE_TO + '" value="' + this.inputPriceTo.val()
+//				+ '" />' + '<input type="hidden" name="' + PARAM_RECOM_START_COORD + '" value="'
+//				+ this.options.startLatLng + '" />' + '<input type="hidden" name="' + PARAM_RECOM_END_COORD
+//				+ '" value="' + this.options.endLatLng + '" />' + '<input type="hidden" name="' + PARAM_MAX_DISTANCE
+//				+ '" value="' + this.inputMaxDistance.val() + '" />'
+//				+ '<input class="booking_submit_button" type="submit" value="' + messages.book + '" />' + '</form>';
+//		return bodyStr;
+//	};
 
 	de.htw.fb4.imi.jumpup.trip.TripInfo.prototype.clearContents = function() {
 		this.idMap = {};
@@ -250,6 +250,25 @@ this.de.htw.fb4.imi.jumpup.trip = this.de.htw.fb4.imi.jumpup.trip || {};
 			},
 		});
 	};
+	
+	de.htw.fb4.imi.jumpup.trip.TripInfo.prototype.addBookingForm = function(tripId, bodyStr, systemPrice) {
+		var messages = this.options.messages;
+		bodyStr += '<form action="' + BOOKING_URL + '" method="POST">' + '<input type="hidden" name="'
+				+ PARAM_TRIP_ID + '" value="' + tripId + '" />' + messages.price_recom + ': <input type="text" name="'
+				+ PARAM_RECOM_PRICE + '" value="' + systemPrice + '" />' + '<input type="hidden" name="'
+				+ PARAM_RECOM_START_POINT + '" value="' + this.inputStartPoint.val() + '" />'
+				+ '<input type="hidden" name="' + PARAM_RECOM_END_POINT + '" value="' + this.inputEndPoint.val()
+				+ '" />' + '<input type="hidden" name="' + PARAM_DATE_FROM + '" value="' + this.inputDateFrom.val()
+				+ '" />' + '<input type="hidden" name="' + PARAM_DATE_TO + '" value="' + this.inputDateTo.val()
+				+ '" />' + '<input type="hidden" name="' + PARAM_PRICE_FROM + '" value="' + this.inputPriceFrom.val()
+				+ '" />' + '<input type="hidden" name="' + PARAM_PRICE_TO + '" value="' + this.inputPriceTo.val()
+				+ '" />' + '<input type="hidden" name="' + PARAM_RECOM_START_COORD + '" value="'
+				+ this.options.startLatLng + '" />' + '<input type="hidden" name="' + PARAM_RECOM_END_COORD
+				+ '" value="' + this.options.endLatLng + '" />' + '<input type="hidden" name="' + PARAM_MAX_DISTANCE
+				+ '" value="' + this.inputMaxDistance.val() + '" />'
+				+ '<input class="booking_submit_button" type="submit" value="' + messages.book + '" />' + '</form>';
+		return bodyStr;
+	};
 
 	/**
 	 * Render one incoming trip.
@@ -263,23 +282,24 @@ this.de.htw.fb4.imi.jumpup.trip = this.de.htw.fb4.imi.jumpup.trip || {};
 		var vehicle = tripQueryResult.vehicle;
 		
 		// TODO deliver via options and translated
-//		var messages = this.options.messages;
-		var messages = {
-				"to" : "to",
-				"locationDistance" : 0,
-				"destination_distance" : 0,
-				"start_date" : "somedate",
-				"driver" : "driver",
-				"overall_price" : 0,
-				"current_bookings" : 0,
-				"destination_distance" : 0,
-				"vehicle" : 0,				
-		};
+		var messages = this.options.messages;
+//		var messages = {
+//				"to" : "to",
+//				"locationDistance" : "Distance to Start",
+//				"start_date" : "Departure Date",
+//				"driver" : "Driver",
+//				"overall_price" : "Overall Price",
+//				"current_bookings" : "Number of Bookings",
+//				"destination_distance" : "Distance to Destination",
+//				"vehicle" : "Vehicle",				
+//		};
 		var id = trip.id;
 		var startPoint = trip.startpoint;
 		var endPoint = trip.endpoint;
 		var startDate = trip.startDateTime;
 //		var priceForPassenger = trip.priceRecommendation; // price
+		// TODO replace by recommendation price
+		var priceForPassenger = 20; 
 //		// recommendation by
 //		// the backend
 		var driversPrice = trip.price;
@@ -313,7 +333,7 @@ this.de.htw.fb4.imi.jumpup.trip = this.de.htw.fb4.imi.jumpup.trip || {};
 				+ "<li class=\"vehicletooltip\" id=\"" + (id + 100) + "\"><span class=\"ui-accordion-content-key\">"
 				+ messages.vehicle + ":</span><span class=\"tooltip-highlight\">" + vehicle.manufactor 
 				+ "</span></li> " + "</ul>";
-//		bodyStr = this.addBookingForm(id, bodyStr, priceForPassenger);
+		bodyStr = this.addBookingForm(tripId, bodyStr, priceForPassenger);
 		this.addBody(bodyStr);
 
 //		this.buildTooltip(id, driver);

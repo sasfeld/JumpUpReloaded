@@ -54,6 +54,9 @@ public class WebsiteTripQuery implements TripQueryMethod
     @Inject
     protected Translatable translator;
     
+    @Inject
+    protected QueryResultFactory queryResultFactory;
+    
     protected List<String> messages;
 
     /**
@@ -163,12 +166,12 @@ public class WebsiteTripQuery implements TripQueryMethod
             list.add(this.toSingleTripQueryResult(filteredTrip));
         }        
         
-        return QueryResultFactory.newTripQueryResults(list);
+        return queryResultFactory.newTripQueryResults(list);
     }
 
     private SingleTripQueryResult toSingleTripQueryResult(Trip filteredTrip)
     {
-        return QueryResultFactory.newSingleTripQueryResult(filteredTrip);
+        return queryResultFactory.newSingleTripQueryResult(filteredTrip);
     }
 
     private List<Trip> triggerFilteringChain(TripSearchCriteria tripSearchCriteria, List<Trip> matchedTrips)
@@ -245,6 +248,6 @@ public class WebsiteTripQuery implements TripQueryMethod
      */
     public TripQueryNoResults getNoTripsResult()
     {
-        return QueryResultFactory.newNoTripsResult(this.translator.translate("Sorry, we didn't find any trips that matched your criteria. Please try again and be less restrictive."));
+        return queryResultFactory.newNoTripsResult(this.translator.translate("Sorry, we didn't find any trips that matched your criteria. Please try again and be less restrictive."));
     }
 }

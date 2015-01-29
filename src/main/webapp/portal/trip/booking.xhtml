@@ -11,13 +11,14 @@
 
 <ui:composition template="../../resources/templates/basic/BasicTemplate.xhtml">
 	<f:metadata>
-			<f:viewParam id="tripId" name="tripId" value="#{bookingDetailsController.tripId}" />
-			<f:viewParam id="startpoint" name="startpoint" value="#{bookingDetailsController.booking.startPoint}" />
-			<f:viewParam id="endpoint" name="endpoint" value="#{bookingDetailsController.booking.endPoint}" />
-			<f:viewParam id="startLatitude" name="startLatitude" value="#{bookingDetailsController.booking.startLatitude}" />
-			<f:viewParam id="startLongitude" name="startLongitude" value="#{bookingDetailsController.booking.startLongitude}" />
-			<f:viewParam id="endLatitude" name="endLatitude" value="#{bookingDetailsController.booking.endLatitude}" />
-			<f:viewParam id="endLongitude" name="endLongitude" value="#{bookingDetailsController.booking.endLongitude}" />
+			<f:viewParam id="tripId" name="t" value="#{bookingDetailsController.tripId}" />
+			<f:viewParam id="startpoint" name="s" value="#{bookingDetailsController.booking.startPoint}" />
+			<f:viewParam id="endpoint" name="e" value="#{bookingDetailsController.booking.endPoint}" />
+			<f:viewParam id="startLatitude" name="sL" value="#{bookingDetailsController.booking.startLatitude}" />
+			<f:viewParam id="startLongitude" name="sLo" value="#{bookingDetailsController.booking.startLongitude}" />
+			<f:viewParam id="endLatitude" name="eL" value="#{bookingDetailsController.booking.endLatitude}" />
+			<f:viewParam id="endLongitude" name="eLo" value="#{bookingDetailsController.booking.endLongitude}" />
+			<f:viewParam id="endLongitude" name="h" value="#{bookingDetailsController.booking.bookingHash}" />
 	</f:metadata>
 	
 	<ui:define name="content">

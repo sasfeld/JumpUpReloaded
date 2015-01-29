@@ -273,6 +273,7 @@ public class SingleTripQueryResult implements Serializable
         protected float price;
         protected String viaWaypoints;
         protected Integer numberOfSeats;
+        protected String bookingUrl;
         
         
         /**
@@ -477,6 +478,22 @@ public class SingleTripQueryResult implements Serializable
         public void setNumberOfSeats(Integer numberOfSeats)
         {
             this.numberOfSeats = numberOfSeats;
+        }
+
+        /**
+         * @return the bookingUrl
+         */
+        public String getBookingUrl()
+        {
+            return bookingUrl;
+        }
+
+        /**
+         * @param bookingUrl the bookingUrl to set
+         */
+        public void setBookingUrl(String bookingUrl)
+        {
+            this.bookingUrl = bookingUrl;
         }
 
     }

@@ -9,10 +9,17 @@ import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
+import javax.ejb.Stateless;
+import javax.inject.Inject;
+
+import de.htw.fb4.imi.jumpup.navigation.NavigationBean;
+import de.htw.fb4.imi.jumpup.settings.BeanNames;
+import de.htw.fb4.imi.jumpup.translate.Translatable;
 import de.htw.fb4.imi.jumpup.trip.entities.Trip;
 import de.htw.fb4.imi.jumpup.trip.query.TripQueryNoResults;
 import de.htw.fb4.imi.jumpup.trip.restservice.model.SingleTripQueryResult;
 import de.htw.fb4.imi.jumpup.trip.restservice.model.TripQueryResults;
+import de.htw.fb4.imi.jumpup.trip.restservice.model.TripQueryResults.Translations;
 import de.htw.fb4.imi.jumpup.user.entities.User;
 import de.htw.fb4.imi.jumpup.verhicle.entities.Vehicle;
 
@@ -23,15 +30,22 @@ import de.htw.fb4.imi.jumpup.verhicle.entities.Vehicle;
  * @since 26.01.2015
  *
  */
+@Stateless(name = BeanNames.QUERY_RESULT_FACTORY)
 public class QueryResultFactory
 {
+    @Inject
+    protected Translatable translator;
+    
+    @Inject
+    protected NavigationBean navigationHelper;
+    
     /**
      * Build a {@link SingleTripQueryResult} which will be returned marshalled within our REST services.
      * 
      * @param trip entity from database
      * @return
      */
-    public static SingleTripQueryResult newSingleTripQueryResult(final Trip trip)
+    public SingleTripQueryResult newSingleTripQueryResult(final Trip trip)
     {
         SingleTripQueryResult singleTripQueryResult = new SingleTripQueryResult();
         
@@ -41,8 +55,8 @@ public class QueryResultFactory
         
         return singleTripQueryResult;
     }
-    
-    private static void fillFromTripEntity(
+
+    private void fillFromTripEntity(
             SingleTripQueryResult singleTripQueryResult, Trip trip)
     {        
         singleTripQueryResult.getTrip().setId(trip.getIdentity());
@@ -56,11 +70,12 @@ public class QueryResultFactory
         singleTripQueryResult.getTrip().setEndDateTime(toTimestamp(trip.getEndDateTime()));
         singleTripQueryResult.getTrip().setPrice(trip.getPrice());
         singleTripQueryResult.getTrip().setViaWaypoints(trip.getViaWaypoints());
-        singleTripQueryResult.getTrip().setNumberOfSeats(trip.getNumberOfSeats());       
-        
+        singleTripQueryResult.getTrip().setNumberOfSeats(trip.getNumberOfSeats());      
+        // generate and set booking URL to enable booking this trip
+        singleTripQueryResult.getTrip().setBookingUrl(navigationHelper.generateAddBookingUrl(trip));        
     }
     
-    private static void fillFromDriverEntity(
+    private void fillFromDriverEntity(
             SingleTripQueryResult singleTripQueryResult, User driver)
     {
         singleTripQueryResult.getDriver().setUsername(driver.getUsername());
@@ -80,7 +95,7 @@ public class QueryResultFactory
      * @param singleTripQueryResult
      * @param vehicle
      */
-    private static void fillFromVehicleEntity(
+    private void fillFromVehicleEntity(
             SingleTripQueryResult singleTripQueryResult, Vehicle vehicle)
     {
         // TODO Auto-generated method stub
@@ -88,7 +103,7 @@ public class QueryResultFactory
         singleTripQueryResult.getVehicle().setManufactor("BMW");
     }
 
-    private static Timestamp toTimestamp(Date startDateTime)
+    private Timestamp toTimestamp(Date startDateTime)
     {
         return new Timestamp(startDateTime.getTime());
     }
@@ -98,7 +113,7 @@ public class QueryResultFactory
      * @param message
      * @return
      */
-    public static TripQueryNoResults newNoTripsResult(String message)
+    public TripQueryNoResults newNoTripsResult(String message)
     {
         TripQueryNoResults noResults = new TripQueryNoResults();
         
@@ -108,12 +123,27 @@ public class QueryResultFactory
         return noResults;
     }
 
-    public static TripQueryResults newTripQueryResults(
+    public TripQueryResults newTripQueryResults(
             List<SingleTripQueryResult> list)
     {
         TripQueryResults results = new TripQueryResults();
+        addTranslations(results);
         results.setTrips(list);
         return results;
+    }
+
+    private void addTranslations(TripQueryResults results)
+    {
+        Translations translations = results.getTranslations();
+        
+        translations.setDestinationDistance(translator.translate(translations.getDestinationDistance()));
+        translations.setDriver(translator.translate(translations.getDriver()));
+        translations.setLocationDistance(translator.translate(translations.getLocationDistance()));
+        translations.setNumberBookings(translator.translate(translations.getNumberBookings()));
+        translations.setOverallPrice(translator.translate(translations.getOverallPrice()));
+        translations.setStartDate(translator.translate(translations.getStartDate()));
+        translations.setTo(translator.translate(translations.getTo()));
+        translations.setVehicle(translator.translate(translations.getVehicle()));        
     }
 
 }

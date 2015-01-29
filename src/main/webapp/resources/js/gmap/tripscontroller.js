@@ -55,6 +55,14 @@ this.de.htw.fb4.imi.jumpup.trip = this.de.htw.fb4.imi.jumpup.trip || {};
 					mapCtrl.gmap.removeRoutes();
 	
 					var viewOptions = {
+						"to" : "to",
+						"locationDistance" : "Distance to Start",
+						"start_date" : "Departure Date",
+						"driver" : "Driver",
+						"overall_price" : "Overall Price",
+						"current_bookings" : "Number of Bookings",
+						"destination_distance" : "Distance to Destination",
+						"vehicle" : "Vehicle",				
 						"accordion" : $(REF_ACCORDION),
 						"startLatLng" : _this.startLatLng,
 						"endLatLng" : _this.endLatLng,
