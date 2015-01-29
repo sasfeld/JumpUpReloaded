@@ -14,6 +14,7 @@
 		<composite:attribute name="validatorBean" required="true" />
 		<composite:attribute name="isRequired" required="true" />
 		<composite:attribute name="validationMessage" required="true" />
+		<composite:attribute name="readOnly" required="false" default="false"/>
 	</composite:interface>
 	<composite:implementation>
 	
@@ -22,7 +23,9 @@
 				value="#{cc.attrs.valueBinding}"
 				p:type="datetime-local"
 				p:required="#{cc.attrs.isRequired}"
-				p:title="#{translator.translate(cc.attrs.validationMessage)}">
+				p:title="#{translator.translate(cc.attrs.validationMessage)}"
+				readonly="#{cc.attrs.readOnly}"
+				>
 				<f:validator binding="#{cc.attrs.validatorBean}" />
 				<f:convertDateTime pattern="yyyy-M-d"></f:convertDateTime>
 		</h:inputText>

@@ -15,6 +15,7 @@
 		<composite:attribute name="isRequired" required="true" />
 		<composite:attribute name="validationMessage" required="true" />
 		<composite:attribute name="cssClass" required="true" />
+		<composite:attribute name="readOnly" required="false" default="false"/>
 	</composite:interface>
 	<composite:implementation>
 		<h:outputText value="#{translator.translate(cc.attrs.label)}: "></h:outputText>
@@ -24,6 +25,7 @@
 				p:title="#{translator.translate(cc.attrs.validationMessage)}"
 				p:pattern="#{cc.attrs.validatorBean.getFrontendValidationPattern()}"
 				styleClass="#{cc.attrs.cssClass}"
+				readonly="#{cc.attrs.readOnly}"
 				>
 				<f:validator binding="#{cc.attrs.validatorBean}" />
 		</h:inputText>

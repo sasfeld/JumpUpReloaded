@@ -14,6 +14,7 @@
 		<composite:attribute name="isHidden" required="false" default="true"/>
 		<composite:attribute name="showLabel" required="false" default=""/>
 		<composite:attribute name="helpText" required="false" default=""/>
+		<composite:attribute name="readOnly" required="false" default="false"/>
 	</composite:interface>
 	<composite:implementation>
 		<c:choose>
@@ -31,6 +32,7 @@
 						p:type="number"
 						p:step="any"
 						p:title="#{cc.attrs.helpText}"
+						readonly="#{cc.attrs.readOnly}"
 					>				
 					</h:inputText>
 			</c:otherwise>

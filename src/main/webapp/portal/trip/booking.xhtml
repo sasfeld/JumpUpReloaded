@@ -27,19 +27,61 @@
 		#{translator.translate('You have selected the following Trip')}: 
 		 
 		 	<h:form>
-					 <h:panelGrid id="grid" columns="2">
+					 <h:panelGrid id="grid" columns="1">
 										
-						<h:outputLabel value="Startpoint" for = "inp_startpoint"/>
-						<h:inputText id="inp_startpoint" class="textInput" value="#{bookingDetailsController.booking.startPoint}" readonly="true" />
+						<trip:location 
+						jsfId="start_location"
+						label="Start location"
+						valueBinding="#{bookingDetailsController.booking.startPoint}"
+						isRequired="required"
+						cssClass="start_location"
+						readOnly="true"
+						validatorBean="#{locationValidator}"/>	
 						
-						<h:outputLabel value="Endpoint" for = "inp_endpoint"/>
-						<h:inputText id="inp_endpoint" class="textInput" value="#{bookingDetailsController.booking.endPoint}" readonly="true" />
+						<trip:location 
+						jsfId="end_location"
+						label="End location"
+						valueBinding="#{bookingDetailsController.booking.endPoint}"
+						isRequired="required"
+						cssClass="end_location"
+						readOnly="true"
+						validatorBean="#{locationValidator}"/>	
+							
+					<trip:latLng
+						valueBinding="#{bookingDetailsController.booking.startLatitude}"
+						isRequired="required"
+						cssClass="latitude_start"
+						readOnly="true"
+						validatorBean="#{latitudeValidator}"/>	
+						
+					<trip:latLng
+						valueBinding="#{bookingDetailsController.booking.startLongitude}"
+						isRequired="required"
+						cssClass="longitude_start"
+						readOnly="true"
+						validatorBean="#{longitudeValidator}"/>
+						
+					<trip:latLng
+						valueBinding="#{bookingDetailsController.booking.endLatitude}"
+						isRequired="required"
+						cssClass="latitude_end"
+						readOnly="true"
+						validatorBean="#{latitudeValidator}"/>	
+						
+					<trip:latLng
+						valueBinding="#{bookingDetailsController.booking.endLongitude}"
+						isRequired="required"
+						cssClass="longitude_end"
+						readOnly="true"
+						validatorBean="#{longitudeValidator}"/>
+						
 					
 					</h:panelGrid>
 					
 					<p>#{translator.translate('Do you want to book it')}?
 					<h:commandButton action="#{bookingDetailsController.bindBookingData}" value="submit" /> 		
 					</p>
+					<h:messages errorClass="errorMessage" infoClass="infoMessage" warnClass="warnMessage"></h:messages>
 			</h:form>
 		</div>
 		

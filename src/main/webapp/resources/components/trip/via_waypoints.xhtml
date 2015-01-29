@@ -12,11 +12,13 @@
 		<composite:attribute name="valueBinding" required="false" />
 		<composite:attribute name="validatorBean" required="true" />
 		<composite:attribute name="cssClass" required="true" />
+		<composite:attribute name="readOnly" required="false" default="false"/>
 	</composite:interface>
 	<composite:implementation>
 		<h:inputHidden id="#{cc.attrs.jsfId}" 
 				value="#{cc.attrs.valueBinding}"
 				styleClass="#{cc.attrs.cssClass}"
+				readonly="#{cc.attrs.readOnly}"
 				>
 				<f:validator binding="#{cc.attrs.validatorBean}" />
 		</h:inputHidden>

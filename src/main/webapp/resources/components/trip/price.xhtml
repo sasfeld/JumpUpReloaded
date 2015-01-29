@@ -14,6 +14,7 @@
 		<composite:attribute name="validatorBean" required="true" />
 		<composite:attribute name="isRequired" required="true" />
 		<composite:attribute name="validationMessage" required="true" />
+		<composite:attribute name="readOnly" required="false" default="false"/>
 	</composite:interface>
 	<composite:implementation>
 		<h:outputText value="#{translator.translate(cc.attrs.label)}: "></h:outputText>
@@ -26,6 +27,7 @@
 				p:pattern="#{cc.attrs.validatorBean.frontendValidationPattern}"
 				p:min="#{cc.attrs.validatorBean.minPrice}"
 				p:max="#{cc.attrs.validatorBean.maxPrice}"
+				readonly="#{cc.attrs.readOnly}"
 				>
 				<f:validator binding="#{cc.attrs.validatorBean}" />
 		</h:inputText>

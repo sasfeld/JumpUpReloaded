@@ -42,15 +42,20 @@ public class BookingDetailsController extends AbstractFacesController implements
 
     private Booking booking = new Booking();
 
-    
     public String bindBookingData()
     {
-        bookingEJB.createBooking(this.getBooking(), this.getTripId());
+
+        try {
+            bookingEJB.createBooking(this.getBooking(), this.getTripId());
+
+        } catch (Exception e) {
+            Application.log(e.getMessage(), LogType.ERROR, getClass());
+            addDisplayErrorMessage("Your given values aren't valid.");
+        }
 
         return null;
     }
 
-  
     public Booking getBooking()
     {
         return booking;

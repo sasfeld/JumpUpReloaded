@@ -14,6 +14,7 @@
 		<composite:attribute name="validatorBean" required="true" />
 		<composite:attribute name="isRequired" required="true" />
 		<composite:attribute name="validationMessage" required="true" />
+		<composite:attribute name="readOnly" required="false" default="false"/>
 	</composite:interface>
 	<composite:implementation>
 		<h:outputText value="#{translator.translate(cc.attrs.label)}: "></h:outputText>
@@ -24,6 +25,7 @@
 				p:type="number"
 				p:min="#{cc.attrs.validatorBean.minNumberOfSeats}"
 				p:max="#{cc.attrs.validatorBean.maxNumberOfSeats}"
+				readonly="#{cc.attrs.readOnly}"
 				>
 				<f:validator binding="#{cc.attrs.validatorBean}" />
 		</h:inputText>
