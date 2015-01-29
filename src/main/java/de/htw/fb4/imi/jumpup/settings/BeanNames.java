@@ -22,6 +22,8 @@ public interface BeanNames
     String REGISTRATION_CONFIRMATION_CONTROLLER = "registrationConfirmationController";
     String LOGIN_CONTROLLER = "loginController";
 
+    String BOOKING_DETAILS_CONTROLLER = "bookingDetailsController";
+
     String WEBSITE_REGISTRATION = "website_registration";
     String WEBSITE_USER_DETAILS = "website_userDetails";
     String WEBSITE_TRIP_QUERY = "website_tripQuery";
@@ -39,11 +41,11 @@ public interface BeanNames
     String USER_CONFIG_READER = "userConfigReader";
     String MAIL_CONFIG_READER = "mailConfigReader";
     String TRIP_CONFIG_READER = "tripConfigReader";
-    
+
     String MAIL_SMTP_ADAPTER = "mailSmtpAdapter";
 
     String NAVIGATION_BEAN = "navigationBean";
-    
+
     String DATE_OF_BIRTH = "dateOfBirthValidator";
     String MOBILE_NUMBER_VALIDATOR = "mobileNumberValidator";
     String SKYPE_VALIDATOR = "skypeValidator";
@@ -60,14 +62,13 @@ public interface BeanNames
     String OVERVIEW_PATH_VALIDATOR = "overviewPathValidator";
     String VIA_WAYPOINTS_VALIDATOR = "viaWaypointsValidator";
     String NUMBER_SEATS_VALIDATOR = "numberSeatsValidator";
-    
+
     String WEBSITE_TRIP_CREATION = "websiteTripCreation";
     String TRIP_CREATION_CONTROLLER = "tripCreationController";
     String TRIP_QUERY_CONTROLLER = "tripQueryController";
-    
+
     String TRIP_SEARCH_FILTER_CHAIN = "tripSearchFilterChain";
-    
+
     String LOCALE_HELPER = "localeHelper";
-    
-    
+
 }

@@ -42,17 +42,17 @@ import de.htw.fb4.imi.jumpup.verhicle.entities.Vehicle;
 @NamedQueries({
         @NamedQuery(name = Trip.NAME_QUERY_BY_USER, query = "SELECT t FROM Trip t WHERE t.driver = :driver"),
         @NamedQuery(name = Trip.NAME_QUERY_BY_STARTPOINT, query = "SELECT t FROM Trip t WHERE t.startpoint = :startpoint"),
-        @NamedQuery(name = Trip.NAME_QUERY_BY_ENDPOINT, query = "SELECT t FROM Trip t WHERE t.endpoint = :endpoint"), 
-        @NamedQuery(name = Trip.NAME_QUERY_ALL, query = "SELECT t FROM Trip t"), 
+        @NamedQuery(name = Trip.NAME_QUERY_BY_ENDPOINT, query = "SELECT t FROM Trip t WHERE t.endpoint = :endpoint"),
+        @NamedQuery(name = Trip.NAME_QUERY_BY_ID, query = "SELECT t FROM Trip t WHERE t.identity = :identity"),
+        @NamedQuery(name = Trip.NAME_QUERY_ALL, query = "SELECT t FROM Trip t"),
         @NamedQuery(name = Trip.NAME_CRITERIA_QUERY, query = "SELECT t FROM Trip t WHERE"
                 + " t.cancelationDateTime IS NOT NULL"
                 + " AND (t.driver != :passenger)"
                 + " AND (:dateFrom IS NULL OR t.startDateTime >= :dateFrom)"
                 + " AND (:dateTo IS NULL OR t.endDateTime <= :dateTo)"
                 + " AND (:priceFrom IS NULL OR t.price >= :priceFrom)"
-                + " AND (:priceTo IS NULL OR t.price <= :priceTo)"
-         )
-        
+                + " AND (:priceTo IS NULL OR t.price <= :priceTo)")
+
 })
 public class Trip extends AbstractEntity
 {
@@ -61,6 +61,7 @@ public class Trip extends AbstractEntity
     public static final String NAME_QUERY_BY_STARTPOINT = "TRIP_QUERY_BY_STARTPOINT";
     public static final String NAME_QUERY_BY_ENDPOINT = "TRIP_QUERY_BY_ENDPOINT";
     public static final String NAME_QUERY_ALL = "TRIP_FETCH_ALL";
+    public static final String NAME_QUERY_BY_ID = "TRIP_GET_BY_ID";
     public static final String NAME_CRITERIA_QUERY = "TRIP_QUERY_BY_CRITERIA";
 
     /**
@@ -120,11 +121,10 @@ public class Trip extends AbstractEntity
 
     @Column(name = "distance_meters", nullable = false, updatable = true)
     protected long distanceMeters;
-    
+
     @Column(name = "duration_seconds", nullable = false, updatable = true)
     protected long durationSeconds;
-    
-    
+
     /**
      * @return the startpoint
      */
@@ -498,7 +498,8 @@ public class Trip extends AbstractEntity
     }
 
     /**
-     * @param distanceMeters the distanceMeters to set
+     * @param distanceMeters
+     *            the distanceMeters to set
      */
     public void setDistanceMeters(long distanceMeters)
     {
@@ -514,14 +515,17 @@ public class Trip extends AbstractEntity
     }
 
     /**
-     * @param durationSeconds the durationSeconds to set
+     * @param durationSeconds
+     *            the durationSeconds to set
      */
     public void setDurationSeconds(long durationSeconds)
     {
         this.durationSeconds = durationSeconds;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see java.lang.Object#hashCode()
      */
     @Override
@@ -649,7 +653,9 @@ public class Trip extends AbstractEntity
         return true;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see java.lang.Object#toString()
      */
     @Override
