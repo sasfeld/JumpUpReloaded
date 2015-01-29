@@ -24,6 +24,7 @@ import de.htw.fb4.imi.jumpup.Application.LogType;
 import de.htw.fb4.imi.jumpup.ApplicationError;
 import de.htw.fb4.imi.jumpup.settings.BeanNames;
 import de.htw.fb4.imi.jumpup.trip.entities.Trip;
+import de.htw.fb4.imi.jumpup.trip.restservice.model.TripSearchCriteria;
 import de.htw.fb4.imi.jumpup.user.controllers.Login;
 
 /**
@@ -150,19 +151,19 @@ public class NavigationBean implements NavigationOutcomes
      * @param trip
      * @return
      */
-    public String generateAddBookingUrl(Trip trip)
+    public String generateAddBookingUrl(TripSearchCriteria tripSearch, Trip trip)
     {
         StringBuilder urlBuilder = new StringBuilder();
         
         try {
             appendUrlEncoded(urlBuilder, "t", toString(trip.getIdentity()), '?');
-            appendUrlEncoded(urlBuilder, "s", trip.getStartpoint(), '&');
-            appendUrlEncoded(urlBuilder, "e", trip.getEndpoint(), '&');
-            appendUrlEncoded(urlBuilder, "sL", toString(trip.getLatStartpoint()), '&');
-            appendUrlEncoded(urlBuilder, "sLo", toString(trip.getLongStartpoint()), '&');
-            appendUrlEncoded(urlBuilder, "eL", toString(trip.getLatEndpoint()), '&');
-            appendUrlEncoded(urlBuilder, "eLo", toString(trip.getLongEndpoint()), '&');
-            appendUrlEncoded(urlBuilder, "h", trip.createBookingHash(), '&');
+            appendUrlEncoded(urlBuilder, "s", tripSearch.getStartPoint(), '&');
+            appendUrlEncoded(urlBuilder, "e", tripSearch.getEndPoint(), '&');
+            appendUrlEncoded(urlBuilder, "sL", toString(tripSearch.getLatStartPoint()), '&');
+            appendUrlEncoded(urlBuilder, "sLo", toString(tripSearch.getLongStartPoint()), '&');
+            appendUrlEncoded(urlBuilder, "eL", toString(tripSearch.getLatEndPoint()), '&');
+            appendUrlEncoded(urlBuilder, "eLo", toString(tripSearch.getLongEndPoint()), '&');
+            appendUrlEncoded(urlBuilder, "h", tripSearch.createBookingHash(trip), '&');
         } catch (UnsupportedEncodingException e) {
             Application.log("generateAddBookingUrl: cannot generate booking URL due to exception " 
                     + e.getMessage() + "\nstack:" + ExceptionUtils.getFullStackTrace(e) , LogType.ERROR, getClass());

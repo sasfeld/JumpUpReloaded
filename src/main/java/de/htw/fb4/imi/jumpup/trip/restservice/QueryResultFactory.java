@@ -12,6 +12,7 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
+import de.htw.fb4.imi.jumpup.booking.entities.Booking;
 import de.htw.fb4.imi.jumpup.navigation.NavigationBean;
 import de.htw.fb4.imi.jumpup.settings.BeanNames;
 import de.htw.fb4.imi.jumpup.translate.Translatable;
@@ -20,6 +21,7 @@ import de.htw.fb4.imi.jumpup.trip.query.TripQueryNoResults;
 import de.htw.fb4.imi.jumpup.trip.restservice.model.SingleTripQueryResult;
 import de.htw.fb4.imi.jumpup.trip.restservice.model.TripQueryResults;
 import de.htw.fb4.imi.jumpup.trip.restservice.model.TripQueryResults.Translations;
+import de.htw.fb4.imi.jumpup.trip.restservice.model.TripSearchCriteria;
 import de.htw.fb4.imi.jumpup.user.entities.User;
 import de.htw.fb4.imi.jumpup.verhicle.entities.Vehicle;
 
@@ -45,10 +47,11 @@ public class QueryResultFactory
      * @param trip entity from database
      * @return
      */
-    public SingleTripQueryResult newSingleTripQueryResult(final Trip trip)
+    public SingleTripQueryResult newSingleTripQueryResult(final Trip trip, TripSearchCriteria searchCriteria)
     {
         SingleTripQueryResult singleTripQueryResult = new SingleTripQueryResult();
         
+        singleTripQueryResult.setTripSearchCriteria(searchCriteria);
         fillFromTripEntity(singleTripQueryResult, trip);
         fillFromDriverEntity(singleTripQueryResult, trip.getDriver());
         fillFromVehicleEntity(singleTripQueryResult, trip.getVehicle());     
@@ -72,7 +75,7 @@ public class QueryResultFactory
         singleTripQueryResult.getTrip().setViaWaypoints(trip.getViaWaypoints());
         singleTripQueryResult.getTrip().setNumberOfSeats(trip.getNumberOfSeats());      
         // generate and set booking URL to enable booking this trip
-        singleTripQueryResult.getTrip().setBookingUrl(navigationHelper.generateAddBookingUrl(trip));        
+        singleTripQueryResult.getTrip().setBookingUrl(navigationHelper.generateAddBookingUrl(singleTripQueryResult.getTripSearchCriteria(), trip));        
     }
     
     private void fillFromDriverEntity(
@@ -146,6 +149,25 @@ public class QueryResultFactory
         translations.setVehicle(translator.translate(translations.getVehicle()));        
         translations.setBook(translator.translate(translations.getBook()));
         translations.setBookTooltip(translator.translate(translations.getBookTooltip()));
+    }
+    
+    /**
+     * Reconstruct a {@link TripSearchCriteria} by a given {@link Booking} instance, e.g. for hash checking.
+     * @param booking
+     * @return
+     */
+    public TripSearchCriteria newTripSearchCriteriaBy(Booking booking)
+    {
+        TripSearchCriteria searchCriteria = new TripSearchCriteria();
+        
+        searchCriteria.setStartPoint(booking.getStartPoint());
+        searchCriteria.setEndPoint(booking.getEndPoint());
+        searchCriteria.setLatStartPoint(booking.getStartLatitude());
+        searchCriteria.setLongStartPoint(booking.getStartLongitude());
+        searchCriteria.setLatEndPoint(booking.getEndLatitude());
+        searchCriteria.setLongEndPoint(booking.getEndLongitude());
+        
+        return searchCriteria;
     }
 
 }

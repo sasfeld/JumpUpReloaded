@@ -54,16 +54,16 @@ public class Booking extends AbstractEntity
     private String endPoint;
 
     @Column(name = "startLatitude", nullable = false, updatable = true, unique = false)
-    private double startLatitude;
+    private float startLatitude;
 
     @Column(name = "startLongitude", nullable = false, updatable = true, unique = false)
-    private double startLongitude;
+    private float startLongitude;
 
     @Column(name = "endLatitude", nullable = false, updatable = true, unique = false)
-    private double endLatitude;
+    private float endLatitude;
 
     @Column(name = "endLongitude", nullable = false, updatable = true, unique = false)
-    private double endLongitude;
+    private float endLongitude;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "bookings")
@@ -98,42 +98,42 @@ public class Booking extends AbstractEntity
         this.endPoint = endPoint;
     }
 
-    public double getStartLatitude()
+    public float getStartLatitude()
     {
         return startLatitude;
     }
 
-    public void setStartLatitude(double startLatitude)
+    public void setStartLatitude(float startLatitude)
     {
         this.startLatitude = startLatitude;
     }
 
-    public double getStartLongitude()
+    public float getStartLongitude()
     {
         return startLongitude;
     }
 
-    public void setStartLongitude(double startLongitude)
+    public void setStartLongitude(float startLongitude)
     {
         this.startLongitude = startLongitude;
     }
 
-    public double getEndLatitude()
+    public float getEndLatitude()
     {
         return endLatitude;
     }
 
-    public void setEndLatitude(double endLatitude)
+    public void setEndLatitude(float endLatitude)
     {
         this.endLatitude = endLatitude;
     }
 
-    public double getEndLongitude()
+    public float getEndLongitude()
     {
         return endLongitude;
     }
 
-    public void setEndLongitude(double endLongitude)
+    public void setEndLongitude(float endLongitude)
     {
         this.endLongitude = endLongitude;
     }

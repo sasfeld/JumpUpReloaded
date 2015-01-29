@@ -699,22 +699,4 @@ public class Trip extends AbstractEntity
         builder.append("]");
         return builder.toString();
     }
-
-    /**
-     * Create a booking hash which is appended to the booking URL of this trip and checked afterwards during the booking to avoid parameter injection.
-     * @return
-     */
-    public String createBookingHash()
-    {
-        // make sure to include all variable parameters that should be protected from manipulation
-        long hash = ((this.getStartpoint().hashCode()
-            + this.getEndpoint().hashCode()
-            - Float.toString(this.getLatStartpoint()).hashCode() 
-            - Float.toString(this.getLongStartpoint()).hashCode() 
-            + Float.toString(this.getLatEndpoint()).hashCode() 
-            + Float.toString(this.getLongEndpoint()).hashCode())
-            % this.getIdentity()) * 333;
-            
-        return Long.toString(hash);
-    }
 }

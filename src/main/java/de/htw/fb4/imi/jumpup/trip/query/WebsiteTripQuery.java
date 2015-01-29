@@ -154,24 +154,24 @@ public class WebsiteTripQuery implements TripQueryMethod
         
         Application.log("filtered trips: " + filteredTrips, LogType.DEBUG, getClass());
         
-        return this.toQueryResultList(filteredTrips);
+        return this.toQueryResultList(filteredTrips, tripSearchModel);
     }
 
     private TripQueryResults toQueryResultList(
-            List<Trip> filteredTrips)
+            List<Trip> filteredTrips, TripSearchCriteria tripSearchModel)
     {
         List<SingleTripQueryResult> list = new ArrayList<SingleTripQueryResult>();
         
         for (Trip filteredTrip : filteredTrips) {
-            list.add(this.toSingleTripQueryResult(filteredTrip));
+            list.add(this.toSingleTripQueryResult(filteredTrip, tripSearchModel));
         }        
         
         return queryResultFactory.newTripQueryResults(list);
     }
 
-    private SingleTripQueryResult toSingleTripQueryResult(Trip filteredTrip)
+    private SingleTripQueryResult toSingleTripQueryResult(Trip filteredTrip, TripSearchCriteria tripSearchModel)
     {
-        return queryResultFactory.newSingleTripQueryResult(filteredTrip);
+        return queryResultFactory.newSingleTripQueryResult(filteredTrip, tripSearchModel);
     }
 
     private List<Trip> triggerFilteringChain(TripSearchCriteria tripSearchCriteria, List<Trip> matchedTrips)

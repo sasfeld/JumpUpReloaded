@@ -12,6 +12,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import de.htw.fb4.imi.jumpup.trip.entities.Trip;
 import de.htw.fb4.imi.jumpup.util.LocaleHelper;
 
 /**
@@ -381,4 +382,21 @@ public class TripSearchCriteria
         return builder.toString();
     }
 
+    /**
+     * Create a booking hash which is appended to the booking URL of this trip and checked afterwards during the booking to avoid parameter injection.
+     * @return
+     */
+    public String createBookingHash(Trip trip)
+    {
+        // make sure to include all variable parameters that should be protected from manipulation
+        long hash = ((this.getStartPoint().hashCode()
+            + this.getEndPoint().hashCode()
+            - Float.toString(this.getLatStartPoint()).hashCode() 
+            - Float.toString(this.getLongStartPoint()).hashCode() 
+            + Float.toString(this.getLatEndPoint()).hashCode() 
+            + Float.toString(this.getLongEndPoint()).hashCode())
+            % trip.getIdentity()) * 333;
+            
+        return Long.toString(hash);
+    }
 }
