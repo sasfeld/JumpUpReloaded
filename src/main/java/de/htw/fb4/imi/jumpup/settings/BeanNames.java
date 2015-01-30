@@ -73,5 +73,8 @@ public interface BeanNames
     
     String QUERY_RESULT_FACTORY = "queryResultFactory";
     String BOOKING_EJB = "bookingEjb";
+    
+    String TRIP_DAO = "tripDAO";
+    String BOOKING_DAO = "bookingDAO";
 
 }

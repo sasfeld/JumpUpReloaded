@@ -5,6 +5,8 @@
  */
 package de.htw.fb4.imi.jumpup.booking.entities;
 
+import java.sql.Timestamp;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -34,6 +36,7 @@ import de.htw.fb4.imi.jumpup.user.entities.User;
 @NamedQueries({
         @NamedQuery(name = Booking.NAME_QUERY_BY_STARTPOINT, query = "SELECT b FROM Booking b WHERE b.startPoint = :startpoint"),
         @NamedQuery(name = Booking.NAME_QUERY_BY_ENDPOINT, query = "SELECT b FROM Booking b WHERE b.endPoint = :endpoint"),
+        @NamedQuery(name = Booking.NAME_QUERY_BY_ID, query = "SELECT b FROM Booking b WHERE b.identity = :identity"),
         @NamedQuery(name = Booking.NAME_QUERY_BY_TRIP, query = "SELECT b FROM Booking b WHERE b.trip = :trip") })
 public class Booking extends AbstractEntity
 {
@@ -41,6 +44,7 @@ public class Booking extends AbstractEntity
     public static final String NAME_QUERY_BY_STARTPOINT = "BOOKING_QUERY_BY_STARTPOINT";
     public static final String NAME_QUERY_BY_ENDPOINT = "BOOKING_QUERY_BY_ENDPOINT";
     public static final String NAME_QUERY_BY_TRIP = "BOOKING_QUERY_BY_TRIP";
+    public static final String NAME_QUERY_BY_ID = "BOOKING_QUERY_BY_ID";
 
     /**
      * 
@@ -72,6 +76,12 @@ public class Booking extends AbstractEntity
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "passengerIdentity")
     private User passenger;
+    
+    @Column(name = "confirmation_datetime", nullable = true, updatable = true, unique = false)
+    protected Timestamp confirmationDateTime;
+    
+    @Column(name = "cancelation_datetime", nullable = true, updatable = true, unique = false)
+    protected Timestamp cancelationDateTime;
     
     @Transient
     protected String bookingHash;
@@ -170,6 +180,64 @@ public class Booking extends AbstractEntity
     public void setBookingHash(String bookingHash)
     {
         this.bookingHash = bookingHash;
+    }
+    
+    /**
+     * @return the cancelationDateTime
+     */
+    public Timestamp getCancelationDateTime()
+    {
+        return cancelationDateTime;
+    }
+
+    /**
+     * @param cancelationDateTime
+     *            the cancelationDateTime to set
+     */
+    public void setCancelationDateTime(Timestamp cancelationDateTime)
+    {
+        this.cancelationDateTime = cancelationDateTime;
+    }
+
+    /**
+     * Check whether the trip was cancelled by the driver.
+     * 
+     * @return
+     */
+    public boolean wasConfirmed()
+    {
+        boolean wasConfirmed = null != this.getConfirmationDateTime();
+
+        return wasConfirmed;
+    }
+    
+    /**
+     * @return the cancelationDateTime
+     */
+    public Timestamp getConfirmationDateTime()
+    {
+        return confirmationDateTime;
+    }
+
+    /**
+     * @param cancelationDateTime
+     *            the cancelationDateTime to set
+     */
+    public void setConfirmationDateTime(Timestamp confirmationDateTime)
+    {
+        this.confirmationDateTime = confirmationDateTime;
+    }
+
+    /**
+     * Check whether the trip was cancelled by the driver.
+     * 
+     * @return
+     */
+    public boolean wasCancelled()
+    {
+        boolean wasCancelled = null != this.getCancelationDateTime();
+
+        return wasCancelled;
     }
 
     @Override

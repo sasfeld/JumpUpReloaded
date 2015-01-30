@@ -5,59 +5,66 @@
  */
 package de.htw.fb4.imi.jumpup.booking;
 
+import java.io.File;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
 
 import org.apache.commons.lang.exception.ExceptionUtils;
 
 import de.htw.fb4.imi.jumpup.Application;
 import de.htw.fb4.imi.jumpup.Application.LogType;
 import de.htw.fb4.imi.jumpup.booking.entities.Booking;
+import de.htw.fb4.imi.jumpup.mail.MailAdapter;
+import de.htw.fb4.imi.jumpup.mail.MailModel;
+import de.htw.fb4.imi.jumpup.mail.builder.MailBuilder;
 import de.htw.fb4.imi.jumpup.settings.BeanNames;
+import de.htw.fb4.imi.jumpup.translate.Translatable;
 import de.htw.fb4.imi.jumpup.trip.entities.Trip;
 import de.htw.fb4.imi.jumpup.trip.restservice.QueryResultFactory;
 import de.htw.fb4.imi.jumpup.trip.restservice.model.TripSearchCriteria;
+import de.htw.fb4.imi.jumpup.trip.util.ConfigReader;
+import de.htw.fb4.imi.jumpup.trip.util.TripAndBookingsConfigKeys;
 import de.htw.fb4.imi.jumpup.user.controllers.Login;
 import de.htw.fb4.imi.jumpup.user.entities.User;
+import de.htw.fb4.imi.jumpup.util.FileUtil;
 
 @Stateless(name = BeanNames.BOOKING_EJB)
 public class BookingEJB implements BookingMethod
 {
-    @PersistenceContext
-    private EntityManager em;
-
     @Inject
     private Login loginController;
 
     @Inject
     protected QueryResultFactory queryResultFactory;
+    
+    @Inject
+    protected MailBuilder mailBuilder;
+    
+    @Inject
+    protected MailAdapter mailAdapter;  
+    
+    @Inject
+    protected Translatable translator;
+    
+    @EJB(beanName = BeanNames.TRIP_CONFIG_READER)
+    protected ConfigReader tripConfigReader;
+    
+    @Inject
+    protected BookingDAO bookingDAO;
 
     protected List<String> errors;
 
     protected void reset()
     {
         this.errors = new ArrayList<String>();
-    }
-
-    /**
-     * Load the given trip by ID.
-     * 
-     * @param id
-     * @return
-     */
-    public Trip getTripByID(long id)
-    {
-        final Query query = this.em.createNamedQuery(Trip.NAME_QUERY_BY_ID,
-                Trip.class);
-        query.setParameter("identity", new Long(id));
-        return (Trip) query.getSingleResult();
-
     }
 
     @Override
@@ -101,17 +108,13 @@ public class BookingEJB implements BookingMethod
 
     private void loadBookings(Trip trip)
     {
-        final Query query = this.em.createNamedQuery(Booking.NAME_QUERY_BY_TRIP,
-                Booking.class);
-        query.setParameter("trip", trip);
-        trip.setBookings(query.getResultList()); 
+        trip.setBookings(this.bookingDAO.getBookingsByTrip(trip)); 
      }
 
     private void persistBooking(Booking booking)
     {
         try {
-            this.em.persist(booking);
-            this.em.flush();
+            this.bookingDAO.save(booking);
         } catch (Exception e) {
             Application.log("persistBooking: exception " + e.getMessage()
                     + "\nStack trace:\n" + ExceptionUtils.getFullStackTrace(e),
@@ -161,10 +164,26 @@ public class BookingEJB implements BookingMethod
      * sendBookingConfirmationToPassenger
      * (de.htw.fb4.imi.jumpup.booking.entities.Booking)
      */
-    public void sendBookingConfirmationToPassenger(Booking booking)
+    public void sendBookingCreationMailToPassenger(Booking booking)
     {
-        // TODO Auto-generated method stub
-
+        try {
+            buildTxtMail(TripAndBookingsConfigKeys.JUMPUP_BOOKING_CREATED_MAIL_PASSENGER_TEMPLATE_TXT);
+            MailModel m = this.mailBuilder.getBuildedMailModel()
+                    .addRecipient(new InternetAddress(booking.getPassenger().geteMail()))
+                    .setSubject(this.translator.translate("JumpUp.Me - Your booking request was sent to the driver"));
+            
+            this.mailAdapter.sendHtmlMail(m);
+        } catch (AddressException e) {
+            Application.log("sendBookingCreationMailToPassenger(): the recipient mail of the passenger is malformed. Will not set the sender.\nException: "
+                    + e.getMessage() + "\n"
+                    + ExceptionUtils.getFullStackTrace(e), LogType.ERROR, getClass());
+            this.errors.add("We could not send the booking mail.");
+        } catch (Exception e) {
+            Application.log("sendBookingCreationMailToPassenger(): error while sending booking creation mail to passenger.\nException: "
+                    + e.getMessage() + "\n"
+                    + ExceptionUtils.getFullStackTrace(e), LogType.ERROR, getClass());
+            this.errors.add("We could not send the booking mail.");
+        }
     }
 
     @Override
@@ -175,10 +194,32 @@ public class BookingEJB implements BookingMethod
      * de.htw.fb4.imi.jumpup.booking.BookingMethod#sendBookingInformationToDriver
      * (de.htw.fb4.imi.jumpup.booking.entities.Booking)
      */
-    public void sendBookingInformationToDriver(Booking booking)
+    public void sendBookingInformationMailToDriver(Booking booking)
     {
-        // TODO Auto-generated method stub
-
+        try {
+            buildTxtMail(TripAndBookingsConfigKeys.JUMPUP_BOOKING_CREATED_MAIL_DRIVER_TEMPLATE_TXT);
+            MailModel m = this.mailBuilder.getBuildedMailModel()
+                    .addRecipient(new InternetAddress(booking.getTrip().getDriver().geteMail()))
+                    .setSubject(this.translator.translate("JumpUp.Me - You got one new booking request"));
+            
+            this.mailAdapter.sendHtmlMail(m);
+        } catch (AddressException e) {
+            Application.log("sendBookingCreationMailToPassenger(): the recipient mail of the driver is malformed. Will not set the sender.\nException: "
+                    + e.getMessage() + "\n"
+                    + ExceptionUtils.getFullStackTrace(e), LogType.ERROR, getClass());
+            this.errors.add("We could not send the booking mail.");
+        } catch (Exception e) {
+            Application.log("sendBookingCreationMailToPassenger(): error while sending booking creation mail to driver.\nException: "
+                    + e.getMessage() + "\n"
+                    + ExceptionUtils.getFullStackTrace(e), LogType.ERROR, getClass());
+            this.errors.add("We could not send the booking mail.");
+        }
+    }
+    
+    protected void buildTxtMail(String txtTemplateConfigKey)
+    {
+        File templateFile = new File(FileUtil.getPathToWebInfFolder(), this.tripConfigReader.fetchValue(txtTemplateConfigKey));
+        this.mailBuilder.addPlainTextContent(templateFile);
     }
 
     @Override
@@ -198,6 +239,119 @@ public class BookingEJB implements BookingMethod
     {
         // TODO Auto-generated method stub
         return null;
+    }
+
+    @Override
+    /*
+     * (non-Javadoc)
+     * @see de.htw.fb4.imi.jumpup.booking.BookingMethod#confirmBooking(de.htw.fb4.imi.jumpup.booking.entities.Booking)
+     */
+    public void confirmBooking(Booking booking)
+    {
+        try {
+            this.confirmBookingIfNotCanceledAndDoneYet(booking);
+        } catch (Exception e) {
+            this.errors.add("Error while trying to confirm the booking. Please try again.");
+            Application.log("confirmBooking(): exception " + e.getMessage() + "\nStack trace:\n" + ExceptionUtils.getFullStackTrace(e), LogType.ERROR, getClass());
+        }        
+    }
+
+    private void confirmBookingIfNotCanceledAndDoneYet(Booking booking)
+    {
+        if (!booking.wasCancelled() && !booking.wasConfirmed()) {
+            booking.setConfirmationDateTime(this.getCurrentTimestamp());
+            bookingDAO.save(booking);
+            return;
+        }        
+        
+        // booking cannot be confirmed
+        this.errors.add("The booking cannot be confirmed because it was previously canceled or already booked.");
+    }
+    
+    private Timestamp getCurrentTimestamp()
+    {
+        return new Timestamp(new Date().getTime());
+    }
+
+    @Override
+    /*
+     * (non-Javadoc)
+     * @see de.htw.fb4.imi.jumpup.booking.BookingMethod#sendBookingConfirmationMailToPassenger(de.htw.fb4.imi.jumpup.booking.entities.Booking)
+     */
+    public void sendBookingConfirmationMailToPassenger(Booking booking)
+    {
+        try {
+            buildTxtMail(TripAndBookingsConfigKeys.JUMPUP_BOOKING_CONFIRMED_MAIL_PASSENGER_TEMPLATE_TXT);
+            MailModel m = this.mailBuilder.getBuildedMailModel()
+                    .addRecipient(new InternetAddress(booking.getPassenger().geteMail()))
+                    .setSubject(this.translator.translate("JumpUp.Me - Your booking was confirmed by the driver"));
+            
+            this.mailAdapter.sendHtmlMail(m);
+        } catch (AddressException e) {
+            Application.log("sendBookingConfirmationMailToPassenger(): the recipient mail of the passenger is malformed. Will not set the sender.\nException: "
+                    + e.getMessage() + "\n"
+                    + ExceptionUtils.getFullStackTrace(e), LogType.ERROR, getClass());
+            this.errors.add("We could not send the booking confirmation mail.");
+        } catch (Exception e) {
+            Application.log("sendBookingConfirmationMailToPassenger(): error while sending booking confirmation mail to the passenger.\nException: "
+                    + e.getMessage() + "\n"
+                    + ExceptionUtils.getFullStackTrace(e), LogType.ERROR, getClass());
+            this.errors.add("We could not send the booking confirmation mail.");
+        }        
+    }
+
+    @Override
+    /*
+     * (non-Javadoc)
+     * @see de.htw.fb4.imi.jumpup.booking.BookingMethod#cancelBooking(de.htw.fb4.imi.jumpup.booking.entities.Booking)
+     */
+    public void cancelBooking(Booking booking)
+    {
+        try {
+            this.cancelBookingIfCanBeCancelled(booking);
+        } catch (Exception e) {
+            this.errors.add("Error while trying to cancel the booking. Please try again.");
+            Application.log("cancelBooking(): exception " + e.getMessage() + "\nStack trace:\n" + ExceptionUtils.getFullStackTrace(e), LogType.ERROR, getClass());
+        } 
+    }
+
+    private void cancelBookingIfCanBeCancelled(Booking booking)
+    {
+        if (!booking.wasCancelled()) {
+             booking.setCancelationDateTime(this.getCurrentTimestamp());
+             bookingDAO.save(booking);
+                
+             return;
+        }
+       
+        this.errors.add("The booking can't be cancelled. Did you already cancel it?"); 
+    }
+
+    @Override
+    /*
+     * (non-Javadoc)
+     * @see de.htw.fb4.imi.jumpup.booking.BookingMethod#sendBookingCancelationMailToPassenger(de.htw.fb4.imi.jumpup.booking.entities.Booking)
+     */
+    public void sendBookingCancelationMailToPassenger(Booking booking)
+    {
+        try {
+            buildTxtMail(TripAndBookingsConfigKeys.JUMPUP_BOOKING_CANCELED_MAIL_PASSENGER_TEMPLATE_TXT);
+            MailModel m = this.mailBuilder.getBuildedMailModel()
+                    .addRecipient(new InternetAddress(booking.getPassenger().geteMail()))
+                    .setSubject(this.translator.translate("JumpUp.Me - Your booking was canceled by the driver"));
+            
+            this.mailAdapter.sendHtmlMail(m);
+        } catch (AddressException e) {
+            Application.log("sendBookingCancelationMailToPassenger(): the recipient mail of the passenger is malformed. Will not set the sender.\nException: "
+                    + e.getMessage() + "\n"
+                    + ExceptionUtils.getFullStackTrace(e), LogType.ERROR, getClass());
+            this.errors.add("We could not send the booking cancelation mail.");
+        } catch (Exception e) {
+            Application.log("sendBookingCancelationMailToPassenger(): error while sending booking cancelation mail to the passenger.\nException: "
+                    + e.getMessage() + "\n"
+                    + ExceptionUtils.getFullStackTrace(e), LogType.ERROR, getClass());
+            this.errors.add("We could not send the booking cancelation mail.");
+        }                
     }
 
 }

@@ -9,7 +9,7 @@ import javax.inject.Named;
 
 import de.htw.fb4.imi.jumpup.settings.BeanNames;
 import de.htw.fb4.imi.jumpup.trip.entities.Trip;
-import de.htw.fb4.imi.jumpup.trip.util.TripConfigKeys;
+import de.htw.fb4.imi.jumpup.trip.util.TripAndBookingsConfigKeys;
 
 /**
  * <p>Validator for prices configured on {@link Trip}</p>
@@ -69,13 +69,13 @@ public class PriceValidator extends AbstractTripValidator
 
     public Float getMaxPrice()
     {
-        Float maxPrice = Float.parseFloat(this.tripConfigReader.fetchValue(TripConfigKeys.JUMPUP_TRIP_VALIDATION_PRICE_MAX_VALUE_IN_EURO));
+        Float maxPrice = Float.parseFloat(this.tripConfigReader.fetchValue(TripAndBookingsConfigKeys.JUMPUP_TRIP_VALIDATION_PRICE_MAX_VALUE_IN_EURO));
         return maxPrice;
     }
 
     public Float getMinPrice()
     {
-        Float minPrice = Float.parseFloat(this.tripConfigReader.fetchValue(TripConfigKeys.JUMPUP_TRIP_VALIDATION_PRICE_MIN_VALUE_IN_EURO));
+        Float minPrice = Float.parseFloat(this.tripConfigReader.fetchValue(TripAndBookingsConfigKeys.JUMPUP_TRIP_VALIDATION_PRICE_MIN_VALUE_IN_EURO));
         return minPrice;
     }
 

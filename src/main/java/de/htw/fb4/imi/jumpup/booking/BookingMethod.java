@@ -20,15 +20,7 @@ import de.htw.fb4.imi.jumpup.util.ErrorPrintable;
  */
 @Local
 public interface BookingMethod extends ErrorPrintable
-{
-
-    /**
-     * Get a {@link Trip} entity by ID.
-     * @param id
-     * @return
-     */
-    Trip getTripByID(long id);
-    
+{   
     /**
      * Prepare and persist the given booking.
      * 
@@ -43,11 +35,35 @@ public interface BookingMethod extends ErrorPrintable
      * Send the booking confirmation mail to the passenger.
      * @param booking
      */
-    void sendBookingConfirmationToPassenger(Booking booking);
+    void sendBookingCreationMailToPassenger(Booking booking);
     
     /**
      * Send the booking information mail to the driver.
      * @param booking
      */
-    void sendBookingInformationToDriver(Booking booking);
+    void sendBookingInformationMailToDriver(Booking booking);
+    
+    /**
+     * Driver confirms the booking.
+     * @param bookingId
+     */
+    void confirmBooking(Booking bookingId);
+    
+    /**
+     * Send booking confirmation mail to passenger.
+     * @param booking
+     */
+    void sendBookingConfirmationMailToPassenger(Booking booking);
+    
+    /**
+     * Driver cancels a passenger's booking.
+     * @param booking
+     */
+    void cancelBooking(Booking booking);
+    
+    /**
+     * Send booking cancellation mail to passenger.
+     * @param booking
+     */
+    void sendBookingCancelationMailToPassenger(Booking booking);
 }

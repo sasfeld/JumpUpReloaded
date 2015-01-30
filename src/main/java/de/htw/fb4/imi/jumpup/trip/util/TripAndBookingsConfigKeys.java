@@ -12,7 +12,7 @@ package de.htw.fb4.imi.jumpup.trip.util;
  * @since 17.01.2015
  *
  */
-public interface TripConfigKeys
+public interface TripAndBookingsConfigKeys
 {
     String JUMPUP_TRIP_VALIDATION_LOCATION_MIN_LENGTH = "jumpup.trip.validation.location.min_length";
     String JUMPUP_TRIP_VALIDATION_LOCATION_MAX_LENGTH = "jumpup.trip.validation.location.max_length";
@@ -31,4 +31,9 @@ public interface TripConfigKeys
     String JUMPUP_TRIP_CHANGED_MAIL_TEMPLATE_TXT = "jumpup.trip.changed.mail.template.txt";
     String JUMPUP_TRIP_CANCELED_MAIL_DRIVER_TEMPLATE_TXT = "jumpup.trip.canceled.mail_driver.template.txt";
     String JUMPUP_TRIP_CANCELED_MAIL_PASSENGER_TEMPLATE_TXT = "jumpup.trip.canceled.mail_passenger.template.txt";
+    
+    String JUMPUP_BOOKING_CREATED_MAIL_PASSENGER_TEMPLATE_TXT = "jumpup.booking.created.mail_passenger.template.txt";
+    String JUMPUP_BOOKING_CREATED_MAIL_DRIVER_TEMPLATE_TXT = "jumpup.booking.created.mail_driver.template.txt";
+    String JUMPUP_BOOKING_CONFIRMED_MAIL_PASSENGER_TEMPLATE_TXT = "jumpup.booking.confirmed.mail_passenger.template.txt";
+    String JUMPUP_BOOKING_CANCELED_MAIL_PASSENGER_TEMPLATE_TXT = "jumpup.booking.canceled.mail_passenger.template.txt";
 }

@@ -13,6 +13,7 @@ import de.htw.fb4.imi.jumpup.booking.BookingMethod;
 import de.htw.fb4.imi.jumpup.booking.entities.Booking;
 import de.htw.fb4.imi.jumpup.controllers.AbstractFacesController;
 import de.htw.fb4.imi.jumpup.settings.BeanNames;
+import de.htw.fb4.imi.jumpup.trip.TripDAO;
 import de.htw.fb4.imi.jumpup.trip.entities.Trip;
 
 /**
@@ -39,6 +40,9 @@ public class BookingDetailsController extends AbstractFacesController implements
 
     @Inject
     private BookingMethod bookingEJB;
+    
+    @Inject
+    private TripDAO tripDAO;
 
     private long tripId;
     
@@ -61,6 +65,16 @@ public class BookingDetailsController extends AbstractFacesController implements
                 
                 return null;
             }
+            
+            // try to send mail
+            bookingEJB.sendBookingCreationMailToPassenger(this.getBooking());
+            
+            if (bookingEJB.hasError()) {
+                addDisplayErrorMessage("Your booking was successful, but we couldn't send a confirmation mail. Please refer to your 'My bookings' page.");
+                return null;
+            }
+            
+            bookingEJB.sendBookingCreationMailToPassenger(this.getBooking());            
 
             // no error, redirect to booking page
             addDisplayInfoMessage("Your booking was successful! You will recieve an eMail with further information and are able to view the details in your booking overview.");
@@ -91,7 +105,7 @@ public class BookingDetailsController extends AbstractFacesController implements
     {
         if (null == this.trip) {
            try {
-               this.trip =  this.bookingEJB.getTripByID(this.getTripId());
+               this.trip =  this.tripDAO.getTripByID(this.getTripId());
            } catch (NoResultException e) {
                this.addDisplayErrorMessage("Could not find any matching trip.");
                return null;

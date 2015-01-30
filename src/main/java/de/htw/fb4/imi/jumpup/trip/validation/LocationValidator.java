@@ -8,7 +8,7 @@ package de.htw.fb4.imi.jumpup.trip.validation;
 import javax.inject.Named;
 
 import de.htw.fb4.imi.jumpup.settings.BeanNames;
-import de.htw.fb4.imi.jumpup.trip.util.TripConfigKeys;
+import de.htw.fb4.imi.jumpup.trip.util.TripAndBookingsConfigKeys;
 
 /**
  * <p>Validator for location strings, e.g. 'Berlin'.</p>
@@ -53,7 +53,7 @@ public class LocationValidator extends AbstractTripValidator
     @Override
     public int getMinLength()
     {
-        return Integer.parseInt(this.tripConfigReader.fetchValue(TripConfigKeys.JUMPUP_TRIP_VALIDATION_LOCATION_MIN_LENGTH));
+        return Integer.parseInt(this.tripConfigReader.fetchValue(TripAndBookingsConfigKeys.JUMPUP_TRIP_VALIDATION_LOCATION_MIN_LENGTH));
     }
 
     /* (non-Javadoc)
@@ -62,7 +62,7 @@ public class LocationValidator extends AbstractTripValidator
     @Override
     public int getMaxLength()
     {
-        return Integer.parseInt(this.tripConfigReader.fetchValue(TripConfigKeys.JUMPUP_TRIP_VALIDATION_LOCATION_MAX_LENGTH));
+        return Integer.parseInt(this.tripConfigReader.fetchValue(TripAndBookingsConfigKeys.JUMPUP_TRIP_VALIDATION_LOCATION_MAX_LENGTH));
     }
 
     @Override
