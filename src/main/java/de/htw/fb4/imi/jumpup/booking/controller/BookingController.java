@@ -7,6 +7,8 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.NoResultException;
 
+import org.apache.commons.lang.exception.ExceptionUtils;
+
 import de.htw.fb4.imi.jumpup.Application;
 import de.htw.fb4.imi.jumpup.Application.LogType;
 import de.htw.fb4.imi.jumpup.booking.BookingMethod;
@@ -52,8 +54,6 @@ public class BookingController extends AbstractFacesController implements
     private long tripId;
     
     protected Trip trip;    
-    
-    protected User driver;
 
     private Booking booking = new Booking();
 
@@ -81,7 +81,11 @@ public class BookingController extends AbstractFacesController implements
                 return null;
             }
             
-            bookingEJB.sendBookingInformationMailToDriver(this.getBooking(), this.getDriver());            
+            try {
+                bookingEJB.sendBookingInformationMailToDriver(this.getBooking(), this.getTrip().getDriver());
+            } catch (Exception e) {
+                Application.log("bindBookingData(): " + e.getMessage() + "\n" + ExceptionUtils.getFullStackTrace(e), LogType.ERROR, getClass());
+            }
 
             // no error, redirect to booking page
             addDisplayInfoMessage("Your booking was successful! You will recieve an eMail with further information and are able to view the details in your booking overview.");
@@ -106,21 +110,7 @@ public class BookingController extends AbstractFacesController implements
     public long getTripId()
     {
         return tripId;
-    }
-    
-    public User getDriver()
-    {
-        if (null == this.driver) {
-            try {
-                this.driver = this.userDAO.loadById(this.getTrip().getDriver().getIdentity());
-            } catch (NoResultException e) {
-                this.addDisplayErrorMessage("Could not find any matching driver.");
-                return null;
-            }
-        }
-        
-        return this.driver;
-    }
+    }   
     
     public Trip getTrip()
     {

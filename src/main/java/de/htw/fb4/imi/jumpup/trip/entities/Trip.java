@@ -113,7 +113,7 @@ public class Trip extends AbstractEntity
     @JoinColumn(name = "trips")
     protected Vehicle vehicle;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     protected User driver;
 
     @Column(name = "cancelation_datetime", nullable = true, updatable = true, unique = false)

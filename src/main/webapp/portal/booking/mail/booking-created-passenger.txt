@@ -9,7 +9,7 @@
 
 #{translator.translate('Your booking (partial trip)')}:
 
-- #{translator.translate('Start location')}: #{bookingController.booking.startLatitude}
+- #{translator.translate('Start location')}: #{bookingController.booking.startPoint}
 - #{translator.translate('Destination location')}: #{bookingController.booking.endPoint}
 
 #{translator.translate("Driver's route")}:
