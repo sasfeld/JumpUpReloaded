@@ -1,0 +1,30 @@
+#{translator.translate('Hello')} #{bookingController.trip.driver.prename},
+
+#{translator.translate('a passenger sent a booking request on your trip from ')}  #{bookingController.trip.startpoint} #{translator.translate('to')} #{bookingController.trip.endpoint}! 
+
+#{translator.translate('Check the booking request below:')}
+
+-------------------------------------
+
+#{translator.translate('Booking (partial trip)')}:
+
+- #{translator.translate('Start location')}: #{bookingController.booking.startLatitude}
+- #{translator.translate('Destination location')}: #{bookingController.booking.endPoint}
+
+#{translator.translate('Passenger information')}:
+
+- #{translator.translate('Name')}: #{bookingController.booking.passenger.prename} #{bookingController.booking.passenger.lastname}
+- #{translator.translate('Origin')}: #{bookingController.booking.passenger.town} (#translator.translate('Country')}: #{bookingController.booking.passenger.country})
+- #{translator.translate('eMail')}: #{bookingController.booking.passenger.eMail} 
+- #{translator.translate('User since')}:  #{localeHelper.formatDate(bookingController.booking.passenger.creationTimestamp)}
+
+#{translator.translate('You can now either confirm or decline the booking.')}
+#{translator.translate('If you want to confirm, please make sure to communicate an appropriate meeting point and time.')}
+
+-------------------------------------
+
+#{translator.translate('Confirm booking:')} #{navigationBean.toConfirmBooking(bookingController.booking.identity)}
+#{translator.translate('Decline booking:')} #{navigationBean.toDeclineBooking(bookingController.booking.identity)}
+
+#{translator.translate("Greetings")}, 
+#{translator.translate("Your JumpUp.Me - Team")}

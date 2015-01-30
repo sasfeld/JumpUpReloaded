@@ -27,9 +27,9 @@ import de.htw.fb4.imi.jumpup.trip.entities.Trip;
  * 
  */
 
-@Named(value = BeanNames.BOOKING_DETAILS_CONTROLLER)
+@Named(value = BeanNames.BOOKING_CONTROLLER)
 @RequestScoped
-public class BookingDetailsController extends AbstractFacesController implements
+public class BookingController extends AbstractFacesController implements
         Serializable
 {
 

@@ -22,7 +22,7 @@ public interface BeanNames
     String REGISTRATION_CONFIRMATION_CONTROLLER = "registrationConfirmationController";
     String LOGIN_CONTROLLER = "loginController";
 
-    String BOOKING_DETAILS_CONTROLLER = "bookingDetailsController";
+    String BOOKING_CONTROLLER = "bookingController";
 
     String WEBSITE_REGISTRATION = "website_registration";
     String WEBSITE_USER_DETAILS = "website_userDetails";

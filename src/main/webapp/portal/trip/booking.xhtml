@@ -11,14 +11,14 @@
 
 <ui:composition template="../../resources/templates/basic/BasicTemplate.xhtml">
 	<f:metadata>
-			<f:viewParam id="tripId" name="t" value="#{bookingDetailsController.tripId}" />
-			<f:viewParam id="startpoint" name="s" value="#{bookingDetailsController.booking.startPoint}" />
-			<f:viewParam id="endpoint" name="e" value="#{bookingDetailsController.booking.endPoint}" />
-			<f:viewParam id="startLatitude" name="sL" value="#{bookingDetailsController.booking.startLatitude}" />
-			<f:viewParam id="startLongitude" name="sLo" value="#{bookingDetailsController.booking.startLongitude}" />
-			<f:viewParam id="endLatitude" name="eL" value="#{bookingDetailsController.booking.endLatitude}" />
-			<f:viewParam id="endLongitude" name="eLo" value="#{bookingDetailsController.booking.endLongitude}" />
-			<f:viewParam id="bookingHash" name="h" value="#{bookingDetailsController.booking.bookingHash}" />
+			<f:viewParam id="tripId" name="t" value="#{bookingController.tripId}" />
+			<f:viewParam id="startpoint" name="s" value="#{bookingController.booking.startPoint}" />
+			<f:viewParam id="endpoint" name="e" value="#{bookingController.booking.endPoint}" />
+			<f:viewParam id="startLatitude" name="sL" value="#{bookingController.booking.startLatitude}" />
+			<f:viewParam id="startLongitude" name="sLo" value="#{bookingController.booking.startLongitude}" />
+			<f:viewParam id="endLatitude" name="eL" value="#{bookingController.booking.endLatitude}" />
+			<f:viewParam id="endLongitude" name="eLo" value="#{bookingController.booking.endLongitude}" />
+			<f:viewParam id="bookingHash" name="h" value="#{bookingController.booking.bookingHash}" />
 	</f:metadata>
 	
 	<ui:define name="content">
@@ -33,7 +33,7 @@
 						<trip:location 
 						jsfId="start_location"
 						label="Start location"
-						valueBinding="#{bookingDetailsController.booking.startPoint}"
+						valueBinding="#{bookingController.booking.startPoint}"
 						isRequired="required"
 						cssClass="start_location"
 						readOnly="true"
@@ -42,35 +42,35 @@
 						<trip:location 
 						jsfId="end_location"
 						label="End location"
-						valueBinding="#{bookingDetailsController.booking.endPoint}"
+						valueBinding="#{bookingController.booking.endPoint}"
 						isRequired="required"
 						cssClass="end_location"
 						readOnly="true"
 						validatorBean="#{locationValidator}"/>	
 							
 					<trip:latLng
-						valueBinding="#{bookingDetailsController.booking.startLatitude}"
+						valueBinding="#{bookingController.booking.startLatitude}"
 						isRequired="required"
 						cssClass="latitude_start"
 						readOnly="true"
 						validatorBean="#{latitudeValidator}"/>	
 						
 					<trip:latLng
-						valueBinding="#{bookingDetailsController.booking.startLongitude}"
+						valueBinding="#{bookingController.booking.startLongitude}"
 						isRequired="required"
 						cssClass="longitude_start"
 						readOnly="true"
 						validatorBean="#{longitudeValidator}"/>
 						
 					<trip:latLng
-						valueBinding="#{bookingDetailsController.booking.endLatitude}"
+						valueBinding="#{bookingController.booking.endLatitude}"
 						isRequired="required"
 						cssClass="latitude_end"
 						readOnly="true"
 						validatorBean="#{latitudeValidator}"/>	
 						
 					<trip:latLng
-						valueBinding="#{bookingDetailsController.booking.endLongitude}"
+						valueBinding="#{bookingController.booking.endLongitude}"
 						isRequired="required"
 						cssClass="longitude_end"
 						readOnly="true"
@@ -81,40 +81,40 @@
 					<trip:location 
 						jsfId="driver_start_location"
 						label="Start location"
-						valueBinding="#{bookingDetailsController.trip.startpoint}"
+						valueBinding="#{bookingController.trip.startpoint}"
 						cssClass="start_location"
 						readOnly="true"/>	
 						
 					<trip:location 
 						jsfId="driver_end_location"
 						label="End location"
-						valueBinding="#{bookingDetailsController.trip.endpoint}"
+						valueBinding="#{bookingController.trip.endpoint}"
 						cssClass="end_location"
 						readOnly="true"/>	
 						
 					<trip:datetime 
 						jsfId="driver_start_date_time"
 						label="Departure date and time"
-						valueBinding="#{bookingDetailsController.trip.startDateTime}"
+						valueBinding="#{bookingController.trip.startDateTime}"
 						readOnly="true"/>
 						
 					<trip:datetime 
 						jsfId="driver_end_date_time"
 						label="Estimated arrival date and time"
-						valueBinding="#{bookingDetailsController.trip.endDateTime}"
+						valueBinding="#{bookingController.trip.endDateTime}"
 						readOnly="true"/>	
 						
 					<trip:number_seats 
 						jsfId="driver_numberSeats"
 						label="Number of Seats"
-						valueBinding="#{bookingDetailsController.trip.numberOfSeats}"
+						valueBinding="#{bookingController.trip.numberOfSeats}"
 						readOnly="true"/>									
 						
 					
 					</h:panelGrid>
 					
 					<p>#{translator.translate('Do you want to book it')}?
-						<h:commandButton action="#{bookingDetailsController.bindBookingData}" value="#{translator.translate('Confirm booking')}" /> 		
+						<h:commandButton action="#{bookingController.bindBookingData}" value="#{translator.translate('Confirm booking')}" /> 		
 					</p>
 					<h:messages errorClass="errorMessage" infoClass="infoMessage" warnClass="warnMessage"></h:messages>
 			</h:form>

@@ -131,6 +131,21 @@ public class NavigationBean implements NavigationOutcomes
         return pathToApp() + "/portal/trip/cancel.xhtml" + "?trip=" + tripId;
     }
     
+    public String toViewBooking(Long bookingId)
+    {
+        return pathToApp() + "/portal/booking/view.xhtml" + "?booking=" + bookingId;
+    }
+    
+    public String toConfirmBooking(Long bookingId)
+    {
+        return toViewBooking(bookingId) + "&a=" + "confirm";
+    }
+    
+    public String toDeclineBooking(Long bookingId)
+    {
+        return toViewBooking(bookingId) + "&a=" + "decline";
+    }
+    
     public String toListOfferedTrips()
     {
         return TO_LIST_OFFERED_TRIPS;
