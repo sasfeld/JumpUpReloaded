@@ -15,6 +15,8 @@ import de.htw.fb4.imi.jumpup.controllers.AbstractFacesController;
 import de.htw.fb4.imi.jumpup.settings.BeanNames;
 import de.htw.fb4.imi.jumpup.trip.TripDAO;
 import de.htw.fb4.imi.jumpup.trip.entities.Trip;
+import de.htw.fb4.imi.jumpup.user.UserDAO;
+import de.htw.fb4.imi.jumpup.user.entities.User;
 
 /**
  * 
@@ -43,10 +45,15 @@ public class BookingController extends AbstractFacesController implements
     
     @Inject
     private TripDAO tripDAO;
+    
+    @Inject
+    private UserDAO userDAO;
 
     private long tripId;
     
-    protected Trip trip;
+    protected Trip trip;    
+    
+    protected User driver;
 
     private Booking booking = new Booking();
 
@@ -74,7 +81,7 @@ public class BookingController extends AbstractFacesController implements
                 return null;
             }
             
-            bookingEJB.sendBookingCreationMailToPassenger(this.getBooking());            
+            bookingEJB.sendBookingInformationMailToDriver(this.getBooking(), this.getDriver());            
 
             // no error, redirect to booking page
             addDisplayInfoMessage("Your booking was successful! You will recieve an eMail with further information and are able to view the details in your booking overview.");
@@ -99,6 +106,20 @@ public class BookingController extends AbstractFacesController implements
     public long getTripId()
     {
         return tripId;
+    }
+    
+    public User getDriver()
+    {
+        if (null == this.driver) {
+            try {
+                this.driver = this.userDAO.loadById(this.getTrip().getDriver().getIdentity());
+            } catch (NoResultException e) {
+                this.addDisplayErrorMessage("Could not find any matching driver.");
+                return null;
+            }
+        }
+        
+        return this.driver;
     }
     
     public Trip getTrip()

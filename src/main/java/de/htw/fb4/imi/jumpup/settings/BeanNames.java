@@ -76,5 +76,6 @@ public interface BeanNames
     
     String TRIP_DAO = "tripDAO";
     String BOOKING_DAO = "bookingDAO";
+    String USER_DAO = "userDAO";
 
 }

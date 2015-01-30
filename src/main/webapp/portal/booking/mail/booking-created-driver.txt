@@ -1,4 +1,4 @@
-#{translator.translate('Hello')} #{bookingController.trip.driver.prename},
+#{translator.translate('Hello')} #{bookingController.driver.prename},
 
 #{translator.translate('a passenger sent a booking request on your trip from ')}  #{bookingController.trip.startpoint} #{translator.translate('to')} #{bookingController.trip.endpoint}! 
 

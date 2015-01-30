@@ -39,6 +39,7 @@ import de.htw.fb4.imi.jumpup.user.util.HashGenerable;
 @Entity
 @Table(name = "user")
 @NamedQueries({
+        @NamedQuery(name = User.NAME_QUERY_BY_ID, query = "SELECT u FROM User u WHERE u.identity = :identity"),
         @NamedQuery(name = User.NAME_QUERY_BY_USERNAME, query = "SELECT u FROM User u WHERE u.username = :username"),
         @NamedQuery(name = User.NAME_QUERY_BY_EMAIL, query = "SELECT u FROM User u WHERE u.eMail = :email"),
         @NamedQuery(name = User.NAME_QUERY_LOGIN, query = "SELECT u FROM User u "
@@ -50,6 +51,11 @@ public class User extends AbstractEntity
      * 
      */
     private static final long serialVersionUID = -4397896384511726160L;
+    
+    /**
+     * Name of named query to fetch users by ID.
+     */
+    public static final String NAME_QUERY_BY_ID = "User.fetchByIdentity";
     /**
      * Name of named query to fetch users by username.
      */

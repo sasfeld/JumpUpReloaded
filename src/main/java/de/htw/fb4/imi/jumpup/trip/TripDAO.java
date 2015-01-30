@@ -26,5 +26,12 @@ public interface TripDAO
      * @return
      */
     Trip getTripByID(long identity);
+    
+    /**
+     * Force the join of the driver.
+     * 
+     * @param trip
+     */
+    void joinDriver(Trip trip);
 
 }

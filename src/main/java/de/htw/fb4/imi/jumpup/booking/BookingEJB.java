@@ -194,22 +194,22 @@ public class BookingEJB implements BookingMethod
      * de.htw.fb4.imi.jumpup.booking.BookingMethod#sendBookingInformationToDriver
      * (de.htw.fb4.imi.jumpup.booking.entities.Booking)
      */
-    public void sendBookingInformationMailToDriver(Booking booking)
+    public void sendBookingInformationMailToDriver(Booking booking, User driver)
     {
         try {
             buildTxtMail(TripAndBookingsConfigKeys.JUMPUP_BOOKING_CREATED_MAIL_DRIVER_TEMPLATE_TXT);
             MailModel m = this.mailBuilder.getBuildedMailModel()
-                    .addRecipient(new InternetAddress(booking.getTrip().getDriver().geteMail()))
+                    .addRecipient(new InternetAddress(driver.geteMail()))
                     .setSubject(this.translator.translate("JumpUp.Me - You got one new booking request"));
             
             this.mailAdapter.sendHtmlMail(m);
         } catch (AddressException e) {
-            Application.log("sendBookingCreationMailToPassenger(): the recipient mail of the driver is malformed. Will not set the sender.\nException: "
+            Application.log("sendBookingInformationMailToDriver(): the recipient mail of the driver is malformed. Will not set the sender.\nException: "
                     + e.getMessage() + "\n"
                     + ExceptionUtils.getFullStackTrace(e), LogType.ERROR, getClass());
             this.errors.add("We could not send the booking mail.");
         } catch (Exception e) {
-            Application.log("sendBookingCreationMailToPassenger(): error while sending booking creation mail to driver.\nException: "
+            Application.log("sendBookingInformationMailToDriver(): error while sending booking creation mail to driver.\nException: "
                     + e.getMessage() + "\n"
                     + ExceptionUtils.getFullStackTrace(e), LogType.ERROR, getClass());
             this.errors.add("We could not send the booking mail.");

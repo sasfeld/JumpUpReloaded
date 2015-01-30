@@ -9,6 +9,7 @@ import javax.ejb.Local;
 
 import de.htw.fb4.imi.jumpup.booking.entities.Booking;
 import de.htw.fb4.imi.jumpup.trip.entities.Trip;
+import de.htw.fb4.imi.jumpup.user.entities.User;
 import de.htw.fb4.imi.jumpup.util.ErrorPrintable;
 
 /**
@@ -41,7 +42,7 @@ public interface BookingMethod extends ErrorPrintable
      * Send the booking information mail to the driver.
      * @param booking
      */
-    void sendBookingInformationMailToDriver(Booking booking);
+    void sendBookingInformationMailToDriver(Booking booking, User driver);
     
     /**
      * Driver confirms the booking.
