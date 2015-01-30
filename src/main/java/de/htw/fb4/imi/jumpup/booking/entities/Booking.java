@@ -69,7 +69,7 @@ public class Booking extends AbstractEntity
     @Column(name = "endLongitude", nullable = false, updatable = true, unique = false)
     private float endLongitude;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "tripIdentity")
     private Trip trip;
 
@@ -208,7 +208,7 @@ public class Booking extends AbstractEntity
     {
         boolean wasConfirmed = null != this.getConfirmationDateTime();
 
-        return wasConfirmed;
+        return wasConfirmed && !wasCancelled();
     }
     
     /**

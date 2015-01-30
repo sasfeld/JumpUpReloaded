@@ -11,14 +11,15 @@ import org.apache.commons.lang.exception.ExceptionUtils;
 
 import de.htw.fb4.imi.jumpup.Application;
 import de.htw.fb4.imi.jumpup.Application.LogType;
+import de.htw.fb4.imi.jumpup.booking.BookingDAO;
 import de.htw.fb4.imi.jumpup.booking.BookingMethod;
 import de.htw.fb4.imi.jumpup.booking.entities.Booking;
 import de.htw.fb4.imi.jumpup.controllers.AbstractFacesController;
+import de.htw.fb4.imi.jumpup.navigation.NavigationBean;
 import de.htw.fb4.imi.jumpup.settings.BeanNames;
 import de.htw.fb4.imi.jumpup.trip.TripDAO;
 import de.htw.fb4.imi.jumpup.trip.entities.Trip;
 import de.htw.fb4.imi.jumpup.user.UserDAO;
-import de.htw.fb4.imi.jumpup.user.entities.User;
 
 /**
  * 
@@ -50,12 +51,51 @@ public class BookingController extends AbstractFacesController implements
     
     @Inject
     private UserDAO userDAO;
-
+    
+    @Inject
+    private BookingDAO bookingDAO;
+    
     private long tripId;
     
+    private Long bookingId;    
+    
     protected Trip trip;    
+    
+    protected String action;
 
-    private Booking booking = new Booking();
+    private Booking booking;
+
+    /**
+     * @return the action
+     */
+    public String getAction()
+    {
+        return action;
+    }
+
+    /**
+     * @param action the action to set
+     */
+    public void setAction(String action)
+    {
+        this.action = action;
+    }
+
+    /**
+     * @return the bookingId
+     */
+    public Long getBookingId()
+    {
+        return bookingId;
+    }
+
+    /**
+     * @param bookingId the bookingId to set
+     */
+    public void setBookingId(Long bookingId)
+    {
+        this.bookingId = bookingId;
+    }
 
     /**
      * Bind-booking-data action.
@@ -96,9 +136,93 @@ public class BookingController extends AbstractFacesController implements
 
         return null;
     }
+    
+    /**
+     * Confirm booking action.
+     * 
+     * @return
+     */
+    public String confirm()
+    {
+        try {
+            bookingEJB.confirmBooking(this.getBooking());
+            
+            if (bookingEJB.hasError()) {
+                // show first error message
+                this.addDisplayErrorMessage(bookingEJB.getErrors()[0]);
+                
+                return null;
+            }
+            
+            // try to send mail
+            bookingEJB.sendBookingConfirmationMailToPassenger(this.getBooking());
+            
+            if (bookingEJB.hasError()) {
+                addDisplayErrorMessage("The booking was confirmed, but we couldn't send an eMail to the passenger. Please refer to your 'My bookings' page.");
+                return null;
+            }
+
+            // no error, redirect to booking page
+            addDisplayInfoMessage("The booking was confirmed successfully!");
+        } catch (Exception e) {
+            Application.log(e.getMessage(), LogType.ERROR, getClass());
+            addDisplayErrorMessage("We determined some error. Please contact our customer care team.");
+        }
+
+        return NavigationBean.TO_LIST_OFFERED_TRIPS;
+    }
+    
+    /**
+     * Cancel booking action.
+     * 
+     * @return
+     */
+    public String cancel()
+    {
+        try {
+            bookingEJB.cancelBooking(this.getBooking());
+            
+            if (bookingEJB.hasError()) {
+                // show first error message
+                this.addDisplayErrorMessage(bookingEJB.getErrors()[0]);
+                
+                return null;
+            }
+            
+            // try to send mail
+            bookingEJB.sendBookingCancelationMailToPassenger(this.getBooking());
+            
+            if (bookingEJB.hasError()) {
+                addDisplayErrorMessage("The booking was cancelled, but we couldn't send an eMail to the passenger. Please refer to your 'My bookings' page.");
+                return null;
+            }
+
+            // no error, redirect to booking page
+            addDisplayInfoMessage("The booking was cancelled successfully!");
+        } catch (Exception e) {
+            Application.log(e.getMessage(), LogType.ERROR, getClass());
+            addDisplayErrorMessage("We determined some error. Please contact our customer care team.");
+        }
+
+        return NavigationBean.TO_LIST_OFFERED_TRIPS;
+    }
 
     public Booking getBooking()
     {
+        if (null == this.booking) {
+            // try to load by ID
+            if (null != this.bookingId) {
+                try {
+                    this.booking = this.bookingDAO.queryById(this.bookingId);
+                    this.tripId = this.booking.getTrip().getIdentity();
+                } catch (NoResultException e) {
+                    this.addDisplayErrorMessage("Could not find booking.");
+                }                
+            } else {
+                this.booking = new Booking();
+            }
+        }
+        
         return booking;
     }
 
