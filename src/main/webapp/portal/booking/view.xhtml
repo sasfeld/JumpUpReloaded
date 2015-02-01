@@ -19,79 +19,66 @@
 		
 		<div>
 		#{translator.translate('This user requested the following (partial) trip')}: <br />
-		 
-					 <h:panelGrid id="grid" columns="1">
-										
-						<trip:location 
-						jsfId="start_location"
-						label="Start location"
-						valueBinding="#{bookingController.booking.startPoint}"
-						isRequired="required"
-						cssClass="start_location"
-						readOnly="true"/>	
-						
-						<trip:location 
-						jsfId="end_location"
-						label="End location"
-						valueBinding="#{bookingController.booking.endPoint}"
-						isRequired="required"
-						cssClass="end_location"
-						readOnly="true"/>							
-					
-					
-					<p>#{translator.translate('Trip information')}</p>
-					
-					<trip:location 
-						jsfId="driver_start_location"
-						label="Start location"
-						valueBinding="#{bookingController.trip.startpoint}"
-						cssClass="start_location"
-						readOnly="true"/>	
-						
-					<trip:location 
-						jsfId="driver_end_location"
-						label="End location"
-						valueBinding="#{bookingController.trip.endpoint}"
-						cssClass="end_location"
-						readOnly="true"/>	
-						
-					<trip:datetime 
-						jsfId="driver_start_date_time"
-						label="Departure date and time"
-						valueBinding="#{bookingController.trip.startDateTime}"
-						readOnly="true"/>
-						
-					<trip:datetime 
-						jsfId="driver_end_date_time"
-						label="Estimated arrival date and time"
-						valueBinding="#{bookingController.trip.endDateTime}"
-						readOnly="true"/>	
-						
-					<trip:number_seats 
-						jsfId="driver_numberSeats"
-						label="Number of Seats"
-						valueBinding="#{bookingController.trip.numberOfSeats}"
-						readOnly="true"/>									
-						
-					
-					</h:panelGrid>
-					
-					<c:choose>
-						<c:when test="#{bookingController.action == 'confirm'}">
+									
+					<h:form id="bookingForm" rendered="#{bookingController.action == 'confirm'}">		 
+							 <h:panelGrid id="grid" columns="1">	
+								<trip:location 
+								jsfId="start_location"
+								label="Start location"
+								valueBinding="#{bookingController.booking.startPoint}"
+								isRequired="required"
+								cssClass="start_location"
+								readOnly="true"/>	
+								
+								<trip:location 
+								jsfId="end_location"
+								label="End location"
+								valueBinding="#{bookingController.booking.endPoint}"
+								isRequired="required"
+								cssClass="end_location"
+								readOnly="true"/>							
+							
+							
+							<p>#{translator.translate('Trip information')}</p>
+							
+							<trip:location 
+								jsfId="driver_start_location"
+								label="Start location"
+								valueBinding="#{bookingController.trip.startpoint}"
+								cssClass="start_location"
+								readOnly="true"/>	
+								
+							<trip:location 
+								jsfId="driver_end_location"
+								label="End location"
+								valueBinding="#{bookingController.trip.endpoint}"
+								cssClass="end_location"
+								readOnly="true"/>	
+								
+							<trip:datetime 
+								jsfId="driver_start_date_time"
+								label="Departure date and time"
+								valueBinding="#{bookingController.trip.startDateTime}"
+								readOnly="true"/>
+								
+							<trip:datetime 
+								jsfId="driver_end_date_time"
+								label="Estimated arrival date and time"
+								valueBinding="#{bookingController.trip.endDateTime}"
+								readOnly="true"/>	
+								
+							<trip:number_seats 
+								jsfId="driver_numberSeats"
+								label="Number of Seats"
+								valueBinding="#{bookingController.trip.numberOfSeats}"
+								readOnly="true"/>	
+								
 							<p>#{translator.translate('Do you want to confirm it')}?
-								<h:form id="bookingForm">
-									<h:commandButton actionListener="#{bookingController.confirm}" value="#{translator.translate('Confirm booking')}" render=":bookingForm"/>
-								</h:form> 		
+									<h:commandButton actionListener="#{bookingController.confirm}" value="#{translator.translate('Confirm booking')}"/>		
 							</p>
-						</c:when>
-						<c:when test="#{bookingController.action == 'cancel'}">
-							<p>#{translator.translate('Do you want to cancel it')}?
-								<h:commandButton action="#{bookingController.cancel}" value="#{translator.translate('Cancel booking')}" /> 		
-							</p>						
-						</c:when> 
-					</c:choose>
-					
-					<h:messages errorClass="errorMessage" infoClass="infoMessage" warnClass="warnMessage"></h:messages>
+						</h:panelGrid>		
+					</h:form>											
+						<h:messages errorClass="errorMessage" infoClass="infoMessage" warnClass="warnMessage"></h:messages>
 		</div>
 		
 		

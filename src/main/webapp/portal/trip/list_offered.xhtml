@@ -95,12 +95,16 @@
 											<c:choose>
 												<c:when test="#{booking.wasConfirmed()}">
 													#{translator.translate("Confirmed on ")} #{localeHelper.formatDate(booking.confirmationDateTime)}
-												</c:when>
-												<c:when test="#{booking.wasCancelled()}">
-													#{translator.translate("Cancelled on ")} #{localeHelper.formatDate(booking.cancellationDateTime)}
-												</c:when>	
+												</c:when>												
 												<c:otherwise>
-													#{translator.translate("Requested on ")} #{localeHelper.formatDate(booking.creationTimestamp)}
+													<c:choose>
+														<c:when test="#{booking.wasCancelled()}">
+														#{translator.translate("Cancelled on ")} #{localeHelper.formatDate(booking.cancellationDateTime)}
+														</c:when>	
+														<c:otherwise>
+														#{translator.translate("Requested on ")} #{localeHelper.formatDate(booking.creationTimestamp)}
+														</c:otherwise>
+													</c:choose>
 												</c:otherwise>										
 											</c:choose>
 										</h:column>

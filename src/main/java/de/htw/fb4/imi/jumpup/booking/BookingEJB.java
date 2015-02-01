@@ -248,6 +248,7 @@ public class BookingEJB implements BookingMethod
      */
     public void confirmBooking(Booking booking)
     {
+        this.reset();
         try {
             this.confirmBookingIfNotCanceledAndDoneYet(booking);
         } catch (Exception e) {
@@ -280,6 +281,7 @@ public class BookingEJB implements BookingMethod
      */
     public void sendBookingConfirmationMailToPassenger(Booking booking)
     {
+        this.reset();
         try {
             buildTxtMail(TripAndBookingsConfigKeys.JUMPUP_BOOKING_CONFIRMED_MAIL_PASSENGER_TEMPLATE_TXT);
             MailModel m = this.mailBuilder.getBuildedMailModel()
@@ -307,6 +309,7 @@ public class BookingEJB implements BookingMethod
      */
     public void cancelBooking(Booking booking)
     {
+        this.reset();
         try {
             this.cancelBookingIfCanBeCancelled(booking);
         } catch (Exception e) {
@@ -334,6 +337,8 @@ public class BookingEJB implements BookingMethod
      */
     public void sendBookingCancelationMailToPassenger(Booking booking)
     {
+        this.reset();
+        
         try {
             buildTxtMail(TripAndBookingsConfigKeys.JUMPUP_BOOKING_CANCELED_MAIL_PASSENGER_TEMPLATE_TXT);
             MailModel m = this.mailBuilder.getBuildedMailModel()
