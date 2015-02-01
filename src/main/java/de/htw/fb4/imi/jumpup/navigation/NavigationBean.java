@@ -43,6 +43,7 @@ public class NavigationBean implements NavigationOutcomes
 
     private static final String UTF_8 = "UTF-8";
 
+
     /**
      * Path to registration index.
      * @return
@@ -170,6 +171,11 @@ public class NavigationBean implements NavigationOutcomes
         return pathToAppFallback() + "/portal/trip/booking.xhtml";
     }
     
+    public String toListBookings()
+    {
+        return TO_LIST_BOOKINGS;
+    }
+    
     public String toEditProfile(boolean prependWebAppPath)
     {
         String path = "";
@@ -205,6 +211,7 @@ public class NavigationBean implements NavigationOutcomes
         
         return toAddBooking() + urlBuilder.toString();
     }
+    
 
     private String toString(float value)
     {

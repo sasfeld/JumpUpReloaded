@@ -37,6 +37,7 @@ import de.htw.fb4.imi.jumpup.user.entities.User;
         @NamedQuery(name = Booking.NAME_QUERY_BY_STARTPOINT, query = "SELECT b FROM Booking b WHERE b.startPoint = :startpoint"),
         @NamedQuery(name = Booking.NAME_QUERY_BY_ENDPOINT, query = "SELECT b FROM Booking b WHERE b.endPoint = :endpoint"),
         @NamedQuery(name = Booking.NAME_QUERY_BY_ID, query = "SELECT b FROM Booking b WHERE b.identity = :identity"),
+        @NamedQuery(name = Booking.NAME_QUERY_BY_PASSENGER, query = "SELECT b FROM Booking b WHERE b.passenger = :passenger"),
         @NamedQuery(name = Booking.NAME_QUERY_BY_TRIP, query = "SELECT b FROM Booking b WHERE b.trip = :trip") })
 public class Booking extends AbstractEntity
 {
@@ -44,6 +45,7 @@ public class Booking extends AbstractEntity
     public static final String NAME_QUERY_BY_STARTPOINT = "BOOKING_QUERY_BY_STARTPOINT";
     public static final String NAME_QUERY_BY_ENDPOINT = "BOOKING_QUERY_BY_ENDPOINT";
     public static final String NAME_QUERY_BY_TRIP = "BOOKING_QUERY_BY_TRIP";
+    public static final String NAME_QUERY_BY_PASSENGER = "BOOKING_QUERY_BY_PASSENGER";
     public static final String NAME_QUERY_BY_ID = "BOOKING_QUERY_BY_ID";
 
     /**

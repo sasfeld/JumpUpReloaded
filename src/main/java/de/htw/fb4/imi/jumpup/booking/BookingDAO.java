@@ -11,6 +11,7 @@ import javax.ejb.Local;
 
 import de.htw.fb4.imi.jumpup.booking.entities.Booking;
 import de.htw.fb4.imi.jumpup.trip.entities.Trip;
+import de.htw.fb4.imi.jumpup.user.entities.User;
 
 /**
  * <p>Data access object class for performing {@link Booking} database operations.</p>
@@ -36,4 +37,11 @@ public interface BookingDAO
      * @param booking
      */
     void save(Booking booking);
+
+    /**
+     * Get all bookings done by the given passenger.
+     * @param currentUser
+     * @return
+     */
+    List<Booking> getBookingsByPassenger(User currentUser);
 }

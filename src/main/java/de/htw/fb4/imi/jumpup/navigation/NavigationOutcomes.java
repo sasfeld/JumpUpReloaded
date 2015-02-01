@@ -24,7 +24,7 @@ public interface NavigationOutcomes
     
     String LOGIN_SUCCESS = "login_success";
     
-    String LOGOUT_SUCCESS = "logout_success";
+    String LOGOUT_SUCCESS = "/index.xhtml?faces-redirect=true";
     
     String LOGOUT_FAILURE = "logout_failure";
     
@@ -38,6 +38,8 @@ public interface NavigationOutcomes
     
     String TO_LIST_OFFERED_TRIPS = "to_list_offered_trips";
     
-    String TO_LOOK_FOR_TRIPS = "to_look_for_trips";
+    String TO_LOOK_FOR_TRIPS = "to_look_for_trips";    
+
+    String TO_LIST_BOOKINGS = "to_list_bookings";
    
 }

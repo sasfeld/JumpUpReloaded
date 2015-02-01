@@ -23,6 +23,7 @@ public interface BeanNames
     String LOGIN_CONTROLLER = "loginController";
 
     String BOOKING_CONTROLLER = "bookingController";
+    String BOOKING_LIST_CONTROLLER = "bookingListController";
 
     String WEBSITE_REGISTRATION = "website_registration";
     String WEBSITE_USER_DETAILS = "website_userDetails";

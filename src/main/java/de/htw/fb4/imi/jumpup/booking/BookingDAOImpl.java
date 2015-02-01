@@ -11,11 +11,15 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
+import de.htw.fb4.imi.jumpup.Application;
+import de.htw.fb4.imi.jumpup.Application.LogType;
 import de.htw.fb4.imi.jumpup.booking.entities.Booking;
 import de.htw.fb4.imi.jumpup.settings.BeanNames;
 import de.htw.fb4.imi.jumpup.settings.PersistenceSettings;
 import de.htw.fb4.imi.jumpup.trip.entities.Trip;
+import de.htw.fb4.imi.jumpup.user.entities.User;
 
 /**
  * <p></p>
@@ -61,9 +65,23 @@ public class BookingDAOImpl implements BookingDAO
      */
     public List<Booking> getBookingsByTrip(Trip trip)
     {
-        final Query query = this.em.createNamedQuery(Booking.NAME_QUERY_BY_TRIP,
+        final TypedQuery<Booking> query = this.em.createNamedQuery(Booking.NAME_QUERY_BY_TRIP,
             Booking.class);
         query.setParameter("trip", trip);
+        return query.getResultList(); 
+    }
+
+    @Override
+    /*
+     * (non-Javadoc)
+     * @see de.htw.fb4.imi.jumpup.booking.BookingDAO#getBookingsByPassenger(de.htw.fb4.imi.jumpup.user.entities.User)
+     */
+    public List<Booking> getBookingsByPassenger(User passenger)
+    {
+        Application.log("getBookingsByPassenger(): passenger " + passenger, LogType.DEBUG, getClass());
+        final TypedQuery<Booking> query = this.em.createNamedQuery(Booking.NAME_QUERY_BY_PASSENGER,
+                Booking.class);
+        query.setParameter("passenger", passenger);
         return query.getResultList(); 
     }
 

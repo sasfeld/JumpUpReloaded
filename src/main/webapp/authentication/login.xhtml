@@ -34,10 +34,13 @@
 					<div>
 						<h:panelGrid columns="2">
 							<h:link value="#{translator.translate('Profile')}" outcome="#{navigationBean.toUserProfileEdit()}"></h:link>
-							<h:link value="#{translator.translate('Look for trips')}" outcome="#{navigationBean.toLookForTrips()}"></h:link>
+							<h:outputText value="" />
 							
 							<h:link value="#{translator.translate('Offer trip')}" outcome="#{navigationBean.toAddTrip()}"></h:link>
 							<h:link value="#{translator.translate('Show my trips')}" outcome="#{navigationBean.toListOfferedTrips()}"></h:link>
+							
+							<h:link value="#{translator.translate('Look for trips')}" outcome="#{navigationBean.toLookForTrips()}"></h:link>
+							<h:link value="#{translator.translate('Show my bookings')}" outcome="#{navigationBean.toListBookings()}"></h:link>
 						</h:panelGrid>		
 								
 						<h:form>
