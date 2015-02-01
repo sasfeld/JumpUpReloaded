@@ -13,7 +13,7 @@
 	<f:metadata>
 			<f:viewParam id="bookingId" name="booking" value="#{bookingController.bookingId}" />
 			<f:viewParam id="startpoint" name="a" value="#{bookingController.action}" />
-			<f:event listener="#{bookingController.currentUserMustBeDriver()}" type="preRenderView"></f:event>
+			<f:event listener="#{bookingController.currentUserMustBeDriverOrPassenger()}" type="preRenderView"></f:event>
 	</f:metadata>
 	
 	<ui:define name="content">

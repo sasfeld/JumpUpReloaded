@@ -67,4 +67,10 @@ public interface BookingMethod extends ErrorPrintable
      * @param booking
      */
     void sendBookingCancelationMailToPassenger(Booking booking);
+
+    /**
+     * Send booking cancellation (done by passenger) to the driver.
+     * @param booking
+     */
+    void sendBookingCancelationMailToDriver(Booking booking);
 }

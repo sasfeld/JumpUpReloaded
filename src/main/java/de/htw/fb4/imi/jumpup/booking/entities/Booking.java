@@ -75,7 +75,7 @@ public class Booking extends AbstractEntity
     @JoinColumn(name = "tripIdentity")
     private Trip trip;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "passengerIdentity")
     private User passenger;
     
@@ -248,8 +248,7 @@ public class Booking extends AbstractEntity
         return "Booking [startPoint=" + startPoint + ", endPoint=" + endPoint
                 + ", startLatitude=" + startLatitude + ", startLongitude="
                 + startLongitude + ", endLatitude=" + endLatitude
-                + ", endLongitude=" + endLongitude + ", trip=" + trip
-                + ", passenger=" + passenger + "]";
+                + ", endLongitude=" + endLongitude + ", trip=" + trip;
     }
 
     @Override

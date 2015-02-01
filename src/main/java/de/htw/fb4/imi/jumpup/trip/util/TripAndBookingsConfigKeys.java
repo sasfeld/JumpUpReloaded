@@ -36,4 +36,5 @@ public interface TripAndBookingsConfigKeys
     String JUMPUP_BOOKING_CREATED_MAIL_DRIVER_TEMPLATE_TXT = "jumpup.booking.created.mail_driver.template.txt";
     String JUMPUP_BOOKING_CONFIRMED_MAIL_PASSENGER_TEMPLATE_TXT = "jumpup.booking.confirmed.mail_passenger.template.txt";
     String JUMPUP_BOOKING_CANCELED_MAIL_PASSENGER_TEMPLATE_TXT = "jumpup.booking.canceled.mail_passenger.template.txt";
+    String JUMPUP_BOOKING_CANCELED_MAIL_DRIVER_TEMPLATE_TXT = "jumpup.booking.canceled.mail_driver.template.txt";
 }

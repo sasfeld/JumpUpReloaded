@@ -69,7 +69,7 @@ public class Trip extends AbstractEntity
      */
     private static final long serialVersionUID = -3854579506642418644L;
 
-    @OneToMany(mappedBy = "trip")
+    @OneToMany(mappedBy = "trip", fetch = FetchType.EAGER)
     private List<Booking> bookings;
 
     @Column(name = "startpoint", nullable = false, updatable = true, unique = false)

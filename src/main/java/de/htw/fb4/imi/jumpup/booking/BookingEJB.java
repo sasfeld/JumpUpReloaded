@@ -266,6 +266,12 @@ public class BookingEJB implements BookingMethod
     {
         return this.getCurrentUser().getIdentity() != booking.getTrip().getDriver().getIdentity();
     }
+    
+    private boolean currentUserIsNotDriverAndPassenger(Booking booking)
+    {
+        return this.getCurrentUser().getIdentity() != booking.getTrip().getDriver().getIdentity()
+             && this.getCurrentUser().getIdentity() != booking.getPassenger().getIdentity()  ;
+    }
 
     private void confirmBookingIfNotCanceledAndDoneYet(Booking booking)
     {
@@ -321,7 +327,7 @@ public class BookingEJB implements BookingMethod
     {
         this.reset();
         try {
-            if (this.currentUserIsNotDriver(booking)) {
+            if (this.currentUserIsNotDriverAndPassenger(booking)) {
                 this.errors.add("You are not the driver of this trip and therefore can't modify bookings.");
                 return;
             }
@@ -372,6 +378,32 @@ public class BookingEJB implements BookingMethod
                     + ExceptionUtils.getFullStackTrace(e), LogType.ERROR, getClass());
             this.errors.add("We could not send the booking cancelation mail.");
         }                
+    }
+
+    @Override
+    public void sendBookingCancelationMailToDriver(Booking booking)
+    {
+        this.reset();
+        
+        try {
+            buildTxtMail(TripAndBookingsConfigKeys.JUMPUP_BOOKING_CANCELED_MAIL_DRIVER_TEMPLATE_TXT);
+            MailModel m = this.mailBuilder.getBuildedMailModel()
+                    .addRecipient(new InternetAddress(booking.getTrip().getDriver().geteMail()))
+                    .setSubject(this.translator.translate("JumpUp.Me - A booking was canceled by the passenger"));
+            
+            this.mailAdapter.sendHtmlMail(m);
+        } catch (AddressException e) {
+            Application.log("sendBookingCancelationMailToDriver(): the recipient mail of the passenger is malformed. Will not set the sender.\nException: "
+                    + e.getMessage() + "\n"
+                    + ExceptionUtils.getFullStackTrace(e), LogType.ERROR, getClass());
+            this.errors.add("We could not send the booking cancelation mail.");
+        } catch (Exception e) {
+            Application.log("sendBookingCancelationMailToDriver(): error while sending booking cancelation mail to the passenger.\nException: "
+                    + e.getMessage() + "\n"
+                    + ExceptionUtils.getFullStackTrace(e), LogType.ERROR, getClass());
+            this.errors.add("We could not send the booking cancelation mail.");
+        }                
+        
     }
 
 }

@@ -53,7 +53,7 @@
 							<f:facet name="header">#{translator.translate('Driver')}</f:facet>
 							
 							#{booking.trip.driver.prename}  #{booking.trip.driver.lastname} <br />
-							#{booking.trip.driver.email} <br />
+							<a href="mailto:#{booking.trip.driver.eMail}">#{booking.trip.driver.eMail}</a> <br />
 						</h:column>
 						
 						<h:column>
@@ -72,7 +72,7 @@
 							<f:facet name="header">#{translator.translate("Status")}</f:facet>
 											
 							<h:outputText rendered="#{booking.wasConfirmed()}" value="#{translator.translate('Confirmed by driver on ').concat(localeHelper.formatDate(booking.confirmationDateTime))}"/>
-							<h:outputText rendered="#{booking.wasCancelled()}" value="#{translator.translate('Cancelled by driver on ').concat(localeHelper.formatDate(booking.cancellationDateTime))}" />
+							<h:outputText rendered="#{booking.wasCancelled()}" value="#{translator.translate('Cancelled on ').concat(localeHelper.formatDate(booking.cancellationDateTime))}" />
 							<h:outputText rendered="#{!booking.wasCancelled() and !booking.wasConfirmed()}" value="#{translator.translate('Requested on: ').concat(localeHelper.formatDate(booking.creationTimestamp))}" />
 						</h:column>
 											

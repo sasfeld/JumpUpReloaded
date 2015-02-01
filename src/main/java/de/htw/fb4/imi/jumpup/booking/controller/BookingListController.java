@@ -50,12 +50,20 @@ public class BookingListController extends AbstractFacesController implements Se
     public List<Booking> getPassengerBookings()
     {
         if (null == this.passengerBookings) {
-            this.passengerBookings = this.bookingDAO.getBookingsByPassenger(loginController.getLoginModel().getCurrentUser());
+            this.refresh();
             
             Application.log("getPassengerBookings(): " + this.passengerBookings, LogType.DEBUG, getClass());
         }
         
         return this.passengerBookings;
+    }
+    
+    /**
+     * Refresh bookings after DB changes.
+     */
+    public void refresh()
+    {
+        this.passengerBookings = this.bookingDAO.getBookingsByPassenger(loginController.getLoginModel().getCurrentUser());
     }
 
     
