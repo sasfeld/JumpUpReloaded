@@ -81,7 +81,7 @@ public class Booking extends AbstractEntity
     protected Timestamp confirmationDateTime;
     
     @Column(name = "cancelation_datetime", nullable = true, updatable = true, unique = false)
-    protected Timestamp cancelationDateTime;
+    protected Timestamp cancellationDateTime;
     
     @Transient
     protected String bookingHash;
@@ -185,18 +185,18 @@ public class Booking extends AbstractEntity
     /**
      * @return the cancelationDateTime
      */
-    public Timestamp getCancelationDateTime()
+    public Timestamp getCancellationDateTime()
     {
-        return cancelationDateTime;
+        return cancellationDateTime;
     }
 
     /**
      * @param cancelationDateTime
      *            the cancelationDateTime to set
      */
-    public void setCancelationDateTime(Timestamp cancelationDateTime)
+    public void setCancellationDateTime(Timestamp cancelationDateTime)
     {
-        this.cancelationDateTime = cancelationDateTime;
+        this.cancellationDateTime = cancelationDateTime;
     }
 
     /**
@@ -220,7 +220,7 @@ public class Booking extends AbstractEntity
     }
 
     /**
-     * @param cancelationDateTime
+     * @param cancellationDateTime
      *            the cancelationDateTime to set
      */
     public void setConfirmationDateTime(Timestamp confirmationDateTime)
@@ -235,7 +235,7 @@ public class Booking extends AbstractEntity
      */
     public boolean wasCancelled()
     {
-        boolean wasCancelled = null != this.getCancelationDateTime();
+        boolean wasCancelled = null != this.getCancellationDateTime();
 
         return wasCancelled;
     }

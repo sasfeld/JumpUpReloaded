@@ -263,10 +263,10 @@ public class UserDetails extends AbstractEntity
      */
     public boolean isFilled()
     {
-        if (null == this.avatar 
-                || null == this.dateOfBirth
+        if (
+               null == this.dateOfBirth
+//                || null == this.avatar
                 || null == this.gender
-                || null == this.languages
                 || null == this.mobileNumber ) {
             return false;
         }

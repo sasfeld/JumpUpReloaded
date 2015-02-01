@@ -170,10 +170,13 @@ public abstract class AbstractLoginMethod implements LoginMethod, Serializable
     public boolean isNew(final LoginModel loginModel) 
     {
         if (null == loginModel.getCurrentUser() || null == loginModel.getCurrentUser().getUserDetails()) {
+            Application.log("isNew(): userdetails null or current tuser", LogType.ERROR, getClass());
             return true;
         }
         
-        return loginModel.getCurrentUser().getUserDetails().isFilled();
+        Application.log("isNew(): userdetails::isFilled will be called", LogType.DEBUG, getClass());
+        
+        return !loginModel.getCurrentUser().getUserDetails().isFilled();
     }
 
     /* (non-Javadoc)

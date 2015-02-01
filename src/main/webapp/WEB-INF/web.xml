@@ -9,8 +9,16 @@
     <filter-name>LoginFilter</filter-name>
     <filter-class>de.htw.fb4.imi.jumpup.user.login.LoginFilter</filter-class>
   </filter>
+  <filter>
+    <filter-name>ProfileNotCompletedFilter</filter-name>
+    <filter-class>de.htw.fb4.imi.jumpup.user.login.ProfileNotCompletedFilter</filter-class>
+  </filter>
   <filter-mapping>
     <filter-name>LoginFilter</filter-name>
+    <url-pattern>/portal/*</url-pattern>
+  </filter-mapping>
+  <filter-mapping>
+    <filter-name>ProfileNotCompletedFilter</filter-name>
     <url-pattern>/portal/*</url-pattern>
   </filter-mapping>
   <servlet>

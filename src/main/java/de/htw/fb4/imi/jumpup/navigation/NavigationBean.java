@@ -146,6 +146,15 @@ public class NavigationBean implements NavigationOutcomes
         return toViewBooking(bookingId) + "&a=" + "decline";
     }
     
+    public String toListOfferedTrips(boolean isOutCome)
+    {
+        if (isOutCome) {
+            return toListOfferedTrips();
+        } 
+        
+        return pathToApp() + "/portal/trip/list_offered.xhtml";
+    }
+    
     public String toListOfferedTrips()
     {
         return TO_LIST_OFFERED_TRIPS;
@@ -159,6 +168,16 @@ public class NavigationBean implements NavigationOutcomes
     public String toAddBooking()
     {
         return pathToAppFallback() + "/portal/trip/booking.xhtml";
+    }
+    
+    public String toEditProfile(boolean prependWebAppPath)
+    {
+        String path = "";
+        if (prependWebAppPath) {
+            path += pathToAppFallback() + "/";
+        }
+            
+        return path + "portal/profile/personal.xhtml";
     }
     
     /**

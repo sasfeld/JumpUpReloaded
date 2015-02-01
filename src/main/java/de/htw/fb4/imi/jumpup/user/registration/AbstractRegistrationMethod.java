@@ -239,6 +239,11 @@ public abstract class AbstractRegistrationMethod implements RegistrationMethod
             return;
         }
         
+        if (matchingUser.getIsConfirmed()) {
+            this.errorMessages.add("You were already confirmed and can log-in now.");
+            return;
+        }
+        
         // confirmation hash is invalid
         if (!this.checkConfirmationHash(registrationModel, matchingUser)) {
             this.errorMessages.add("We couldn't confirm you. Please make sure, that the link is correct and not broken.");

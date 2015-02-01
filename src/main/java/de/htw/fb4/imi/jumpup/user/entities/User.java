@@ -100,7 +100,7 @@ public class User extends AbstractEntity
     @Column(name = "is_confirmed", nullable = false, updatable = true)
     protected Boolean isConfirmed;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL)
     protected UserDetails userDetails;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "driver")

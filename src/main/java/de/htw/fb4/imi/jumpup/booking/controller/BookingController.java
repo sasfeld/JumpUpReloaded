@@ -1,8 +1,10 @@
 package de.htw.fb4.imi.jumpup.booking.controller;
 
+import java.io.IOException;
 import java.io.Serializable;
 
 import javax.enterprise.context.RequestScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.NoResultException;
@@ -19,7 +21,7 @@ import de.htw.fb4.imi.jumpup.navigation.NavigationBean;
 import de.htw.fb4.imi.jumpup.settings.BeanNames;
 import de.htw.fb4.imi.jumpup.trip.TripDAO;
 import de.htw.fb4.imi.jumpup.trip.entities.Trip;
-import de.htw.fb4.imi.jumpup.user.UserDAO;
+import de.htw.fb4.imi.jumpup.user.controllers.Login;
 
 /**
  * 
@@ -50,10 +52,13 @@ public class BookingController extends AbstractFacesController implements
     private TripDAO tripDAO;
     
     @Inject
-    private UserDAO userDAO;
+    private BookingDAO bookingDAO;
     
     @Inject
-    private BookingDAO bookingDAO;
+    private Login loginController;
+    
+    @Inject
+    protected NavigationBean navigationBean;
     
     private long tripId;
     
@@ -64,6 +69,20 @@ public class BookingController extends AbstractFacesController implements
     protected String action;
 
     private Booking booking;
+    
+    public void currentUserMustBeDriver()
+    {
+        getBooking();
+        
+        if (this.loginController.getLoginModel().getCurrentUser().getIdentity()
+                != this.getTrip().getDriver().getIdentity()) {
+            try {
+                FacesContext.getCurrentInstance().getExternalContext().redirect(navigationBean.toListOfferedTrips(false));
+            } catch (IOException e) {
+                Application.log("currentUserMustBeDriver: " + e.getMessage() + "\n Stack: " + ExceptionUtils.getFullStackTrace(e), LogType.ERROR, getClass());
+            }
+        }
+    }
 
     /**
      * @return the action

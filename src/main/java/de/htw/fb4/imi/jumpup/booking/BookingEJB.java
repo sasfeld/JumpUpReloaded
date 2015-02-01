@@ -250,11 +250,21 @@ public class BookingEJB implements BookingMethod
     {
         this.reset();
         try {
+            if (this.currentUserIsNotDriver(booking)) {
+                this.errors.add("You are not the driver of this trip and therefore can't modify bookings.");
+                return;
+            }
+            
             this.confirmBookingIfNotCanceledAndDoneYet(booking);
         } catch (Exception e) {
             this.errors.add("Error while trying to confirm the booking. Please try again.");
             Application.log("confirmBooking(): exception " + e.getMessage() + "\nStack trace:\n" + ExceptionUtils.getFullStackTrace(e), LogType.ERROR, getClass());
         }        
+    }
+
+    private boolean currentUserIsNotDriver(Booking booking)
+    {
+        return this.getCurrentUser().getIdentity() != booking.getTrip().getDriver().getIdentity();
     }
 
     private void confirmBookingIfNotCanceledAndDoneYet(Booking booking)
@@ -282,7 +292,7 @@ public class BookingEJB implements BookingMethod
     public void sendBookingConfirmationMailToPassenger(Booking booking)
     {
         this.reset();
-        try {
+        try {            
             buildTxtMail(TripAndBookingsConfigKeys.JUMPUP_BOOKING_CONFIRMED_MAIL_PASSENGER_TEMPLATE_TXT);
             MailModel m = this.mailBuilder.getBuildedMailModel()
                     .addRecipient(new InternetAddress(booking.getPassenger().geteMail()))
@@ -311,6 +321,11 @@ public class BookingEJB implements BookingMethod
     {
         this.reset();
         try {
+            if (this.currentUserIsNotDriver(booking)) {
+                this.errors.add("You are not the driver of this trip and therefore can't modify bookings.");
+                return;
+            }
+            
             this.cancelBookingIfCanBeCancelled(booking);
         } catch (Exception e) {
             this.errors.add("Error while trying to cancel the booking. Please try again.");
@@ -321,7 +336,7 @@ public class BookingEJB implements BookingMethod
     private void cancelBookingIfCanBeCancelled(Booking booking)
     {
         if (!booking.wasCancelled()) {
-             booking.setCancelationDateTime(this.getCurrentTimestamp());
+             booking.setCancellationDateTime(this.getCurrentTimestamp());
              bookingDAO.save(booking);
                 
              return;
