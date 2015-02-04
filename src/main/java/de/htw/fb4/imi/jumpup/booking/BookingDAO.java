@@ -35,8 +35,10 @@ public interface BookingDAO
     /**
      * Save the given {@link Booking} entity and flush into database.
      * @param booking
+     * 
+     * @return entity ID
      */
-    void save(Booking booking);
+    long save(Booking booking);
 
     /**
      * Get all bookings done by the given passenger.

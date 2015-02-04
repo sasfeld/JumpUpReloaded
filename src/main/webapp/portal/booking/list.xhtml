@@ -82,8 +82,8 @@
 										 
 							<h:outputLink value="#{navigationBean.toDeclineBooking(booking.identity)}"
 								 rendered="#{booking.wasConfirmed()}">#{translator.translate('Cancel my booking')}</h:outputLink>
-								 
-											 
+							<br />
+							<h:outputLink value="#{navigationBean.toViewBooking(booking.identity)}">#{translator.translate('View')}</h:outputLink>				 
 						</h:column>
 					</h:dataTable>
 				</c:when>

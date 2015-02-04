@@ -159,7 +159,7 @@ this.de.htw.fb4.imi.jumpup.trip = this.de.htw.fb4.imi.jumpup.trip || {};
 						"longStartPoint" : startCoord.long,
 						"endPoint"   : endPoint,
 						"latEndPoint" : endCoord.lat,
-						"longEndPoint" : startCoord.long,
+						"longEndPoint" : endCoord.long,
 						"dateFrom" : dateFrom,
 						"dateTo" : dateTo,
 						"priceFrom" : priceFrom,

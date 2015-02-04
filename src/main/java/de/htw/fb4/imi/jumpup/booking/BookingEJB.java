@@ -66,6 +66,7 @@ public class BookingEJB implements BookingMethod
     protected void reset()
     {
         this.errors = new ArrayList<String>();
+        this.mailBuilder.reset();
     }
 
     @Override
@@ -115,7 +116,7 @@ public class BookingEJB implements BookingMethod
     private void persistBooking(Booking booking)
     {
         try {
-            this.bookingDAO.save(booking);
+            this.bookingDAO.save(booking);            
         } catch (Exception e) {
             Application.log("persistBooking: exception " + e.getMessage()
                     + "\nStack trace:\n" + ExceptionUtils.getFullStackTrace(e),
@@ -169,6 +170,7 @@ public class BookingEJB implements BookingMethod
     public void sendBookingCreationMailToPassenger(Booking booking)
     {
         try {
+            this.reset();
             buildTxtMail(TripAndBookingsConfigKeys.JUMPUP_BOOKING_CREATED_MAIL_PASSENGER_TEMPLATE_TXT);
             MailModel m = this.mailBuilder.getBuildedMailModel()
                     .addRecipient(new InternetAddress(booking.getPassenger().geteMail()))
@@ -199,6 +201,7 @@ public class BookingEJB implements BookingMethod
     public void sendBookingInformationMailToDriver(Booking booking, User driver)
     {
         try {
+            this.reset();
             buildTxtMail(TripAndBookingsConfigKeys.JUMPUP_BOOKING_CREATED_MAIL_DRIVER_TEMPLATE_TXT);
             MailModel m = this.mailBuilder.getBuildedMailModel()
                     .addRecipient(new InternetAddress(driver.geteMail()))

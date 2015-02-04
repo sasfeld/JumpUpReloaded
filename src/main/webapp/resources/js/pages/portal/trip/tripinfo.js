@@ -269,19 +269,9 @@ this.de.htw.fb4.imi.jumpup.trip = this.de.htw.fb4.imi.jumpup.trip || {};
 		var trip = tripQueryResult.trip;
 		var driver = tripQueryResult.driver;
 		var vehicle = tripQueryResult.vehicle;
-		
-		// TODO deliver via options and translated
+
 		var messages = this.options.messages;
-//		var messages = {
-//				"to" : "to",
-//				"locationDistance" : "Distance to Start",
-//				"start_date" : "Departure Date",
-//				"driver" : "Driver",
-//				"overall_price" : "Overall Price",
-//				"current_bookings" : "Number of Bookings",
-//				"destination_distance" : "Distance to Destination",
-//				"vehicle" : "Vehicle",				
-//		};
+
 		var id = trip.id;
 		var startPoint = trip.startpoint;
 		var endPoint = trip.endpoint;

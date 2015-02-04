@@ -19,6 +19,8 @@
 			<f:viewParam id="endLatitude" name="eL" value="#{bookingController.booking.endLatitude}" />
 			<f:viewParam id="endLongitude" name="eLo" value="#{bookingController.booking.endLongitude}" />
 			<f:viewParam id="bookingHash" name="h" value="#{bookingController.booking.bookingHash}" />
+			
+			<f:event listener="#{bookingController.tripMustExist()}" type="preRenderView"></f:event>
 	</f:metadata>
 	
 	<ui:define name="content">

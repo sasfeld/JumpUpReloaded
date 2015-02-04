@@ -165,6 +165,15 @@ public class NavigationBean implements NavigationOutcomes
     {
         return TO_LOOK_FOR_TRIPS;
     }
+
+    public String toLookForTrips(boolean isOutCome)
+    {
+        if (isOutCome) {
+            return toLookForTrips();
+        } 
+        
+        return pathToApp() + "/portal/trip/look_for_trips.xhtml";
+    }
     
     public String toAddBooking()
     {

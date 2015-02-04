@@ -117,6 +117,17 @@ public class BookingController extends AbstractFacesController implements
         }
     }
 
+    public void tripMustExist()
+    {
+        if (null == this.getTrip()) {
+            try {
+                FacesContext.getCurrentInstance().getExternalContext().redirect(navigationBean.toLookForTrips(false));
+            } catch (IOException e) {
+                Application.log("bookingMustExist: " + e.getMessage() + "\n Stack: " + ExceptionUtils.getFullStackTrace(e), LogType.ERROR, getClass());
+            }
+        }
+    }
+
     
     public void currentUserMustBeDriverOrPassenger()
     {
@@ -337,9 +348,9 @@ public class BookingController extends AbstractFacesController implements
         if (null == this.trip) {
            try {
                this.trip =  this.tripDAO.getTripByID(this.getTripId());
-           } catch (NoResultException e) {
+           } catch (EJBException e) {
                this.addDisplayErrorMessage("Could not find any matching trip.");
-               return null;
+               this.trip = null;
            }      
         }
         

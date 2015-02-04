@@ -51,11 +51,13 @@ public class BookingDAOImpl implements BookingDAO
      * (non-Javadoc)
      * @see de.htw.fb4.imi.jumpup.booking.BookingDAO#save(de.htw.fb4.imi.jumpup.booking.entities.Booking)
      */
-    public void save(Booking booking)
+    public long save(Booking booking)
     {
         this.em.persist(this.em.contains(booking) ? booking : this.em.merge(booking));
         
         this.em.flush();
+        
+        return booking.getIdentity();
     }
 
     @Override
