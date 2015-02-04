@@ -220,4 +220,17 @@ de.htw.fb4.imi.jumpup.trip.GoogleMap.prototype.showRoute = function(id, startLat
 		_this.select(i);
 	}
 }
+
+de.htw.fb4.imi.jumpup.trip.GoogleMap.prototype.showMarkerAtAddress = function(lat, long, markerOptions) {
+	var latLong = new google.maps.LatLng(lat, long);
+	
+	console.log("gmap title: " + markerOptions.title);
+	var marker = new google.maps.Marker({
+		position: latLong,
+		map: this.map,
+//		animation: google.maps.Animation.BOUNCE,
+		title: markerOptions.title,
+		icon: markerOptions.icon
+	});
+}
 }());

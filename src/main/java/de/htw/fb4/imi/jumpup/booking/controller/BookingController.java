@@ -3,6 +3,7 @@ package de.htw.fb4.imi.jumpup.booking.controller;
 import java.io.IOException;
 import java.io.Serializable;
 
+import javax.ejb.EJBException;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -21,7 +22,9 @@ import de.htw.fb4.imi.jumpup.navigation.NavigationBean;
 import de.htw.fb4.imi.jumpup.settings.BeanNames;
 import de.htw.fb4.imi.jumpup.trip.TripDAO;
 import de.htw.fb4.imi.jumpup.trip.entities.Trip;
+import de.htw.fb4.imi.jumpup.user.Role;
 import de.htw.fb4.imi.jumpup.user.controllers.Login;
+import de.htw.fb4.imi.jumpup.util.Gender;
 
 /**
  * 
@@ -72,6 +75,48 @@ public class BookingController extends AbstractFacesController implements
     protected String action;
 
     private Booking booking;
+    
+    protected Role roleDriver = Role.DRIVER;
+    
+    protected Role rolePassenger = Role.PASSENGER;
+    
+    
+    public String getIconUrl()
+    {
+        if (null == this.booking || !this.booking.getPassenger().getUserDetails().getGender().equals(Gender.WOMAN)) {
+            return navigationBean.pathToAppFallback()+ "/resources/img/icons/male.png";
+        }
+        
+        return navigationBean.pathToAppFallback()+ "/resources/img/icons/female.png";
+    }
+    
+    /**
+     * @return the roleDriver
+     */
+    public Role getRoleDriver()
+    {
+        return roleDriver;
+    }
+
+    /**
+     * @return the rolePassenger
+     */
+    public Role getRolePassenger()
+    {
+        return rolePassenger;
+    }
+    
+    public void bookingMustExist()
+    {
+        if (null == this.getBooking()) {
+            try {
+                FacesContext.getCurrentInstance().getExternalContext().redirect(navigationBean.toListOfferedTrips(false));
+            } catch (IOException e) {
+                Application.log("bookingMustExist: " + e.getMessage() + "\n Stack: " + ExceptionUtils.getFullStackTrace(e), LogType.ERROR, getClass());
+            }
+        }
+    }
+
     
     public void currentUserMustBeDriverOrPassenger()
     {
@@ -265,8 +310,9 @@ public class BookingController extends AbstractFacesController implements
                 try {
                     this.booking = this.bookingDAO.queryById(this.bookingId);
                     this.tripId = this.booking.getTrip().getIdentity();
-                } catch (NoResultException e) {
+                } catch (EJBException e) {
                     this.addDisplayErrorMessage("Could not find booking.");
+                    this.booking = null;
                 }                
             } else {
                 this.booking = new Booking();

@@ -9,6 +9,8 @@ import java.sql.Timestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -19,6 +21,7 @@ import javax.persistence.Transient;
 
 import de.htw.fb4.imi.jumpup.entities.AbstractEntity;
 import de.htw.fb4.imi.jumpup.trip.entities.Trip;
+import de.htw.fb4.imi.jumpup.user.Role;
 import de.htw.fb4.imi.jumpup.user.entities.User;
 
 /**
@@ -84,6 +87,11 @@ public class Booking extends AbstractEntity
     
     @Column(name = "cancelation_datetime", nullable = true, updatable = true, unique = false)
     protected Timestamp cancellationDateTime;
+    
+    @Column(name = "actor_on_last_change", nullable = false, updatable = true, unique = false)
+    @Enumerated(value = EnumType.ORDINAL)
+    protected Role actorOnLastChange;
+   
     
     @Transient
     protected String bookingHash;
@@ -240,6 +248,22 @@ public class Booking extends AbstractEntity
         boolean wasCancelled = null != this.getCancellationDateTime();
 
         return wasCancelled;
+    }
+
+    /**
+     * @return the actorOnLastChange
+     */
+    public Role getActorOnLastChange()
+    {
+        return actorOnLastChange;
+    }
+
+    /**
+     * @param actorOnLastChange the actorOnLastChange to set
+     */
+    public void setActorOnLastChange(Role actorOnLastChange)
+    {
+        this.actorOnLastChange = actorOnLastChange;
     }
 
     @Override

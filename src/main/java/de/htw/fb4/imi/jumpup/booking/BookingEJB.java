@@ -32,6 +32,7 @@ import de.htw.fb4.imi.jumpup.trip.restservice.QueryResultFactory;
 import de.htw.fb4.imi.jumpup.trip.restservice.model.TripSearchCriteria;
 import de.htw.fb4.imi.jumpup.trip.util.ConfigReader;
 import de.htw.fb4.imi.jumpup.trip.util.TripAndBookingsConfigKeys;
+import de.htw.fb4.imi.jumpup.user.Role;
 import de.htw.fb4.imi.jumpup.user.controllers.Login;
 import de.htw.fb4.imi.jumpup.user.entities.User;
 import de.htw.fb4.imi.jumpup.util.FileUtil;
@@ -128,6 +129,7 @@ public class BookingEJB implements BookingMethod
     {
         booking.setTrip(trip);
         booking.setPassenger(this.getCurrentUser());
+        booking.setActorOnLastChange(Role.PASSENGER);
     }
 
     /**
@@ -277,6 +279,7 @@ public class BookingEJB implements BookingMethod
     {
         if (!booking.wasCancelled() && !booking.wasConfirmed()) {
             booking.setConfirmationDateTime(this.getCurrentTimestamp());
+            booking.setActorOnLastChange(Role.DRIVER);
             bookingDAO.save(booking);
             return;
         }        
@@ -343,6 +346,13 @@ public class BookingEJB implements BookingMethod
     {
         if (!booking.wasCancelled()) {
              booking.setCancellationDateTime(this.getCurrentTimestamp());
+             
+             Role actor = Role.DRIVER;
+             if (currentUserIsNotDriver(booking)) {
+                 actor = Role.PASSENGER;
+             }
+             
+             booking.setActorOnLastChange(actor);
              bookingDAO.save(booking);
                 
              return;

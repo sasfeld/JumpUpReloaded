@@ -11,22 +11,23 @@
 	<composite:interface>
 		<composite:attribute name="jsfId" required="true" />
 		<composite:attribute name="valueBinding" required="false" />
-		<composite:attribute name="validatorBean" required="false" />
-		<composite:attribute name="cssClass" required="true" />
-		<composite:attribute name="readOnly" required="false" default="false"/>
 	</composite:interface>
 	<composite:implementation>
-		<h:inputHidden id="#{cc.attrs.jsfId}" 
-				value="#{cc.attrs.valueBinding}"
-				styleClass="#{cc.attrs.cssClass}"
-				readonly="#{cc.attrs.readOnly}"
-				>
-				<c:if test="#{not empty cc.attrs.validatorBean}">
-					<f:validator binding="#{cc.attrs.validatorBean}" />
-				</c:if>
-		</h:inputHidden>
-		
-		<h:message for="#{cc.attrs.jsfId}" styleClass="validation_error" />
+		<c:choose>
+			<c:when test="#{cc.attrs.isHidden}">
+				<h:inputHidden id="#{cc.attrs.jsfId}" 
+						value="#{cc.attrs.valueBinding}">
+				</h:inputHidden>
+			</c:when>
+			<c:otherwise>
+					
+					<h:inputHidden 
+						id="#{cc.attrs.jsfId}" 
+						value="#{cc.attrs.valueBinding}"
+					>				
+					</h:inputHidden>
+			</c:otherwise>
+		</c:choose>
 	</composite:implementation>
 
 </html>

@@ -20,6 +20,7 @@ import de.htw.fb4.imi.jumpup.controllers.AbstractFacesController;
 import de.htw.fb4.imi.jumpup.settings.BeanNames;
 import de.htw.fb4.imi.jumpup.trip.entities.Trip;
 import de.htw.fb4.imi.jumpup.trip.query.TripQueryMethod;
+import de.htw.fb4.imi.jumpup.user.Role;
 import de.htw.fb4.imi.jumpup.user.controllers.Login;
 import de.htw.fb4.imi.jumpup.user.entities.User;
 
@@ -50,6 +51,27 @@ public class TripQuery extends AbstractFacesController implements Serializable
     @Inject
     protected Login loginController;
     
+    protected Role roleDriver = Role.DRIVER;
+    
+    protected Role rolePassenger = Role.PASSENGER;
+    
+    
+    
+    /**
+     * @return the roleDriver
+     */
+    public Role getRoleDriver()
+    {
+        return roleDriver;
+    }
+
+    /**
+     * @return the rolePassenger
+     */
+    public Role getRolePassenger()
+    {
+        return rolePassenger;
+    }
     
   
     /**

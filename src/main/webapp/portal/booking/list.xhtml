@@ -72,7 +72,8 @@
 							<f:facet name="header">#{translator.translate("Status")}</f:facet>
 											
 							<h:outputText rendered="#{booking.wasConfirmed()}" value="#{translator.translate('Confirmed by driver on ').concat(localeHelper.formatDate(booking.confirmationDateTime))}"/>
-							<h:outputText rendered="#{booking.wasCancelled()}" value="#{translator.translate('Cancelled on ').concat(localeHelper.formatDate(booking.cancellationDateTime))}" />
+							<h:outputText rendered="#{booking.wasCancelled() and booking.actorOnLastChange.equals(bookingController.roleDriver)}" value="#{translator.translate('Cancelled by driver on ').concat(localeHelper.formatDate(booking.cancellationDateTime))}" />
+							<h:outputText rendered="#{booking.wasCancelled() and booking.actorOnLastChange.equals(bookingController.rolePassenger)}" value="#{translator.translate('Cancelled by passenger on ').concat(localeHelper.formatDate(booking.cancellationDateTime))}" />
 							<h:outputText rendered="#{!booking.wasCancelled() and !booking.wasConfirmed()}" value="#{translator.translate('Requested on: ').concat(localeHelper.formatDate(booking.creationTimestamp))}" />
 						</h:column>
 											
@@ -80,7 +81,9 @@
 							<f:facet name="header">#{translator.translate("Action")}</f:facet>
 										 
 							<h:outputLink value="#{navigationBean.toDeclineBooking(booking.identity)}"
-								 rendered="#{booking.wasConfirmed()}">#{translator.translate('Cancel my booking')}</h:outputLink>				 
+								 rendered="#{booking.wasConfirmed()}">#{translator.translate('Cancel my booking')}</h:outputLink>
+								 
+											 
 						</h:column>
 					</h:dataTable>
 				</c:when>

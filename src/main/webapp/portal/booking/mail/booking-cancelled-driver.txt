@@ -1,0 +1,35 @@
+#{translator.translate('Hello')} #{bookingController.booking.trip.driver.prename},
+
+#{translator.translate('we are sorry to tell you that one of your bookings was cancelled by the passenger.')}! 
+
+#{translator.translate('Please check the booking data below:')}
+
+-------------------------------------
+
+#{translator.translate('Passenger booking (partial trip)')}:
+
+- #{translator.translate('Start location')}: #{bookingController.booking.startPoint}
+- #{translator.translate('Destination location')}: #{bookingController.booking.endPoint}
+
+#{translator.translate('Passenger information')}:
+
+- #{translator.translate('Name')}: #{bookingController.booking.passenger.prename} #{bookingController.booking.passenger.lastname}
+- #{translator.translate('Origin')}: #{bookingController.booking.passenger.town} (#{translator.translate('Country')}: #{bookingController.booking.passenger.country})
+- #{translator.translate('eMail')}: #{bookingController.booking.passenger.eMail} 
+- #{translator.translate('User since')}:  #{localeHelper.formatDate(bookingController.booking.passenger.creationTimestamp)}
+
+#{translator.translate("Your route")}:
+
+- #{translator.translate('Start location')}: #{bookingController.trip.startpoint}
+- #{translator.translate('Destination location')}: #{bookingController.trip.endpoint}
+- #{translator.translate('Departure date')}: #{localeHelper.formatDate(bookingController.trip.startDateTime)}
+-> #{translator.translate('Time')}: #{localeHelper.formatTime(bookingController.trip.startDateTime)}
+- #{translator.translate('Estimated arrival date')}: #{localeHelper.formatDate(bookingController.trip.endDateTime)}
+-> #{translator.translate('Time')}: #{localeHelper.formatTime(bookingController.trip.endDateTime)}
+
+#{translator.translate('Cancelled.')}
+
+-------------------------------------
+
+#{translator.translate("Greetings")}, 
+#{translator.translate("Your JumpUp.Me - Team")}
