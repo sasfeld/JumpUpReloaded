@@ -41,13 +41,6 @@
 		    	</h:panelGrid>	 	
 		    </h:form>
 		</div>
-		<div>
-			<h2>#{translator.translate('Change your avatar')}</h2>
-			<h:form id="form" enctype="multipart/form-data">
-			  <h:inputFile id="file" value="#{userDetailsController.userDetails.avatarFile}"/>
-			  <h:commandButton value="Upload" action="#{userDetailsController.uploadAvatar}"/>
-			</h:form>
-		</div>
 	</ui:define>
 </ui:composition>
 

@@ -45,7 +45,7 @@ public class SingleTripQueryResult implements Serializable
         protected Integer id;
         protected String username;
         protected String email;
-        protected String prename;
+        protected String prename;   
         protected String lastname;
         protected String town;
         protected String country;
@@ -60,7 +60,7 @@ public class SingleTripQueryResult implements Serializable
             this.url = url;
         }
 
-        public String getDriverId()
+        public String getUrl()
         {
             return url;
         }

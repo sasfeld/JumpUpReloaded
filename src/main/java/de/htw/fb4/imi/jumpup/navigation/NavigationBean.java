@@ -275,6 +275,6 @@ public class NavigationBean implements NavigationOutcomes
                     LogType.ERROR, getClass());
         }
 
-        return toAddBooking() + urlBuilder.toString();
+        return toViewProfile() + urlBuilder.toString();
     }
 }
