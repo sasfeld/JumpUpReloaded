@@ -33,7 +33,7 @@ import de.htw.fb4.imi.jumpup.settings.PersistenceSettings;
 import de.htw.fb4.imi.jumpup.translate.Translatable;
 import de.htw.fb4.imi.jumpup.trip.entities.Trip;
 import de.htw.fb4.imi.jumpup.trip.util.ConfigReader;
-import de.htw.fb4.imi.jumpup.trip.util.TripConfigKeys;
+import de.htw.fb4.imi.jumpup.trip.util.TripAndBookingsConfigKeys;
 import de.htw.fb4.imi.jumpup.user.controllers.Login;
 import de.htw.fb4.imi.jumpup.user.entities.User;
 import de.htw.fb4.imi.jumpup.util.ErrorPrintable;
@@ -164,7 +164,7 @@ public class WebsiteTripCreation implements TripCreationMethod, ErrorPrintable
     protected void sendTripAddedMailToDriver(final Trip trip)
     {        
         try {
-            buildTxtMail(TripConfigKeys.JUMPUP_TRIP_CREATED_MAIL_TEMPLATE_TXT);
+            buildTxtMail(TripAndBookingsConfigKeys.JUMPUP_TRIP_CREATED_MAIL_TEMPLATE_TXT);
             MailModel m = this.mailBuilder.getBuildedMailModel()
                     .addRecipient(new InternetAddress(trip.getDriver().geteMail()))
                     .setSubject(this.translator.translate("JumpUp.Me - Your trip was added"));
@@ -243,7 +243,7 @@ public class WebsiteTripCreation implements TripCreationMethod, ErrorPrintable
     private void sendTripUpdatedMailToDriver(Trip trip)
     {        
         try {
-            buildTxtMail(TripConfigKeys.JUMPUP_TRIP_CHANGED_MAIL_TEMPLATE_TXT);
+            buildTxtMail(TripAndBookingsConfigKeys.JUMPUP_TRIP_CHANGED_MAIL_TEMPLATE_TXT);
             MailModel m = this.mailBuilder.getBuildedMailModel()
                     .addRecipient(new InternetAddress(trip.getDriver().geteMail()))
                     .setSubject(this.translator.translate("JumpUp.Me - Your trip was changed"));
@@ -306,7 +306,7 @@ public class WebsiteTripCreation implements TripCreationMethod, ErrorPrintable
     private void sendTripCanceledMailToDriver(Trip trip)
     {        
         try {
-            buildTxtMail(TripConfigKeys.JUMPUP_TRIP_CANCELED_MAIL_DRIVER_TEMPLATE_TXT);
+            buildTxtMail(TripAndBookingsConfigKeys.JUMPUP_TRIP_CANCELED_MAIL_DRIVER_TEMPLATE_TXT);
             MailModel m = this.mailBuilder.getBuildedMailModel()
                     .addRecipient(new InternetAddress(trip.getDriver().geteMail()))
                     .setSubject(this.translator.translate("JumpUp.Me - Your trip was canceled"));

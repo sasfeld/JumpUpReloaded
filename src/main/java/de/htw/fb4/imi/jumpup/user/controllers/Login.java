@@ -14,6 +14,7 @@ import javax.inject.Named;
 import de.htw.fb4.imi.jumpup.Application;
 import de.htw.fb4.imi.jumpup.Application.LogType;
 import de.htw.fb4.imi.jumpup.controllers.AbstractFacesController;
+import de.htw.fb4.imi.jumpup.navigation.NavigationBean;
 import de.htw.fb4.imi.jumpup.navigation.NavigationOutcomes;
 import de.htw.fb4.imi.jumpup.settings.BeanNames;
 import de.htw.fb4.imi.jumpup.user.login.LoginMethod;
@@ -47,6 +48,8 @@ public class Login extends AbstractFacesController implements Serializable
 
     @Inject
     protected LoginMethod loginMethod;
+
+    protected String pathToApp;
     
     /**
      * @return the loginModel
@@ -72,6 +75,7 @@ public class Login extends AbstractFacesController implements Serializable
             // registration was performed successfully, so redirect to success
             // page
             if (!this.loginMethod.hasError()) {
+                this.storeSessionInformation();
                 // redirect to user's profile page if he was registered new
                 if (this.loginMethod.isNew(this.getLoginModel())) {
                     this.addDisplayInfoMessage("Please fill in your profile information so that the other users know you better.");
@@ -92,6 +96,14 @@ public class Login extends AbstractFacesController implements Serializable
         }
 
         return NavigationOutcomes.LOGIN_FAILURE;
+    }
+
+    /**
+     * Store user-related session information.
+     */
+    private void storeSessionInformation()
+    {
+        this.pathToApp = NavigationBean.pathToApp();
     }
 
     /**
@@ -137,6 +149,19 @@ public class Login extends AbstractFacesController implements Serializable
         builder.append(loginMethod);
         builder.append("]");
         return builder.toString();
+    }
+
+    /**
+     * Get the path to the web app as saved in the session.
+     * @return
+     */
+    public String getPathToApp()
+    {        
+        if (null == this.pathToApp) {
+            this.pathToApp = NavigationBean.pathToApp();
+        }
+        
+        return pathToApp;
     }
 
 }

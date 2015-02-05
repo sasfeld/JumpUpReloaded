@@ -30,7 +30,7 @@ public class ConfigReader extends APropertiesConfigReader
     static {
        // try to resolve path to user.properties file
        try {
-          CONFIG_FILE = new File(FileUtil.getPathToWebInfFolder() + "/configs/trip.properties");
+          CONFIG_FILE = new File(FileUtil.getPathToWebInfFolder() + "/configs/trip_and_booking.properties");
           
           if (!CONFIG_FILE.exists()) {
               Application.log("Confg File does not exist: " + CONFIG_FILE + ". Please check the path.", LogType.CRITICAL, ConfigReader.class);

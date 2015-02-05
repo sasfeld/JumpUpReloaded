@@ -118,6 +118,8 @@ public class UserDetailsController extends AbstractFacesController implements
                     this.addDisplayErrorMessage(error);
                 }
             } else {
+                // set current user details in session
+                this.loginController.getLoginModel().getCurrentUser().setUserDetails(getUserDetails());
                 addDisplayInfoMessage("Your given information have been saved.");
             }
 

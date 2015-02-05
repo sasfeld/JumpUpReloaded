@@ -1,0 +1,33 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:composite="http://xmlns.jcp.org/jsf/composite"
+	xmlns:p="http://xmlns.jcp.org/jsf/passthrough"	
+	xmlns:jsf="http://xmlns.jcp.org/jsf"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+>
+
+	<composite:interface>
+		<composite:attribute name="jsfId" required="true" />
+		<composite:attribute name="valueBinding" required="false" />
+	</composite:interface>
+	<composite:implementation>
+		<c:choose>
+			<c:when test="#{cc.attrs.isHidden}">
+				<h:inputHidden id="#{cc.attrs.jsfId}" 
+						value="#{cc.attrs.valueBinding}">
+				</h:inputHidden>
+			</c:when>
+			<c:otherwise>
+					
+					<h:inputHidden 
+						id="#{cc.attrs.jsfId}" 
+						value="#{cc.attrs.valueBinding}"
+					>				
+					</h:inputHidden>
+			</c:otherwise>
+		</c:choose>
+	</composite:implementation>
+
+</html>

@@ -8,6 +8,7 @@ package de.htw.fb4.imi.jumpup.user.login;
 import java.io.Serializable;
 import java.util.HashSet;
 
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -157,10 +158,11 @@ public abstract class AbstractLoginMethod implements LoginMethod, Serializable
     {
         this.reset();
         
-        loginModel.setIsLoggedIn(false);
-        loginModel.setCurrentUser(null);
-        loginModel.setPassword(null);
-        loginModel.setUsernameOrMail(null);        
+//        loginModel.setIsLoggedIn(false);
+//        loginModel.setCurrentUser(null);
+//        loginModel.setPassword(null);
+//        loginModel.setUsernameOrMail(null);  
+        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
     }
     
     /*
@@ -170,10 +172,13 @@ public abstract class AbstractLoginMethod implements LoginMethod, Serializable
     public boolean isNew(final LoginModel loginModel) 
     {
         if (null == loginModel.getCurrentUser() || null == loginModel.getCurrentUser().getUserDetails()) {
+            Application.log("isNew(): userdetails null or current tuser", LogType.ERROR, getClass());
             return true;
         }
         
-        return loginModel.getCurrentUser().getUserDetails().isFilled();
+        Application.log("isNew(): userdetails::isFilled will be called", LogType.DEBUG, getClass());
+        
+        return !loginModel.getCurrentUser().getUserDetails().isFilled();
     }
 
     /* (non-Javadoc)

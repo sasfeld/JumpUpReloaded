@@ -6,6 +6,8 @@
 package de.htw.fb4.imi.jumpup.util;
 
 import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.inject.Named;
@@ -15,11 +17,13 @@ import de.htw.fb4.imi.jumpup.Application.LogType;
 import de.htw.fb4.imi.jumpup.settings.BeanNames;
 
 /**
- * <p>Helper for localization works.</p>
- *
+ * <p>
+ * Helper for localization works.
+ * </p>
+ * 
  * @author <a href="mailto:me@saschafeldmann.de">Sascha Feldmann</a>
  * @since 21.01.2015
- *
+ * 
  */
 @Named(value = BeanNames.LOCALE_HELPER)
 public class LocaleHelper
@@ -28,15 +32,18 @@ public class LocaleHelper
     /**
      * Format the given date and return only the date, regardless to the time. <br />
      * For returning time, see the other methods of this bean.
+     * 
      * @param inputDate
      * @return
      */
     public String formatDate(final Date inputDate)
     {
-        String formatted = DateFormat.getDateInstance(getDatePrecision()).format(inputDate);
-        
-        Application.log("formatDate(): will return formatted " + formatted, LogType.DEBUG, getClass());
-        
+        String formatted = DateFormat.getDateInstance(getDatePrecision())
+                .format(inputDate);
+
+        Application.log("formatDate(): will return formatted " + formatted,
+                LogType.DEBUG, getClass());
+
         return formatted;
     }
 
@@ -44,19 +51,32 @@ public class LocaleHelper
     {
         return DateFormat.MEDIUM;
     }
-    
+
+    public Date parseDateFromString(String dateString) throws ParseException
+    {
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-M-d H:mm");
+
+        Date date = sdf.parse(dateString);
+
+        return date;
+    }
+
     /**
      * Format the given date and return only the time, regardless to the date. <br />
      * For returning date, see the other methods of this bean.
+     * 
      * @param inputDate
      * @return
      */
     public String formatTime(final Date inputDate)
     {
-        String formatted = DateFormat.getTimeInstance(getTimePrecision()).format(inputDate);
-        
-        Application.log("formatTime(): will return formatted " + formatted, LogType.DEBUG, getClass());
-        
+        String formatted = DateFormat.getTimeInstance(getTimePrecision())
+                .format(inputDate);
+
+        Application.log("formatTime(): will return formatted " + formatted,
+                LogType.DEBUG, getClass());
+
         return formatted;
     }
 
@@ -64,16 +84,19 @@ public class LocaleHelper
     {
         return DateFormat.SHORT;
     }
-    
+
     /**
      * Format the given date and return both date and time. <br />
-     * For returning date and time separated, see the other methods of this bean.
+     * For returning date and time separated, see the other methods of this
+     * bean.
+     * 
      * @param inputDate
      * @return
      */
     public String formatDateTime(final Date inputDate)
     {
-        return DateFormat.getDateTimeInstance(getDatePrecision(), getTimePrecision()).format(inputDate);
-    }    
-    
+        return DateFormat.getDateTimeInstance(getDatePrecision(),
+                getTimePrecision()).format(inputDate);
+    }
+
 }

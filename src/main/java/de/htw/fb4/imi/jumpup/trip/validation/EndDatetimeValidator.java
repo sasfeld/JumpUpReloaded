@@ -12,7 +12,7 @@ import javax.inject.Named;
 import de.htw.fb4.imi.jumpup.Application;
 import de.htw.fb4.imi.jumpup.Application.LogType;
 import de.htw.fb4.imi.jumpup.settings.BeanNames;
-import de.htw.fb4.imi.jumpup.trip.util.TripConfigKeys;
+import de.htw.fb4.imi.jumpup.trip.util.TripAndBookingsConfigKeys;
 
 /**
  * <p>Validator for datetimes.</p>
@@ -60,7 +60,7 @@ public class EndDatetimeValidator extends AbstractTripValidator
      */
     protected boolean isInConfiguredFuture(Date value)
     {
-        int minNumberHours = Integer.parseInt(this.tripConfigReader.fetchValue(TripConfigKeys.JUMPUP_TRIP_VALIDATION_START_END_DATETIME_MIN_HOURS_IN_FUTURE));
+        int minNumberHours = Integer.parseInt(this.tripConfigReader.fetchValue(TripAndBookingsConfigKeys.JUMPUP_TRIP_VALIDATION_START_END_DATETIME_MIN_HOURS_IN_FUTURE));
         
         long currentTimestamp = new Date().getTime();
         long configuredTimestamp = value.getTime();

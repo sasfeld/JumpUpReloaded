@@ -1,0 +1,13 @@
+{
+	"startPoint": "Berlin, Germany",
+	"latStartPoint": 52.52,
+	"longStartPoint": 13.405,
+	"latEndPoint": 49.75,
+	"longEndPoint": 6.63714,
+	"endPoint": "Trier, Germany",
+	"dateFrom": "2015-1-15 8:10",
+	"dateTo": "2015-8-17 12:17",
+	"priceFrom": 0,
+	"priceTo": 100,
+	"maxDistance": 20
+}

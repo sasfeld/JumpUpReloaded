@@ -15,6 +15,8 @@ import javax.faces.context.FacesContext;
 import javax.faces.validator.Validator;
 import javax.inject.Inject;
 
+import org.apache.commons.lang.exception.ExceptionUtils;
+
 import de.htw.fb4.imi.jumpup.Application;
 import de.htw.fb4.imi.jumpup.Application.LogType;
 import de.htw.fb4.imi.jumpup.translate.Translatable;
@@ -102,9 +104,15 @@ public class FacesFacade
         
         ValueExpression valueExpression = expressionFactory.createValueExpression(elContext, expression, expression.getClass());
         
-        String evaluated = (String) valueExpression.getValue(elContext);
-        
-        return evaluated;        
+        try {
+            String evaluated = (String) valueExpression.getValue(elContext);
+            
+            return evaluated;  
+        } catch (Exception e) {
+            Application.log("Will not evaluate expression, error while evaluation EL expression '" + expression + "'.\nException: " 
+                    + e.getMessage() + "\nStack trace:\n" + ExceptionUtils.getFullStackTrace(e), LogType.ERROR, getClass());
+            return "";
+        }      
     }
     
 }

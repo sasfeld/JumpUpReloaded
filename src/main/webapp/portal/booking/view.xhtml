@@ -1,0 +1,281 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:trip="http://xmlns.jcp.org/jsf/composite/components/trip"
+>
+
+<ui:composition template="../../resources/templates/basic/BasicTemplate.xhtml">
+	<f:metadata>
+			<f:viewParam id="bookingId" name="booking" value="#{bookingController.bookingId}" />
+			<f:viewParam id="startpoint" name="a" value="#{bookingController.action}" />
+			<f:event listener="#{bookingController.bookingMustExist()}" type="preRenderView"></f:event>
+			<f:event listener="#{bookingController.currentUserMustBeDriverOrPassenger()}" type="preRenderView"></f:event>
+	</f:metadata>
+	
+	<ui:define name="head_beginning">
+		<script src="#{tripCreationController.tripConfigReader.fetchValue('jumpup.trip.googlemap.api')}"></script> 
+	</ui:define>
+	
+	<ui:define name="content">
+		<h:outputScript library="js" name="lib/vec2.js" target="head"/>
+		<h:outputScript library="js" name="gmap/googlemap.js" target="head"/>
+		<h:outputScript library="js" name="gmap/mapcontroller.js" target="head"/>
+		<h:outputScript library="js" name="gmap/overviewPathStrategy.js" target="head"/>
+		<h:outputScript library="js" name="pages/portal/booking/view.js" target="head"/>
+		<h:outputStylesheet library="css" name="pages/portal/booking/view.css" />
+		
+		<div class="rows-two">
+			<div class="col-left">
+			#{translator.translate('This user requested the following (partial) trip')}: <br />
+										
+						<h:form id="bookingForm" rendered="#{bookingController.action == 'confirm'}">		 
+								 <h:panelGrid id="grid" columns="1">	
+									<trip:location 
+									jsfId="booking_start_location"
+									label="Start location"
+									valueBinding="#{bookingController.booking.startPoint}"
+									isRequired="required"
+									cssClass="start_location"
+									readOnly="true"/>	
+									
+									<trip:location 
+									jsfId="booking_end_location"
+									label="End location"
+									valueBinding="#{bookingController.booking.endPoint}"
+									isRequired="required"
+									cssClass="end_location"
+									readOnly="true"/>				
+									
+									<trip:latLng
+										jsfId="passenger_start_location_lat"
+										valueBinding="#{bookingController.booking.startLatitude}"
+										/>	
+										
+									<trip:latLng
+										jsfId="passenger_start_location_long"
+										valueBinding="#{bookingController.booking.startLongitude}"
+										/>
+										
+									<trip:latLng
+										jsfId="passenger_end_location_lat"
+										valueBinding="#{bookingController.booking.endLatitude}"
+										/>	
+										
+									<trip:latLng
+										jsfId="passenger_end_location_long"
+										valueBinding="#{bookingController.booking.endLongitude}"
+										/>			
+										
+									<trip:basic_string
+									   	jsfId="passenger_icon_url"
+										valueBinding="#{bookingController.iconUrl}"
+										/>
+								
+								
+								<p>#{translator.translate('Trip information')}</p>
+								
+								<trip:location 
+									jsfId="driver_start_location"
+									label="Start location"
+									valueBinding="#{bookingController.trip.startpoint}"
+									cssClass="start_location"
+									readOnly="true"/>	
+									
+								<trip:location 
+									jsfId="driver_end_location"
+									label="End location"
+									valueBinding="#{bookingController.trip.endpoint}"
+									cssClass="end_location"
+									readOnly="true"/>	
+									
+								<trip:datetime 
+									jsfId="driver_start_date_time"
+									label="Departure date and time"
+									valueBinding="#{bookingController.trip.startDateTime}"
+									readOnly="true"/>
+									
+								<trip:datetime 
+									jsfId="driver_end_date_time"
+									label="Estimated arrival date and time"
+									valueBinding="#{bookingController.trip.endDateTime}"
+									readOnly="true"/>	
+									
+								<trip:number_seats 
+									jsfId="driver_numberSeats"
+									label="Number of Seats"
+									valueBinding="#{bookingController.trip.numberOfSeats}"
+									readOnly="true"/>	
+									
+								<trip:via_waypoints
+									jsfId="via_waypoints"
+									cssClass="driver_via_waypoints"
+									valueBinding="#{bookingController.trip.viaWaypoints}"/>	
+							
+									
+								<p>#{translator.translate('Do you want to confirm it')}?
+										<h:commandButton actionListener="#{bookingController.confirm}" value="#{translator.translate('Confirm booking')}"/>		
+								</p>
+							</h:panelGrid>		
+						</h:form>				
+						
+						<h:form id="declineForm" rendered="#{bookingController.action == 'decline'}">		 
+								 <h:panelGrid id="grid" columns="1">	
+									<trip:location 
+									jsfId="start_location"
+									label="Start location"
+									valueBinding="#{bookingController.booking.startPoint}"
+									isRequired="required"
+									cssClass="start_location"
+									readOnly="true"/>	
+									
+									<trip:location 
+									jsfId="end_location"
+									label="End location"
+									valueBinding="#{bookingController.booking.endPoint}"
+									isRequired="required"
+									cssClass="end_location"
+									readOnly="true"/>							
+								
+								
+								<p>#{translator.translate('Trip information')}</p>
+								
+								<trip:location 
+									jsfId="driver_start_location"
+									label="Start location"
+									valueBinding="#{bookingController.trip.startpoint}"
+									cssClass="start_location"
+									readOnly="true"/>	
+									
+								<trip:location 
+									jsfId="driver_end_location"
+									label="End location"
+									valueBinding="#{bookingController.trip.endpoint}"
+									cssClass="end_location"
+									readOnly="true"/>	
+									
+								<trip:datetime 
+									jsfId="driver_start_date_time"
+									label="Departure date and time"
+									valueBinding="#{bookingController.trip.startDateTime}"
+									readOnly="true"/>
+									
+								<trip:datetime 
+									jsfId="driver_end_date_time"
+									label="Estimated arrival date and time"
+									valueBinding="#{bookingController.trip.endDateTime}"
+									readOnly="true"/>	
+									
+								<trip:number_seats 
+									jsfId="driver_numberSeats"
+									label="Number of Seats"
+									valueBinding="#{bookingController.trip.numberOfSeats}"
+									readOnly="true"/>	
+									
+								<p>#{translator.translate('Do you want to cancel it')}?
+										<h:commandButton actionListener="#{bookingController.cancel}" value="#{translator.translate('Cancel booking')}"/>		
+								</p>
+							</h:panelGrid>		
+						</h:form>						
+						
+						<h:form id="viewForm" rendered="#{bookingController.action != 'decline' and bookingController.action != 'confirm'}">	
+							 <h:panelGrid id="grid" columns="1">	
+										<trip:location 
+										jsfId="booking_start_location"
+										label="Start location"
+										valueBinding="#{bookingController.booking.startPoint}"
+										isRequired="required"
+										cssClass="start_location"
+										readOnly="true"/>	
+										
+										<trip:location 
+										jsfId="booking_end_location"
+										label="End location"
+										valueBinding="#{bookingController.booking.endPoint}"
+										isRequired="required"
+										cssClass="end_location"
+										readOnly="true"/>				
+										
+										<trip:latLng
+											jsfId="passenger_start_location_lat"
+											valueBinding="#{bookingController.booking.startLatitude}"
+											/>	
+											
+										<trip:latLng
+											jsfId="passenger_start_location_long"
+											valueBinding="#{bookingController.booking.startLongitude}"
+											/>
+											
+										<trip:latLng
+											jsfId="passenger_end_location_lat"
+											valueBinding="#{bookingController.booking.endLatitude}"
+											/>	
+											
+										<trip:latLng
+											jsfId="passenger_end_location_long"
+											valueBinding="#{bookingController.booking.endLongitude}"
+											/>			
+											
+										<trip:basic_string
+										   	jsfId="passenger_icon_url"
+											valueBinding="#{bookingController.iconUrl}"
+											/>
+									
+									
+									<p>#{translator.translate('Trip information')}</p>
+									
+									<trip:location 
+										jsfId="driver_start_location"
+										label="Start location"
+										valueBinding="#{bookingController.trip.startpoint}"
+										cssClass="start_location"
+										readOnly="true"/>	
+										
+									<trip:location 
+										jsfId="driver_end_location"
+										label="End location"
+										valueBinding="#{bookingController.trip.endpoint}"
+										cssClass="end_location"
+										readOnly="true"/>	
+										
+									<trip:datetime 
+										jsfId="driver_start_date_time"
+										label="Departure date and time"
+										valueBinding="#{bookingController.trip.startDateTime}"
+										readOnly="true"/>
+										
+									<trip:datetime 
+										jsfId="driver_end_date_time"
+										label="Estimated arrival date and time"
+										valueBinding="#{bookingController.trip.endDateTime}"
+										readOnly="true"/>	
+										
+									<trip:number_seats 
+										jsfId="driver_numberSeats"
+										label="Number of Seats"
+										valueBinding="#{bookingController.trip.numberOfSeats}"
+										readOnly="true"/>	
+										
+									<trip:via_waypoints
+										jsfId="via_waypoints"
+										cssClass="driver_via_waypoints"
+										valueBinding="#{bookingController.trip.viaWaypoints}"/>								
+								</h:panelGrid>							
+							</h:form>
+							<h:messages errorClass="errorMessage" infoClass="infoMessage" warnClass="warnMessage"></h:messages>
+			</div>
+			<div class="col-right">
+			    		<div id="map_canvas" />
+			    		<div id="geocoding" />
+			</div>
+		</div> 		
+		
+	</ui:define>
+	
+</ui:composition>
+
+</html>

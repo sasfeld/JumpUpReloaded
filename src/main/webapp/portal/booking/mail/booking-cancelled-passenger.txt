@@ -1,0 +1,28 @@
+#{translator.translate('Hello')} #{bookingController.booking.passenger.prename},
+
+#{translator.translate('we are sorry to tell you that your booking was cancelled by the driver.')}! 
+
+#{translator.translate('Please check the booking data below:')}
+
+-------------------------------------
+
+#{translator.translate('Your booking (partial trip)')}:
+
+- #{translator.translate('Start location')}: #{bookingController.booking.startPoint}
+- #{translator.translate('Destination location')}: #{bookingController.booking.endPoint}
+
+#{translator.translate("Driver's route")}:
+
+- #{translator.translate('Start location')}: #{bookingController.trip.startpoint}
+- #{translator.translate('Destination location')}: #{bookingController.trip.endpoint}
+- #{translator.translate('Departure date')}: #{localeHelper.formatDate(bookingController.trip.startDateTime)}
+-> #{translator.translate('Time')}: #{localeHelper.formatTime(bookingController.trip.startDateTime)}
+- #{translator.translate('Estimated arrival date')}: #{localeHelper.formatDate(bookingController.trip.endDateTime)}
+-> #{translator.translate('Time')}: #{localeHelper.formatTime(bookingController.trip.endDateTime)}
+
+#{translator.translate('Cancelled.')}
+
+-------------------------------------
+
+#{translator.translate("Greetings")}, 
+#{translator.translate("Your JumpUp.Me - Team")}

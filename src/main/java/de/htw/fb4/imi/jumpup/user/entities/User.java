@@ -20,6 +20,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import de.htw.fb4.imi.jumpup.booking.entities.Booking;
 import de.htw.fb4.imi.jumpup.entities.AbstractEntity;
 import de.htw.fb4.imi.jumpup.settings.ResidenceSettings;
 import de.htw.fb4.imi.jumpup.settings.UserSettings;
@@ -30,26 +31,31 @@ import de.htw.fb4.imi.jumpup.user.util.HashGenerable;
  * <p>
  * The basic user entity.
  * </p>
- *
+ * 
  * @author <a href="mailto:me@saschafeldmann.de">Sascha Feldmann</a>
  * @since 06.11.2014
- *
+ * 
  */
 @Entity
 @Table(name = "user")
 @NamedQueries({
-    @NamedQuery(name = User.NAME_QUERY_BY_USERNAME, query = "SELECT u FROM User u WHERE u.username = :username"),
-    @NamedQuery(name = User.NAME_QUERY_BY_EMAIL, query = "SELECT u FROM User u WHERE u.eMail = :email"),
-    @NamedQuery(name = User.NAME_QUERY_LOGIN, query = "SELECT u FROM User u "
-            + "WHERE (u.eMail = :token OR u.username = :token) "
-            + "AND u.passwordHash = :passwordHash"
-           ),
-})
-public class User extends AbstractEntity {
+        @NamedQuery(name = User.NAME_QUERY_BY_ID, query = "SELECT u FROM User u WHERE u.identity = :identity"),
+        @NamedQuery(name = User.NAME_QUERY_BY_USERNAME, query = "SELECT u FROM User u WHERE u.username = :username"),
+        @NamedQuery(name = User.NAME_QUERY_BY_EMAIL, query = "SELECT u FROM User u WHERE u.eMail = :email"),
+        @NamedQuery(name = User.NAME_QUERY_LOGIN, query = "SELECT u FROM User u "
+                + "WHERE (u.eMail = :token OR u.username = :token) "
+                + "AND u.passwordHash = :passwordHash"), })
+public class User extends AbstractEntity
+{
     /**
      * 
      */
     private static final long serialVersionUID = -4397896384511726160L;
+    
+    /**
+     * Name of named query to fetch users by ID.
+     */
+    public static final String NAME_QUERY_BY_ID = "User.fetchByIdentity";
     /**
      * Name of named query to fetch users by username.
      */
@@ -57,13 +63,16 @@ public class User extends AbstractEntity {
     /**
      * Only fetch by the unique eMail.
      */
-    public static final String NAME_QUERY_BY_EMAIL = "User.fetchByEMail";   
+    public static final String NAME_QUERY_BY_EMAIL = "User.fetchByEMail";
     /**
-     * Login by parameters: token (might be a username or eMail) and passwordHash
+     * Login by parameters: token (might be a username or eMail) and
+     * passwordHash
      */
-    public static final String NAME_QUERY_LOGIN = "User.login";   
-    
-    
+    public static final String NAME_QUERY_LOGIN = "User.login";
+
+    @OneToMany(mappedBy = "passenger")
+    private List<Booking> bookings;
+
     @Column(name = "username", nullable = false, updatable = true, unique = true, length = UserSettings.MAX_LENGTH_USERNAME)
     protected String username;
 
@@ -79,24 +88,24 @@ public class User extends AbstractEntity {
     @Column(name = "passwordhash", nullable = false, updatable = true, columnDefinition = "BINARY(32)")
     protected byte[] passwordHash;
 
-    @Column(name="town", nullable=true, updatable=true, length=ResidenceSettings.MAX_LENGTH_TOWN)
+    @Column(name = "town", nullable = true, updatable = true, length = ResidenceSettings.MAX_LENGTH_TOWN)
     protected String town;
-    
-    @Column(name="country", nullable=true, updatable=true, length=ResidenceSettings.MAX_LENGTH_COUNTRY)
+
+    @Column(name = "country", nullable = true, updatable = true, length = ResidenceSettings.MAX_LENGTH_COUNTRY)
     protected String country;
-    
-    @Column(name="locale", nullable=true, updatable=true, length=ResidenceSettings.MAXL_LENGTH_LOCALE)
+
+    @Column(name = "locale", nullable = true, updatable = true, length = ResidenceSettings.MAXL_LENGTH_LOCALE)
     protected String locale;
 
     @Column(name = "is_confirmed", nullable = false, updatable = true)
     protected Boolean isConfirmed;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL)
     protected UserDetails userDetails;
-    
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "driver")
     protected List<Trip> offeredTrips;
-    
+
     /**
      * Hash generable.
      * 
@@ -104,23 +113,24 @@ public class User extends AbstractEntity {
      */
     @Transient
     protected HashGenerable hashGenerable;
-    
+
     public User()
     {
         super();
-        
+
         this.initalize();
     }
 
     private void initalize()
     {
-        this.offeredTrips = new ArrayList<>();        
+        this.offeredTrips = new ArrayList<>();
     }
 
     /**
      * @return the username
      */
-    public String getUsername() {
+    public String getUsername()
+    {
         return username;
     }
 
@@ -128,14 +138,16 @@ public class User extends AbstractEntity {
      * @param username
      *            the username to set
      */
-    public void setUsername(String username) {
+    public void setUsername(String username)
+    {
         this.username = username;
     }
 
     /**
      * @return the eMail
      */
-    public String geteMail() {
+    public String geteMail()
+    {
         return eMail;
     }
 
@@ -143,14 +155,16 @@ public class User extends AbstractEntity {
      * @param eMail
      *            the eMail to set
      */
-    public void setEmail(String eMail) {
+    public void setEmail(String eMail)
+    {
         this.eMail = eMail;
     }
 
     /**
      * @return the prename
      */
-    public String getPrename() {
+    public String getPrename()
+    {
         return prename;
     }
 
@@ -158,14 +172,16 @@ public class User extends AbstractEntity {
      * @param prename
      *            the prename to set
      */
-    public void setPrename(String prename) {
+    public void setPrename(String prename)
+    {
         this.prename = prename;
     }
 
     /**
      * @return the lastname
      */
-    public String getLastname() {
+    public String getLastname()
+    {
         return lastname;
     }
 
@@ -173,14 +189,16 @@ public class User extends AbstractEntity {
      * @param lastname
      *            the lastname to set
      */
-    public void setLastname(String lastname) {
+    public void setLastname(String lastname)
+    {
         this.lastname = lastname;
     }
 
     /**
      * @return the passwordHash
      */
-    public byte[] getPasswordHash() {
+    public byte[] getPasswordHash()
+    {
         return passwordHash;
     }
 
@@ -191,7 +209,8 @@ public class User extends AbstractEntity {
      * 
      * @param password
      */
-    public void setPassword(String password) {
+    public void setPassword(String password)
+    {
         if (null == this.hashGenerable) {
             throw new AssertionError(
                     "No hashGenerable instance given - can't generate password hash. Please make sure that the dependency injection is configured correctly.");
@@ -204,14 +223,16 @@ public class User extends AbstractEntity {
      * @param passwordHash
      *            the passwordHash to set
      */
-    protected void setPasswordHash(byte[] passwordHash) {
+    protected void setPasswordHash(byte[] passwordHash)
+    {
         this.passwordHash = passwordHash;
     }
 
     /**
      * @return the isConfirmed
      */
-    public Boolean getIsConfirmed() {
+    public Boolean getIsConfirmed()
+    {
         return isConfirmed;
     }
 
@@ -219,7 +240,8 @@ public class User extends AbstractEntity {
      * @param isConfirmed
      *            the isConfirmed to set
      */
-    public void setIsConfirmed(Boolean isConfirmed) {
+    public void setIsConfirmed(Boolean isConfirmed)
+    {
         this.isConfirmed = isConfirmed;
     }
 
@@ -229,7 +251,8 @@ public class User extends AbstractEntity {
      * 
      * @param newPasswordHashGenerable
      */
-    public void setHashGenerable(final HashGenerable newPasswordHashGenerable) {
+    public void setHashGenerable(final HashGenerable newPasswordHashGenerable)
+    {
         this.hashGenerable = newPasswordHashGenerable;
     }
 
@@ -242,7 +265,8 @@ public class User extends AbstractEntity {
     }
 
     /**
-     * @param userDetails the userDetails to set
+     * @param userDetails
+     *            the userDetails to set
      */
     public void setUserDetails(UserDetails userDetails)
     {
@@ -250,13 +274,13 @@ public class User extends AbstractEntity {
     }
 
     /**
-     * @param eMail the eMail to set
+     * @param eMail
+     *            the eMail to set
      */
     public void seteMail(String eMail)
     {
         this.eMail = eMail;
     }
-    
 
     /**
      * @return the town
@@ -267,7 +291,8 @@ public class User extends AbstractEntity {
     }
 
     /**
-     * @param town the town to set
+     * @param town
+     *            the town to set
      */
     public final void setTown(String town)
     {
@@ -283,7 +308,8 @@ public class User extends AbstractEntity {
     }
 
     /**
-     * @param country the country to set
+     * @param country
+     *            the country to set
      */
     public final void setCountry(String country)
     {
@@ -299,7 +325,8 @@ public class User extends AbstractEntity {
     }
 
     /**
-     * @param locale the locale to set
+     * @param locale
+     *            the locale to set
      */
     public final void setLocale(String locale)
     {
@@ -315,52 +342,80 @@ public class User extends AbstractEntity {
     }
 
     /**
-     * @param offeredTrips the offeredTrips to set
+     * @param offeredTrips
+     *            the offeredTrips to set
      */
     public void setOfferedTrips(List<Trip> offeredTrips)
     {
         this.offeredTrips = offeredTrips;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.lang.Object#hashCode()
-     */
+    public List<Booking> getBookings()
+    {
+        return bookings;
+    }
+
+    public void setBookings(List<Booking> bookings)
+    {
+        this.bookings = bookings;
+    }
+
     @Override
-    public int hashCode() {
+    public String toString()
+    {
+        return "User [username=" + username
+                + ", eMail=" + eMail + ", prename=" + prename + ", lastname="
+                + lastname + ", passwordHash=" + Arrays.toString(passwordHash)
+                + ", town=" + town + ", country=" + country + ", locale="
+                + locale + ", isConfirmed=" + isConfirmed + ", hashGenerable=" + hashGenerable + "]";
+    }
+
+    @Override
+    public int hashCode()
+    {
         final int prime = 31;
-        int result = super.hashCode();
+        int result = 1;
+        result = prime * result + ((country == null) ? 0 : country.hashCode());
         result = prime * result + ((eMail == null) ? 0 : eMail.hashCode());
+        result = prime * result
+                + ((hashGenerable == null) ? 0 : hashGenerable.hashCode());
         result = prime * result
                 + ((isConfirmed == null) ? 0 : isConfirmed.hashCode());
         result = prime * result
                 + ((lastname == null) ? 0 : lastname.hashCode());
+        result = prime * result + ((locale == null) ? 0 : locale.hashCode());
         result = prime * result + Arrays.hashCode(passwordHash);
         result = prime * result + ((prename == null) ? 0 : prename.hashCode());
+        result = prime * result + ((town == null) ? 0 : town.hashCode());
         result = prime * result
                 + ((username == null) ? 0 : username.hashCode());
         return result;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(Object obj)
+    {
         if (this == obj)
             return true;
-        if (!super.equals(obj))
+        if (obj == null)
             return false;
         if (getClass() != obj.getClass())
             return false;
-        User other = (User) obj;
+        User other = (User) obj;        
+        if (country == null) {
+            if (other.country != null)
+                return false;
+        } else if (!country.equals(other.country))
+            return false;
         if (eMail == null) {
             if (other.eMail != null)
                 return false;
         } else if (!eMail.equals(other.eMail))
+            return false;
+        if (hashGenerable == null) {
+            if (other.hashGenerable != null)
+                return false;
+        } else if (!hashGenerable.equals(other.hashGenerable))
             return false;
         if (isConfirmed == null) {
             if (other.isConfirmed != null)
@@ -372,6 +427,11 @@ public class User extends AbstractEntity {
                 return false;
         } else if (!lastname.equals(other.lastname))
             return false;
+        if (locale == null) {
+            if (other.locale != null)
+                return false;
+        } else if (!locale.equals(other.locale))
+            return false;       
         if (!Arrays.equals(passwordHash, other.passwordHash))
             return false;
         if (prename == null) {
@@ -379,36 +439,17 @@ public class User extends AbstractEntity {
                 return false;
         } else if (!prename.equals(other.prename))
             return false;
+        if (town == null) {
+            if (other.town != null)
+                return false;
+        } else if (!town.equals(other.town))
+            return false;   
         if (username == null) {
             if (other.username != null)
                 return false;
         } else if (!username.equals(other.username))
             return false;
         return true;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.lang.Object#toString()
-     */
-    @Override
-    public String toString() {
-        StringBuilder builder = new StringBuilder();
-        builder.append("User [username=");
-        builder.append(username);
-        builder.append(", eMail=");
-        builder.append(eMail);
-        builder.append(", prename=");
-        builder.append(prename);
-        builder.append(", lastname=");
-        builder.append(lastname);
-        builder.append(", passwordHash=");
-        builder.append(Arrays.toString(passwordHash));
-        builder.append(", isConfirmed=");
-        builder.append(isConfirmed);
-        builder.append("]");
-        return builder.toString();
     }
 
 }

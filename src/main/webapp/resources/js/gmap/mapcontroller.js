@@ -53,6 +53,8 @@ this.de.htw.fb4.imi.jumpup.trip = this.de.htw.fb4.imi.jumpup.trip || {};
 	 */
 	de.htw.fb4.imi.jumpup.trip.MapController = function(mapsOptions, ctrlOptions) {
 		_this = this;
+		
+		console.log("map options: " + mapsOptions);
 
 		try {
 			this.gmap = new de.htw.fb4.imi.jumpup.trip.GoogleMap( mapsOptions );

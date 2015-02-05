@@ -1,0 +1,35 @@
+/**
+ * JumpUp.Me Car Pooling Application
+ *
+ * Copyright (c) 2014-2015 Sebastian Renner, Marco Seidler, Sascha Feldmann
+ */
+
+.rows-two {
+	display:-webkit-flex;
+	display: flex;
+	
+	flex-direction: row;		
+	-webkit-flex-direction: row;
+}
+
+.col-left {
+	max-height: 30em;
+	-webkit-flex: 2;
+	flex: 2;
+}
+
+.col-left tr {
+	margin-top: 2em;
+}
+
+.col-right {
+	width: 50em;
+	height: 30em;
+	-webkit-flex: 3;
+	flex: 3;
+}
+
+ #map_canvas {
+ 	min-width: 30em;
+ 	min-height: 30em;
+ }

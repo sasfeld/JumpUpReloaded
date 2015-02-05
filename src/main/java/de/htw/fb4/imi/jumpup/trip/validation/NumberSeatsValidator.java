@@ -9,7 +9,7 @@ import javax.inject.Named;
 
 import de.htw.fb4.imi.jumpup.settings.BeanNames;
 import de.htw.fb4.imi.jumpup.trip.entities.Trip;
-import de.htw.fb4.imi.jumpup.trip.util.TripConfigKeys;
+import de.htw.fb4.imi.jumpup.trip.util.TripAndBookingsConfigKeys;
 
 /**
  * <p>Validator for prices configured on {@link Trip}</p>
@@ -67,13 +67,13 @@ public class NumberSeatsValidator extends AbstractTripValidator
 
     public Float getMaxNumberOfSeats()
     {
-        Float maxPrice = Float.parseFloat(this.tripConfigReader.fetchValue(TripConfigKeys.JUMPUP_TRIP_VALIDATION_NUMBER_SEATS_MAX_VALUE));
+        Float maxPrice = Float.parseFloat(this.tripConfigReader.fetchValue(TripAndBookingsConfigKeys.JUMPUP_TRIP_VALIDATION_NUMBER_SEATS_MAX_VALUE));
         return maxPrice;
     }
 
     public Float getMinNumberOfSeats()
     {
-        Float minPrice = Float.parseFloat(this.tripConfigReader.fetchValue(TripConfigKeys.JUMPUP_TRIP_VALIDATION_NUMBER_SEATS_MIN_VALUE));
+        Float minPrice = Float.parseFloat(this.tripConfigReader.fetchValue(TripAndBookingsConfigKeys.JUMPUP_TRIP_VALIDATION_NUMBER_SEATS_MIN_VALUE));
         return minPrice;
     }
 
