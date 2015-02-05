@@ -514,7 +514,6 @@ public class SingleTripQueryResult implements Serializable
     protected Driver driver = new Driver();
     protected Vehicle vehicle = new Vehicle();
     protected Trip trip = new Trip();
-    protected TripSearchCriteria tripSearchCriteria;
 
     /**
      * @return the driver
@@ -522,23 +521,6 @@ public class SingleTripQueryResult implements Serializable
     public Driver getDriver()
     {
         return driver;
-    }
-
-    /**
-     * @return the tripSearchCriteria
-     */
-    public TripSearchCriteria getTripSearchCriteria()
-    {
-        return tripSearchCriteria;
-    }
-
-    /**
-     * @param tripSearchCriteria
-     *            the tripSearchCriteria to set
-     */
-    public void setTripSearchCriteria(TripSearchCriteria tripSearchCriteria)
-    {
-        this.tripSearchCriteria = tripSearchCriteria;
     }
 
     /**

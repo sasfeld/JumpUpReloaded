@@ -46,7 +46,7 @@ import de.htw.fb4.imi.jumpup.verhicle.entities.Vehicle;
         @NamedQuery(name = Trip.NAME_QUERY_BY_ID, query = "SELECT t FROM Trip t WHERE t.identity = :identity"),
         @NamedQuery(name = Trip.NAME_QUERY_ALL, query = "SELECT t FROM Trip t"),
         @NamedQuery(name = Trip.NAME_CRITERIA_QUERY, query = "SELECT t FROM Trip t WHERE"
-                + " t.cancelationDateTime IS NOT NULL"
+                + " t.cancelationDateTime IS NULL"
                 + " AND (t.driver != :passenger)"
                 + " AND (:dateFrom IS NULL OR t.startDateTime >= :dateFrom)"
                 + " AND (:dateTo IS NULL OR t.endDateTime <= :dateTo)"

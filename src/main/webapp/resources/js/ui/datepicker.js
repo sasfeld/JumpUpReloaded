@@ -21,7 +21,6 @@ this.de.htw.fb4.imi.jumpup.ui = this.de.htw.fb4.imi.jumpup.ui || {};
 	de.htw.fb4.imi.jumpup.ui.datePickerOptions = {
 		lang : 'de',
 		timepicker : true,
-		inline: true,
 		format : 'd.m.Y H:m'
 	};
 

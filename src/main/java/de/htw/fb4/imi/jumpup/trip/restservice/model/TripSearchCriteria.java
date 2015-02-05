@@ -13,6 +13,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import de.htw.fb4.imi.jumpup.trip.entities.Trip;
+import de.htw.fb4.imi.jumpup.user.entities.User;
 import de.htw.fb4.imi.jumpup.util.LocaleHelper;
 
 /**
@@ -47,6 +48,7 @@ public class TripSearchCriteria
     protected Float priceTo;
 
     protected Integer maxDistance;
+    protected User passenger;
 
     /**
      * @return the startPoint
@@ -240,6 +242,16 @@ public class TripSearchCriteria
     {
         this.maxDistance = maxDistance;
     }
+    
+    public void setPassenger(User passenger)
+    {
+        this.passenger = passenger;
+    }
+
+    public User getPassenger()
+    {
+        return this.passenger;
+    }
 
     /*
      * (non-Javadoc)
@@ -398,5 +410,6 @@ public class TripSearchCriteria
             % trip.getIdentity()) * 333;
             
         return Long.toString(hash);
-    }
+    }   
+  
 }

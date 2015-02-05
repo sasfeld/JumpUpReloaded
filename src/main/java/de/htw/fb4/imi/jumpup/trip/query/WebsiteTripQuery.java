@@ -5,9 +5,7 @@
  */
 package de.htw.fb4.imi.jumpup.trip.query;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -16,13 +14,12 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
 
-import org.apache.commons.lang.exception.ExceptionUtils;
-
 import de.htw.fb4.imi.jumpup.Application;
 import de.htw.fb4.imi.jumpup.Application.LogType;
 import de.htw.fb4.imi.jumpup.settings.BeanNames;
 import de.htw.fb4.imi.jumpup.settings.PersistenceSettings;
 import de.htw.fb4.imi.jumpup.translate.Translatable;
+import de.htw.fb4.imi.jumpup.trip.TripDAO;
 import de.htw.fb4.imi.jumpup.trip.entities.Trip;
 import de.htw.fb4.imi.jumpup.trip.query.filter.TripSearchFilterChain;
 import de.htw.fb4.imi.jumpup.trip.restservice.QueryResultFactory;
@@ -56,6 +53,9 @@ public class WebsiteTripQuery implements TripQueryMethod
     
     @Inject
     protected QueryResultFactory queryResultFactory;
+    
+    @Inject
+    protected TripDAO tripDao;
     
     protected List<String> messages;
 
@@ -100,43 +100,6 @@ public class WebsiteTripQuery implements TripQueryMethod
         // TODO Auto-generated method stub
         return null;
     }
-    
-    /* (non-Javadoc)
-     * @see de.htw.fb4.imi.jumpup.trip.query.TripQueryMethod#getOfferedTrips(de.htw.fb4.imi.jumpup.user.entities.User)
-     */
-    @Override
-    public List<Trip> getOfferedTrips(final User user)
-    {
-        this.reset();
-        EntityManager em = this.prepareEntityManager(user);        
-       
-        try {
-            return em.createNamedQuery(Trip.NAME_QUERY_BY_USER, Trip.class)
-                .setParameter("driver", user)
-                .getResultList();
-        } catch (Exception e) {
-            this.messages.add("We could not load your trips. Please contact our customer care team.");
-            Application.log("getOfferedTrips(): exception " + e.getMessage() 
-                    + "\nStack trace: " + ExceptionUtils.getFullStackTrace(e), LogType.ERROR, getClass());
-        }
-        
-        return null;
-    }
-
-    private void reset()
-    {
-        this.messages = new ArrayList<String>();
-    }
-
-    private EntityManager prepareEntityManager(User user)
-    {
-        // prepare for transaction
-        EntityManager em = this.getFreshEntityManager();
-        
-        em.merge(user);    
-        
-        return em;
-    }
    
 
     @Override
@@ -146,7 +109,9 @@ public class WebsiteTripQuery implements TripQueryMethod
      */
     public TripQueryResults searchForTrips(TripSearchCriteria tripSearchModel)
     {
-        List<Trip> matchedTrips = this.prepareCriteriaSearch(tripSearchModel);
+        // exclude passenger's own trip first
+        tripSearchModel.setPassenger(this.getCurrentlyLoggedInUser());
+        List<Trip> matchedTrips = this.tripDao.getByCriteria(tripSearchModel);
         
         Application.log("got trips from HQL: " + matchedTrips, LogType.DEBUG, getClass());
         
@@ -185,60 +150,12 @@ public class WebsiteTripQuery implements TripQueryMethod
     }
 
     /**
-     * Search {@link Trip} instances by basic criteria.
-     * @param tripSearchModel
-     * @return
-     */
-    private List<Trip> prepareCriteriaSearch(TripSearchCriteria tripSearchModel)
-    {
-        EntityManager em = this.getFreshEntityManager();
-              
-        Timestamp dateFromTimeStamp = this.convertToTimestamp(tripSearchModel.getDateFrom());
-        Timestamp dateToTimeStamp = this.convertToTimestamp(tripSearchModel.getDateTo());
-        Float priceFrom = tripSearchModel.getPriceFrom();
-        Float priceTo = tripSearchModel.getPriceTo();
-        
-        try {
-            // search within date and price range, exclude trips offered by currently logged-in user
-            
-            return em.createNamedQuery(Trip.NAME_QUERY_ALL, Trip.class) .getResultList();
-//            return em.createNamedQuery(Trip.NAME_CRITERIA_QUERY, Trip.class)
-//                .setParameter("dateFrom", null)
-//                .setParameter("dateTo", null)
-//                .setParameter("priceFrom", null)
-//                .setParameter("priceTo", null)
-//                .setParameter("passenger", null)
-//                .getResultList();
-        } catch (Exception e) {
-            this.messages.add("Error while searching for trips by the given criteria");
-            Application.log("prepareCriteriaSearch(): exception " + e.getMessage() + "\nstack:" 
-                    + ExceptionUtils.getFullStackTrace(e), LogType.ERROR, getClass());               
-        }
-        
-        return null;
-    }
-
-    /**
      * Get currently logged-in user.
      * @return
      */
     private User getCurrentlyLoggedInUser()
     {
         return loginController.getLoginModel().getCurrentUser();
-    }
-
-    /**
-     * Convert from date to {@link Timestamp}.
-     * @param date
-     * @return
-     */
-    private Timestamp convertToTimestamp(Date date)
-    {
-        if (null == date) {
-            return null;
-        }
-        
-        return new Timestamp(date.getTime());
     }
 
     @Override

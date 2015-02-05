@@ -5,15 +5,24 @@
  */
 package de.htw.fb4.imi.jumpup.trip;
 
+import java.sql.Timestamp;
+import java.util.Date;
+import java.util.List;
+
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import org.apache.commons.lang.exception.ExceptionUtils;
+
+import de.htw.fb4.imi.jumpup.Application;
+import de.htw.fb4.imi.jumpup.Application.LogType;
 import de.htw.fb4.imi.jumpup.settings.BeanNames;
 import de.htw.fb4.imi.jumpup.settings.PersistenceSettings;
 import de.htw.fb4.imi.jumpup.trip.entities.Trip;
+import de.htw.fb4.imi.jumpup.trip.restservice.model.TripSearchCriteria;
 import de.htw.fb4.imi.jumpup.user.UserDAO;
 import de.htw.fb4.imi.jumpup.user.entities.User;
 
@@ -64,5 +73,73 @@ public class TripDAOImpl implements TripDAO
         }
         
         trip.setDriver(driver);
+    }
+
+    @Override
+    public List<Trip> getByCriteria(TripSearchCriteria tripSearchCriteria)
+    {
+        Timestamp dateFromTimeStamp = this.convertToTimestamp(tripSearchCriteria.getDateFrom());
+        Timestamp dateToTimeStamp = this.convertToTimestamp(tripSearchCriteria.getDateTo());
+        Float priceFrom = tripSearchCriteria.getPriceFrom();
+        Float priceTo = tripSearchCriteria.getPriceTo();
+        User passenger = tripSearchCriteria.getPassenger();
+        
+        try {
+            // search within date and price range, exclude trips offered by currently logged-in user
+            
+            return em.createNamedQuery(Trip.NAME_CRITERIA_QUERY, Trip.class)
+                .setParameter("dateFrom", dateFromTimeStamp)
+                .setParameter("dateTo", dateToTimeStamp)
+                .setParameter("priceFrom", priceFrom)
+                .setParameter("priceTo", priceTo)
+                .setParameter("passenger", passenger)
+                .getResultList();
+        } catch (Exception e) {
+            Application.log("prepareCriteriaSearch(): exception " + e.getMessage() + "\nstack:" 
+                    + ExceptionUtils.getFullStackTrace(e), LogType.ERROR, getClass());               
+        }
+        
+        return null;
+    }
+    
+    /**
+     * Convert from date to {@link Timestamp}.
+     * @param date
+     * @return
+     */
+    private Timestamp convertToTimestamp(Date date)
+    {
+        if (null == date) {
+            return null;
+        }
+        
+        return new Timestamp(date.getTime());
+    }    
+    
+    /* (non-Javadoc)
+     * @see de.htw.fb4.imi.jumpup.trip.query.TripQueryMethod#getOfferedTrips(de.htw.fb4.imi.jumpup.user.entities.User)
+     */
+    @Override
+    public List<Trip> getOfferedTrips(final User user)
+    {
+        EntityManager em = this.prepareEntityManager(user);        
+       
+        try {
+            return em.createNamedQuery(Trip.NAME_QUERY_BY_USER, Trip.class)
+                .setParameter("driver", user)
+                .getResultList();
+        } catch (Exception e) {
+            Application.log("getOfferedTrips(): exception " + e.getMessage() 
+                    + "\nStack trace: " + ExceptionUtils.getFullStackTrace(e), LogType.ERROR, getClass());
+        }
+        
+        return null;
+    }
+    
+    private EntityManager prepareEntityManager(User user)
+    {        
+        em.merge(user);    
+        
+        return em;
     }
 }

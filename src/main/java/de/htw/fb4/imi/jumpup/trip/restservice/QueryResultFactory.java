@@ -55,17 +55,16 @@ public class QueryResultFactory
             TripSearchCriteria searchCriteria)
     {
         SingleTripQueryResult singleTripQueryResult = new SingleTripQueryResult();
-
-        singleTripQueryResult.setTripSearchCriteria(searchCriteria);
-        fillFromTripEntity(singleTripQueryResult, trip);
-        fillFromDriverEntity(singleTripQueryResult, trip.getDriver());
+;
+        fillFromTripEntity(singleTripQueryResult, trip, searchCriteria);
+        fillFromDriverEntity(singleTripQueryResult, trip.getDriver(), searchCriteria);
         fillFromVehicleEntity(singleTripQueryResult, trip.getVehicle());
 
         return singleTripQueryResult;
     }
 
     private void fillFromTripEntity(
-            SingleTripQueryResult singleTripQueryResult, Trip trip)
+            SingleTripQueryResult singleTripQueryResult, Trip trip, TripSearchCriteria searchCriteria)
     {
         singleTripQueryResult.getTrip().setId(trip.getIdentity());
         singleTripQueryResult.getTrip().setStartpoint(trip.getStartpoint());
@@ -87,11 +86,11 @@ public class QueryResultFactory
         // generate and set booking URL to enable booking this trip
         singleTripQueryResult.getTrip().setBookingUrl(
                 navigationHelper.generateAddBookingUrl(
-                        singleTripQueryResult.getTripSearchCriteria(), trip));
+                        searchCriteria, trip));
     }
 
     private void fillFromDriverEntity(
-            SingleTripQueryResult singleTripQueryResult, User driver)
+            SingleTripQueryResult singleTripQueryResult, User driver, TripSearchCriteria searchCriteria)
     {
         singleTripQueryResult.getDriver().setUsername(driver.getUsername());
         singleTripQueryResult.getDriver().setEmail(driver.geteMail());
@@ -109,7 +108,7 @@ public class QueryResultFactory
         singleTripQueryResult.getDriver().setTown(driver.getTown());
         singleTripQueryResult.getDriver().setUrl(
                 navigationHelper.generateDriverUrl(
-                        singleTripQueryResult.getTripSearchCriteria(), driver));
+                        searchCriteria, driver));
 
     }
 

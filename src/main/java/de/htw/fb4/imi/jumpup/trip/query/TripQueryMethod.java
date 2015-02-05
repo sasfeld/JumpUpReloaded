@@ -5,14 +5,11 @@
  */
 package de.htw.fb4.imi.jumpup.trip.query;
 
-import java.util.List;
-
 import javax.ejb.Local;
 
 import de.htw.fb4.imi.jumpup.trip.entities.Trip;
 import de.htw.fb4.imi.jumpup.trip.restservice.model.TripQueryResults;
 import de.htw.fb4.imi.jumpup.trip.restservice.model.TripSearchCriteria;
-import de.htw.fb4.imi.jumpup.user.entities.User;
 import de.htw.fb4.imi.jumpup.util.ErrorPrintable;
 
 /**
@@ -29,14 +26,7 @@ import de.htw.fb4.imi.jumpup.util.ErrorPrintable;
  */
 @Local
 public interface TripQueryMethod extends ErrorPrintable
-{
-    
-    /**
-     * Get trips that the given {@link User} offered as a driver.
-     * @param user
-     * @return
-     */
-    List<Trip> getOfferedTrips(final User user);    
+{    
     
     /**
      * Get trips that match the criteria as given by the {@link TripSearchCriteria} instance.

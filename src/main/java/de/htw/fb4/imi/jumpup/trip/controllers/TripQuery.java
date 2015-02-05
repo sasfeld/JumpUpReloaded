@@ -18,6 +18,7 @@ import de.htw.fb4.imi.jumpup.Application;
 import de.htw.fb4.imi.jumpup.Application.LogType;
 import de.htw.fb4.imi.jumpup.controllers.AbstractFacesController;
 import de.htw.fb4.imi.jumpup.settings.BeanNames;
+import de.htw.fb4.imi.jumpup.trip.TripDAO;
 import de.htw.fb4.imi.jumpup.trip.entities.Trip;
 import de.htw.fb4.imi.jumpup.trip.query.TripQueryMethod;
 import de.htw.fb4.imi.jumpup.user.Role;
@@ -50,6 +51,9 @@ public class TripQuery extends AbstractFacesController implements Serializable
     
     @Inject
     protected Login loginController;
+    
+    @Inject
+    protected TripDAO tripDAO;
     
     protected Role roleDriver = Role.DRIVER;
     
@@ -100,12 +104,7 @@ public class TripQuery extends AbstractFacesController implements Serializable
         try {
             User loggedInUser = loginController.getLoginModel().getCurrentUser();
                         
-            List<Trip> offeredTrips = this.tripQueryMethod.getOfferedTrips(loggedInUser);
-            
-            // print last error message if given
-            if (this.tripQueryMethod.hasError()) {
-                this.addDisplayErrorMessage(this.tripQueryMethod.getErrors()[0]);
-            }
+            List<Trip> offeredTrips = this.tripDAO.getOfferedTrips(loggedInUser);
             
             return offeredTrips;
         } catch (Exception e) {

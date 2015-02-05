@@ -5,9 +5,13 @@
  */
 package de.htw.fb4.imi.jumpup.trip;
 
+import java.util.List;
+
 import javax.ejb.Local;
 
 import de.htw.fb4.imi.jumpup.trip.entities.Trip;
+import de.htw.fb4.imi.jumpup.trip.restservice.model.TripSearchCriteria;
+import de.htw.fb4.imi.jumpup.user.entities.User;
 
 /**
  * <p>Data access object to perform database operations on {@link Trip} entities.</p>
@@ -33,5 +37,18 @@ public interface TripDAO
      * @param trip
      */
     void joinDriver(Trip trip);
-
+    
+    /**
+     * Load trip criteria by the given {@link TripSearchCriteria} model.
+     * @param tripSearchCriteria
+     * @return
+     */
+    List<Trip> getByCriteria(TripSearchCriteria tripSearchCriteria);
+    
+    /**
+     * Get trips that the given {@link User} offered as a driver.
+     * @param user
+     * @return
+     */
+    List<Trip> getOfferedTrips(final User user);    
 }
