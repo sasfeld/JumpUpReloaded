@@ -6,7 +6,6 @@
 package de.htw.fb4.imi.jumpup.trip.restservice.model;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
 import java.util.Set;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -280,8 +279,8 @@ public class SingleTripQueryResult implements Serializable
         protected float longStartpoint;
         protected float latEndpoint;
         protected float longEndpoint;
-        protected Timestamp startDateTime;
-        protected Timestamp endDateTime;
+        protected String startDateTime;
+        protected String endDateTime;
         protected float price;
         protected String viaWaypoints;
         protected Integer numberOfSeats;
@@ -409,7 +408,7 @@ public class SingleTripQueryResult implements Serializable
         /**
          * @return the startDateTime
          */
-        public Timestamp getStartDateTime()
+        public String getStartDateTime()
         {
             return startDateTime;
         }
@@ -418,7 +417,7 @@ public class SingleTripQueryResult implements Serializable
          * @param startDateTime
          *            the startDateTime to set
          */
-        public void setStartDateTime(Timestamp startDateTime)
+        public void setStartDateTime(String startDateTime)
         {
             this.startDateTime = startDateTime;
         }
@@ -426,7 +425,7 @@ public class SingleTripQueryResult implements Serializable
         /**
          * @return the endDateTime
          */
-        public Timestamp getEndDateTime()
+        public String getEndDateTime()
         {
 
             return endDateTime;
@@ -436,7 +435,7 @@ public class SingleTripQueryResult implements Serializable
          * @param endDateTime
          *            the endDateTime to set
          */
-        public void setEndDateTime(Timestamp endDateTime)
+        public void setEndDateTime(String endDateTime)
         {
             this.endDateTime = endDateTime;
         }

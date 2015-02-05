@@ -5,8 +5,6 @@
  */
 package de.htw.fb4.imi.jumpup.trip.restservice;
 
-import java.sql.Timestamp;
-import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -23,6 +21,7 @@ import de.htw.fb4.imi.jumpup.trip.restservice.model.TripQueryResults;
 import de.htw.fb4.imi.jumpup.trip.restservice.model.TripQueryResults.Translations;
 import de.htw.fb4.imi.jumpup.trip.restservice.model.TripSearchCriteria;
 import de.htw.fb4.imi.jumpup.user.entities.User;
+import de.htw.fb4.imi.jumpup.util.LocaleHelper;
 import de.htw.fb4.imi.jumpup.verhicle.entities.Vehicle;
 
 /**
@@ -42,6 +41,9 @@ public class QueryResultFactory
 
     @Inject
     protected NavigationBean navigationHelper;
+    
+    @Inject
+    protected LocaleHelper localeHelper;
 
     /**
      * Build a {@link SingleTripQueryResult} which will be returned marshalled
@@ -75,10 +77,8 @@ public class QueryResultFactory
                 trip.getLongStartpoint());
         singleTripQueryResult.getTrip().setLatEndpoint(trip.getLatEndpoint());
         singleTripQueryResult.getTrip().setLongEndpoint(trip.getLongEndpoint());
-        singleTripQueryResult.getTrip().setStartDateTime(
-                toTimestamp(trip.getStartDateTime()));
-        singleTripQueryResult.getTrip().setEndDateTime(
-                toTimestamp(trip.getEndDateTime()));
+        singleTripQueryResult.getTrip().setStartDateTime(localeHelper.formatDateTime(trip.getStartDateTime()));
+        singleTripQueryResult.getTrip().setEndDateTime(localeHelper.formatDateTime(trip.getEndDateTime()));
         singleTripQueryResult.getTrip().setPrice(trip.getPrice());
         singleTripQueryResult.getTrip().setViaWaypoints(trip.getViaWaypoints());
         singleTripQueryResult.getTrip().setNumberOfSeats(
@@ -124,11 +124,6 @@ public class QueryResultFactory
         // TODO Auto-generated method stub
         // only dummy implementation
         singleTripQueryResult.getVehicle().setManufactor("BMW");
-    }
-
-    private Timestamp toTimestamp(Date startDateTime)
-    {
-        return new Timestamp(startDateTime.getTime());
     }
 
     /**
