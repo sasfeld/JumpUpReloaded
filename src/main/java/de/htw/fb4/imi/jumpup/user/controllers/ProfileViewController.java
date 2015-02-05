@@ -45,16 +45,17 @@ public class ProfileViewController extends AbstractFacesController implements
     protected Languages languages = Languages.GERMAN;
     protected Gender genders = Gender.MAN;
     protected String userID;
+    protected User user;
 
     public UserDetails getUserDetails()
     {
 
         if (userID != null & userDetails == null) {
             try {
-                User currentUser = userDAO.loadById(new Long(userID));
+                user = userDAO.loadById(new Long(userID));
                 Application.log("UserDetailsContoller: current user "
-                        + currentUser, LogType.DEBUG, getClass());
-                userDetails = currentUser.getUserDetails();
+                        + user, LogType.DEBUG, getClass());
+                userDetails = user.getUserDetails();
 
             } catch (Exception e) {
                 Application.log("Exception here: " + e.getLocalizedMessage(),
@@ -112,6 +113,16 @@ public class ProfileViewController extends AbstractFacesController implements
     public void setUserID(String userID)
     {
         this.userID = userID;
+    }
+
+    public User getUser()
+    {
+        return user;
+    }
+
+    public void setUser(User user)
+    {
+        this.user = user;
     }
 
 }
