@@ -305,7 +305,7 @@ this.de.htw.fb4.imi.jumpup.trip = this.de.htw.fb4.imi.jumpup.trip || {};
 				+ "<li><span class=\"ui-accordion-content-key\">" + messages.destination_distance + ":</span>"
 				+ distFromPassDest + "</li>" + "<li class=\"drivertooltip\" id=\"" + id + '\">'
 				+ "<span class=\"ui-accordion-content-key\">" + messages.driver
-				+ ":</span><span class=\"tooltip-highlight\">" + "<a href=\"" + driver.url + "\"> + "driver.prename + " " + driver.lastname
+				+ ":</span><span class=\"tooltip-highlight\">" + "<a target=\"_blank\" href=\"" + driver.url + "\">" + driver.prename + " " + driver.lastname
 				+ "</a> </span></li>" + "<li><span class=\"ui-accordion-content-key\">" + messages.start_date + ":</span>"
 				+ startDate + "</li>" + "<li><span class=\"ui-accordion-content-key\">" + messages.overall_price
 				+ ":</span>" + driversPrice + "</li>" + "<li><span class=\"ui-accordion-content-key\">"
