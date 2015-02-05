@@ -45,7 +45,9 @@ $(document).ready(function() {
 					var REF_TRIPS_MAX_DISTANCE = ADDTRIP_REF_FORM
 					+ " input[name$='max_distance']"
 					var REF_TRIPS_BTN = ADDTRIP_REF_FORM
-					+ " input[name$='look_for_trips']"
+					+ " input[name$='look_for_trips']";
+					var	REF_PASSENGER_ICON_URL = ADDTRIP_REF_FORM 
+					+ " input[name$='passenger_icon_url']";
 					
 					var REF_TRIPS_USER_ID = ADDTRIP_REF_FORM
 							+ " input[name$='current_user_id']";
@@ -105,8 +107,13 @@ $(document).ready(function() {
 											$(REF_TRIPS_INPUT_LONG_START).val(
 													place.geometry.location.lng());
 											
+											var passengerIcon = $(
+													REF_PASSENGER_ICON_URL)
+													.val();
 											tripsCtrl
 													.setStartCoord(place.geometry.location);
+											mapCtrl.gmap.showMarkerAtAddress(place.geometry.location.lat(), place.geometry.location.lng(), { "title" : "My start location",
+												"icon" : passengerIcon });
 										});
 					}
 					;
@@ -133,8 +140,13 @@ $(document).ready(function() {
 												console.log('Error setting location latitude!');
 											}
 											
+											var passengerIcon = $(
+													REF_PASSENGER_ICON_URL)
+													.val();											
 											tripsCtrl
 													.setEndCoord(place.geometry.location);
+											mapCtrl.gmap.showMarkerAtAddress(place.geometry.location.lat(), place.geometry.location.lng(), { "title" : "My destination",
+												"icon" : passengerIcon });
 										});
 					}
 					;

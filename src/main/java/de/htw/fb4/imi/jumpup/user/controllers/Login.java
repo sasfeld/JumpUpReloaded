@@ -19,6 +19,7 @@ import de.htw.fb4.imi.jumpup.navigation.NavigationOutcomes;
 import de.htw.fb4.imi.jumpup.settings.BeanNames;
 import de.htw.fb4.imi.jumpup.user.login.LoginMethod;
 import de.htw.fb4.imi.jumpup.user.login.LoginModel;
+import de.htw.fb4.imi.jumpup.util.Gender;
 
 /**
  * <p>
@@ -48,8 +49,20 @@ public class Login extends AbstractFacesController implements Serializable
 
     @Inject
     protected LoginMethod loginMethod;
+    
+    @Inject
+    protected NavigationBean navigationBean;
 
     protected String pathToApp;
+    
+    public String getIconUrl()
+    {
+        if (null == this.getLoginModel().getCurrentUser() || !this.getLoginModel().getCurrentUser().getUserDetails().getGender().equals(Gender.WOMAN)) {
+            return navigationBean.pathToAppFallback()+ "/resources/img/icons/male.png";
+        }
+        
+        return navigationBean.pathToAppFallback()+ "/resources/img/icons/female.png";
+    }
     
     /**
      * @return the loginModel
