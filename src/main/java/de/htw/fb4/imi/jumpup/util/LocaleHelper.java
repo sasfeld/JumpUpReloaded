@@ -55,11 +55,20 @@ public class LocaleHelper
     public Date parseDateFromString(String dateString) throws ParseException
     {
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy.M.d H:mm");
+        SimpleDateFormat sdf = new SimpleDateFormat(getDateTimeFormat());
 
         Date date = sdf.parse(dateString);
 
         return date;
+    }
+
+    /**
+     * Get the date time format to be used in frontend components and for conversion.
+     * @return
+     */
+    public String getDateTimeFormat()
+    {
+        return "dd.MM.yyyy H:mm";
     }
 
     /**
@@ -95,6 +104,10 @@ public class LocaleHelper
      */
     public String formatDateTime(final Date inputDate)
     {
+        if (null == inputDate) {
+            return "---";
+        }
+        
         return DateFormat.getDateTimeInstance(getDatePrecision(),
                 getTimePrecision()).format(inputDate);
     }

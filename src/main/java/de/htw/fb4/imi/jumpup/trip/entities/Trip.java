@@ -233,7 +233,7 @@ public class Trip extends AbstractEntity
     public Date getStartDateTime()
     {
         if (null == this.startDateTime) {
-            return new Date();
+            return null;
         }
 
         return new Date(this.startDateTime.getTime());
@@ -263,7 +263,7 @@ public class Trip extends AbstractEntity
     public Date getEndDateTime()
     {
         if (null == this.endDateTime) {
-            return new Date();
+            return null;
         }
 
         return new Date(this.endDateTime.getTime());
@@ -284,7 +284,7 @@ public class Trip extends AbstractEntity
      */
     public void setEndDateTime(Date endDateTime)
     {
-        this.setEndDateTime(new Timestamp(startDateTime.getTime()));
+        this.setEndDateTime(new Timestamp(endDateTime.getTime()));
     }
 
     /**

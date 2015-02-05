@@ -15,17 +15,13 @@ this.de.htw.fb4.imi.jumpup = this.de.htw.fb4.imi.jumpup || {};
 this.de.htw.fb4.imi.jumpup.ui = this.de.htw.fb4.imi.jumpup.ui || {};
 
 (function() {
+	/**
+	 * Options for our date picker plugin from http://plugins.jquery.com/datetimepicker/ 
+	 */
 	de.htw.fb4.imi.jumpup.ui.datePickerOptions = {
 		lang : 'de',
-//		i18n : {
-//			de : {
-//				months : [ 'Januar', 'Februar', 'März', 'April', 'Mai', 'Juni',
-//						'Juli', 'August', 'September', 'Oktober', 'November',
-//						'Dezember', ],
-//				dayOfWeek : [ "So.", "Mo", "Di", "Mi", "Do", "Fr", "Sa.", ]
-//			}
-//		},
 		timepicker : true,
+		inline: true,
 		format : 'd.m.Y H:m'
 	};
 

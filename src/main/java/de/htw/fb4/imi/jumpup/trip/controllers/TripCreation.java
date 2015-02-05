@@ -86,7 +86,7 @@ public class TripCreation extends AbstractFacesController
      */
     public Trip getTrip()
     {
-        if (null != this.tripId) {
+        if (null != this.tripId && null == this.trip) {
             try {
                 // Load from DB
                 Application.log("TripCreation: tripId " + tripId + "given, trying to load from DB...", LogType.DEBUG, getClass());
@@ -176,6 +176,9 @@ public class TripCreation extends AbstractFacesController
         try {
             Application.log("TripCreation: try to edit trip",
                     LogType.DEBUG, getClass());
+            // we have to set the trip ID again, because it is lost for some reason
+            this.getTrip().setIdentity(this.getTripId());
+            
             tripCreationMethod.changeTrip(getTrip());
             
             if (tripCreationMethod.hasError()) {
@@ -209,6 +212,9 @@ public class TripCreation extends AbstractFacesController
        try {
            Application.log("TripCreation: try to cancel trip",
                    LogType.DEBUG, getClass());
+           // we have to set the trip ID again, because it is lost for some reason
+           this.getTrip().setIdentity(this.getTripId());
+           
            tripCreationMethod.cancelTrip(getTrip());
            
            if (tripCreationMethod.hasError()) {

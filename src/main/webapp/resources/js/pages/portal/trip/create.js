@@ -21,7 +21,7 @@ $(document).ready(function() {
 	var	REF_MAP_GEOCODING = "#geocoding";
 	var	REF_MAP_DIRECTIONS = "#directions";
 	
-	var ADDTRIP_REF_FORM = 'form[name="createTripForm"]';
+	var ADDTRIP_REF_FORM = '';
 		
 	var	REF_ADDTRIP_INPUT_START = ADDTRIP_REF_FORM
 			+ ' .start_location';
@@ -29,8 +29,18 @@ $(document).ready(function() {
 			+ ' .end_location';
 	var	REF_ADDTRIP_VIA_WAYPOINTS = ADDTRIP_REF_FORM
 	+ " input[name$='via_waypoints']";
+	var REF_TRIPS_START_DATE = ADDTRIP_REF_FORM
+	+ " input[name$='start_date_time']";
+	var REF_TRIPS_END_DATE = ADDTRIP_REF_FORM
+	+ " input[name$='end_date_time']";
 	
-	
+	$(REF_TRIPS_START_DATE).datetimepicker(
+			de.htw.fb4.imi.jumpup.ui.datePickerOptions || {}
+		);
+	$(REF_TRIPS_END_DATE).datetimepicker(
+			de.htw.fb4.imi.jumpup.ui.datePickerOptions || {}
+		);
+		
 	// load googlemap controller
 	console.log("Instanciating google map controller...");
 	

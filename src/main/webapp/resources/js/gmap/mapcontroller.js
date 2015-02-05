@@ -15,7 +15,7 @@ this.de.htw.fb4.imi.jumpup = this.de.htw.fb4.imi.jumpup || {};
 this.de.htw.fb4.imi.jumpup.trip = this.de.htw.fb4.imi.jumpup.trip || {};
 
 ( function() {
-	var ADDTRIP_REF_FORM = 'form[name="createTripForm"]';
+	var ADDTRIP_REF_FORM = '';
 	
 	var	REF_ADDTRIP_INPUT_LAT_START = ADDTRIP_REF_FORM
 			+ " input[name$='latitude_start']";
