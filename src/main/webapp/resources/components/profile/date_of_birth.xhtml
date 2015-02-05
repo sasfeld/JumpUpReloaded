@@ -9,6 +9,7 @@
 
 	<composite:interface>
 		<composite:attribute name="valueBinding" required="true" />
+		<composite:attribute name="readOnly" required="false" default="false"/>
 	</composite:interface>
 	<composite:implementation>
 		<h:outputText value="#{translator.translate('Date of Birth')}: "></h:outputText>
@@ -17,6 +18,7 @@
 				p:required="required"
 				p:type="date" 
 				p:title="#{translator.translate('Please enter a valid date of birth.')}"
+				readonly="#{cc.attrs.readOnly}"
 				>
 				<f:convertDateTime pattern="yyyy-M-d"></f:convertDateTime>
 				<f:validator binding="#{dateOfBirthValidator}" />

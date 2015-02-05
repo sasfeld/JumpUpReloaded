@@ -297,6 +297,7 @@ this.de.htw.fb4.imi.jumpup.trip = this.de.htw.fb4.imi.jumpup.trip || {};
 //		var distFromPassDest = Math.round(trip.distanceFromPassengersDestination);
 		var distFromPassDest = 0;
 
+		//fugly?! mfg fu js
 		this.addHeadline("<span class=\"highlighting\">" + startPoint + "</span> " + messages.to
 				+ " <span class=\"highlighting\">" + endPoint + "</span>");
 		var bodyStr = "<ul class=\"bookinglist\">" + "<li><span class=\"ui-accordion-content-key\">"
@@ -304,8 +305,8 @@ this.de.htw.fb4.imi.jumpup.trip = this.de.htw.fb4.imi.jumpup.trip || {};
 				+ "<li><span class=\"ui-accordion-content-key\">" + messages.destination_distance + ":</span>"
 				+ distFromPassDest + "</li>" + "<li class=\"drivertooltip\" id=\"" + id + '\">'
 				+ "<span class=\"ui-accordion-content-key\">" + messages.driver
-				+ ":</span><span class=\"tooltip-highlight\">" + driver.prename + " " + driver.lastname
-				+ "</span></li>" + "<li><span class=\"ui-accordion-content-key\">" + messages.start_date + ":</span>"
+				+ ":</span><span class=\"tooltip-highlight\">" + "<a href=\"" + driver.url + "\"> + "driver.prename + " " + driver.lastname
+				+ "</a> </span></li>" + "<li><span class=\"ui-accordion-content-key\">" + messages.start_date + ":</span>"
 				+ startDate + "</li>" + "<li><span class=\"ui-accordion-content-key\">" + messages.overall_price
 				+ ":</span>" + driversPrice + "</li>" + "<li><span class=\"ui-accordion-content-key\">"
 				+ messages.current_bookings + ":</span>" + numberBookings + "/" + maxSeats + "</li>"

@@ -9,6 +9,7 @@
 
 	<composite:interface>
 		<composite:attribute name="valueBinding" required="true" />
+		<composite:attribute name="readOnly" required="false" default="false"/>
 	</composite:interface>
 	<composite:implementation>
 		<h:outputText value="#{translator.translate('Place of birth')}: "></h:outputText>
@@ -16,7 +17,8 @@
 				value="#{cc.attrs.valueBinding}"
 				p:required="required"
 				p:title="#{translator.translate('Please enter a valid date of birth (city) with at least ').concat(placeOfBirthValidator.getMinLength()).concat(' and maximal ').concat(placeOfBirthValidator.getMaxLength()).concat(' characters.')}"
-				p:pattern=".{#{emailValidator.getMinLength()},#{emailValidator.getMaxLength()}}">
+				p:pattern=".{#{emailValidator.getMinLength()},#{emailValidator.getMaxLength()}}"
+				readonly="#{cc.attrs.readOnly}">
 				<f:validator binding="#{placeOfBirthValidator}" />
 		</h:inputText>
 	</composite:implementation>

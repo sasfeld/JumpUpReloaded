@@ -9,6 +9,7 @@
 
 	<composite:interface>
 		<composite:attribute name="valueBinding" required="true" />
+		<composite:attribute name="readOnly" required="false" default="false"/>
 	</composite:interface>
 	<composite:implementation>
 		<h:outputText value="#{translator.translate('Mobile number')}: "></h:outputText>
@@ -16,7 +17,8 @@
 				value="#{cc.attrs.valueBinding}"
 				p:required="required"
 				p:title="#{translator.translate('Please enter a valid mobile number with at least ').concat(mobileNumberValidator.getMinLength()).concat(' and maximal ').concat(mobileNumberValidator.getMaxLength()).concat(' characters.')}"
-				p:pattern=".{#{mobileNumberValidator.getMinLength()},#{mobileNumberValidator.getMaxLength()}}">
+				p:pattern=".{#{mobileNumberValidator.getMinLength()},#{mobileNumberValidator.getMaxLength()}}"
+				readonly="#{cc.attrs.readOnly}">
 				<f:validator binding="#{mobileNumberValidator}" />
 		</h:inputText>
 	</composite:implementation>

@@ -9,11 +9,13 @@
 
 	<composite:interface>
 		<composite:attribute name="valueBinding" required="true" />
+		<composite:attribute name="readOnly" required="false" default="false"/>
 	</composite:interface>
 	<composite:implementation>
 		<h:outputText value="#{translator.translate('Gender')}: "></h:outputText>
-		<h:selectOneMenu value="#{cc.attrs.valueBinding}">
+		<h:selectOneMenu value="#{cc.attrs.valueBinding}" readonly="#{cc.attrs.readOnly}">
 			<f:selectItems value="#{userDetailsController.genders.allGenders}" />
+			
 		</h:selectOneMenu>
 	</composite:implementation>
 

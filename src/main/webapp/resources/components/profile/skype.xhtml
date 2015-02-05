@@ -9,6 +9,7 @@
 
 	<composite:interface>
 		<composite:attribute name="valueBinding" required="true" />
+		<composite:attribute name="readOnly" required="false" default="false"/>
 	</composite:interface>
 	<composite:implementation>
 		<h:outputText value="#{translator.translate('Skype')}: "></h:outputText>
@@ -16,7 +17,8 @@
 				value="#{cc.attrs.valueBinding}"
 				p:required="required"
 				p:title="#{translator.translate('Please enter a valid skype account with at least ').concat(skypeValidator.getMinLength()).concat(' and maximal ').concat(skypeValidator.getMaxLength()).concat(' characters.')}"
-				p:pattern=".{#{mobileNumberValidator.getMinLength()},#{mobileNumberValidator.getMaxLength()}}">
+				p:pattern=".{#{mobileNumberValidator.getMinLength()},#{mobileNumberValidator.getMaxLength()}}"
+				readonly="#{cc.attrs.readOnly}">
 				<f:validator binding="#{skypeValidator}" />
 		</h:inputText>
 	</composite:implementation>

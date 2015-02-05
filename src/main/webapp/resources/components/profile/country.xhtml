@@ -9,6 +9,7 @@
 
 	<composite:interface>
 		<composite:attribute name="valueBinding" required="true" />
+		<composite:attribute name="readOnly" required="false" default="false"/>
 	</composite:interface>
 	<composite:implementation>
 		<h:outputText value="#{translator.translate('Country')}: "></h:outputText>
@@ -16,7 +17,8 @@
 				value="#{cc.attrs.valueBinding}"
 				p:required="required"
 				p:title="#{translator.translate('Please enter a valid country with at least ').concat(countryValidator.getMinLength()).concat(' and maximal ').concat(countryValidator.getMaxLength()).concat(' characters.')}"
-				p:pattern=".{#{countryValidator.getMinLength()},#{countryValidator.getMaxLength()}}">
+				p:pattern=".{#{countryValidator.getMinLength()},#{countryValidator.getMaxLength()}}"
+				readonly="#{cc.attrs.readOnly}">
 				<f:validator binding="#{countryValidator}" />
 		</h:inputText>
 	</composite:implementation>

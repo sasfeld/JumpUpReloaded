@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:profile="http://xmlns.jcp.org/jsf/composite/components/profile"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	>
+
+<ui:composition template="../../resources/templates/basic/BasicTemplate.xhtml">
+	<ui:define name="content">
+		<div>
+			<h2>#{translator.translate('Edit your profile')}</h2>
+			
+			<h:outputText render="#{!userDetailsController.userDetails.isFilled()}" value="#{translator.translate('Please fill in your profile information so that the other users know you better.')}"/>			
+		</div>
+		<div>
+			<h:form id="userDetailsForm">
+		    	<h:messages errorClass="errorMessage" infoClass="infoMessage" warnClass="warnMessage"></h:messages>	 	
+			 	<h:panelGrid columns="1">
+		    		<profile:gender valueBinding="#{userDetailsController.userDetails.gender}" readOnly="true"/>
+		    		
+		    		<profile:date_of_birth valueBinding="#{userDetailsController.userDetails.dateOfBirth}" readOnly="true"/>
+		    		
+		    		<profile:place_of_birth valueBinding="#{userDetailsController.userDetails.placeOfBirth}" readOnly="true"/>
+	
+		    		<profile:language valueBinding="#{userDetailsController.userDetails.stringLanguages}" readOnly="true"/>
+	
+		    		<profile:town valueBinding="#{loginController.loginModel.currentUser.town}" readOnly="true"/>
+		    		
+		    		<profile:country valueBinding="#{loginController.loginModel.currentUser.country}" readOnly="true"/> 
+		    		
+		    		<profile:mobile_number valueBinding="#{userDetailsController.userDetails.mobileNumber}" readOnly="true"/> 
+	
+		    		<profile:skype valueBinding="#{userDetailsController.userDetails.skype}" readOnly="true"/>	    		
+		    		
+		    		<h:commandButton value="#{translator.translate('Submit')}"
+	    			action="#{userDetailsController.editProfile}"></h:commandButton>
+		    	</h:panelGrid>	 	
+		    </h:form>
+		</div>
+		<div>
+			<h2>#{translator.translate('Change your avatar')}</h2>
+			<h:form id="form" enctype="multipart/form-data">
+			  <h:inputFile id="file" value="#{userDetailsController.userDetails.avatarFile}"/>
+			  <h:commandButton value="Upload" action="#{userDetailsController.uploadAvatar}"/>
+			</h:form>
+		</div>
+	</ui:define>
+</ui:composition>
+
+</html>

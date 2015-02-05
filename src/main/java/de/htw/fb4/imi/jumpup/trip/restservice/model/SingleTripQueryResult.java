@@ -21,10 +21,10 @@ import de.htw.fb4.imi.jumpup.util.Languages;
  * <p>
  * Result of {@link TripQueryMethod}
  * </p>
- *
+ * 
  * @author <a href="mailto:me@saschafeldmann.de">Sascha Feldmann</a>
  * @since 25.01.2015
- *
+ * 
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.PROPERTY)
@@ -42,7 +42,7 @@ public class SingleTripQueryResult implements Serializable
          */
         private static final long serialVersionUID = 5450451948907569162L;
 
-        protected Integer id;      
+        protected Integer id;
         protected String username;
         protected String email;
         protected String prename;
@@ -53,8 +53,19 @@ public class SingleTripQueryResult implements Serializable
         protected String mobileNumber;
         protected String skype;
         protected Set<Languages> spokenLanguages;
+        protected String url;
 
-        /** 
+        public void setUrl(String url)
+        {
+            this.url = url;
+        }
+
+        public String getDriverId()
+        {
+            return url;
+        }
+
+        /**
          * @return the username
          */
         public String getUsername()
@@ -232,7 +243,7 @@ public class SingleTripQueryResult implements Serializable
          * 
          */
         private static final long serialVersionUID = 363242122701716963L;
-        
+
         protected String manufactor;
 
         /**
@@ -244,13 +255,14 @@ public class SingleTripQueryResult implements Serializable
         }
 
         /**
-         * @param manufactor the manufactor to set
+         * @param manufactor
+         *            the manufactor to set
          */
         public void setManufactor(String manufactor)
         {
             this.manufactor = manufactor;
-        }       
-        
+        }
+
     }
 
     public class Trip implements Serializable
@@ -260,8 +272,8 @@ public class SingleTripQueryResult implements Serializable
          * 
          */
         private static final long serialVersionUID = -8609518419139415328L;
-        
-        protected long id;      
+
+        protected long id;
         protected String startpoint;
         protected String endpoint;
         protected float latStartpoint;
@@ -274,8 +286,7 @@ public class SingleTripQueryResult implements Serializable
         protected String viaWaypoints;
         protected Integer numberOfSeats;
         protected String bookingUrl;
-        
-        
+
         /**
          * @return the id
          */
@@ -285,7 +296,8 @@ public class SingleTripQueryResult implements Serializable
         }
 
         /**
-         * @param l the id to set
+         * @param l
+         *            the id to set
          */
         public void setId(long l)
         {
@@ -489,7 +501,8 @@ public class SingleTripQueryResult implements Serializable
         }
 
         /**
-         * @param bookingUrl the bookingUrl to set
+         * @param bookingUrl
+         *            the bookingUrl to set
          */
         public void setBookingUrl(String bookingUrl)
         {
@@ -520,7 +533,8 @@ public class SingleTripQueryResult implements Serializable
     }
 
     /**
-     * @param tripSearchCriteria the tripSearchCriteria to set
+     * @param tripSearchCriteria
+     *            the tripSearchCriteria to set
      */
     public void setTripSearchCriteria(TripSearchCriteria tripSearchCriteria)
     {

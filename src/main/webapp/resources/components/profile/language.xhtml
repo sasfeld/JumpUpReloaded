@@ -9,10 +9,11 @@
 
 	<composite:interface>
 		<composite:attribute name="valueBinding" required="true" />
+		<composite:attribute name="readOnly" required="false" default="false"/>
 	</composite:interface>
 	<composite:implementation>
 		<h:outputText value="#{translator.translate('Language')}: "></h:outputText>
-		<h:selectManyMenu value="#{cc.attrs.valueBinding}" collectionType="java.util.HashSet">
+		<h:selectManyMenu value="#{cc.attrs.valueBinding}" collectionType="java.util.HashSet" readonly="#{cc.attrs.readOnly}">
 			<f:selectItems value="#{userDetailsController.languages.allLanguages}"></f:selectItems>
 		</h:selectManyMenu>
 	</composite:implementation>
