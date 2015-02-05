@@ -13,6 +13,7 @@ this.de.htw.fb4 = this.de.htw.fb4 || {};
 this.de.htw.fb4.imi = this.de.htw.fb4.imi || {};
 this.de.htw.fb4.imi.jumpup = this.de.htw.fb4.imi.jumpup || {};
 this.de.htw.fb4.imi.jumpup.trip = this.de.htw.fb4.imi.jumpup.trip || {};
+this.de.htw.fb4.imi.jumpup.ui = this.de.htw.fb4.imi.jumpup.ui || {};
 
 $(document).ready(function() {
 					var REF_MAP_CANVAS = "#map_canvas";
@@ -48,6 +49,13 @@ $(document).ready(function() {
 					+ " input[name$='look_for_trips']";
 					var	REF_PASSENGER_ICON_URL = ADDTRIP_REF_FORM 
 					+ " input[name$='passenger_icon_url']";
+					
+					$(REF_TRIPS_START_DATE).datetimepicker(
+						de.htw.fb4.imi.jumpup.ui.datePickerOptions || {}
+					);
+					$(REF_TRIPS_END_DATE).datetimepicker(
+						de.htw.fb4.imi.jumpup.ui.datePickerOptions || {}
+					);
 					
 					var REF_TRIPS_USER_ID = ADDTRIP_REF_FORM
 							+ " input[name$='current_user_id']";

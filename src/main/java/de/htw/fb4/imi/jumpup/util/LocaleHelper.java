@@ -55,7 +55,7 @@ public class LocaleHelper
     public Date parseDateFromString(String dateString) throws ParseException
     {
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-M-d H:mm");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy.M.d H:mm");
 
         Date date = sdf.parse(dateString);
 

@@ -82,8 +82,10 @@ public class BookingController extends AbstractFacesController implements
     
     public String getIconUrl()
     {
-        if (null == this.booking || !this.booking.getPassenger().getUserDetails().getGender().equals(Gender.WOMAN)) {
+        if (null == this.booking || this.booking.getPassenger().getUserDetails().getGender().equals(Gender.MAN)) {
             return navigationBean.pathToAppFallback()+ "/resources/img/icons/male.png";
+        } else if (this.booking.getPassenger().getUserDetails().getGender().equals(Gender.LADYBOY)) {
+            return navigationBean.pathToAppFallback()+ "/resources/img/icons/ladyboy.png"; 
         }
         
         return navigationBean.pathToAppFallback()+ "/resources/img/icons/female.png";

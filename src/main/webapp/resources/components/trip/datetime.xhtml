@@ -22,7 +22,6 @@
 		<h:outputText value="#{translator.translate(cc.attrs.label)}: "></h:outputText>
 		<h:inputText id="#{cc.attrs.jsfId}" 
 				value="#{cc.attrs.valueBinding}"
-				p:type="datetime-local"
 				p:required="#{cc.attrs.isRequired}"
 				p:title="#{translator.translate(cc.attrs.validationMessage)}"
 				readonly="#{cc.attrs.readOnly}"
