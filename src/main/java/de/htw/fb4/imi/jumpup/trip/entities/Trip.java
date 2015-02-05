@@ -124,6 +124,15 @@ public class Trip extends AbstractEntity
 
     @Column(name = "duration_seconds", nullable = false, updatable = true)
     protected long durationSeconds;
+    
+    /**
+     * First matching distance to passenger's start location on look for trips.
+     */
+    protected double distanceToPassengersStartLocation;
+    /**
+     * First matching distance to passenger's end location on look for trips.
+     */
+    protected double distanceToPassengersEndLocation;
 
     /**
      * @return the startpoint
@@ -378,6 +387,40 @@ public class Trip extends AbstractEntity
     public User getDriver()
     {
         return driver;
+    }
+
+    /**
+     * @return the distanceToPassengersStartLocation
+     */
+    public double getDistanceToPassengersStartLocation()
+    {
+        return distanceToPassengersStartLocation;
+    }
+
+    /**
+     * @param distanceToPassengersStartLocation2 the distanceToPassengersStartLocation to set
+     */
+    public void setDistanceToPassengersStartLocation(
+            double distanceToPassengersStartLocation2)
+    {
+        this.distanceToPassengersStartLocation = distanceToPassengersStartLocation2;
+    }
+
+    /**
+     * @return the distanceToPassengersEndLocation
+     */
+    public double getDistanceToPassengersEndLocation()
+    {
+        return distanceToPassengersEndLocation;
+    }
+
+    /**
+     * @param distanceToPassengersEndLocation2 the distanceToPassengersEndLocation to set
+     */
+    public void setDistanceToPassengersEndLocation(
+            double distanceToPassengersEndLocation2)
+    {
+        this.distanceToPassengersEndLocation = distanceToPassengersEndLocation2;
     }
 
     /**

@@ -287,15 +287,15 @@ this.de.htw.fb4.imi.jumpup.trip = this.de.htw.fb4.imi.jumpup.trip || {};
 		var endLat = trip.latEndpoint;
 		var endLong =trip.longEndpoint;
 		// TODO return number of bookings
-		var numberBookings = 1;
+		var numberBookings = trip.numberOfBookings;
 		var maxSeats =trip.numberOfSeats;
 //		var vehicle = trip.vehicle;
 		this.idMap[id] = this.length;
 		this.idMapReversed[this.length++] = id;
 //		var distFromPassLoc = Math.round(trip.distanceFromPassengersLocation);
-		var distFromPassLoc = 0;
+		var distFromPassLoc = Math.round(trip.distanceFromPassengersLocation);
 //		var distFromPassDest = Math.round(trip.distanceFromPassengersDestination);
-		var distFromPassDest = 0;
+		var distFromPassDest = Math.round(trip.distanceFromPassengersDestination);
 
 		//fugly?! mfg fu js
 		this.addHeadline("<span class=\"highlighting\">" + startPoint + "</span> " + messages.to

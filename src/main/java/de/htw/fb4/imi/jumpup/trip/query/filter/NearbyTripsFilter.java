@@ -30,6 +30,10 @@ import de.htw.fb4.imi.jumpup.util.math.Coordinates;
 public class NearbyTripsFilter extends AbstractTripFilter
 {
 
+    private double lastDistance;
+    private double distanceToPassengersStartLocation;
+    private double distanceToPassengersEndLocation;
+
     /* (non-Javadoc)
      * @see de.htw.fb4.imi.jumpup.trip.query.filter.TripFilter#applyFilter(java.util.List)
      */
@@ -59,6 +63,8 @@ public class NearbyTripsFilter extends AbstractTripFilter
         for (Trip trip : preFilteredTrips) {
             if (this.isNearPassenger(trip)) {
                 nearbyTrips.add(trip);
+                trip.setDistanceToPassengersStartLocation(this.distanceToPassengersStartLocation);
+                trip.setDistanceToPassengersEndLocation(this.distanceToPassengersEndLocation);
             }
         }
         
@@ -96,10 +102,12 @@ public class NearbyTripsFilter extends AbstractTripFilter
         for (Coordinates tripWaypoint : CoordinateUtil.parseCoordinateSetBy(overViewPath)) {
             if (!isNearPassengerStartLocation && this.isNearLocation(tripWaypoint, passengersStart)) {
                 isNearPassengerStartLocation = true;
+                this.distanceToPassengersStartLocation = this.lastDistance;
             }
             
             if (!isNearPassengerEndLocation && this.isNearLocation(tripWaypoint, passengersEnd)) {
                 isNearPassengerEndLocation = true;
+                this.distanceToPassengersEndLocation = this.lastDistance;
             }          
             
             // break if near start and end location was found to avoid redundant work
@@ -125,7 +133,8 @@ public class NearbyTripsFilter extends AbstractTripFilter
         }
         
         
-        if (CoordinateUtil.calculateDistanceBetween(tripCoordinates, passengersCoordinates) < this.tripSearchCriteria.getMaxDistance()) {
+        this.lastDistance = CoordinateUtil.calculateDistanceBetween(tripCoordinates, passengersCoordinates);
+        if (this.lastDistance< this.tripSearchCriteria.getMaxDistance()) {
             return true;
         }
         

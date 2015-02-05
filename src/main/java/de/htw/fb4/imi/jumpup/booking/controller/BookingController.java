@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.io.Serializable;
 
 import javax.ejb.EJBException;
-import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -37,7 +37,7 @@ import de.htw.fb4.imi.jumpup.util.Gender;
  */
 
 @Named(value = BeanNames.BOOKING_CONTROLLER)
-@RequestScoped
+@SessionScoped
 public class BookingController extends AbstractFacesController implements
         Serializable
 {
@@ -65,7 +65,7 @@ public class BookingController extends AbstractFacesController implements
     @Inject
     protected BookingListController bookingListController;
     
-    private long tripId;
+    private Long tripId;
     
     private Long bookingId;    
     
@@ -82,13 +82,22 @@ public class BookingController extends AbstractFacesController implements
     
     public String getIconUrl()
     {
-        if (null == this.booking || this.booking.getPassenger().getUserDetails().getGender().equals(Gender.MAN)) {
+        if (null == this.booking 
+                || null == this.booking.getPassenger() 
+                || null == this.booking.getPassenger().getUserDetails() 
+                || null == this.booking.getPassenger().getUserDetails().getGender()
+                || this.booking.getPassenger().getUserDetails().getGender().equals(Gender.MAN)) {
             return navigationBean.pathToAppFallback()+ "/resources/img/icons/male.png";
         } else if (this.booking.getPassenger().getUserDetails().getGender().equals(Gender.LADYBOY)) {
             return navigationBean.pathToAppFallback()+ "/resources/img/icons/ladyboy.png"; 
         }
         
         return navigationBean.pathToAppFallback()+ "/resources/img/icons/female.png";
+    }
+    
+    public void setIconUrl(String iconUrl)
+    {
+        
     }
     
     /**
@@ -262,7 +271,7 @@ public class BookingController extends AbstractFacesController implements
             }
 
             // no error, redirect to booking page
-            addDisplayInfoMessage("The booking was confirmed successfully!");
+            addDisplayInfoMessage("The booking was confirmed successfully!"); 
         } catch (Exception e) {
             Application.log(e.getMessage(), LogType.ERROR, getClass());
             addDisplayErrorMessage("We determined some error. Please contact our customer care team.");
@@ -348,6 +357,7 @@ public class BookingController extends AbstractFacesController implements
     {
         if (null == this.trip) {
            try {
+               Application.log("TripId: " + this.getTripId(), LogType.DEBUG, getClass());
                this.trip =  this.tripDAO.getTripByID(this.getTripId());
            } catch (EJBException e) {
                this.addDisplayErrorMessage("Could not find any matching trip.");

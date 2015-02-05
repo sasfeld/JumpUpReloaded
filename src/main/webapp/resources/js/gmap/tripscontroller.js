@@ -66,7 +66,7 @@ this.de.htw.fb4.imi.jumpup.trip = this.de.htw.fb4.imi.jumpup.trip || {};
 						var viewOptions = {
 								"messages" : {
 									"to" : translations.to,
-									"locationDistance" : translations.locationDistance,
+									"location_distance" : translations.locationDistance,
 									"start_date" : translations.startDate,
 									"driver" : translations.driver,
 									"overall_price" : translations.overallPrice,

@@ -57,7 +57,10 @@ public class Login extends AbstractFacesController implements Serializable
     
     public String getIconUrl()
     {
-        if (null == this.getLoginModel().getCurrentUser() || this.getLoginModel().getCurrentUser().getUserDetails().getGender().equals(Gender.MAN)) {
+        if (null == this.getLoginModel().getCurrentUser() 
+                || null == this.getLoginModel().getCurrentUser().getUserDetails()
+                || null == this.getLoginModel().getCurrentUser().getUserDetails().getGender()
+                || this.getLoginModel().getCurrentUser().getUserDetails().getGender().equals(Gender.MAN)) {
             return navigationBean.pathToAppFallback()+ "/resources/img/icons/male.png";
         } else if (this.getLoginModel().getCurrentUser().getUserDetails().getGender().equals(Gender.LADYBOY)) {
             return navigationBean.pathToAppFallback()+ "/resources/img/icons/ladyboy.png"; 

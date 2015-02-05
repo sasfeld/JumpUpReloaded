@@ -284,7 +284,10 @@ public class SingleTripQueryResult implements Serializable
         protected float price;
         protected String viaWaypoints;
         protected Integer numberOfSeats;
+        protected Integer numberOfBookings;
         protected String bookingUrl;
+        protected double distanceFromPassengersLocation;
+        protected double distanceFromPassengersDestination;
 
         /**
          * @return the id
@@ -506,6 +509,56 @@ public class SingleTripQueryResult implements Serializable
         public void setBookingUrl(String bookingUrl)
         {
             this.bookingUrl = bookingUrl;
+        }
+
+        /**
+         * @return the numberOfBookings
+         */
+        public Integer getNumberOfBookings()
+        {
+            return numberOfBookings;
+        }
+
+        /**
+         * @param numberOfBookings the numberOfBookings to set
+         */
+        public void setNumberOfBookings(Integer numberOfBookings)
+        {
+            this.numberOfBookings = numberOfBookings;
+        }
+
+        /**
+         * @return the distanceFromPassengersLocation
+         */
+        public double getDistanceFromPassengersLocation()
+        {
+            return distanceFromPassengersLocation;
+        }
+
+        /**
+         * @param d the distanceFromPassengersLocation to set
+         */
+        public void setDistanceFromPassengersLocation(
+                double d)
+        {
+            this.distanceFromPassengersLocation = d;
+        }
+
+        /**
+         * @return the distanceFromPassengersDestination
+         */
+        public double getDistanceFromPassengersDestination()
+        {
+            return distanceFromPassengersDestination;
+        }
+
+        /**
+         * @param d the distanceFromPassengersDestination to set
+         */
+        public void setDistanceFromPassengersDestination(
+                double d)
+        {
+            this.distanceFromPassengersDestination = d;
         }
 
     }

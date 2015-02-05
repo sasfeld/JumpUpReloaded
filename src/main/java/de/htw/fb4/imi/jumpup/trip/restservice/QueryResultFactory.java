@@ -87,6 +87,9 @@ public class QueryResultFactory
         singleTripQueryResult.getTrip().setBookingUrl(
                 navigationHelper.generateAddBookingUrl(
                         searchCriteria, trip));
+        singleTripQueryResult.getTrip().setNumberOfBookings(trip.getNumberOfBookings());
+        singleTripQueryResult.getTrip().setDistanceFromPassengersLocation(trip.getDistanceToPassengersStartLocation());
+        singleTripQueryResult.getTrip().setDistanceFromPassengersDestination(trip.getDistanceToPassengersEndLocation());
     }
 
     private void fillFromDriverEntity(

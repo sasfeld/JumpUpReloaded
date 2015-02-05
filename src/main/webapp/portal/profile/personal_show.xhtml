@@ -15,9 +15,7 @@
 </f:metadata>			
 	<ui:define name="content">
 		<div>
-			<h2>#{translator.translate('Edit your profile')}</h2>
-			
-			<h:outputText render="#{!profileViewController.userDetails.isFilled()}" value="#{translator.translate('Please fill in your profile information so that the other users know you better.')}"/>			
+			<h2>#{translator.translate('Profile of ')} #{profileViewController.user.prename} #{profileViewController.user.lastname}</h2>		
 		</div>
 		<div>
 			<h:form id="userDetailsForm">
