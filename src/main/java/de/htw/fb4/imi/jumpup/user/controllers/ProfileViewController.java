@@ -9,8 +9,8 @@ import javax.inject.Named;
 import de.htw.fb4.imi.jumpup.Application;
 import de.htw.fb4.imi.jumpup.Application.LogType;
 import de.htw.fb4.imi.jumpup.controllers.AbstractFacesController;
-import de.htw.fb4.imi.jumpup.navigation.NavigationOutcomes;
 import de.htw.fb4.imi.jumpup.settings.BeanNames;
+import de.htw.fb4.imi.jumpup.user.UserDAO;
 import de.htw.fb4.imi.jumpup.user.details.UserDetailsMethod;
 import de.htw.fb4.imi.jumpup.user.entities.User;
 import de.htw.fb4.imi.jumpup.user.entities.UserDetails;
@@ -36,37 +36,38 @@ public class ProfileViewController extends AbstractFacesController implements
     private static final long serialVersionUID = 39062452564614352L;
 
     @Inject
-    protected Login loginController;
+    protected UserDAO userDAO;
     @Inject
     protected UserDetailsMethod userDetailsMethod;
-    protected UserDetails newUserDetails = new UserDetails();
+
+    protected UserDetails userDetails;
+
     protected Languages languages = Languages.GERMAN;
     protected Gender genders = Gender.MAN;
+    protected String userID;
 
-    /**
-     * Get user details from current user instance OR fresh model.
-     * 
-     * @return
-     */
     public UserDetails getUserDetails()
     {
 
-        User currentUser = loginController.getLoginModel().getCurrentUser();
-        Application.log("UserDetailsContoller: current user " + currentUser,
-                LogType.DEBUG, getClass());
+        if (userID != null & userDetails == null) {
+            try {
+                User currentUser = userDAO.loadById(new Long(userID));
+                Application.log("UserDetailsContoller: current user "
+                        + currentUser, LogType.DEBUG, getClass());
+                userDetails = currentUser.getUserDetails();
 
-        try {
-
-            if (null == currentUser.getUserDetails()) {
-                return this.newUserDetails;
+            } catch (Exception e) {
+                Application.log("Exception here: " + e.getLocalizedMessage(),
+                        LogType.CRITICAL, getClass());
+                throw e;
             }
-
-            return currentUser.getUserDetails();
-        } catch (Exception e) {
-            Application.log("Exception here: " + e.getLocalizedMessage(),
-                    LogType.CRITICAL, getClass());
-            throw e;
         }
+        return userDetails;
+    }
+
+    public void setUserDetails(UserDetails userDetails)
+    {
+        this.userDetails = userDetails;
     }
 
     /**
@@ -103,65 +104,14 @@ public class ProfileViewController extends AbstractFacesController implements
         this.genders = genders;
     }
 
-    /**
-     * Method tries to add {@link UserDetails} and displays errors if something
-     * fails.
-     * 
-     * @return the view for continuing
-     *         {@link NavigationOutcomes.TO_USER_PROFILE}
-     */
-    public String editProfile()
+    public String getUserID()
     {
-        try {
-            Application.log("UserDetailsContoller: try to edit Profile",
-                    LogType.DEBUG, getClass());
-            userDetailsMethod.sendUserDetails(getUserDetails());
-            if (userDetailsMethod.hasError()) {
-                for (String error : userDetailsMethod.getErrors()) {
-                    this.addDisplayErrorMessage(error);
-                }
-            } else {
-                // set current user details in session
-                this.loginController.getLoginModel().getCurrentUser()
-                        .setUserDetails(getUserDetails());
-                addDisplayInfoMessage("Your given information have been saved.");
-            }
-
-        } catch (Exception e) {
-            Application.log("UserDetailsController: " + e.getMessage(),
-                    LogType.ERROR, getClass());
-            this.addDisplayErrorMessage("Could not change your details.");
-        }
-
-        return NavigationOutcomes.TO_USER_PROFILE;
+        return userID;
     }
 
-    /**
-     * Action for uploading the {@link User} avatar which is saved in his/her
-     * related {@link UserDetails}.
-     * 
-     * @return {@link NavigationOutcomes.TO_USER_PROFILE}
-     */
-    public String uploadAvatar()
+    public void setUserID(String userID)
     {
-        try {
-            Application.log("UserDetailsContoller: try to upload avatar",
-                    LogType.DEBUG, getClass());
-            userDetailsMethod.uploadAvatar(getUserDetails());
-            if (userDetailsMethod.hasError()) {
-                for (String error : userDetailsMethod.getErrors()) {
-                    this.addDisplayErrorMessage(error);
-                }
-            } else {
-                addDisplayInfoMessage("Your avatar have been saved.");
-            }
-
-        } catch (Exception e) {
-            Application.log("UserDetailsController: " + e.getMessage(),
-                    LogType.ERROR, getClass());
-            this.addDisplayErrorMessage("Could not upload your avatar.");
-        }
-
-        return null;
+        this.userID = userID;
     }
+
 }

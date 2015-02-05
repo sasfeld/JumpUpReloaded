@@ -10,6 +10,9 @@
 	>
 
 <ui:composition template="../../resources/templates/basic/BasicTemplate.xhtml">
+<f:metadata>
+			<f:viewParam id="userID" name="u" value="#{profileViewController.userID}" />
+</f:metadata>			
 	<ui:define name="content">
 		<div>
 			<h2>#{translator.translate('Edit your profile')}</h2>
@@ -18,7 +21,9 @@
 		</div>
 		<div>
 			<h:form id="userDetailsForm">
+		
 		    	<h:messages errorClass="errorMessage" infoClass="infoMessage" warnClass="warnMessage"></h:messages>	 	
+			 
 			 	<h:panelGrid columns="1">
 		    		<profile:gender valueBinding="#{profileViewController.userDetails.gender}" readOnly="true"/>
 		    		
@@ -28,9 +33,11 @@
 	
 		    		<profile:language valueBinding="#{profileViewController.userDetails.stringLanguages}" readOnly="true"/>
 	
-		    		<profile:town valueBinding="#{loginController.loginModel.currentUser.town}" readOnly="true"/>
+		    		<!-- 
+		    		<profile:town valueBinding="#{profileViewController.userDetail.user.town}" readOnly="true"/>
 		    		
-		    		<profile:country valueBinding="#{loginController.loginModel.currentUser.country}" readOnly="true"/> 
+		    		<profile:country valueBinding="#{profileViewController.userDetail.user.country}" readOnly="true"/> 
+		    		 -->
 		    		
 		    		<profile:mobile_number valueBinding="#{profileViewController.userDetails.mobileNumber}" readOnly="true"/> 
 	
