@@ -234,8 +234,10 @@ public class WebsiteTripCreation implements TripCreationMethod, ErrorPrintable
 
     private void updateTrip(Trip trip) throws IllegalStateException
     {
-        EntityManager entityManager = this.getFreshEntityManager();
+        Application.log("updateTrip(): saving trip " + trip, LogType.DEBUG, getClass());
         
+        trip.setDriver(getCurrentUser());
+        EntityManager entityManager = this.getFreshEntityManager();   
         entityManager.merge(trip);  
         entityManager.flush();
     }
