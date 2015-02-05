@@ -14,30 +14,29 @@
 		<div>
 			<h2>#{translator.translate('Edit your profile')}</h2>
 			
-			<h:outputText render="#{!userDetailsController.userDetails.isFilled()}" value="#{translator.translate('Please fill in your profile information so that the other users know you better.')}"/>			
+			<h:outputText render="#{!profileViewController.userDetails.isFilled()}" value="#{translator.translate('Please fill in your profile information so that the other users know you better.')}"/>			
 		</div>
 		<div>
 			<h:form id="userDetailsForm">
 		    	<h:messages errorClass="errorMessage" infoClass="infoMessage" warnClass="warnMessage"></h:messages>	 	
 			 	<h:panelGrid columns="1">
-		    		<profile:gender valueBinding="#{userDetailsController.userDetails.gender}" readOnly="true"/>
+		    		<profile:gender valueBinding="#{profileViewController.userDetails.gender}" readOnly="true"/>
 		    		
-		    		<profile:date_of_birth valueBinding="#{userDetailsController.userDetails.dateOfBirth}" readOnly="true"/>
+		    		<profile:date_of_birth valueBinding="#{profileViewController.userDetails.dateOfBirth}" readOnly="true"/>
 		    		
-		    		<profile:place_of_birth valueBinding="#{userDetailsController.userDetails.placeOfBirth}" readOnly="true"/>
+		    		<profile:place_of_birth valueBinding="#{profileViewController.userDetails.placeOfBirth}" readOnly="true"/>
 	
-		    		<profile:language valueBinding="#{userDetailsController.userDetails.stringLanguages}" readOnly="true"/>
+		    		<profile:language valueBinding="#{profileViewController.userDetails.stringLanguages}" readOnly="true"/>
 	
 		    		<profile:town valueBinding="#{loginController.loginModel.currentUser.town}" readOnly="true"/>
 		    		
 		    		<profile:country valueBinding="#{loginController.loginModel.currentUser.country}" readOnly="true"/> 
 		    		
-		    		<profile:mobile_number valueBinding="#{userDetailsController.userDetails.mobileNumber}" readOnly="true"/> 
+		    		<profile:mobile_number valueBinding="#{profileViewController.userDetails.mobileNumber}" readOnly="true"/> 
 	
-		    		<profile:skype valueBinding="#{userDetailsController.userDetails.skype}" readOnly="true"/>	    		
+		    		<profile:skype valueBinding="#{profileViewController.userDetails.skype}" readOnly="true"/>	    		
 		    		
-		    		<h:commandButton value="#{translator.translate('Submit')}"
-	    			action="#{userDetailsController.editProfile}"></h:commandButton>
+		    		
 		    	</h:panelGrid>	 	
 		    </h:form>
 		</div>

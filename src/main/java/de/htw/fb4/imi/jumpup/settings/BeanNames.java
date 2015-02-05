@@ -31,6 +31,8 @@ public interface BeanNames
 
     String TRANSLATOR = "translator";
 
+    String PROFILE_VIEW_CONTROLLER = "profileViewController";
+
     String USERNAME_VALIDATOR = "usernameValidator";
     String PASSWORD_VALIDATOR = "passwordValidator";
     String REPEAT_PASSWORD_VALIDATOR = "repeatPasswordValidator";
@@ -71,10 +73,10 @@ public interface BeanNames
     String TRIP_SEARCH_FILTER_CHAIN = "tripSearchFilterChain";
 
     String LOCALE_HELPER = "localeHelper";
-    
+
     String QUERY_RESULT_FACTORY = "queryResultFactory";
     String BOOKING_EJB = "bookingEjb";
-    
+
     String TRIP_DAO = "tripDAO";
     String BOOKING_DAO = "bookingDAO";
     String USER_DAO = "userDAO";

@@ -24,9 +24,9 @@ import de.htw.fb4.imi.jumpup.util.Languages;
  * 
  */
 
-@Named(value = BeanNames.USER_DETAILS_CONTROLLER)
+@Named(value = BeanNames.PROFILE_VIEW_CONTROLLER)
 @SessionScoped
-public class UserDetailsController extends AbstractFacesController implements
+public class ProfileViewController extends AbstractFacesController implements
         Serializable
 {
 
