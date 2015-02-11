@@ -348,7 +348,7 @@ public class BookingController extends AbstractFacesController implements
         this.booking = booking;
     }
 
-    public long getTripId()
+    public Long getTripId()
     {
         return tripId;
     }   
@@ -368,7 +368,7 @@ public class BookingController extends AbstractFacesController implements
         return this.trip;
     }
 
-    public void setTripId(long tripId)
+    public void setTripId(Long tripId)
     {
         Application.log("Setting tripID " + tripId, LogType.DEBUG, getClass());
         this.tripId = tripId;

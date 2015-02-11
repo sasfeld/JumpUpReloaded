@@ -43,7 +43,7 @@ $(document).ready(function() {
 			"geocoding" : $(REF_MAP_GEOCODING)[0],
 			"directions" : $(REF_MAP_DIRECTIONS)[0],
 	};
-	mapOptions["draggable"] = true;
+	mapOptions["draggable"] = false;
 	mapOptions["selectable"] = false;
 	mapOptions["showDirectionsPanel"] = true;
 
