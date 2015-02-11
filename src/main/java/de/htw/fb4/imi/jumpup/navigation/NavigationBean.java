@@ -54,6 +54,14 @@ public class NavigationBean implements NavigationOutcomes
     {
         return "registration/";
     }
+    
+    public static String toRegistration(boolean outcome) {
+        if (outcome) {
+            return TO_REGISTRATION;
+        }
+        
+        return toRegistration();
+    }
 
     /**
      * Return the path to the webapp.

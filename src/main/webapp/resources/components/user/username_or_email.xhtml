@@ -11,7 +11,7 @@
 		<composite:attribute name="valueBinding" required="true" />
 	</composite:interface>
 	<composite:implementation>
-		<h:outputText value="#{translator.translate('Username / eMail')}" />
+		<h:outputText value="#{translator.translate('Username / eMail: ')}" />
 			<h:inputText id="username" value="#{cc.attrs.valueBinding}"
 				p:title="#{translator.translate('Please enter either your username or your eMail address.')}"
 				p:required="required"

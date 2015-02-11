@@ -41,5 +41,7 @@ public interface NavigationOutcomes
     String TO_LOOK_FOR_TRIPS = "to_look_for_trips";    
 
     String TO_LIST_BOOKINGS = "to_list_bookings";
+    
+    String TO_REGISTRATION = "to_registration";
    
 }

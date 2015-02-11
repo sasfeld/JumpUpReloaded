@@ -18,10 +18,8 @@
 			            
 			            <h:commandButton value="#{translator.translate('Login')}"
 							action="#{loginController.loginUser}"></h:commandButton>
-							
-						<h:commandButton value="#{translator.translate('Registration')}" 
-							outcome="to_registration"></h:commandButton>
-			          </h:form>
+						<h:button value="#{translator.translate('Registration')}" outcome="#{navigationBean.toRegistration(true)}"></h:button>
+			          </h:form>			          
 		
 	
 </ui:composition>
