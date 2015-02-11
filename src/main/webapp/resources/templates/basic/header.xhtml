@@ -1,12 +1,35 @@
 <ui:composition 
     xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:user="http://java.sun.com/jsf/composite/components/user"
+	xmlns:h="http://java.sun.com/jsf/html"
+	>
 
+<nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+     	  <a class="navbar-brand" href="#">JumpUp.Me</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+           <c:choose>
+			 <c:when test="#{loginController.loginModel.isLoggedIn}">			 				  
+			 	 <ui:insert name="login">
+					<ui:include src="../../../authentication/logged_in.xhtml"></ui:include>
+				</ui:insert>	  
+		      </c:when>
+		    </c:choose>
 
-<header>
-	<ui:insert name="login">
-		<ui:include src="../../../authentication/login.xhtml"></ui:include>
-	</ui:insert>
-</header>
+        <c:choose>
+			<c:when test="#{!loginController.loginModel.isLoggedIn}">      
+				<ui:insert name="login">
+					<ui:include src="../../../authentication/logged_out.xhtml"></ui:include>
+				</ui:insert>			        
+			</c:when>
+		</c:choose>	   
+		</div>
+	</div>
+</nav>
+   
 
 </ui:composition>
