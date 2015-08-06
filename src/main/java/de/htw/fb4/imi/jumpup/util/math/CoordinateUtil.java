@@ -23,7 +23,7 @@ public class CoordinateUtil
     private static final double EQUATOR_RADIUS = 6378.137d;
 
     /**
-     * Calculate the distance in kilometers between two given points.
+     * Calculate the distance in kilometers between two given points using the haversine formula.
      * 
      * @param point1
      * @param point2
