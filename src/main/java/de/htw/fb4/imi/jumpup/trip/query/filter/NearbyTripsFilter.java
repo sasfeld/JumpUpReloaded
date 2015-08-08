@@ -7,6 +7,7 @@ package de.htw.fb4.imi.jumpup.trip.query.filter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import de.htw.fb4.imi.jumpup.trip.entities.Trip;
 import de.htw.fb4.imi.jumpup.trip.restservice.model.TripSearchCriteria;
@@ -99,7 +100,8 @@ public class NearbyTripsFilter extends AbstractTripFilter
         boolean isNearPassengerStartLocation = false;
         boolean isNearPassengerEndLocation = false;
         
-        for (Coordinates tripWaypoint : CoordinateUtil.parseCoordinateSetBy(overViewPath)) {
+        Set<Coordinates> waypoints = CoordinateUtil.parseCoordinateSetBy(overViewPath);
+        for (Coordinates tripWaypoint : waypoints) {
             if (!isNearPassengerStartLocation && this.isNearLocation(tripWaypoint, passengersStart)) {
                 isNearPassengerStartLocation = true;
                 this.distanceToPassengersStartLocation = this.lastDistance;
