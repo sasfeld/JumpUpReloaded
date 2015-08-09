@@ -5,6 +5,9 @@
  */
 package de.htw.fb4.imi.jumpup.trip.graph;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import de.htw.fb4.imi.jumpup.trip.entities.Trip;
 import de.htw.fb4.imi.jumpup.util.math.Coordinates;
 
@@ -29,14 +32,36 @@ public class Vertex
     public static final int TOLERANCE_FACTOR = 1000;
     
     protected final Coordinates coordinates;
+    protected Set<Trip> trips;
     protected double id = -1.0;
 
+    /**
+     * Create a vertex that is part of multiple trips.
+     * @param coordinates
+     * @param trips
+     */
     public Vertex(Coordinates coordinates)
     {
         super();
         this.coordinates = coordinates;
+        this.trips = new HashSet<Trip>();
+    }
+    
+    /**
+     * Get all trips that this vertex is contained in. 
+     * Use this method from outside to manage a trip vertices by adding the trip to the vertex.
+     * @return
+     */
+    public Set<Trip> getTrips()
+    {
+        return this.trips;
     }
 
+    /**
+     * Get the vertex / node ID.
+     * Can be imagined as vertex label.
+     * @return
+     */
     public double getId()
     {
         if (-1 == this.id) {
