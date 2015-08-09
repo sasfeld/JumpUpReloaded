@@ -35,10 +35,10 @@ import de.htw.fb4.imi.jumpup.util.LocaleHelper;
 public class TripSearchCriteria
 {
     protected String startPoint;
-    protected Float latStartPoint;
-    protected Float longStartPoint;
-    protected Float latEndPoint;
-    protected Float longEndPoint;
+    protected Double latStartPoint;
+    protected Double longStartPoint;
+    protected Double latEndPoint;
+    protected Double longEndPoint;
     protected String endPoint;
 
     protected Date dateFrom;
@@ -70,7 +70,7 @@ public class TripSearchCriteria
     /**
      * @return the latStartPoint
      */
-    public Float getLatStartPoint()
+    public Double getLatStartPoint()
     {
         return latStartPoint;
     }
@@ -79,7 +79,7 @@ public class TripSearchCriteria
      * @param latStartPoint
      *            the latStartPoint to set
      */
-    public void setLatStartPoint(Float latStartPoint)
+    public void setLatStartPoint(Double latStartPoint)
     {
         this.latStartPoint = latStartPoint;
     }
@@ -87,7 +87,7 @@ public class TripSearchCriteria
     /**
      * @return the longStartPoint
      */
-    public Float getLongStartPoint()
+    public Double getLongStartPoint()
     {
         return longStartPoint;
     }
@@ -96,7 +96,7 @@ public class TripSearchCriteria
      * @param longStartPoint
      *            the longStartPoint to set
      */
-    public void setLongStartPoint(Float longStartPoint)
+    public void setLongStartPoint(Double longStartPoint)
     {
         this.longStartPoint = longStartPoint;
     }
@@ -104,7 +104,7 @@ public class TripSearchCriteria
     /**
      * @return the latEndPoint
      */
-    public Float getLatEndPoint()
+    public Double getLatEndPoint()
     {
         return latEndPoint;
     }
@@ -113,7 +113,7 @@ public class TripSearchCriteria
      * @param latEndPoint
      *            the latEndPoint to set
      */
-    public void setLatEndPoint(Float latEndPoint)
+    public void setLatEndPoint(Double latEndPoint)
     {
         this.latEndPoint = latEndPoint;
     }
@@ -121,7 +121,7 @@ public class TripSearchCriteria
     /**
      * @return the longEndPoint
      */
-    public Float getLongEndPoint()
+    public Double getLongEndPoint()
     {
         return longEndPoint;
     }
@@ -130,7 +130,7 @@ public class TripSearchCriteria
      * @param longEndPoint
      *            the longEndPoint to set
      */
-    public void setLongEndPoint(Float longEndPoint)
+    public void setLongEndPoint(Double longEndPoint)
     {
         this.longEndPoint = longEndPoint;
     }
@@ -403,10 +403,10 @@ public class TripSearchCriteria
         // make sure to include all variable parameters that should be protected from manipulation
         long hash = ((this.getStartPoint().hashCode()
             + this.getEndPoint().hashCode()
-            - Float.toString(this.getLatStartPoint()).hashCode() 
-            - Float.toString(this.getLongStartPoint()).hashCode() 
-            + Float.toString(this.getLatEndPoint()).hashCode() 
-            + Float.toString(this.getLongEndPoint()).hashCode())
+            - Double.toString(this.getLatStartPoint()).hashCode() 
+            - Double.toString(this.getLongStartPoint()).hashCode() 
+            + Double.toString(this.getLatEndPoint()).hashCode() 
+            + Double.toString(this.getLongEndPoint()).hashCode())
             % trip.getIdentity()) * 333;
             
         return Long.toString(hash);

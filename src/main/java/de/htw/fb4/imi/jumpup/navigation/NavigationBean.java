@@ -254,6 +254,11 @@ public class NavigationBean implements NavigationOutcomes
     {
         return Float.toString(value);
     }
+    
+    private String toString(double value)
+    {
+        return Double.toString(value);
+    }
 
     private String toString(long value)
     {

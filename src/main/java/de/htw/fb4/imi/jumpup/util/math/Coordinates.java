@@ -14,15 +14,15 @@ package de.htw.fb4.imi.jumpup.util.math;
  */
 public class Coordinates
 {
-    protected float latitude;
-    protected float longitude;
+    protected double latitude;
+    protected double longitude;
     
     /**
      * 
      * @param latitudeDegrees
      * @param longitudeDegrees
      */
-    public Coordinates(float latitudeDegrees, float longitudeDegrees)
+    public Coordinates(double latitudeDegrees, double longitudeDegrees)
     {
         this.setLatitudeDegrees(latitudeDegrees);
         this.setLongitude(longitudeDegrees); 
@@ -31,14 +31,14 @@ public class Coordinates
     /**
      * @return the latitude
      */
-    public float getLatitudeDegrees()
+    public double getLatitudeDegrees()
     {
         return latitude;
     }
     /**
      * @param latitude the latitude to set
      */
-    public void setLatitudeDegrees(float latitude)
+    public void setLatitudeDegrees(double latitude)
     {
         this.latitude = latitude;
     }
@@ -55,7 +55,7 @@ public class Coordinates
     /**
      * @return the longitude
      */
-    public float getLongitudeDegrees()
+    public double getLongitudeDegrees()
     {
         return longitude;
     }
@@ -72,7 +72,7 @@ public class Coordinates
     /**
      * @param longitude the longitude to set
      */
-    public void setLongitude(float longitude)
+    public void setLongitude(double longitude)
     {
         this.longitude = longitude;
     }
@@ -85,8 +85,11 @@ public class Coordinates
     {
         final int prime = 31;
         int result = 1;
-        result = prime * result + Float.floatToIntBits(latitude);
-        result = prime * result + Float.floatToIntBits(longitude);
+        long temp;
+        temp = Double.doubleToLongBits(latitude);
+        result = prime * result + (int) (temp ^ (temp >>> 32));
+        temp = Double.doubleToLongBits(longitude);
+        result = prime * result + (int) (temp ^ (temp >>> 32));
         return result;
     }
 
@@ -103,11 +106,11 @@ public class Coordinates
         if (getClass() != obj.getClass())
             return false;
         Coordinates other = (Coordinates) obj;
-        if (Float.floatToIntBits(latitude) != Float
-                .floatToIntBits(other.latitude))
+        if (Double.doubleToLongBits(latitude) != Double
+                .doubleToLongBits(other.latitude))
             return false;
-        if (Float.floatToIntBits(longitude) != Float
-                .floatToIntBits(other.longitude))
+        if (Double.doubleToLongBits(longitude) != Double
+                .doubleToLongBits(other.longitude))
             return false;
         return true;
     }

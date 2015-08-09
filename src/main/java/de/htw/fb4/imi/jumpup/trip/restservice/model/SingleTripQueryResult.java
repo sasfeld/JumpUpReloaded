@@ -275,10 +275,10 @@ public class SingleTripQueryResult implements Serializable
         protected long id;
         protected String startpoint;
         protected String endpoint;
-        protected float latStartpoint;
-        protected float longStartpoint;
-        protected float latEndpoint;
-        protected float longEndpoint;
+        protected double latStartpoint;
+        protected double longStartpoint;
+        protected double latEndpoint;
+        protected double longEndpoint;
         protected String startDateTime;
         protected String endDateTime;
         protected float price;
@@ -343,7 +343,7 @@ public class SingleTripQueryResult implements Serializable
         /**
          * @return the latStartpoint
          */
-        public float getLatStartpoint()
+        public double getLatStartpoint()
         {
             return latStartpoint;
         }
@@ -352,7 +352,7 @@ public class SingleTripQueryResult implements Serializable
          * @param latStartpoint
          *            the latStartpoint to set
          */
-        public void setLatStartpoint(float latStartpoint)
+        public void setLatStartpoint(double latStartpoint)
         {
             this.latStartpoint = latStartpoint;
         }
@@ -360,7 +360,7 @@ public class SingleTripQueryResult implements Serializable
         /**
          * @return the longStartpoint
          */
-        public float getLongStartpoint()
+        public double getLongStartpoint()
         {
             return longStartpoint;
         }
@@ -369,7 +369,7 @@ public class SingleTripQueryResult implements Serializable
          * @param longStartpoint
          *            the longStartpoint to set
          */
-        public void setLongStartpoint(float longStartpoint)
+        public void setLongStartpoint(double longStartpoint)
         {
             this.longStartpoint = longStartpoint;
         }
@@ -377,7 +377,7 @@ public class SingleTripQueryResult implements Serializable
         /**
          * @return the latEndpoint
          */
-        public float getLatEndpoint()
+        public double getLatEndpoint()
         {
             return latEndpoint;
         }
@@ -386,7 +386,7 @@ public class SingleTripQueryResult implements Serializable
          * @param latEndpoint
          *            the latEndpoint to set
          */
-        public void setLatEndpoint(float latEndpoint)
+        public void setLatEndpoint(double latEndpoint)
         {
             this.latEndpoint = latEndpoint;
         }
@@ -394,7 +394,7 @@ public class SingleTripQueryResult implements Serializable
         /**
          * @return the longEndpoint
          */
-        public float getLongEndpoint()
+        public double getLongEndpoint()
         {
             return longEndpoint;
         }
@@ -403,7 +403,7 @@ public class SingleTripQueryResult implements Serializable
          * @param longEndpoint
          *            the longEndpoint to set
          */
-        public void setLongEndpoint(float longEndpoint)
+        public void setLongEndpoint(double longEndpoint)
         {
             this.longEndpoint = longEndpoint;
         }

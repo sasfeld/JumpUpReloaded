@@ -79,16 +79,16 @@ public class Trip extends AbstractEntity
     protected String endpoint;
 
     @Column(name = "latstartpoint", nullable = false, updatable = true, unique = false)
-    protected float latStartpoint;
+    protected double latStartpoint;
 
     @Column(name = "longstartpoint", nullable = false, updatable = true, unique = false)
-    protected float longStartpoint;
+    protected double longStartpoint;
 
     @Column(name = "latendpoint", nullable = false, updatable = true, unique = false)
-    protected float latEndpoint;
+    protected double latEndpoint;
 
     @Column(name = "longendpoint", nullable = false, updatable = true, unique = false)
-    protected float longEndpoint;
+    protected double longEndpoint;
 
     @Column(name = "startdate", nullable = false, updatable = true, unique = false)
     protected Timestamp startDateTime;
@@ -171,7 +171,7 @@ public class Trip extends AbstractEntity
     /**
      * @return the latStartpoint
      */
-    public float getLatStartpoint()
+    public double getLatStartpoint()
     {
         return latStartpoint;
     }
@@ -180,7 +180,7 @@ public class Trip extends AbstractEntity
      * @param latStartpoint
      *            the latStartpoint to set
      */
-    public void setLatStartpoint(float latStartpoint)
+    public void setLatStartpoint(double latStartpoint)
     {
         this.latStartpoint = latStartpoint;
     }
@@ -188,7 +188,7 @@ public class Trip extends AbstractEntity
     /**
      * @return the longStartpoint
      */
-    public float getLongStartpoint()
+    public double getLongStartpoint()
     {
         return longStartpoint;
     }
@@ -197,7 +197,7 @@ public class Trip extends AbstractEntity
      * @param longStartpoint
      *            the longStartpoint to set
      */
-    public void setLongStartpoint(float longStartpoint)
+    public void setLongStartpoint(double longStartpoint)
     {
         this.longStartpoint = longStartpoint;
     }
@@ -205,7 +205,7 @@ public class Trip extends AbstractEntity
     /**
      * @return the latEntpoint
      */
-    public float getLatEndpoint()
+    public double getLatEndpoint()
     {
         return latEndpoint;
     }
@@ -214,7 +214,7 @@ public class Trip extends AbstractEntity
      * @param latEndpoint
      *            the latEntpoint to set
      */
-    public void setLatEndpoint(float latEndpoint)
+    public void setLatEndpoint(double latEndpoint)
     {
         this.latEndpoint = latEndpoint;
     }
@@ -222,7 +222,7 @@ public class Trip extends AbstractEntity
     /**
      * @return the longEndpoint
      */
-    public float getLongEndpoint()
+    public double getLongEndpoint()
     {
         return longEndpoint;
     }
@@ -231,7 +231,7 @@ public class Trip extends AbstractEntity
      * @param longEndpoint
      *            the longEndpoint to set
      */
-    public void setLongEndpoint(float longEndpoint)
+    public void setLongEndpoint(double longEndpoint)
     {
         this.longEndpoint = longEndpoint;
     }
@@ -622,9 +622,7 @@ public class Trip extends AbstractEntity
         this.durationSeconds = durationSeconds;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /* (non-Javadoc)
      * @see java.lang.Object#hashCode()
      */
     @Override
@@ -632,14 +630,17 @@ public class Trip extends AbstractEntity
     {
         final int prime = 31;
         int result = 1;
-        result = prime * result
-                + ((bookings == null) ? 0 : bookings.hashCode());
         result = prime
                 * result
                 + ((cancelationDateTime == null) ? 0 : cancelationDateTime
                         .hashCode());
         result = prime * result
                 + (int) (distanceMeters ^ (distanceMeters >>> 32));
+        long temp;
+        temp = Double.doubleToLongBits(distanceToPassengersEndLocation);
+        result = prime * result + (int) (temp ^ (temp >>> 32));
+        temp = Double.doubleToLongBits(distanceToPassengersStartLocation);
+        result = prime * result + (int) (temp ^ (temp >>> 32));
         result = prime * result + ((driver == null) ? 0 : driver.hashCode());
         result = prime * result
                 + (int) (durationSeconds ^ (durationSeconds >>> 32));
@@ -647,10 +648,14 @@ public class Trip extends AbstractEntity
                 + ((endDateTime == null) ? 0 : endDateTime.hashCode());
         result = prime * result
                 + ((endpoint == null) ? 0 : endpoint.hashCode());
-        result = prime * result + Float.floatToIntBits(latEndpoint);
-        result = prime * result + Float.floatToIntBits(latStartpoint);
-        result = prime * result + Float.floatToIntBits(longEndpoint);
-        result = prime * result + Float.floatToIntBits(longStartpoint);
+        temp = Double.doubleToLongBits(latEndpoint);
+        result = prime * result + (int) (temp ^ (temp >>> 32));
+        temp = Double.doubleToLongBits(latStartpoint);
+        result = prime * result + (int) (temp ^ (temp >>> 32));
+        temp = Double.doubleToLongBits(longEndpoint);
+        result = prime * result + (int) (temp ^ (temp >>> 32));
+        temp = Double.doubleToLongBits(longStartpoint);
+        result = prime * result + (int) (temp ^ (temp >>> 32));
         result = prime * result
                 + ((numberOfSeats == null) ? 0 : numberOfSeats.hashCode());
         result = prime * result
@@ -666,6 +671,9 @@ public class Trip extends AbstractEntity
         return result;
     }
 
+    /* (non-Javadoc)
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
     @Override
     public boolean equals(Object obj)
     {
@@ -679,14 +687,19 @@ public class Trip extends AbstractEntity
         if (bookings == null) {
             if (other.bookings != null)
                 return false;
-        } else if (!bookings.equals(other.bookings))
-            return false;
+        } 
         if (cancelationDateTime == null) {
             if (other.cancelationDateTime != null)
                 return false;
         } else if (!cancelationDateTime.equals(other.cancelationDateTime))
             return false;
         if (distanceMeters != other.distanceMeters)
+            return false;
+        if (Double.doubleToLongBits(distanceToPassengersEndLocation) != Double
+                .doubleToLongBits(other.distanceToPassengersEndLocation))
+            return false;
+        if (Double.doubleToLongBits(distanceToPassengersStartLocation) != Double
+                .doubleToLongBits(other.distanceToPassengersStartLocation))
             return false;
         if (driver == null) {
             if (other.driver != null)
@@ -705,17 +718,17 @@ public class Trip extends AbstractEntity
                 return false;
         } else if (!endpoint.equals(other.endpoint))
             return false;
-        if (Float.floatToIntBits(latEndpoint) != Float
-                .floatToIntBits(other.latEndpoint))
+        if (Double.doubleToLongBits(latEndpoint) != Double
+                .doubleToLongBits(other.latEndpoint))
             return false;
-        if (Float.floatToIntBits(latStartpoint) != Float
-                .floatToIntBits(other.latStartpoint))
+        if (Double.doubleToLongBits(latStartpoint) != Double
+                .doubleToLongBits(other.latStartpoint))
             return false;
-        if (Float.floatToIntBits(longEndpoint) != Float
-                .floatToIntBits(other.longEndpoint))
+        if (Double.doubleToLongBits(longEndpoint) != Double
+                .doubleToLongBits(other.longEndpoint))
             return false;
-        if (Float.floatToIntBits(longStartpoint) != Float
-                .floatToIntBits(other.longStartpoint))
+        if (Double.doubleToLongBits(longStartpoint) != Double
+                .doubleToLongBits(other.longStartpoint))
             return false;
         if (numberOfSeats == null) {
             if (other.numberOfSeats != null)

@@ -63,16 +63,16 @@ public class Booking extends AbstractEntity
     private String endPoint;
 
     @Column(name = "startLatitude", nullable = false, updatable = true, unique = false)
-    private float startLatitude;
+    private double startLatitude;
 
     @Column(name = "startLongitude", nullable = false, updatable = true, unique = false)
-    private float startLongitude;
+    private double startLongitude;
 
     @Column(name = "endLatitude", nullable = false, updatable = true, unique = false)
-    private float endLatitude;
+    private double endLatitude;
 
     @Column(name = "endLongitude", nullable = false, updatable = true, unique = false)
-    private float endLongitude;
+    private double endLongitude;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "tripIdentity")
@@ -116,42 +116,42 @@ public class Booking extends AbstractEntity
         this.endPoint = endPoint;
     }
 
-    public float getStartLatitude()
+    public double getStartLatitude()
     {
         return startLatitude;
     }
 
-    public void setStartLatitude(float startLatitude)
+    public void setStartLatitude(double startLatitude)
     {
         this.startLatitude = startLatitude;
     }
 
-    public float getStartLongitude()
+    public double getStartLongitude()
     {
         return startLongitude;
     }
 
-    public void setStartLongitude(float startLongitude)
+    public void setStartLongitude(double startLongitude)
     {
         this.startLongitude = startLongitude;
     }
 
-    public float getEndLatitude()
+    public double getEndLatitude()
     {
         return endLatitude;
     }
 
-    public void setEndLatitude(float endLatitude)
+    public void setEndLatitude(double endLatitude)
     {
         this.endLatitude = endLatitude;
     }
 
-    public float getEndLongitude()
+    public double getEndLongitude()
     {
         return endLongitude;
     }
 
-    public void setEndLongitude(float endLongitude)
+    public void setEndLongitude(double endLongitude)
     {
         this.endLongitude = endLongitude;
     }
