@@ -7,7 +7,11 @@ package de.htw.fb4.imi.jumpup.trip.graph.shortest;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.LinkedList;
 import java.util.Set;
+
+import java.util.Iterator;
 
 import de.htw.fb4.imi.jumpup.trip.graph.Edge;
 import de.htw.fb4.imi.jumpup.trip.graph.Graph;
@@ -143,7 +147,7 @@ public class DijkstraSinglePair implements Routable
             throw new PathNotFoundException(origin, destination);
         }
         
-        Set<Vertex> verticesOnPath = new HashSet<Vertex>();
+        LinkedHashSet<Vertex> verticesOnPath = new LinkedHashSet<Vertex>();
         Vertex currentVertex = destination;
         
         while (currentVertex != origin) {
@@ -153,7 +157,23 @@ public class DijkstraSinglePair implements Routable
             currentVertex = this.pred.get(currentVertex);
         }        
         
+        verticesOnPath = this.reverseOrderOfVertices(verticesOnPath);
         return this.newPathFromVertexSet(verticesOnPath);
+    }
+
+    private LinkedHashSet<Vertex> reverseOrderOfVertices(
+            LinkedHashSet<Vertex> verticesOnPath)
+    {
+        LinkedList<Vertex> verticesList = new LinkedList<Vertex>(verticesOnPath);
+        LinkedHashSet<Vertex> verticesOnPathReversed = new LinkedHashSet<Vertex>();
+        
+        Iterator<Vertex> it = verticesList.descendingIterator();
+        
+        while (it.hasNext()) {
+            verticesOnPathReversed.add(it.next());
+        }
+        
+        return verticesOnPathReversed;
     }
 
     private Path newPathFromVertexSet(Set<Vertex> verticesOnPath)

@@ -87,6 +87,23 @@ public class Edge
                 .doubleToLongBits(other.weight))
             return false;
         return true;
+    }
+
+    /* (non-Javadoc)
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString()
+    {
+        StringBuilder builder = new StringBuilder();
+        builder.append("Edge [vertexA=");
+        builder.append(vertexA);
+        builder.append(", vertexB=");
+        builder.append(vertexB);
+        builder.append(", weight=");
+        builder.append(weight);
+        builder.append("]");
+        return builder.toString();
     }   
     
 }

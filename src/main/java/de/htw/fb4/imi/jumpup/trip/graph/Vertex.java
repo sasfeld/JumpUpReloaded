@@ -134,5 +134,22 @@ public class Vertex
         if (Double.doubleToLongBits(id) != Double.doubleToLongBits(other.id))
             return false;
         return true;
+    }
+
+    /* (non-Javadoc)
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString()
+    {
+        StringBuilder builder = new StringBuilder();
+        builder.append("Vertex [coordinates=");
+        builder.append(coordinates);
+        builder.append(", trips=");
+        builder.append(trips);
+        builder.append(", id=");
+        builder.append(id);
+        builder.append("]");
+        return builder.toString();
     }  
 }

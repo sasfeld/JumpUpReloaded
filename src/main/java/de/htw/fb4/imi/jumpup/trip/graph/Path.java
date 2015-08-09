@@ -22,7 +22,7 @@ public class Path
     protected final Graph graph;
     protected final Set<Vertex> vertices;
     protected Set<Trip> trips;
-    protected Set<Vertex[]> intersections;
+    protected Set<Vertex> intersections;
     
     public Path(Graph graph, Set<Vertex> vertices) 
     {
@@ -46,12 +46,10 @@ public class Path
     private void buildTripsAndIntersectionSet()
     {        
         this.trips = new HashSet<Trip>();
-        this.intersections = new HashSet<Vertex[]>();
+        this.intersections = new HashSet<Vertex>();
         
         for (Vertex vertex : this.vertices) {
             Set<Trip> vertexInTrips = vertex.getTrips();
-            // An intersection consists of a maximum of 2 vertices
-            Vertex[] vertexInIntersections = new Vertex[2];
             int count = 0;
             
             for (Trip trip : vertexInTrips) {
@@ -61,7 +59,7 @@ public class Path
                 
                 if (vertexInTrips.size() > 1 && count < 2) {
                     // this vertex is contained in more than one trip, so add it to intersection set
-                    vertexInIntersections[count] = vertex;
+                    this.intersections.add(vertex);
                 }
                 
                 count++;
@@ -76,7 +74,7 @@ public class Path
      * 
      * @return
      */
-    public Set<Vertex[]> getIntersectionsOnPath()
+    public Set<Vertex> getIntersectionsOnPath()
     {
         if (null == this.intersections) {
             this.buildTripsAndIntersectionSet();
