@@ -158,13 +158,15 @@ public class QueryResultFactory
     public TripQueryResults newOverlappingPartialTripsResult(
             Path overlappingPartialTrips, TripSearchCriteria tripSearchModel)
     {
-        TripQueryResults results = new OverlappingPartialTripQueryResult();
+        OverlappingPartialTripQueryResult results = new OverlappingPartialTripQueryResult();
         
         addTranslations(results);
         
         List<SingleTripQueryResult> tripsOnPathQueryResult = getTripsRecords(
                 overlappingPartialTrips, tripSearchModel);        
-        results.setTrips(tripsOnPathQueryResult);
+        results.setTrips(tripsOnPathQueryResult);     
+        //results.setIntersections(overlappingPartialTrips.getIntersectionsOnPath());
+        
         return results;
     }
 

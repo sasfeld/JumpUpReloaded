@@ -77,7 +77,7 @@ public class OverlappingTripsFilter extends AbstractTripFilter
             throw new PathNotFoundException();
         }
         
-        return passengersOrigin;
+        return tripsGraph.getVerticeWithId(passengersOrigin.getId());
     }
 
     private Vertex getPassengersDestinationVertex(Graph tripsGraph) throws PathNotFoundException
@@ -91,7 +91,7 @@ public class OverlappingTripsFilter extends AbstractTripFilter
             throw new PathNotFoundException();
         }
         
-        return passengersDestination;
+        return tripsGraph.getVerticeWithId(passengersDestination.getId());
     }  
 
     private Graph structureToTripsGraph(List<Trip> givenTrips)

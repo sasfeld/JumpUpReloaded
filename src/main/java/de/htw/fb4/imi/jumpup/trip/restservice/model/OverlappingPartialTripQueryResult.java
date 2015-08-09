@@ -39,13 +39,17 @@ public class OverlappingPartialTripQueryResult extends TripQueryResults
         
     }
     
-    protected Intersections intersections;
-    protected Type type = Type.MULTIPLE_PARTIAL_TRIP_RESULT;
+    protected Set<Vertex> intersections;
+    
+    public OverlappingPartialTripQueryResult()
+    {
+        this.type = Type.MULTIPLE_PARTIAL_TRIP_RESULT;
+    }
 
     /**
      * @return the intersections
      */
-    public Intersections getIntersections()
+    public Set<Vertex> getIntersections()
     {
         return intersections;
     }
@@ -53,7 +57,7 @@ public class OverlappingPartialTripQueryResult extends TripQueryResults
     /**
      * @param intersections the intersections to set
      */
-    public void setIntersections(Intersections intersections)
+    public void setIntersections(Set<Vertex> intersections)
     {
         this.intersections = intersections;
     }    

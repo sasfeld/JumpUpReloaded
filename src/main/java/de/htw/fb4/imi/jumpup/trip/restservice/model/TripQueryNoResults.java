@@ -22,7 +22,11 @@ public class TripQueryNoResults extends TripQueryResults
 {
     protected boolean noTrips;    
     protected String message;
-    protected Type type = Type.NO_RESULT;
+    
+    public TripQueryNoResults()
+    {
+        this.type = Type.NO_RESULT;
+    }
 
     /**
      * @return the noTrips

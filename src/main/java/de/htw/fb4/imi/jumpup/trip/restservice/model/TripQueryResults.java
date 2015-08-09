@@ -204,7 +204,11 @@ public class TripQueryResults
     protected Translations translations = new Translations();
     protected Type type = Type.DIRECT_TRIP_RESULT;
     
-
+    public TripQueryResults()
+    {
+        this.type = Type.DIRECT_TRIP_RESULT;
+    }
+    
     /**
      * @return the trips
      */

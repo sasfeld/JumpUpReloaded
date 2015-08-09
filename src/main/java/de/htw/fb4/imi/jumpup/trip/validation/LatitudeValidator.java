@@ -57,7 +57,7 @@ public class LatitudeValidator extends AbstractTripValidator
      */
     public boolean validate(final Object value)
     {
-        final Float latitude = getFloat(value);
+        final Double latitude = getDouble(value);
 
         if (null == latitude || !this.checkRange(latitude)) {
             return false;
@@ -66,14 +66,14 @@ public class LatitudeValidator extends AbstractTripValidator
         return true;
     }
 
-    protected Float getFloat(final Object value)
+    protected Double getDouble(final Object value)
     {
-        final Float latitude;
+        final Double latitude;
 
         if (value instanceof String) {
-            latitude = Float.parseFloat((String) value);
-        } else if (value instanceof Float || value instanceof Float ) {
-            latitude = (Float) value;
+            latitude = Double.parseDouble((String) value);
+        } else if (value instanceof Double || value instanceof Double ) {
+            latitude = (Double) value;
         } else {
             Application.log(
                     "getDouble(): invalid value for latitude: " + value + " which is typeof " + value.getClass(),
@@ -85,7 +85,7 @@ public class LatitudeValidator extends AbstractTripValidator
         return latitude;
     }
 
-    private boolean checkRange(Float latitude)
+    private boolean checkRange(Double latitude)
     {
         if (latitude > this.getMaxValue() || latitude < this.getMinValue()) {
             return false;
