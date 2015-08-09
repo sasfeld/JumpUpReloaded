@@ -21,9 +21,13 @@ import de.htw.fb4.imi.jumpup.settings.PersistenceSettings;
 import de.htw.fb4.imi.jumpup.translate.Translatable;
 import de.htw.fb4.imi.jumpup.trip.TripDAO;
 import de.htw.fb4.imi.jumpup.trip.entities.Trip;
-import de.htw.fb4.imi.jumpup.trip.query.filter.TripSearchFilterChain;
+import de.htw.fb4.imi.jumpup.trip.graph.Path;
+import de.htw.fb4.imi.jumpup.trip.graph.shortest.PathNotFoundException;
+import de.htw.fb4.imi.jumpup.trip.query.filter.DirectTripsSearchFilterChain;
+import de.htw.fb4.imi.jumpup.trip.query.filter.OverlappingTripsFilter;
 import de.htw.fb4.imi.jumpup.trip.restservice.QueryResultFactory;
 import de.htw.fb4.imi.jumpup.trip.restservice.model.SingleTripQueryResult;
+import de.htw.fb4.imi.jumpup.trip.restservice.model.TripQueryNoResults;
 import de.htw.fb4.imi.jumpup.trip.restservice.model.TripQueryResults;
 import de.htw.fb4.imi.jumpup.trip.restservice.model.TripSearchCriteria;
 import de.htw.fb4.imi.jumpup.user.controllers.Login;
@@ -43,7 +47,10 @@ public class WebsiteTripQuery implements TripQueryMethod
     protected EntityManagerFactory entityManagerFactory;
     
     @Inject
-    protected TripSearchFilterChain tripSearchFilterChain;
+    protected DirectTripsSearchFilterChain tripSearchFilterChain;
+    
+    @Inject
+    protected OverlappingTripsFilter overlappingPartialTripsFilter;
     
     @Inject
     protected Login loginController;    
@@ -115,11 +122,35 @@ public class WebsiteTripQuery implements TripQueryMethod
         
         Application.log("got trips from HQL: " + matchedTrips, LogType.DEBUG, getClass());
         
-        List<Trip> filteredTrips = this.triggerFilteringChain(tripSearchModel, matchedTrips);
+        // first, filter for direct trips
+        List<Trip> filteredTrips = this.triggerDirectTripsFilteringChain(tripSearchModel, matchedTrips);
         
         Application.log("filtered trips: " + filteredTrips, LogType.DEBUG, getClass());
         
-        return this.toQueryResultList(filteredTrips, tripSearchModel);
+        if (0 != filteredTrips.size()) {
+            return this.toQueryResultList(filteredTrips, tripSearchModel);
+        }
+        
+        // no direct trips were found, so start to find overlapping partial trips
+        try {
+            Path overlappingPartialTrips;
+            overlappingPartialTrips = this.findOverlappingPartialTrips(tripSearchModel, matchedTrips);
+            return this.toQueryResultList(overlappingPartialTrips, tripSearchModel);
+        } catch (PathNotFoundException e) {
+            // no path found at all
+            return this.getNoTripsResult();
+        }
+    }  
+
+    private Path findOverlappingPartialTrips(
+            TripSearchCriteria tripSearchCriteria, List<Trip> matchedTrips) throws PathNotFoundException
+    {
+        if (null == matchedTrips) {
+            throw new NullPointerException("matchedTrips must not be null");
+        }
+        
+        this.overlappingPartialTripsFilter.setCriteria(tripSearchCriteria);
+        return this.overlappingPartialTripsFilter.applyOverlappingTripsFilter(matchedTrips);      
     }
 
     private TripQueryResults toQueryResultList(
@@ -133,13 +164,19 @@ public class WebsiteTripQuery implements TripQueryMethod
         
         return queryResultFactory.newTripQueryResults(list);
     }
+    
+    private TripQueryResults toQueryResultList(Path overlappingPartialTrips,
+            TripSearchCriteria tripSearchModel)
+    {
+        return queryResultFactory.newOverlappingPartialTripsResult(overlappingPartialTrips, tripSearchModel);
+    }
 
     private SingleTripQueryResult toSingleTripQueryResult(Trip filteredTrip, TripSearchCriteria tripSearchModel)
     {
         return queryResultFactory.newSingleTripQueryResult(filteredTrip, tripSearchModel);
     }
 
-    private List<Trip> triggerFilteringChain(TripSearchCriteria tripSearchCriteria, List<Trip> matchedTrips)
+    private List<Trip> triggerDirectTripsFilteringChain(TripSearchCriteria tripSearchCriteria, List<Trip> matchedTrips)
     {
         if (null == matchedTrips) {
             return new ArrayList<Trip>();

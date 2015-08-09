@@ -5,6 +5,7 @@
  */
 package de.htw.fb4.imi.jumpup.trip.restservice;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -15,8 +16,10 @@ import de.htw.fb4.imi.jumpup.navigation.NavigationBean;
 import de.htw.fb4.imi.jumpup.settings.BeanNames;
 import de.htw.fb4.imi.jumpup.translate.Translatable;
 import de.htw.fb4.imi.jumpup.trip.entities.Trip;
-import de.htw.fb4.imi.jumpup.trip.query.TripQueryNoResults;
+import de.htw.fb4.imi.jumpup.trip.graph.Path;
+import de.htw.fb4.imi.jumpup.trip.restservice.model.OverlappingPartialTripQueryResult;
 import de.htw.fb4.imi.jumpup.trip.restservice.model.SingleTripQueryResult;
+import de.htw.fb4.imi.jumpup.trip.restservice.model.TripQueryNoResults;
 import de.htw.fb4.imi.jumpup.trip.restservice.model.TripQueryResults;
 import de.htw.fb4.imi.jumpup.trip.restservice.model.TripQueryResults.Translations;
 import de.htw.fb4.imi.jumpup.trip.restservice.model.TripSearchCriteria;
@@ -151,6 +154,31 @@ public class QueryResultFactory
         results.setTrips(list);
         return results;
     }
+    
+    public TripQueryResults newOverlappingPartialTripsResult(
+            Path overlappingPartialTrips, TripSearchCriteria tripSearchModel)
+    {
+        TripQueryResults results = new OverlappingPartialTripQueryResult();
+        
+        addTranslations(results);
+        
+        List<SingleTripQueryResult> tripsOnPathQueryResult = getTripsRecords(
+                overlappingPartialTrips, tripSearchModel);        
+        results.setTrips(tripsOnPathQueryResult);
+        return results;
+    }
+
+    protected List<SingleTripQueryResult> getTripsRecords(
+            Path overlappingPartialTrips, TripSearchCriteria tripSearchModel)
+    {
+        List<SingleTripQueryResult> tripsOnPathQueryResult = new ArrayList<SingleTripQueryResult>();
+        
+        for (Trip tripOnPath : overlappingPartialTrips.getTripsOnPath()) {
+            tripsOnPathQueryResult.add(this.newSingleTripQueryResult(tripOnPath, tripSearchModel));
+        }
+        
+        return tripsOnPathQueryResult;
+    }
 
     private void addTranslations(TripQueryResults results)
     {
@@ -194,6 +222,5 @@ public class QueryResultFactory
         searchCriteria.setLongEndPoint(booking.getEndLongitude());
 
         return searchCriteria;
-    }
-
+    }  
 }

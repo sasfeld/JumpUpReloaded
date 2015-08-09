@@ -19,10 +19,10 @@ import de.htw.fb4.imi.jumpup.settings.BeanNames;
  *
  */
 @Stateless(name = BeanNames.TRIP_SEARCH_FILTER_CHAIN)
-public class TripSearchFilterChain extends AbstractTripFilter
+public class DirectTripsSearchFilterChain extends AbstractTripFilter
 {
     
-    public TripSearchFilterChain()
+    public DirectTripsSearchFilterChain()
     {
         super(new NearbyTripsFilter());
     }

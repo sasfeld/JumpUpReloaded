@@ -71,6 +71,7 @@ public interface BeanNames
     String TRIP_QUERY_CONTROLLER = "tripQueryController";
 
     String TRIP_SEARCH_FILTER_CHAIN = "tripSearchFilterChain";
+    String OVERLAPPING_TRIP_SEARCH_FILTER = "overlappingTripSearchChain";
 
     String LOCALE_HELPER = "localeHelper";
 
@@ -80,5 +81,9 @@ public interface BeanNames
     String TRIP_DAO = "tripDAO";
     String BOOKING_DAO = "bookingDAO";
     String USER_DAO = "userDAO";
+    
+    String GRAPH_BUILDER = "graphBuilder";
+    
+    String DIJKSTRA_SINGLE_PAIR = "dijkstraSinglePair";
 
 }

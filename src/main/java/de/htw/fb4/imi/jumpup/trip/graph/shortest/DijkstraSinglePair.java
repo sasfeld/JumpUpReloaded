@@ -11,6 +11,9 @@ import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.Set;
 
+import javax.ejb.Stateful;
+
+import de.htw.fb4.imi.jumpup.settings.BeanNames;
 import de.htw.fb4.imi.jumpup.trip.graph.Edge;
 import de.htw.fb4.imi.jumpup.trip.graph.Graph;
 import de.htw.fb4.imi.jumpup.trip.graph.Path;
@@ -28,6 +31,7 @@ import de.htw.fb4.imi.jumpup.trip.util.VertexPriorityQueue;
  * @since 09.08.2015
  *
  */
+@Stateful(name=BeanNames.DIJKSTRA_SINGLE_PAIR)
 public class DijkstraSinglePair implements Routable
 {
     private Graph graph;

@@ -10,6 +10,8 @@ import java.util.List;
 import javax.ejb.Local;
 
 import de.htw.fb4.imi.jumpup.trip.entities.Trip;
+import de.htw.fb4.imi.jumpup.trip.graph.Path;
+import de.htw.fb4.imi.jumpup.trip.graph.shortest.PathNotFoundException;
 import de.htw.fb4.imi.jumpup.trip.restservice.model.TripSearchCriteria;
 
 /**
@@ -36,4 +38,13 @@ public interface TripFilter
      * @return
      */
     List<Trip> applyFilter(final List<Trip> givenTrips);    
+    
+    /**
+     * Apply the filter and return a Path instances instead of a trip list.
+     * Pathes allow connecting multiple partial trips.
+     * @param givenTrips
+     * @return
+     * @throws PathNotFoundException 
+     */
+    Path applyOverlappingTripsFilter(final List<Trip> givenTrips) throws PathNotFoundException;
 }

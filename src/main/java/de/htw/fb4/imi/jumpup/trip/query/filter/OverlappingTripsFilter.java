@@ -5,35 +5,36 @@
  */
 package de.htw.fb4.imi.jumpup.trip.query.filter;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
+import javax.ejb.Stateless;
+import javax.inject.Inject;
+
+import de.htw.fb4.imi.jumpup.settings.BeanNames;
 import de.htw.fb4.imi.jumpup.trip.entities.Trip;
-import de.htw.fb4.imi.jumpup.trip.restservice.model.TripSearchCriteria;
-import de.htw.fb4.imi.jumpup.util.math.CoordinateUtil;
+import de.htw.fb4.imi.jumpup.trip.graph.Graph;
+import de.htw.fb4.imi.jumpup.trip.graph.GraphBuilder;
+import de.htw.fb4.imi.jumpup.trip.graph.Path;
+import de.htw.fb4.imi.jumpup.trip.graph.Vertex;
+import de.htw.fb4.imi.jumpup.trip.graph.shortest.PathNotFoundException;
+import de.htw.fb4.imi.jumpup.trip.graph.shortest.Routable;
 import de.htw.fb4.imi.jumpup.util.math.Coordinates;
 
 /**
- * <p>This filter is the most important one. <br />
- * It is responsible for identifying nearby {@link Trip} that are located next to passengers start and end location.
- * </p>
- * 
- * <p>Therefore, check if the given latitudes and longitudes are near some of the waypoints of one {@link Trip} instance.<br />
- * The property overviewPath contains most of the waypoints as comma-separated list of lat/lng values.</p>
- * 
- * <p>The criteria is given by a {@link TripSearchCriteria} query model. The maximum distance to the {@link Trip} waypoints at both, passenger's start and end location must not be greater than "maximumDistance".</p>
- *
+ * <p>
+ * Convert trips from HQL into a graph structure, apply the shortest path algorithm and return a {@link Path} instance.</p>
  * @author <a href="mailto:me@saschafeldmann.de">Sascha Feldmann</a>
- * @since 08.08.2015
+ * @since 09.08.2015
  *
  */
+@Stateless(name = BeanNames.OVERLAPPING_TRIP_SEARCH_FILTER)
 public class OverlappingTripsFilter extends AbstractTripFilter
 {
-
-    private double lastDistance;
-    private double distanceToPassengersStartLocation;
-    private double distanceToPassengersEndLocation;
+    @Inject
+    private GraphBuilder builder;
+    
+    @Inject
+    private Routable shortestPathStrategy;
 
     /* (non-Javadoc)
      * @see de.htw.fb4.imi.jumpup.trip.query.filter.TripFilter#applyFilter(java.util.List)
@@ -41,105 +42,62 @@ public class OverlappingTripsFilter extends AbstractTripFilter
     @Override
     public List<Trip> applyFilter(final List<Trip> givenTrips)
     {
-        if (null == super.tripSearchCriteria) {
-            throw new NullPointerException("You need to set tripSearchCriteria before calling applyFilter");
-        }
-        
-        if (null == super.tripSearchCriteria.getLatStartPoint() || null == super.tripSearchCriteria.getLongStartPoint()
-            || null == super.tripSearchCriteria.getLatEndPoint() || null == super.tripSearchCriteria.getLongEndPoint()) {
-            throw new NullPointerException("Null value given for latStartPoint, longStartPoint, latEndPoint or longEndpoint.");
-        }
-        
-        List<Trip> preFilteredTrips =  super.applyFilter(givenTrips);
-        
-        List<Trip> filteredTrips = this.findNearbyTrips(preFilteredTrips);
-        
-        return filteredTrips;
+       throw new UnsupportedOperationException("This method is not supported!");
     }
 
-    private List<Trip> findNearbyTrips(List<Trip> preFilteredTrips)
+    /*
+     * (non-Javadoc)
+     * @see de.htw.fb4.imi.jumpup.trip.query.filter.AbstractTripFilter#applyOverlappingTripsFilter(java.util.List)
+     */
+    public Path applyOverlappingTripsFilter(final List<Trip> givenTrips) throws PathNotFoundException
+    {       
+        Graph tripsGraph = this.structureToTripsGraph(givenTrips);
+        
+        Path shortestPath = this.findShortestPath(tripsGraph);
+        
+        return shortestPath;
+    }
+
+    private Path findShortestPath(Graph tripsGraph) throws PathNotFoundException
     {
-        List<Trip> nearbyTrips = new ArrayList<Trip>();
+        Vertex passengersOrigin = this.getPassengersOriginVertex(tripsGraph);
+        Vertex passengersDestination = this.getPassengersDestinationVertex(tripsGraph);
         
-        for (Trip trip : preFilteredTrips) {
-            if (this.isNearPassenger(trip)) {
-                nearbyTrips.add(trip);
-                trip.setDistanceToPassengersStartLocation(this.distanceToPassengersStartLocation);
-                trip.setDistanceToPassengersEndLocation(this.distanceToPassengersEndLocation);
-            }
-        }
-        
-        return nearbyTrips;
+        return this.shortestPathStrategy.findShortestPath(tripsGraph, passengersOrigin, passengersDestination);
     }
-
-    private boolean isNearPassenger(Trip trip)
+    
+    private Vertex getPassengersOriginVertex(Graph tripsGraph) throws PathNotFoundException
     {
-        Coordinates tripStart = new Coordinates(trip.getLatStartpoint(), trip.getLongStartpoint());
-        Coordinates tripEnd = new Coordinates(trip.getLatEndpoint(), trip.getLongEndpoint());
+        // build a vertex for the passenger's destination, check if its contained in the graph
+        Vertex passengersOrigin = new Vertex(
+                new Coordinates(tripSearchCriteria.getLatStartPoint(), tripSearchCriteria.getLongStartPoint()));
         
-        Coordinates passengersStart = new Coordinates(this.tripSearchCriteria.getLatStartPoint(), this.tripSearchCriteria.getLongStartPoint());
-        Coordinates passengersEnd = new Coordinates(this.tripSearchCriteria.getLatEndPoint(), this.tripSearchCriteria.getLongEndPoint());
-        
-        if (this.isNearLocation(tripStart, passengersStart)                
-            && this.isNearLocation(tripEnd, passengersEnd)) {
-            // passenger's start and endpoint are near driver's start and endpoint
-            return true;
+        if (!tripsGraph.contains(passengersOrigin)) {
+            // it's not, so no trip is available
+            throw new PathNotFoundException();
         }
         
-        // otherwise iterate over waypoints
-        if (this.isNearPath(trip.getOverViewPath(), passengersStart, passengersEnd)) {
-            return true;
-        }
-        
-        return false;
+        return passengersOrigin;
     }
 
-    private boolean isNearPath(String overViewPath,
-            Coordinates passengersStart, Coordinates passengersEnd)
+    private Vertex getPassengersDestinationVertex(Graph tripsGraph) throws PathNotFoundException
     {
-        boolean isNearPassengerStartLocation = false;
-        boolean isNearPassengerEndLocation = false;
+        // build a vertex for the passenger's destination, check if its contained in the graph
+        Vertex passengersDestination = new Vertex(
+                new Coordinates(tripSearchCriteria.getLatEndPoint(), tripSearchCriteria.getLongEndPoint()));
         
-        Set<Coordinates> waypoints = CoordinateUtil.parseCoordinateSetBy(overViewPath);
-        for (Coordinates tripWaypoint : waypoints) {
-            if (!isNearPassengerStartLocation && this.isNearLocation(tripWaypoint, passengersStart)) {
-                isNearPassengerStartLocation = true;
-                this.distanceToPassengersStartLocation = this.lastDistance;
-            }
-            
-            if (!isNearPassengerEndLocation && this.isNearLocation(tripWaypoint, passengersEnd)) {
-                isNearPassengerEndLocation = true;
-                this.distanceToPassengersEndLocation = this.lastDistance;
-            }          
-            
-            // break if near start and end location was found to avoid redundant work
-            if (isNearPassengerStartLocation && isNearPassengerEndLocation) {
-                break;
-            }
-            
+        if (!tripsGraph.contains(passengersDestination)) {
+            // it's not, so no trip is available
+            throw new PathNotFoundException();
         }
         
-        return (isNearPassengerStartLocation && isNearPassengerEndLocation);
-    }
+        return passengersDestination;
+    }  
 
-    private boolean isNearLocation(Coordinates tripCoordinates, Coordinates passengersCoordinates)
-    {        
-        if (null == tripCoordinates) {
-            throw new NullPointerException("Nullpointer for tripCoordinates");
-        }
-        if (null == passengersCoordinates) {
-            throw new NullPointerException("Nullpointer for passengersCoordinates");
-        }
-        if (null == this.tripSearchCriteria.getMaxDistance()) {
-            throw new NullPointerException("Nullpointer for tripSearchCriteria:maxDistance");
-        }
+    private Graph structureToTripsGraph(List<Trip> givenTrips)
+    {
+        Graph resultingGraph = builder.buildGraphFromTripList(givenTrips);
         
-        
-        this.lastDistance = CoordinateUtil.calculateDistanceBetween(tripCoordinates, passengersCoordinates);
-        if (this.lastDistance< this.tripSearchCriteria.getMaxDistance()) {
-            return true;
-        }
-        
-        return false;
+        return resultingGraph;
     }
 }

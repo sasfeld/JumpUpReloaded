@@ -8,6 +8,9 @@ package de.htw.fb4.imi.jumpup.trip.graph;
 import java.util.List;
 import java.util.Set;
 
+import javax.ejb.Stateless;
+
+import de.htw.fb4.imi.jumpup.settings.BeanNames;
 import de.htw.fb4.imi.jumpup.trip.entities.Trip;
 import de.htw.fb4.imi.jumpup.util.math.CoordinateUtil;
 import de.htw.fb4.imi.jumpup.util.math.Coordinates;
@@ -19,6 +22,7 @@ import de.htw.fb4.imi.jumpup.util.math.Coordinates;
  * @since 09.08.2015
  *
  */
+@Stateless(name = BeanNames.GRAPH_BUILDER)
 public class GraphBuilder
 {
 

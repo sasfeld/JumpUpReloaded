@@ -8,6 +8,8 @@ package de.htw.fb4.imi.jumpup.trip.query.filter;
 import java.util.List;
 
 import de.htw.fb4.imi.jumpup.trip.entities.Trip;
+import de.htw.fb4.imi.jumpup.trip.graph.Path;
+import de.htw.fb4.imi.jumpup.trip.graph.shortest.PathNotFoundException;
 import de.htw.fb4.imi.jumpup.trip.restservice.model.TripSearchCriteria;
 
 /**
@@ -45,6 +47,15 @@ public abstract class AbstractTripFilter implements TripFilter
         }
         
         return givenTrips;
+    }
+    
+    /*
+     * (non-Javadoc)
+     * @see de.htw.fb4.imi.jumpup.trip.query.filter.TripFilter#applyOverlappingTripsFilter(java.util.List)
+     */
+    public Path applyOverlappingTripsFilter(final List<Trip> givenTrips) throws PathNotFoundException
+    {
+        throw new UnsupportedOperationException("Not implemented");
     }
 
     @Override

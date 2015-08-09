@@ -30,6 +30,11 @@ public class PathNotFoundException extends Exception
         this.destination = destination;
     }
 
+    public PathNotFoundException()
+    {
+        super("Passengers origin or destination is not contained in the overall graph of offered trips");
+    }
+
     /**
      * @return the origin
      */

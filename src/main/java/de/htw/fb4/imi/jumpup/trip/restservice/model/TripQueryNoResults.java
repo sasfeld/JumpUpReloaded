@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2014-2015 Sebastian Renner, Marco Seidler, Sascha Feldmann
  */
-package de.htw.fb4.imi.jumpup.trip.query;
+package de.htw.fb4.imi.jumpup.trip.restservice.model;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -18,11 +18,11 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.PROPERTY)
-public class TripQueryNoResults
+public class TripQueryNoResults extends TripQueryResults
 {
-    protected boolean noTrips;
-    
+    protected boolean noTrips;    
     protected String message;
+    protected Type type = Type.NO_RESULT;
 
     /**
      * @return the noTrips

@@ -5,6 +5,8 @@
  */
 package de.htw.fb4.imi.jumpup.trip.graph.shortest;
 
+import javax.ejb.Local;
+
 import de.htw.fb4.imi.jumpup.trip.graph.Graph;
 import de.htw.fb4.imi.jumpup.trip.graph.Path;
 import de.htw.fb4.imi.jumpup.trip.graph.Vertex;
@@ -16,6 +18,7 @@ import de.htw.fb4.imi.jumpup.trip.graph.Vertex;
  * @since 09.08.2015
  *
  */
+@Local
 public interface Routable
 {
     /**

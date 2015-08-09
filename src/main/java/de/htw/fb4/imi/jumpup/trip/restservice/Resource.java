@@ -58,14 +58,7 @@ public class Resource
         try {
             TripQueryResults matchedTrips = tripQueryMethod.searchForTrips(tripCriteria);
             
-            // no trips found
-            if (0 == matchedTrips.getTrips().size()) {
-                return Response
-                        .ok(tripQueryMethod.getNoTripsResult())
-                        .build();
-            }
-            
-            // trips found
+            // direct trips, multiple partial trips or no trips found
             return Response
                     .ok(matchedTrips)
                     .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)

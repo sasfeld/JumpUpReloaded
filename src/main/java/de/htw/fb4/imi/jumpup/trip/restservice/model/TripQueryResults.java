@@ -24,6 +24,20 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class TripQueryResults
 {
     /**
+     * 
+     * <p>Type to simplify the client (e.g. frontend) to handle the polymorphistic query result (e.g. direct trips list, partial overlap trips with intersections, no result).</p>
+     *
+     * @author <a href="mailto:me@saschafeldmann.de">Sascha Feldmann</a>
+     * @since 09.08.2015
+     *
+     */
+    public enum Type {
+        DIRECT_TRIP_RESULT,
+        MULTIPLE_PARTIAL_TRIP_RESULT,
+        NO_RESULT
+    }
+    
+    /**
      * Translated messages given to the frontend.
      * <p></p>
      *
@@ -188,6 +202,7 @@ public class TripQueryResults
     
     protected List<SingleTripQueryResult> trips = new ArrayList<SingleTripQueryResult>();
     protected Translations translations = new Translations();
+    protected Type type = Type.DIRECT_TRIP_RESULT;
     
 
     /**
@@ -213,5 +228,20 @@ public class TripQueryResults
     {
         return translations;
     }
-    
+
+    /**
+     * @return the type
+     */
+    public Type getType()
+    {
+        return type;
+    }
+
+    /**
+     * @param type the type to set
+     */
+    public void setType(Type type)
+    {
+        this.type = type;
+    }    
 }
