@@ -27,6 +27,7 @@ public interface Routable
      * @param origin
      * @param destination
      * @return
+     * @throws PathNotFoundException if no path from origin to destination was found.
      */
-    Path findShortestPath(Graph graph, Vertex origin, Vertex destination);
+    Path findShortestPath(Graph graph, Vertex origin, Vertex destination) throws PathNotFoundException;
 }

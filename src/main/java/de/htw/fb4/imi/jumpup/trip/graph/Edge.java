@@ -16,9 +16,9 @@ public class Edge
 {
     protected final Vertex vertexA;
     protected final Vertex vertexB;
-    protected final int weight;
+    protected final double weight;
     
-    public Edge(Vertex vertexA, Vertex vertexB, int weight) 
+    public Edge(Vertex vertexA, Vertex vertexB, double weight) 
     {
         if (null == vertexA || null == vertexB) {
             throw new NullPointerException("Null values are not allowed for edge vertices!");
@@ -39,7 +39,7 @@ public class Edge
         return this.vertexB;
     }
     
-    public int getWeight() 
+    public double getWeight() 
     {
         return this.weight;
     }
@@ -54,7 +54,9 @@ public class Edge
         int result = 1;
         result = prime * result + ((vertexA == null) ? 0 : vertexA.hashCode());
         result = prime * result + ((vertexB == null) ? 0 : vertexB.hashCode());
-        result = prime * result + weight;
+        long temp;
+        temp = Double.doubleToLongBits(weight);
+        result = prime * result + (int) (temp ^ (temp >>> 32));
         return result;
     }
 
@@ -81,7 +83,8 @@ public class Edge
                 return false;
         } else if (!vertexB.equals(other.vertexB))
             return false;
-        if (weight != other.weight)
+        if (Double.doubleToLongBits(weight) != Double
+                .doubleToLongBits(other.weight))
             return false;
         return true;
     }   

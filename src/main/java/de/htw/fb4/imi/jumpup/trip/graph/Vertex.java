@@ -88,6 +88,15 @@ public class Vertex
         this.id = toleranceLatitude + longitudeFraction;
     }
 
+    /**
+     * 
+     * @return
+     */
+    public Coordinates getCoordinates()
+    {
+        return this.coordinates;
+    }
+    
     /* (non-Javadoc)
      * @see java.lang.Object#hashCode()
      */
@@ -125,5 +134,5 @@ public class Vertex
         if (Double.doubleToLongBits(id) != Double.doubleToLongBits(other.id))
             return false;
         return true;
-    }
+    }  
 }

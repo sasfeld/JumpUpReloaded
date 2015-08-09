@@ -40,8 +40,9 @@ public class Graph
     /**
      * Add a vertex, handle entry in adjacency list.
      * @param vertex
+     * @return 
      */
-    public void addVertex( Vertex vertex ) 
+    public Graph addVertex( Vertex vertex ) 
     {
         if (null == vertex) {
             throw new NullPointerException("Vertex must not be null.");
@@ -54,6 +55,8 @@ public class Graph
         this.vertices.add(vertex);        
         // add new record for vertex to adjacency list
         this.adjacencyList.put(vertex.getId(), this.newAdjacencyListEntry());
+        
+        return this;
     }
 
     public boolean contains(Vertex vertex)
@@ -66,7 +69,7 @@ public class Graph
         return new LinkedList<Edge>();
     }
     
-    public void addEdge( Edge edge ) 
+    public Graph addEdge( Edge edge ) 
     {
         if (null == edge) {
             throw new NullPointerException("edge must not be null.");
@@ -77,6 +80,8 @@ public class Graph
         }
         
         this.adjacencyList.get(edge.getVertexA().getId()).add(edge);
+        
+        return this;
     }
     
     private boolean bothVerticesExist(Edge e) 

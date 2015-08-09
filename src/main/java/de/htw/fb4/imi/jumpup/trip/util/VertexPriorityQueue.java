@@ -22,10 +22,10 @@ import de.htw.fb4.imi.jumpup.trip.graph.Vertex;
 public class VertexPriorityQueue
 {
     /**
-     * Reference to the minW hash map which will be changed by the prim
+     * Reference to the minW hash map
      * algorithm.
      */
-    private final HashMap< Vertex, Integer > minW;
+    private final HashMap< Vertex, Double > minW;
     /**
      * Contains the already extracted vertices. Those will be ignored in future
      * extracts.
@@ -38,7 +38,7 @@ public class VertexPriorityQueue
      * @param minW
      *            the {@link HashMap} which contains the weights.
      */
-    public VertexPriorityQueue( HashMap< Vertex, Integer > minW ) {
+    public VertexPriorityQueue( HashMap< Vertex, Double > minW ) {
         this.minW = minW;
 
         this.removedVertices = new ArrayList< Vertex >();
