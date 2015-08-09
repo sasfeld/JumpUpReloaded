@@ -29,11 +29,11 @@ import java.util.Map;
  */
 public class Graph
 {
-    protected final List<Vertex> vertices;
+    protected final Map<Double, Vertex> vertices;
     protected final Map< Double, LinkedList<Edge>> adjacencyList;
     
     public Graph() {
-        this.vertices = new ArrayList<Vertex>();
+        this.vertices = new HashMap<Double, Vertex>();
         this.adjacencyList = new HashMap<Double, LinkedList<Edge>>();
     }
     
@@ -52,7 +52,7 @@ public class Graph
             throw new IllegalArgumentException("Vertex with ID " + vertex.getId() + " is already in list." );
         }
         
-        this.vertices.add(vertex);        
+        this.vertices.put(vertex.getId(), vertex);        
         // add new record for vertex to adjacency list
         this.adjacencyList.put(vertex.getId(), this.newAdjacencyListEntry());
         
@@ -105,7 +105,7 @@ public class Graph
     
     public Collection<Vertex> getVertices()
     {
-       return this.vertices;
+       return this.vertices.values();
     }
     
     public int getNumberOfVertices()
@@ -127,5 +127,20 @@ public class Graph
         }
         
         return adjacencyList.get(vertex.getId());
+    }
+
+    public int getNumberOfEdges()
+    {
+        return this.getEdges().size();
+    }
+
+    /**
+     * Get vertex with ID. Will return null if not found.
+     * @param id
+     * @return
+     */
+    public Vertex getVerticeWithId(double id)
+    {
+       return this.vertices.get(id);
     }
 }

@@ -5,7 +5,7 @@
  */
 package de.htw.fb4.imi.jumpup.util.math;
 
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 /**
@@ -91,7 +91,7 @@ public class CoordinateUtil
             throw new IllegalArgumentException("The value for latLng must be a string of comma-separated LatLng values like '55.5123,52.3131;55.5123,52.3131'");
         }
         
-        Set<Coordinates> coordinatesSet = new HashSet<Coordinates>();
+        Set<Coordinates> coordinatesSet = new LinkedHashSet<Coordinates>();
         for (String rawLatLng : rawCoordinates) {
             Coordinates coordinates = newCoordinatesBy(rawLatLng);
             coordinatesSet.add(coordinates);

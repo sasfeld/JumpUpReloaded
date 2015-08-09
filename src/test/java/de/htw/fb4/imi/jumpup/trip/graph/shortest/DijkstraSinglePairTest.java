@@ -1,7 +1,7 @@
 /**
  * JumpUp.Me Car Pooling Application
  *
- * Copyright (c) 2014-2015 Sebastian Renner, Marco Seidler, Sascha Feldmann
+ * Copyright (c) 2014-2015 Sascha Feldmann
  */
 package de.htw.fb4.imi.jumpup.trip.graph.shortest;
 

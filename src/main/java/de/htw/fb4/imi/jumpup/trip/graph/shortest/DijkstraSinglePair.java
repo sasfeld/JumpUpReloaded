@@ -6,12 +6,10 @@
 package de.htw.fb4.imi.jumpup.trip.graph.shortest;
 
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.Set;
-
-import java.util.Iterator;
 
 import de.htw.fb4.imi.jumpup.trip.graph.Edge;
 import de.htw.fb4.imi.jumpup.trip.graph.Graph;
@@ -156,6 +154,9 @@ public class DijkstraSinglePair implements Routable
             
             currentVertex = this.pred.get(currentVertex);
         }        
+        
+        // add origin itself to path
+        verticesOnPath.add(origin);
         
         verticesOnPath = this.reverseOrderOfVertices(verticesOnPath);
         return this.newPathFromVertexSet(verticesOnPath);
