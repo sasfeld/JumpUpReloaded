@@ -40,6 +40,7 @@ public class OverlappingPartialTripQueryResult extends TripQueryResults
     }
     
     protected Set<Vertex> intersections;
+    protected String message;
     
     public OverlappingPartialTripQueryResult()
     {
@@ -61,4 +62,21 @@ public class OverlappingPartialTripQueryResult extends TripQueryResults
     {
         this.intersections = intersections;
     }    
+    
+
+    /**
+     * @return the message
+     */
+    public String getMessage()
+    {
+        return message;
+    }
+
+    /**
+     * @param message the message to set
+     */
+    public void setMessage(String message)
+    {
+        this.message = message;
+    }
 }

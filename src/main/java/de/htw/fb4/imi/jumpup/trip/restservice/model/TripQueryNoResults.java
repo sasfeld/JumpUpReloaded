@@ -19,29 +19,12 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.PROPERTY)
 public class TripQueryNoResults extends TripQueryResults
-{
-    protected boolean noTrips;    
+{ 
     protected String message;
     
     public TripQueryNoResults()
     {
         this.type = Type.NO_RESULT;
-    }
-
-    /**
-     * @return the noTrips
-     */
-    public boolean isNoTrips()
-    {
-        return noTrips;
-    }
-
-    /**
-     * @param noTrips the noTrips to set
-     */
-    public void setNoTrips(boolean noTrips)
-    {
-        this.noTrips = noTrips;
     }
 
     /**

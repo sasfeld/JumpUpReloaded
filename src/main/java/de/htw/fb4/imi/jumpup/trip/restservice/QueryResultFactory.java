@@ -141,7 +141,6 @@ public class QueryResultFactory
     {
         TripQueryNoResults noResults = new TripQueryNoResults();
 
-        noResults.setNoTrips(true);
         noResults.setMessage(message);
 
         return noResults;
@@ -165,6 +164,7 @@ public class QueryResultFactory
         List<SingleTripQueryResult> tripsOnPathQueryResult = getTripsRecords(
                 overlappingPartialTrips, tripSearchModel);        
         results.setTrips(tripsOnPathQueryResult);     
+        results.setMessage(translator.translate("We didn't find a direct trip but " + tripsOnPathQueryResult.size() + " connecting trips. Please have a look."));
         //results.setIntersections(overlappingPartialTrips.getIntersectionsOnPath());
         
         return results;

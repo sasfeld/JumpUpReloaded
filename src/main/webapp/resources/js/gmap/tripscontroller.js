@@ -54,13 +54,14 @@ this.de.htw.fb4.imi.jumpup.trip = this.de.htw.fb4.imi.jumpup.trip || {};
 					// clear map
 					mapCtrl.gmap.removeRoutes();					
 	
-					if (data.noTrips == true) {
+					if (data.type == "NO_RESULT") {
 						console.log(data);
 						alert(data.message);
-					}				
+					} 				
 					else {
-						// bad request?
-						console.log(data);
+						if (data.type == "MULTIPLE_PARTIAL_TRIP_RESULT") {
+							alert(data.message);
+						}
 						
 						var translations = data.translations;
 						var viewOptions = {
