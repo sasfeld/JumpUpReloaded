@@ -57,8 +57,18 @@ public class NearbyTripsFilterTest
         TRIP_FILTER.setCriteria(this.givenTripSearchCriteria);
         List<Trip> resultingTrips = TRIP_FILTER.applyFilter(this.givenOriginalTripList);
         
-        assertArrayEquals(expectedTripList.toArray(new Trip[expectedTripList.size()]),
-                resultingTrips.toArray(new Trip[resultingTrips.size()]) );
+        for (Trip trip : resultingTrips) {
+            boolean contained = false;
+            
+            for (Trip expectedTrip : expectedTripList) {
+                if (expectedTrip.getStartpoint() == trip.getStartpoint()
+                        && expectedTrip.getEndpoint() == trip.getEndpoint()) {
+                    contained = true;
+                }
+            }
+            
+            assertTrue(contained);
+        }    
     }
     
     
