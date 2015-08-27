@@ -10,6 +10,8 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
+import de.htw.fb4.imi.jumpup.Application;
+import de.htw.fb4.imi.jumpup.Application.LogType;
 import de.htw.fb4.imi.jumpup.settings.BeanNames;
 import de.htw.fb4.imi.jumpup.trip.entities.Trip;
 import de.htw.fb4.imi.jumpup.trip.graph.Graph;
@@ -77,7 +79,7 @@ public class OverlappingTripsFilter extends AbstractTripFilter
             throw new PathNotFoundException();
         }
         
-        return tripsGraph.getVerticeWithId(passengersOrigin.getId());
+        return tripsGraph.getVerticeById(passengersOrigin.getId());
     }
 
     private Vertex getPassengersDestinationVertex(Graph tripsGraph) throws PathNotFoundException
@@ -91,12 +93,14 @@ public class OverlappingTripsFilter extends AbstractTripFilter
             throw new PathNotFoundException();
         }
         
-        return tripsGraph.getVerticeWithId(passengersDestination.getId());
+        return tripsGraph.getVerticeById(passengersDestination.getId());
     }  
 
     private Graph structureToTripsGraph(List<Trip> givenTrips)
     {
         Graph resultingGraph = builder.buildGraphFromTripList(givenTrips);
+        
+        Application.log("Created graph with " + resultingGraph.getNumberOfVertices() + " vertices and " + resultingGraph.getNumberOfEdges() + " edges", LogType.DEBUG, getClass());
         
         return resultingGraph;
     }

@@ -139,7 +139,7 @@ public class Graph
      * @param id
      * @return
      */
-    public Vertex getVerticeWithId(double id)
+    public Vertex getVerticeById(double id)
     {
        return this.vertices.get(id);
     }

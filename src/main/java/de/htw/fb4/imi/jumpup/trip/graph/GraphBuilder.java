@@ -66,7 +66,7 @@ public class GraphBuilder
             g.addVertex(a);
         } else {
             // get the vertex from the graph to continue processing
-            a = g.getVerticeWithId(a.getId());
+            a = g.getVerticeById(a.getId());
         }
         
         return a;

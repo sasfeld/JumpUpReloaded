@@ -17,6 +17,7 @@ import de.htw.fb4.imi.jumpup.trip.graph.Graph;
 import de.htw.fb4.imi.jumpup.trip.graph.Path;
 import de.htw.fb4.imi.jumpup.trip.graph.Vertex;
 import de.htw.fb4.imi.jumpup.util.math.CoordinateUtil;
+import de.htw.fb4.imi.jumpup.util.math.Coordinates;
 
 /**
  * <p></p>
@@ -143,6 +144,15 @@ public class DijkstraSinglePairTest
         
         assertEquals(2, foundPath.getTripsOnPath().size());
         assertEquals(1, foundPath.getIntersectionsOnPath().size());
+    }
+    
+    @Test
+    public void haversineTest()
+    {
+        Coordinates one = CoordinateUtil.newCoordinatesBy("55.11111,55.11111");
+        Coordinates two = CoordinateUtil.newCoordinatesBy("55.11111,55.22222");
+        
+        System.out.println(CoordinateUtil.calculateDistanceBetween(one, two));
     }
 
 }

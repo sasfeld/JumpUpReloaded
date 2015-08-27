@@ -128,13 +128,16 @@ public class WebsiteTripQuery implements TripQueryMethod
         Application.log("filtered trips: " + filteredTrips, LogType.DEBUG, getClass());
         
         if (0 != filteredTrips.size()) {
+            // direct trips were found
             return this.toQueryResultList(filteredTrips, tripSearchModel);
         }
         
         // no direct trips were found, so start to find overlapping partial trips
         try {
-            Path overlappingPartialTrips;
-            overlappingPartialTrips = this.findOverlappingPartialTrips(tripSearchModel, matchedTrips);
+            long startTime = System.currentTimeMillis();
+            Path overlappingPartialTrips = this.findOverlappingPartialTrips(tripSearchModel, matchedTrips);
+            long stopTime = System.currentTimeMillis();
+            Application.log("WebsiteTripQuery: runtime for overlapping partial trips in ms: " + (stopTime - startTime), LogType.DEBUG, getClass()  );
             return this.toQueryResultList(overlappingPartialTrips, tripSearchModel);
         } catch (PathNotFoundException e) {
             // no path found at all
