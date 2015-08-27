@@ -82,8 +82,8 @@ public class Vertex
         double latitude = this.coordinates.getLatitudeDegrees();
         double longitude = this.coordinates.getLongitudeDegrees();
         
-        double toleranceLatitude =  Math.round(latitude * TOLERANCE_FACTOR) / TOLERANCE_FACTOR;
-        double toleranceLongitude =  Math.round(longitude * TOLERANCE_FACTOR) / TOLERANCE_FACTOR;
+        double toleranceLatitude =  Math.floor(latitude * TOLERANCE_FACTOR) / TOLERANCE_FACTOR;
+        double toleranceLongitude =  Math.floor(longitude * TOLERANCE_FACTOR) / TOLERANCE_FACTOR;
         
         this.id = toleranceLatitude + toleranceLongitude;
     }
