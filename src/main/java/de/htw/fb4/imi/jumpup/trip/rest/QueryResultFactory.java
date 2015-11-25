@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2014-2015 Sebastian Renner, Marco Seidler, Sascha Feldmann
  */
-package de.htw.fb4.imi.jumpup.trip.restservice;
+package de.htw.fb4.imi.jumpup.trip.rest;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -8,6 +8,8 @@ package de.htw.fb4.imi.jumpup.rest;
 import javax.inject.Named;
 import javax.ws.rs.OPTIONS;
 import javax.ws.rs.Path;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -28,7 +30,7 @@ public class BasicRestController extends AbstractRestController
 
     @OPTIONS
     @Override
-    public Response options()
+    public Response options(@Context HttpHeaders headers)
     {
         return Response.ok(
                 buildDocumentation()                

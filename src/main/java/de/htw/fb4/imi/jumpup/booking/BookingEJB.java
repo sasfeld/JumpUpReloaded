@@ -28,7 +28,7 @@ import de.htw.fb4.imi.jumpup.mail.builder.MailBuilder;
 import de.htw.fb4.imi.jumpup.settings.BeanNames;
 import de.htw.fb4.imi.jumpup.translate.Translatable;
 import de.htw.fb4.imi.jumpup.trip.entities.Trip;
-import de.htw.fb4.imi.jumpup.trip.restservice.QueryResultFactory;
+import de.htw.fb4.imi.jumpup.trip.rest.QueryResultFactory;
 import de.htw.fb4.imi.jumpup.trip.restservice.model.TripSearchCriteria;
 import de.htw.fb4.imi.jumpup.trip.util.ConfigReader;
 import de.htw.fb4.imi.jumpup.trip.util.TripAndBookingsConfigKeys;

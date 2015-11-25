@@ -5,6 +5,7 @@
  */
 package de.htw.fb4.imi.jumpup.rest.methods;
 
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 
 /**
@@ -16,5 +17,7 @@ import javax.ws.rs.core.Response;
  */
 public interface IGet
 {
-    Response get();
+    Response get(HttpHeaders headers);
+    
+    Response get(HttpHeaders headers, Long... ids);
 }

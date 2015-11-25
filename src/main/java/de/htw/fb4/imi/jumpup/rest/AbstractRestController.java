@@ -10,6 +10,8 @@ import javax.ws.rs.GET;
 import javax.ws.rs.OPTIONS;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 
 import de.htw.fb4.imi.jumpup.rest.methods.IDelete;
@@ -32,16 +34,25 @@ public abstract class AbstractRestController implements IGet, IPost, IPut, IDele
     }
     
     @GET
-    public Response get() {
+    public Response get(@Context HttpHeaders headers) {
         if (!this.isEnabled()) {
             return this.sendVersionDisabledResponse();
         }
         
         return null;
     }   
+    
+    @GET
+    public Response get(@Context HttpHeaders headers, Long... ids) {
+        if (!this.isEnabled()) {
+            return this.sendVersionDisabledResponse();
+        }
+        
+        return null;
+    }
 
     @POST
-    public Response post(){
+    public Response post(@Context HttpHeaders headers){
         if (!this.isEnabled()) {
             return this.sendVersionDisabledResponse();
         }
@@ -50,7 +61,7 @@ public abstract class AbstractRestController implements IGet, IPost, IPut, IDele
     }   
     
     @PUT
-    public Response put(){
+    public Response put(@Context HttpHeaders headers, Long entityId){
         if (!this.isEnabled()) {
             return this.sendVersionDisabledResponse();
         }
@@ -59,7 +70,7 @@ public abstract class AbstractRestController implements IGet, IPost, IPut, IDele
     }   
     
     @DELETE
-    public Response delete(){
+    public Response delete(@Context HttpHeaders headers, Long entityId){
         if (!this.isEnabled()) {
             return this.sendVersionDisabledResponse();
         }
@@ -68,7 +79,7 @@ public abstract class AbstractRestController implements IGet, IPost, IPut, IDele
     }   
     
     @OPTIONS
-    public Response options(){
+    public Response options(@Context HttpHeaders headers){
         if (!this.isEnabled()) {
             return this.sendVersionDisabledResponse();
         }

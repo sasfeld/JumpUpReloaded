@@ -25,7 +25,7 @@ import de.htw.fb4.imi.jumpup.trip.graph.Path;
 import de.htw.fb4.imi.jumpup.trip.graph.shortest.PathNotFoundException;
 import de.htw.fb4.imi.jumpup.trip.query.filter.DirectTripsSearchFilterChain;
 import de.htw.fb4.imi.jumpup.trip.query.filter.OverlappingTripsFilter;
-import de.htw.fb4.imi.jumpup.trip.restservice.QueryResultFactory;
+import de.htw.fb4.imi.jumpup.trip.rest.QueryResultFactory;
 import de.htw.fb4.imi.jumpup.trip.restservice.model.SingleTripQueryResult;
 import de.htw.fb4.imi.jumpup.trip.restservice.model.TripQueryNoResults;
 import de.htw.fb4.imi.jumpup.trip.restservice.model.TripQueryResults;

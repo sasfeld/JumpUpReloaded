@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2014 Sebastian Renner, Marco Seidler, Sascha Feldmann
  */
-package de.htw.fb4.imi.jumpup.trip.restservice;
+package de.htw.fb4.imi.jumpup.trip.rest;
 
 import javax.faces.bean.RequestScoped;
 import javax.inject.Inject;
