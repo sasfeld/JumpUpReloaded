@@ -85,5 +85,7 @@ public interface BeanNames
     String GRAPH_BUILDER = "graphBuilder";
     
     String DIJKSTRA_SINGLE_PAIR = "dijkstraSinglePair";
+    
+    String BASIC_REST_CONTROLLER = "basicRestController";
 
 }
