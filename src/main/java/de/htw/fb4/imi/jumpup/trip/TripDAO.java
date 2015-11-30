@@ -8,6 +8,7 @@ package de.htw.fb4.imi.jumpup.trip;
 import java.util.List;
 
 import javax.ejb.Local;
+import javax.persistence.NoResultException;
 
 import de.htw.fb4.imi.jumpup.trip.entities.Trip;
 import de.htw.fb4.imi.jumpup.trip.restservice.model.TripSearchCriteria;
@@ -28,6 +29,7 @@ public interface TripDAO
      * 
      * @param id
      * @return
+     * @throws NoResultException if the identity couldn't be matched.
      */
     Trip getTripByID(long identity);
     

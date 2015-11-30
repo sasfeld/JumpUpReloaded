@@ -47,7 +47,7 @@ import de.htw.fb4.imi.jumpup.util.FileUtil;
  *
  */
 @Stateless(name = BeanNames.WEBSITE_TRIP_CREATION)
-public class WebsiteTripCreation implements TripCreationMethod, ErrorPrintable
+public class WebsiteTripManagement implements TripManagementMethod, ErrorPrintable
 {
     @PersistenceUnit(unitName = PersistenceSettings.PERSISTENCE_UNIT)
     protected EntityManagerFactory entityManagerFactory;
@@ -70,7 +70,7 @@ public class WebsiteTripCreation implements TripCreationMethod, ErrorPrintable
     protected Set<String> errorMessages;
     
     
-    public WebsiteTripCreation()
+    public WebsiteTripManagement()
     {
         super();
     }

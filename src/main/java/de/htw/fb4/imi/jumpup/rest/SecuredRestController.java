@@ -194,8 +194,13 @@ public abstract class SecuredRestController extends AbstractRestController
         return response;
     }   
     
-    private Response sendUnauthorizedResponse()
+    protected Response sendUnauthorizedResponse()
     {
         return Response.status(Status.UNAUTHORIZED).build();
+    }
+    
+    protected Response sendForbiddenResponse()
+    {
+        return Response.status(Status.FORBIDDEN).build();
     }
 }

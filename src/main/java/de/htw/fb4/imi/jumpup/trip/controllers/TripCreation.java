@@ -20,7 +20,7 @@ import de.htw.fb4.imi.jumpup.controllers.AbstractFacesController;
 import de.htw.fb4.imi.jumpup.navigation.NavigationOutcomes;
 import de.htw.fb4.imi.jumpup.settings.BeanNames;
 import de.htw.fb4.imi.jumpup.settings.PersistenceSettings;
-import de.htw.fb4.imi.jumpup.trip.creation.TripCreationMethod;
+import de.htw.fb4.imi.jumpup.trip.creation.TripManagementMethod;
 import de.htw.fb4.imi.jumpup.trip.entities.Trip;
 import de.htw.fb4.imi.jumpup.trip.util.ConfigReader;
 import de.htw.fb4.imi.jumpup.user.controllers.Login;
@@ -37,7 +37,7 @@ import de.htw.fb4.imi.jumpup.user.controllers.Login;
 public class TripCreation extends AbstractFacesController
 {
     @Inject
-    protected TripCreationMethod tripCreationMethod;
+    protected TripManagementMethod tripCreationMethod;
     protected Trip trip;    
    
     @PersistenceUnit(unitName = PersistenceSettings.PERSISTENCE_UNIT)

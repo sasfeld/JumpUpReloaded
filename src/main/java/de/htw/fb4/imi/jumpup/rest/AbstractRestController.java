@@ -13,12 +13,14 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import de.htw.fb4.imi.jumpup.rest.methods.IDelete;
 import de.htw.fb4.imi.jumpup.rest.methods.IGet;
 import de.htw.fb4.imi.jumpup.rest.methods.IOptions;
 import de.htw.fb4.imi.jumpup.rest.methods.IPost;
 import de.htw.fb4.imi.jumpup.rest.methods.IPut;
+import de.htw.fb4.imi.jumpup.util.ErrorPrintable;
 
 /**
  * <p></p>
@@ -91,6 +93,28 @@ public abstract class AbstractRestController implements IGet, IPost, IPut, IDele
     {
         return Response
                 .notAcceptable(null)
+                .build();
+    }
+    
+    protected Response sendNotFoundResponse()
+    {
+        return Response
+                .status(Status.NOT_FOUND)
+                .build();
+    }    
+
+    protected Response sendInternalServerErrorResponse(
+            ErrorPrintable errorPrintable)
+    {
+        return Response
+                .status(Status.INTERNAL_SERVER_ERROR)
+                .build();
+    }     
+
+    protected Response sendOkResponse(String message)
+    {
+        return Response
+                .ok(message)
                 .build();
     }
 }

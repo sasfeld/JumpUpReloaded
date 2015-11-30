@@ -8,12 +8,14 @@ package de.htw.fb4.imi.jumpup.util;
 import javax.ejb.Stateless;
 import javax.el.ELContext;
 import javax.el.ExpressionFactory;
+import javax.el.StandardELContext;
 import javax.el.ValueExpression;
 import javax.faces.application.FacesMessage;
 import javax.faces.application.FacesMessage.Severity;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.Validator;
 import javax.inject.Inject;
+import javax.servlet.ServletContext;
 
 import org.apache.commons.lang.exception.ExceptionUtils;
 
@@ -97,10 +99,13 @@ public class FacesFacade
      */
     public String evaluateExpressionLanguage(final String expression)
     {
+        
         FacesContext context = FacesContext.getCurrentInstance();
         
         ExpressionFactory expressionFactory = context.getApplication().getExpressionFactory();        
         ELContext elContext = context.getELContext();
+//        ExpressionFactory expressionFactory = ExpressionFactory.newInstance();
+//        StandardELContext elContext = new StandardELContext(expressionFactory);
         
         ValueExpression valueExpression = expressionFactory.createValueExpression(elContext, expression, expression.getClass());
         

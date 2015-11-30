@@ -19,6 +19,10 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 import de.htw.fb4.imi.jumpup.Application;
 import de.htw.fb4.imi.jumpup.Application.LogType;
@@ -54,6 +58,8 @@ import de.htw.fb4.imi.jumpup.verhicle.entities.Vehicle;
                 + " AND (:priceTo IS NULL OR t.price <= :priceTo)")
 
 })
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.PROPERTY)
 public class Trip extends AbstractEntity
 {
 
@@ -68,8 +74,9 @@ public class Trip extends AbstractEntity
      * 
      */
     private static final long serialVersionUID = -3854579506642418644L;
-
+ 
     @OneToMany(mappedBy = "trip", fetch = FetchType.EAGER)
+    @XmlTransient
     private List<Booking> bookings;
 
     @Column(name = "startpoint", nullable = false, updatable = true, unique = false)
@@ -114,6 +121,7 @@ public class Trip extends AbstractEntity
     protected Vehicle vehicle;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @XmlTransient
     protected User driver;
 
     @Column(name = "cancelation_datetime", nullable = true, updatable = true, unique = false)

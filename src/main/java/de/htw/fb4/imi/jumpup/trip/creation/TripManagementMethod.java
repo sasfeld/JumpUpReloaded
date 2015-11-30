@@ -25,7 +25,7 @@ import de.htw.fb4.imi.jumpup.util.ErrorPrintable;
  *
  */
 @Local
-public interface TripCreationMethod extends ErrorPrintable
+public interface TripManagementMethod extends ErrorPrintable
 {
     
     /**
