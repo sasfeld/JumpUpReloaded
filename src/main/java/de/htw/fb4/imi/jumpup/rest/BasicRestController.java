@@ -5,6 +5,7 @@
  */
 package de.htw.fb4.imi.jumpup.rest;
 
+import javax.enterprise.context.Dependent;
 import javax.inject.Named;
 import javax.ws.rs.OPTIONS;
 import javax.ws.rs.Path;
@@ -23,9 +24,13 @@ import de.htw.fb4.imi.jumpup.settings.BeanNames;
  *
  */
 @Named(value = BeanNames.BASIC_REST_CONTROLLER)
-@Path("/")
-public class BasicRestController extends AbstractRestController
+@Path(BasicRestController.BASE_PATH)
+@Dependent
+public class BasicRestController extends AbstractRestController<Object>
 {   
+    public static final String BASE_PATH = "/";
+    public static final String SCHEME = "http";
+    
     private static final String CURRENT_API_VERSION = "1";
 
     @OPTIONS

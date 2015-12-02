@@ -34,7 +34,7 @@ import de.htw.fb4.imi.jumpup.user.login.LoginModel;
  * @since 25.11.2015
  *
  */
-public abstract class SecuredRestController extends AbstractRestController
+public abstract class SecuredRestController<T> extends AbstractRestController<T>
 {
     /**
      * Pattern for Authorization HTTP Header field: Example -> Authorization: Basic asdasdrawe==

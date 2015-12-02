@@ -15,7 +15,7 @@ import javax.ws.rs.core.Response;
  * @since 25.11.2015
  *
  */
-public interface IPost
+public interface IPost<T>
 {
-    Response post(HttpHeaders headers);
+    Response post(HttpHeaders headers, T abstractRestModel);
 }

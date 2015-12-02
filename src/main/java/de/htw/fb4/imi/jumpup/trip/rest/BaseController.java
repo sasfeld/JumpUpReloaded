@@ -5,11 +5,16 @@
  */
 package de.htw.fb4.imi.jumpup.trip.rest;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+
 import javax.ejb.EJBException;
 import javax.inject.Inject;
 import javax.persistence.NoResultException;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -18,10 +23,12 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import de.htw.fb4.imi.jumpup.rest.BasicRestController;
 import de.htw.fb4.imi.jumpup.rest.SecuredRestController;
 import de.htw.fb4.imi.jumpup.trip.TripDAO;
 import de.htw.fb4.imi.jumpup.trip.creation.TripManagementMethod;
 import de.htw.fb4.imi.jumpup.trip.entities.Trip;
+import de.htw.fb4.imi.jumpup.trip.rest.models.EntityMapper;
 
 /**
  * <p></p>
@@ -30,8 +37,9 @@ import de.htw.fb4.imi.jumpup.trip.entities.Trip;
  * @since 25.11.2015
  *
  */
-public class BaseController extends SecuredRestController
+public class BaseController extends SecuredRestController<Trip>
 {
+    public static final String PATH = "/trip";
     private static final String PATH_PARAM_TRIP_ID = "tripId";
     
     @Inject
@@ -39,6 +47,8 @@ public class BaseController extends SecuredRestController
     
     @Inject
     protected TripManagementMethod tripManagement;
+    
+    protected EntityMapper entityMapper = new EntityMapper();
 
     @GET
     @Path("{" + PATH_PARAM_TRIP_ID + "}")
@@ -59,7 +69,7 @@ public class BaseController extends SecuredRestController
             Trip trip = this.tripDAO.getTripByID(entityId);
             
             return Response
-                    .ok(trip)
+                    .ok(entityMapper.mapEntity(trip))
                     .build();
         } catch (EJBException e) {
             if (e.getCausedByException() instanceof NoResultException) {
@@ -67,6 +77,42 @@ public class BaseController extends SecuredRestController
             } else {
                 throw e;
             }    
+        }
+    }
+    
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response post(@Context HttpHeaders headers, de.htw.fb4.imi.jumpup.trip.rest.models.Trip restModel) {
+        Response response = super.get(headers);
+        
+        if (null != response) {
+            return response;
+        }
+        
+        Trip trip = (Trip) entityMapper.mapWebServiceModel(restModel);
+        
+        return this.tryToCreateTrip(trip);      
+    }
+
+    private Response tryToCreateTrip(Trip trip)
+    {
+        this.tripManagement.addTrip(trip);
+        
+        if (this.tripManagement.hasError()) {
+            return this.sendInternalServerErrorResponse(this.tripManagement);
+        }
+        
+        return this.sendCreatedResponse(this.getGetUrl(trip));
+    }
+
+    private URI getGetUrl(Trip trip)
+    {
+        try {
+            return new URI(BasicRestController.BASE_PATH + PATH + "/" + trip.getIdentity());
+        } catch (URISyntaxException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return null;
         }
     }
 

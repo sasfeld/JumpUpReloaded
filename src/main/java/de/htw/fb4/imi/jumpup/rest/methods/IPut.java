@@ -15,7 +15,7 @@ import javax.ws.rs.core.Response;
  * @since 25.11.2015
  *
  */
-public interface IPut
+public interface IPut<T>
 {
-    Response put(HttpHeaders headers, Long entityId);
+    Response put(HttpHeaders headers, Long entityId, T abstractRestModel);
 }

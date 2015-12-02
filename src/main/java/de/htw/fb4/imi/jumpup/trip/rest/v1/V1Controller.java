@@ -22,7 +22,7 @@ import de.htw.fb4.imi.jumpup.trip.rest.BaseController;
  *
  */
 @Named(value = BeanNames.TRIP_REST_V1_CONTROLLER)
-@Path("/trip")
+@Path(BaseController.PATH)
 @SessionScoped
 public class V1Controller extends BaseController implements Serializable
 {

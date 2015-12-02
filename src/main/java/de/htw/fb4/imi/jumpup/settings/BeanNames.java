@@ -88,5 +88,7 @@ public interface BeanNames
     String DIJKSTRA_SINGLE_PAIR = "dijkstraSinglePair";
     
     String BASIC_REST_CONTROLLER = "basicRestController";
+    
+    String TRIP_ENTITY_MAPPER = "tripEntityMapper";
 
 }

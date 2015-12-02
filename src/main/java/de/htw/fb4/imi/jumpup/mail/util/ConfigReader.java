@@ -35,7 +35,7 @@ public class ConfigReader extends APropertiesConfigReader
            if (!MAIL_CONFIG_FILE.exists()) {
                Application.log("Confg File does not exist: " + MAIL_CONFIG_FILE + ". Please check the path.", LogType.CRITICAL, ConfigReader.class);
            }
-           
+          
          } catch (Exception e) {
              Application.log("Error while trying to load mail.properties file.\n", LogType.CRITICAL, ConfigReader.class);
              e.printStackTrace();            

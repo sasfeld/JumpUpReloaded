@@ -5,6 +5,8 @@
  */
 package de.htw.fb4.imi.jumpup.rest;
 
+import java.net.URI;
+
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.OPTIONS;
@@ -29,7 +31,7 @@ import de.htw.fb4.imi.jumpup.util.ErrorPrintable;
  * @since 25.11.2015
  *
  */
-public abstract class AbstractRestController implements IGet, IPost, IPut, IDelete, IOptions
+public abstract class AbstractRestController<T> implements IGet, IPost<T>, IPut<T>, IDelete, IOptions
 {
     protected boolean isEnabled() {
         return false;
@@ -54,7 +56,7 @@ public abstract class AbstractRestController implements IGet, IPost, IPut, IDele
     }
 
     @POST
-    public Response post(@Context HttpHeaders headers){
+    public Response post(@Context HttpHeaders headers, T abstractRestModel){
         if (!this.isEnabled()) {
             return this.sendVersionDisabledResponse();
         }
@@ -63,7 +65,7 @@ public abstract class AbstractRestController implements IGet, IPost, IPut, IDele
     }   
     
     @PUT
-    public Response put(@Context HttpHeaders headers, Long entityId){
+    public Response put(@Context HttpHeaders headers, Long entityId, T abstractRestModel){
         if (!this.isEnabled()) {
             return this.sendVersionDisabledResponse();
         }
@@ -115,6 +117,13 @@ public abstract class AbstractRestController implements IGet, IPost, IPut, IDele
     {
         return Response
                 .ok(message)
+                .build();
+    }
+    
+    protected Response sendCreatedResponse(URI locationUri)
+    {
+        return Response
+                .created(locationUri)
                 .build();
     }
 }
