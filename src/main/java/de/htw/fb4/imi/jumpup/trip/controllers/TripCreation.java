@@ -37,7 +37,7 @@ import de.htw.fb4.imi.jumpup.user.controllers.Login;
 public class TripCreation extends AbstractFacesController
 {
     @Inject
-    protected TripManagementMethod tripCreationMethod;
+    protected TripManagementMethod tripManagementMethod;
     protected Trip trip;    
    
     @PersistenceUnit(unitName = PersistenceSettings.PERSISTENCE_UNIT)
@@ -47,13 +47,20 @@ public class TripCreation extends AbstractFacesController
     protected Login loginController;
     
     @EJB(beanName = BeanNames.TRIP_CONFIG_READER)
-    protected ConfigReader tripConfigReader;
-    
+    protected ConfigReader tripConfigReader;    
     
     /**
      * Trip ID (used in edit mode only).
      */
-    protected Long tripId;
+    protected Long tripId;    
+    
+    private TripManagementMethod getTripManagementMethod()
+    {
+        this.tripManagementMethod.setLoginModel(loginController.getLoginModel());
+        
+        return this.tripManagementMethod;
+    }
+
     
     protected EntityManager getFreshEntityManager()
     {
@@ -143,10 +150,11 @@ public class TripCreation extends AbstractFacesController
         try {
             Application.log("TripCreation: try to add trip",
                     LogType.DEBUG, getClass());
-            tripCreationMethod.addTrip(getTrip());
+            TripManagementMethod tripManagementMethod = getTripManagementMethod();
+            tripManagementMethod.addTrip(getTrip());
             
-            if (tripCreationMethod.hasError()) {
-                for (String error : tripCreationMethod.getErrors()) {
+            if (tripManagementMethod.hasError()) {
+                for (String error : tripManagementMethod.getErrors()) {
                     this.addDisplayErrorMessage(error);
                 }
             } else {
@@ -179,10 +187,11 @@ public class TripCreation extends AbstractFacesController
             // we have to set the trip ID again, because it is lost for some reason
             this.getTrip().setIdentity(this.getTripId());
             
-            tripCreationMethod.changeTrip(getTrip());
+            TripManagementMethod tripManagementMethod = getTripManagementMethod();
+            tripManagementMethod.changeTrip(getTrip());
             
-            if (tripCreationMethod.hasError()) {
-                for (String error : tripCreationMethod.getErrors()) {
+            if (tripManagementMethod.hasError()) {
+                for (String error : tripManagementMethod.getErrors()) {
                     this.addDisplayErrorMessage(error);
                 }
             } else {
@@ -215,10 +224,11 @@ public class TripCreation extends AbstractFacesController
            // we have to set the trip ID again, because it is lost for some reason
            this.getTrip().setIdentity(this.getTripId());
            
-           tripCreationMethod.cancelTrip(getTrip());
+           TripManagementMethod tripManagementMethod = getTripManagementMethod();
+           tripManagementMethod.cancelTrip(getTrip());
            
-           if (tripCreationMethod.hasError()) {
-               for (String error : tripCreationMethod.getErrors()) {
+           if (tripManagementMethod.hasError()) {
+               for (String error : tripManagementMethod.getErrors()) {
                    this.addDisplayErrorMessage(error);
                }
            } else {

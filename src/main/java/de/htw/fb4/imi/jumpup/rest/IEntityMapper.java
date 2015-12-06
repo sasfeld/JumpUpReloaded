@@ -5,6 +5,8 @@
  */
 package de.htw.fb4.imi.jumpup.rest;
 
+import java.util.Collection;
+
 import javax.ejb.Local;
 
 import de.htw.fb4.imi.jumpup.entities.AbstractEntity;
@@ -21,7 +23,7 @@ import de.htw.fb4.imi.jumpup.entities.AbstractEntity;
  *
  */
 @Local
-public interface IEntityMapper<RestServiceType, EntityType>
+public interface IEntityMapper<WebServiceType, EntityType>
 {
 
     /**
@@ -30,7 +32,7 @@ public interface IEntityMapper<RestServiceType, EntityType>
      * @return
      * @throws IllegalArgumentException if given entity is not concrete expected one
      */
-    RestServiceType mapEntity(EntityType entity);
+    WebServiceType mapEntity(EntityType entity);
     
     /**
      * Map the given web service model that was sent within a request body, for example.
@@ -38,5 +40,12 @@ public interface IEntityMapper<RestServiceType, EntityType>
      * @param webServiceModel
      * @return
      */
-    EntityType mapWebServiceModel(RestServiceType webServiceModel);
+    EntityType mapWebServiceModel(WebServiceType webServiceModel);
+    
+    /**
+     * Map the given collection of entities to a collection of web service models.
+     * @param entityTypes
+     * @return
+     */
+    Collection<WebServiceType> mapEntities(Collection<EntityType> entityTypes);
 }

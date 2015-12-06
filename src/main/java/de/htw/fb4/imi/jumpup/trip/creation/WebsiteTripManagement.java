@@ -34,8 +34,9 @@ import de.htw.fb4.imi.jumpup.translate.Translatable;
 import de.htw.fb4.imi.jumpup.trip.entities.Trip;
 import de.htw.fb4.imi.jumpup.trip.util.ConfigReader;
 import de.htw.fb4.imi.jumpup.trip.util.TripAndBookingsConfigKeys;
-import de.htw.fb4.imi.jumpup.user.controllers.Login;
 import de.htw.fb4.imi.jumpup.user.entities.User;
+import de.htw.fb4.imi.jumpup.user.export.ILoginDependent;
+import de.htw.fb4.imi.jumpup.user.login.LoginModel;
 import de.htw.fb4.imi.jumpup.util.ErrorPrintable;
 import de.htw.fb4.imi.jumpup.util.FileUtil;
 
@@ -47,7 +48,7 @@ import de.htw.fb4.imi.jumpup.util.FileUtil;
  *
  */
 @Stateless(name = BeanNames.WEBSITE_TRIP_CREATION)
-public class WebsiteTripManagement implements TripManagementMethod, ErrorPrintable
+public class WebsiteTripManagement implements TripManagementMethod, ErrorPrintable, ILoginDependent
 {
     @PersistenceUnit(unitName = PersistenceSettings.PERSISTENCE_UNIT)
     protected EntityManagerFactory entityManagerFactory;
@@ -61,13 +62,12 @@ public class WebsiteTripManagement implements TripManagementMethod, ErrorPrintab
     @Inject
     protected Translatable translator;
     
-    @Inject
-    protected Login loginController;
-    
     @EJB(name = BeanNames.TRIP_CONFIG_READER)
     protected ConfigReader tripConfigReader;
     
     protected Set<String> errorMessages;
+
+    private LoginModel loginModel;
     
     
     public WebsiteTripManagement()
@@ -103,11 +103,11 @@ public class WebsiteTripManagement implements TripManagementMethod, ErrorPrintab
      */
     protected User getCurrentUser() throws IllegalStateException
     {
-        if (null == this.loginController) {
-            throw new IllegalStateException("loginController was not injected.");
+        if (null == this.loginModel) {
+            throw new IllegalStateException("loginModel was not injected.");
         }
         
-        return this.loginController.getLoginModel().getCurrentUser();
+        return this.loginModel.getCurrentUser();
     }
    
     /* (non-Javadoc)
@@ -334,5 +334,17 @@ public class WebsiteTripManagement implements TripManagementMethod, ErrorPrintab
     private Timestamp getCurrentTimestamp()
     {
         return new Timestamp(new Date().getTime());
+    }
+
+    @Override
+    public LoginModel getLoginModel()
+    {
+       return this.loginModel;
+    }
+
+    @Override
+    public void setLoginModel(LoginModel loginModel)
+    {
+       this.loginModel = loginModel;        
     }
 }

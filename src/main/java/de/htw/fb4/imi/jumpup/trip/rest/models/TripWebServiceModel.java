@@ -25,7 +25,7 @@ import de.htw.fb4.imi.jumpup.verhicle.entities.Vehicle;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.PROPERTY)
-public class Trip extends AbstractRestModel
+public class TripWebServiceModel extends AbstractRestModel
 {
     protected long identity;
     protected Timestamp creationTimestamp;

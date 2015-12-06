@@ -5,7 +5,11 @@
  */
 package de.htw.fb4.imi.jumpup.trip.rest.models;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import de.htw.fb4.imi.jumpup.rest.IEntityMapper;
+import de.htw.fb4.imi.jumpup.trip.entities.Trip;
 
 /**
  * <p></p>
@@ -14,17 +18,17 @@ import de.htw.fb4.imi.jumpup.rest.IEntityMapper;
  * @since 02.12.2015
  *
  */
-public class EntityMapper implements IEntityMapper<Trip, de.htw.fb4.imi.jumpup.trip.entities.Trip>
+public class EntityMapper implements IEntityMapper<TripWebServiceModel, Trip>
 {
 
     @Override
-    public Trip mapEntity(de.htw.fb4.imi.jumpup.trip.entities.Trip entity)
+    public TripWebServiceModel mapEntity(Trip entity)
     {
         if (! (entity instanceof de.htw.fb4.imi.jumpup.trip.entities.Trip)) {
             throw new IllegalArgumentException("Type of entity must be Trip");
         }
         
-        Trip webServiceTrip = new Trip();
+        TripWebServiceModel webServiceTrip = new TripWebServiceModel();
         de.htw.fb4.imi.jumpup.trip.entities.Trip entityTrip = (de.htw.fb4.imi.jumpup.trip.entities.Trip) entity;
        
         webServiceTrip.setIdentity(entityTrip.getIdentity());
@@ -52,9 +56,9 @@ public class EntityMapper implements IEntityMapper<Trip, de.htw.fb4.imi.jumpup.t
     }
 
     @Override
-    public de.htw.fb4.imi.jumpup.trip.entities.Trip mapWebServiceModel(Trip webServiceModel)
+    public Trip mapWebServiceModel(TripWebServiceModel webServiceModel)
     {
-        de.htw.fb4.imi.jumpup.trip.entities.Trip entityTrip = new de.htw.fb4.imi.jumpup.trip.entities.Trip();
+        Trip entityTrip = new de.htw.fb4.imi.jumpup.trip.entities.Trip();
         
         entityTrip.setIdentity(webServiceModel.getIdentity());
         entityTrip.setCreationTimestamp(webServiceModel.getCreationTimestamp());
@@ -78,5 +82,21 @@ public class EntityMapper implements IEntityMapper<Trip, de.htw.fb4.imi.jumpup.t
         entityTrip.setDurationSeconds(webServiceModel.getDurationSeconds());      
         
         return entityTrip;
+    }
+
+    @Override
+    /*
+     * (non-Javadoc)
+     * @see de.htw.fb4.imi.jumpup.rest.IEntityMapper#mapEntities(java.util.Collection)
+     */
+    public Collection<TripWebServiceModel> mapEntities(Collection<Trip> entityTypes)
+    {
+        Collection<TripWebServiceModel> tripWebServiceCollection = new ArrayList<TripWebServiceModel>();
+        
+        for (Trip trip : entityTypes) {
+            tripWebServiceCollection.add(this.mapEntity(trip));
+        }
+        
+        return tripWebServiceCollection;
     }
 }

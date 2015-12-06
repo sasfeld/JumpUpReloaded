@@ -151,7 +151,7 @@ public abstract class SecuredRestController<T> extends AbstractRestController<T>
     }
 
     @POST
-    public Response post(@Context HttpHeaders headers){
+    public Response post(@Context HttpHeaders headers, T abstractRestModel){
         Response response = super.get(headers);
         
         if (null == response && !this.isAuthenticated(headers)) {
@@ -162,7 +162,7 @@ public abstract class SecuredRestController<T> extends AbstractRestController<T>
     }   
     
     @PUT
-    public Response put(@Context HttpHeaders headers, Long entityId){
+    public Response put(@Context HttpHeaders headers, Long entityId, T abstractRestModel){
         Response response = super.get(headers);
         
         if (null == response && !this.isAuthenticated(headers)) {

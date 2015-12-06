@@ -7,6 +7,7 @@ package de.htw.fb4.imi.jumpup.trip.rest;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.List;
 
 import javax.ejb.EJBException;
 import javax.inject.Inject;
@@ -15,6 +16,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -50,6 +52,38 @@ public class BaseController extends SecuredRestController<Trip>
     
     protected EntityMapper entityMapper = new EntityMapper();
 
+    private TripManagementMethod getTripManagementMethod()
+    {
+        this.tripManagement.setLoginModel(getLoginModel());
+        
+        return this.tripManagement;
+    }
+    
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response get(@Context HttpHeaders headers) {
+        Response response = super.get(headers);
+        
+        if (null != response) {
+            return response;
+        }
+        
+        return this.tryToLoadUsersTrips();
+    }   
+    
+    private Response tryToLoadUsersTrips()
+    {
+        List<Trip> offeredTrips = this.tripDAO.getOfferedTrips(getLoginModel().getCurrentUser());
+        
+        if (null == offeredTrips) {
+            return this.sendNotFoundResponse();
+        }        
+        
+        return Response
+                .ok(entityMapper.mapEntities(offeredTrips))
+                .build();
+    }
+
     @GET
     @Path("{" + PATH_PARAM_TRIP_ID + "}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -82,7 +116,8 @@ public class BaseController extends SecuredRestController<Trip>
     
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response post(@Context HttpHeaders headers, de.htw.fb4.imi.jumpup.trip.rest.models.Trip restModel) {
+    @Produces(MediaType.TEXT_PLAIN)
+    public Response post(@Context HttpHeaders headers, de.htw.fb4.imi.jumpup.trip.rest.models.TripWebServiceModel restModel) {
         Response response = super.get(headers);
         
         if (null != response) {
@@ -96,10 +131,12 @@ public class BaseController extends SecuredRestController<Trip>
 
     private Response tryToCreateTrip(Trip trip)
     {
-        this.tripManagement.addTrip(trip);
+        TripManagementMethod tripManagementMethod = this.getTripManagementMethod();
         
-        if (this.tripManagement.hasError()) {
-            return this.sendInternalServerErrorResponse(this.tripManagement);
+        tripManagementMethod.addTrip(trip);
+        
+        if (tripManagementMethod.hasError()) {
+            return this.sendInternalServerErrorResponse(tripManagementMethod);
         }
         
         return this.sendCreatedResponse(this.getGetUrl(trip));
@@ -115,9 +152,59 @@ public class BaseController extends SecuredRestController<Trip>
             return null;
         }
     }
+    
+    @PUT
+    @Path("{" + PATH_PARAM_TRIP_ID + "}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.TEXT_PLAIN)
+    public Response put(@Context HttpHeaders headers, @PathParam(PATH_PARAM_TRIP_ID) Long entityId, de.htw.fb4.imi.jumpup.trip.rest.models.TripWebServiceModel restModel) {
+        Response response = super.get(headers);
+        
+        if (null != response) {
+            return response;
+        }
+        
+        Trip trip = (Trip) entityMapper.mapWebServiceModel(restModel);
+        
+        return this.tryToUpdateTrip(entityId, trip);      
+    }
+
+    private Response tryToUpdateTrip(Long entityId, Trip trip)
+    {
+        try {
+            Trip loadedTrip = this.tripDAO.getTripByID(entityId);
+            
+            // trip exists -> authorize
+            Response authorizeResponse = authorizeForTrip(loadedTrip);
+            
+            if (null != authorizeResponse) {
+                // not authorized
+                return authorizeResponse;
+            }
+            
+            // authorized -> update trip
+            trip.setIdentity(loadedTrip.getIdentity());
+            TripManagementMethod tripManagementMethod = this.getTripManagementMethod();
+            
+            tripManagementMethod.changeTrip(trip);
+            
+            if (tripManagementMethod.hasError()) {
+                return this.sendInternalServerErrorResponse(tripManagementMethod);
+            }
+            
+            return this.sendOkResponse("Trip with ID " + entityId + " was successfully updated!");         
+        } catch (EJBException e) {
+            if (e.getCausedByException() instanceof NoResultException) {
+                return this.sendNotFoundResponse();
+            } else {
+                throw e;
+            }    
+        }
+    }
 
     @DELETE
     @Path("{" + PATH_PARAM_TRIP_ID + "}")
+    @Produces(MediaType.TEXT_PLAIN)
     public Response delete(@Context HttpHeaders headers, @PathParam(PATH_PARAM_TRIP_ID) Long entityId){
         Response response = super.get(headers);
         
@@ -140,10 +227,11 @@ public class BaseController extends SecuredRestController<Trip>
             }
             
             // try to cancel trip
-            this.tripManagement.cancelTrip(trip);
+            TripManagementMethod tripManagementMethod = this.getTripManagementMethod();
+            tripManagementMethod.cancelTrip(trip);
             
-            if (this.tripManagement.hasError()) {
-                return this.sendInternalServerErrorResponse(this.tripManagement);
+            if (tripManagementMethod.hasError()) {
+                return this.sendInternalServerErrorResponse(tripManagementMethod);
             }
             
             return this.sendOkResponse("Cancelled trip with ID " + trip.getIdentity());
