@@ -115,6 +115,7 @@ public class UserDetailsController extends AbstractFacesController implements
         try {
             Application.log("UserDetailsContoller: try to edit Profile",
                     LogType.DEBUG, getClass());
+            UserDetailsMethod userDetailsMethod = getUserDetailsMethod();
             userDetailsMethod.sendUserDetails(getUserDetails());
             if (userDetailsMethod.hasError()) {
                 for (String error : userDetailsMethod.getErrors()) {
@@ -136,6 +137,12 @@ public class UserDetailsController extends AbstractFacesController implements
         return NavigationOutcomes.TO_USER_PROFILE;
     }
 
+    protected UserDetailsMethod getUserDetailsMethod()
+    {
+        userDetailsMethod.setLoginModel(loginController.getLoginModel());
+        return userDetailsMethod;
+    }
+
     /**
      * Action for uploading the {@link User} avatar which is saved in his/her
      * related {@link UserDetails}.
@@ -147,6 +154,7 @@ public class UserDetailsController extends AbstractFacesController implements
         try {
             Application.log("UserDetailsContoller: try to upload avatar",
                     LogType.DEBUG, getClass());
+            UserDetailsMethod userDetailsMethod = getUserDetailsMethod();
             userDetailsMethod.uploadAvatar(getUserDetails());
             if (userDetailsMethod.hasError()) {
                 for (String error : userDetailsMethod.getErrors()) {

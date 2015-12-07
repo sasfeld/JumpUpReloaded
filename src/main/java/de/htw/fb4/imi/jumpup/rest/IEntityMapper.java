@@ -12,7 +12,7 @@ import javax.ejb.Local;
 import de.htw.fb4.imi.jumpup.entities.AbstractEntity;
 
 /**
- * <p>An entity mapper maps an {@link AbstractEntity} to a plain old java object that will be read or sent via web service actions.</p>
+ * <p>An entity mapper maps an {@link AbstractEntity} to a plain old java object that will be read or sent via web service actions (a {@link AbstractRestModel}).</p>
  * 
  * <p>The entity mapper is meant to be an adapter between the entity / persistence layer and the entity representation that is used in web servicess.</p>
  * 
@@ -23,7 +23,7 @@ import de.htw.fb4.imi.jumpup.entities.AbstractEntity;
  *
  */
 @Local
-public interface IEntityMapper<WebServiceType, EntityType>
+public interface IEntityMapper<WebServiceType extends AbstractRestModel, EntityType extends AbstractEntity>
 {
 
     /**

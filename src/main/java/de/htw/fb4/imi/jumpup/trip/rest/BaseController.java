@@ -30,7 +30,7 @@ import de.htw.fb4.imi.jumpup.rest.SecuredRestController;
 import de.htw.fb4.imi.jumpup.trip.TripDAO;
 import de.htw.fb4.imi.jumpup.trip.creation.TripManagementMethod;
 import de.htw.fb4.imi.jumpup.trip.entities.Trip;
-import de.htw.fb4.imi.jumpup.trip.rest.models.EntityMapper;
+import de.htw.fb4.imi.jumpup.trip.rest.models.TripEntityMapper;
 
 /**
  * <p></p>
@@ -50,7 +50,7 @@ public class BaseController extends SecuredRestController<Trip>
     @Inject
     protected TripManagementMethod tripManagement;
     
-    protected EntityMapper entityMapper = new EntityMapper();
+    protected TripEntityMapper entityMapper = new TripEntityMapper();
 
     private TripManagementMethod getTripManagementMethod()
     {

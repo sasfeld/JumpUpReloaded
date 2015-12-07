@@ -24,6 +24,7 @@ public interface UserDAO
      * Load {@link User} by identity.
      * @param identity
      * @return
+     * @throws NoResultException if no user with given identity was found
      */
     User loadById(long identity);
 

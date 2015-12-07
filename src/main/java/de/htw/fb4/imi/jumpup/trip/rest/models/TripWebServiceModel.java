@@ -27,10 +27,6 @@ import de.htw.fb4.imi.jumpup.verhicle.entities.Vehicle;
 @XmlAccessorType(XmlAccessType.PROPERTY)
 public class TripWebServiceModel extends AbstractRestModel
 {
-    protected long identity;
-    protected Timestamp creationTimestamp;
-    protected Timestamp updateTimestamp;
-
     protected String startpoint;
     protected String endpoint;
     protected double latStartpoint;
@@ -48,36 +44,6 @@ public class TripWebServiceModel extends AbstractRestModel
     protected Timestamp cancelationDateTime;
     protected long distanceMeters;
     protected long durationSeconds;
-    
-    public void setIdentity(long identity)
-    {
-        this.identity = identity;
-    }
-    
-    public long getIdentity()
-    {
-        return identity;
-    }
-    
-    public void setCreationTimestamp(Timestamp creationTimestamp)
-    {
-        this.creationTimestamp = creationTimestamp;
-    }
-    
-    public Timestamp getCreationTimestamp()
-    {
-        return creationTimestamp;
-    }
-    
-    public void setUpdateTimestamp(Timestamp updateTimestamp)
-    {
-        this.updateTimestamp = updateTimestamp;
-    }
-    
-    public Timestamp getUpdateTimestamp()
-    {
-        return updateTimestamp;
-    }
     
     /**
      * @return the startpoint

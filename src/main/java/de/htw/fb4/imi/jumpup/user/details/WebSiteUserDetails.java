@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.Stateless;
-import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
@@ -20,9 +19,9 @@ import de.htw.fb4.imi.jumpup.Application;
 import de.htw.fb4.imi.jumpup.Application.LogType;
 import de.htw.fb4.imi.jumpup.settings.BeanNames;
 import de.htw.fb4.imi.jumpup.settings.PersistenceSettings;
-import de.htw.fb4.imi.jumpup.user.controllers.Login;
 import de.htw.fb4.imi.jumpup.user.entities.User;
 import de.htw.fb4.imi.jumpup.user.entities.UserDetails;
+import de.htw.fb4.imi.jumpup.user.login.LoginModel;
 
 /**
  * <p>
@@ -40,10 +39,9 @@ public class WebSiteUserDetails implements UserDetailsMethod
     @PersistenceUnit(unitName = PersistenceSettings.PERSISTENCE_UNIT)
     protected EntityManagerFactory entityManagerFactory;
 
-    @Inject
-    protected Login login;
-
     protected List<String> errors = new ArrayList<String>();
+
+    private LoginModel loginModel;
 
     /*
      * (non-Javadoc)
@@ -101,7 +99,7 @@ public class WebSiteUserDetails implements UserDetailsMethod
     {
         EntityManager entityManager = this.getFreshEntityManager();
         try {
-            User currentUser = login.getLoginModel().getCurrentUser();
+            User currentUser = getLoginModel().getCurrentUser();
 
             userDetails.setUser(currentUser);
             Application.log("WebSiteUserDetails: try to add userDetails",
@@ -185,6 +183,18 @@ public class WebSiteUserDetails implements UserDetailsMethod
         }
 
         return byteArray;
+    }
+
+    @Override
+    public LoginModel getLoginModel()
+    {
+        return this.loginModel;
+    }
+
+    @Override
+    public void setLoginModel(LoginModel loginModel)
+    {
+        this.loginModel = loginModel;        
     }
 
 }

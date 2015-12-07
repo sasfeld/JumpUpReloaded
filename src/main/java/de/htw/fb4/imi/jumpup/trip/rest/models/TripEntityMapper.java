@@ -18,7 +18,7 @@ import de.htw.fb4.imi.jumpup.trip.entities.Trip;
  * @since 02.12.2015
  *
  */
-public class EntityMapper implements IEntityMapper<TripWebServiceModel, Trip>
+public class TripEntityMapper implements IEntityMapper<TripWebServiceModel, Trip>
 {
 
     @Override

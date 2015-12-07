@@ -22,6 +22,8 @@ public interface BeanNames
     String REGISTRATION_CONFIRMATION_CONTROLLER = "registrationConfirmationController";
     String LOGIN_CONTROLLER = "loginController";
     String TRIP_REST_V1_CONTROLLER = "tripRestV1Controller";
+    String USER_REST_V1_SECURED_CONTROLLER = "userSecuredRestV1Controller";
+    String USER_REST_V1_UNSECUREDCONTROLLER = "userunsecuredRestV1Controller";
 
     String BOOKING_CONTROLLER = "bookingController";
     String BOOKING_LIST_CONTROLLER = "bookingListController";
