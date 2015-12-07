@@ -18,6 +18,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.xml.bind.DatatypeConverter;
@@ -196,11 +197,15 @@ public abstract class SecuredRestController<T> extends AbstractRestController<T>
     
     protected Response sendUnauthorizedResponse()
     {
-        return Response.status(Status.UNAUTHORIZED).build();
+        ErrorResponse message = this.responseEntityBuilder.buildMessageFromErrorArray(loginMethod.getErrors());
+        return Response.status(Status.UNAUTHORIZED).entity(message).type(MediaType.APPLICATION_JSON).build();
     }
     
     protected Response sendForbiddenResponse()
     {
-        return Response.status(Status.FORBIDDEN).build();
+        return Response.status(Status.FORBIDDEN)
+                .entity(this.responseEntityBuilder.buildMessageFromErrorString(IErrorResponseEntityBuilder.MESSAGE_FORBIDDEN))
+                .type(MediaType.APPLICATION_JSON)                
+                .build();
     }
 }

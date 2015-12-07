@@ -31,6 +31,7 @@ import de.htw.fb4.imi.jumpup.trip.TripDAO;
 import de.htw.fb4.imi.jumpup.trip.creation.TripManagementMethod;
 import de.htw.fb4.imi.jumpup.trip.entities.Trip;
 import de.htw.fb4.imi.jumpup.trip.rest.models.TripEntityMapper;
+import de.htw.fb4.imi.jumpup.trip.util.IMessages;
 
 /**
  * <p></p>
@@ -48,7 +49,7 @@ public class BaseController extends SecuredRestController<Trip>
     protected TripDAO tripDAO;
     
     @Inject
-    protected TripManagementMethod tripManagement;
+    protected TripManagementMethod tripManagement;   
     
     protected TripEntityMapper entityMapper = new TripEntityMapper();
 
@@ -76,7 +77,7 @@ public class BaseController extends SecuredRestController<Trip>
         List<Trip> offeredTrips = this.tripDAO.getOfferedTrips(getLoginModel().getCurrentUser());
         
         if (null == offeredTrips) {
-            return this.sendNotFoundResponse();
+            return this.sendNotFoundResponse(this.translator.translate(""));
         }        
         
         return Response
@@ -107,7 +108,7 @@ public class BaseController extends SecuredRestController<Trip>
                     .build();
         } catch (EJBException e) {
             if (e.getCausedByException() instanceof NoResultException) {
-                return this.sendNotFoundResponse();
+                return this.sendNotFoundResponse(translator.translate(IMessages.NO_TRIPS_YET));
             } else {
                 throw e;
             }    
@@ -116,7 +117,7 @@ public class BaseController extends SecuredRestController<Trip>
     
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.APPLICATION_JSON)
     public Response post(@Context HttpHeaders headers, de.htw.fb4.imi.jumpup.trip.rest.models.TripWebServiceModel restModel) {
         Response response = super.get(headers);
         
@@ -156,7 +157,7 @@ public class BaseController extends SecuredRestController<Trip>
     @PUT
     @Path("{" + PATH_PARAM_TRIP_ID + "}")
     @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.APPLICATION_JSON)
     public Response put(@Context HttpHeaders headers, @PathParam(PATH_PARAM_TRIP_ID) Long entityId, de.htw.fb4.imi.jumpup.trip.rest.models.TripWebServiceModel restModel) {
         Response response = super.get(headers);
         
@@ -195,7 +196,7 @@ public class BaseController extends SecuredRestController<Trip>
             return this.sendOkResponse("Trip with ID " + entityId + " was successfully updated!");         
         } catch (EJBException e) {
             if (e.getCausedByException() instanceof NoResultException) {
-                return this.sendNotFoundResponse();
+                return this.sendNotFoundResponse(String.format(IMessages.NO_TRIP_WITH_ID, entityId));
             } else {
                 throw e;
             }    
@@ -204,7 +205,7 @@ public class BaseController extends SecuredRestController<Trip>
 
     @DELETE
     @Path("{" + PATH_PARAM_TRIP_ID + "}")
-    @Produces(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.APPLICATION_JSON)
     public Response delete(@Context HttpHeaders headers, @PathParam(PATH_PARAM_TRIP_ID) Long entityId){
         Response response = super.get(headers);
         
@@ -237,7 +238,7 @@ public class BaseController extends SecuredRestController<Trip>
             return this.sendOkResponse("Cancelled trip with ID " + trip.getIdentity());
         } catch (EJBException e) {
             if (e.getCausedByException() instanceof NoResultException) {
-                return this.sendNotFoundResponse();
+                return this.sendNotFoundResponse(String.format(IMessages.NO_TRIP_WITH_ID, entityId));
             } else {
                 throw e;
             }            

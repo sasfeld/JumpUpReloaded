@@ -5,8 +5,7 @@
  */
 package de.htw.fb4.imi.jumpup.rest;
 
-import java.net.URI;
-
+import javax.inject.Inject;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.OPTIONS;
@@ -14,6 +13,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
@@ -22,6 +22,7 @@ import de.htw.fb4.imi.jumpup.rest.methods.IGet;
 import de.htw.fb4.imi.jumpup.rest.methods.IOptions;
 import de.htw.fb4.imi.jumpup.rest.methods.IPost;
 import de.htw.fb4.imi.jumpup.rest.methods.IPut;
+import de.htw.fb4.imi.jumpup.translate.Translatable;
 import de.htw.fb4.imi.jumpup.util.ErrorPrintable;
 
 /**
@@ -33,6 +34,13 @@ import de.htw.fb4.imi.jumpup.util.ErrorPrintable;
  */
 public abstract class AbstractRestController<T> implements IGet, IPost<T>, IPut<T>, IDelete, IOptions
 {
+    @Inject
+    protected IResponseEntityBuilder responseEntityBuilder;
+    
+    @Inject
+    protected Translatable translator;
+    
+    
     protected boolean isEnabled() {
         return false;
     }
@@ -95,13 +103,17 @@ public abstract class AbstractRestController<T> implements IGet, IPost<T>, IPut<
     {
         return Response
                 .notAcceptable(null)
+                .entity(this.responseEntityBuilder.buildMessageFromErrorString(IErrorResponseEntityBuilder.MESSAGE_VERSION_DISABLED))
+                .type(MediaType.APPLICATION_JSON)
                 .build();
     }
     
-    protected Response sendNotFoundResponse()
+    protected Response sendNotFoundResponse(String message)
     {
         return Response
                 .status(Status.NOT_FOUND)
+                .entity(this.responseEntityBuilder.buildMessageFromErrorString(message))
+                .type(MediaType.APPLICATION_JSON)
                 .build();
     }    
 
@@ -110,6 +122,8 @@ public abstract class AbstractRestController<T> implements IGet, IPost<T>, IPut<
     {
         return Response
                 .status(Status.INTERNAL_SERVER_ERROR)
+                .entity(this.responseEntityBuilder.buildMessageFromErrorArray(errorPrintable.getErrors()))
+                .type(MediaType.APPLICATION_JSON)
                 .build();
     }     
 
@@ -120,10 +134,31 @@ public abstract class AbstractRestController<T> implements IGet, IPost<T>, IPut<
                 .build();
     }
     
-    protected Response sendCreatedResponse(URI locationUri)
+    protected Response sendOkButErrorResponse(String errorMessage)
     {
         return Response
-                .created(locationUri)
+                .ok()
+                .entity(this.responseEntityBuilder.buildMessageFromErrorString(errorMessage, true))
+                .type(MediaType.APPLICATION_JSON)
+                .build();
+    }
+    
+    protected Response sendCreatedResponse(Object entity)
+    {
+        return Response
+                .created(null)
+                .entity(entity)
+                .type(MediaType.APPLICATION_JSON)
+                .build();
+    }
+    
+
+    protected Response sendInternalServerErrorResponse(String errorMessage)
+    {
+        return Response
+                .status(Status.INTERNAL_SERVER_ERROR)
+                .entity(this.responseEntityBuilder.buildMessageFromErrorString(errorMessage))
+                .type(MediaType.APPLICATION_JSON)
                 .build();
     }
 }

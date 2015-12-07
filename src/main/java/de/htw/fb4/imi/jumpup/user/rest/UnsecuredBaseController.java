@@ -25,6 +25,7 @@ import de.htw.fb4.imi.jumpup.user.entities.User;
 import de.htw.fb4.imi.jumpup.user.registration.RegistrationMethod;
 import de.htw.fb4.imi.jumpup.user.registration.RegistrationModel;
 import de.htw.fb4.imi.jumpup.user.rest.models.UserEntityMapper;
+import de.htw.fb4.imi.jumpup.user.util.IMessages;
 
 /**
  * <p></p>
@@ -69,7 +70,7 @@ public class UnsecuredBaseController extends AbstractRestController<User>
                     .build();
         } catch (EJBException e) {
             if (e.getCausedByException() instanceof NoResultException) {
-                return this.sendNotFoundResponse();
+                return this.sendNotFoundResponse(String.format(IMessages.NO_USER_WITH_ID, entityId));
             } else {
                 throw e;
             }    
@@ -78,7 +79,7 @@ public class UnsecuredBaseController extends AbstractRestController<User>
     
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.APPLICATION_JSON)
     public Response post(@Context HttpHeaders headers, RegistrationModel restModel) {
         Response response = super.get(headers);
         
@@ -97,12 +98,20 @@ public class UnsecuredBaseController extends AbstractRestController<User>
             return this.sendInternalServerErrorResponse(registrationMethod);
         }
         
-        if (registrationMethod.needsConfirmation()) {
-            registrationMethod.sendConfirmationLinkMail(registrationModel);
-        } else {
-            registrationMethod.sendRegistrationSuccessMail(registrationModel);
+        try {
+            if (registrationMethod.needsConfirmation()) {
+                registrationMethod.sendConfirmationLinkMail(registrationModel);
+            } else {
+                registrationMethod.sendRegistrationSuccessMail(registrationModel);
+            }
+            
+            if (registrationMethod.hasError()) {
+                return this.sendCreatedResponse(this.responseEntityBuilder.buildMessageFromErrorArray(registrationMethod.getErrors()));
+            } else {        
+                return this.sendCreatedResponse(null);
+            }
+        } catch (Exception e) {
+            return this.sendOkButErrorResponse(IMessages.COULD_NOT_SEND_CONFIRMATION_EMAIL);
         }
-        
-        return this.sendCreatedResponse(null);
-    }
+    }    
 }

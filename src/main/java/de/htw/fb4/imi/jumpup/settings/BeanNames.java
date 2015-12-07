@@ -92,5 +92,7 @@ public interface BeanNames
     String BASIC_REST_CONTROLLER = "basicRestController";
     
     String TRIP_ENTITY_MAPPER = "tripEntityMapper";
+    
+    String RESPONSE_BUILDER = "responseBuilder";
 
 }

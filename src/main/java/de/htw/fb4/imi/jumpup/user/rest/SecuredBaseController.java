@@ -24,6 +24,7 @@ import de.htw.fb4.imi.jumpup.user.details.UserDetailsMethod;
 import de.htw.fb4.imi.jumpup.user.entities.User;
 import de.htw.fb4.imi.jumpup.user.rest.models.UserEntityMapper;
 import de.htw.fb4.imi.jumpup.user.rest.models.UserWebServiceModel;
+import de.htw.fb4.imi.jumpup.user.util.IMessages;
 
 /**
  * <p></p>
@@ -48,7 +49,7 @@ public class SecuredBaseController extends SecuredRestController<User>
     @PUT
     @Path("{" + PATH_PARAM_USER_ID + "}")
     @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.APPLICATION_JSON)
     public Response put(@Context HttpHeaders headers, @PathParam(PATH_PARAM_USER_ID) Long entityId, UserWebServiceModel restModel) {
         Response response = super.get(headers);
         
@@ -78,7 +79,10 @@ public class SecuredBaseController extends SecuredRestController<User>
             user.setIdentity(loadedUser.getIdentity());
             
             Long detailsIdentity = (loadedUser.getUserDetails() != null ? loadedUser.getUserDetails().getIdentity() : null);
-            user.getUserDetails().setIdentity(detailsIdentity);  
+            
+            if (null != detailsIdentity) {
+                user.getUserDetails().setIdentity(detailsIdentity);
+            }
             
             UserDetailsMethod userDetailsMethod = getUserDetailsMethod();
             userDetailsMethod.sendUserDetails(user.getUserDetails());
@@ -90,7 +94,7 @@ public class SecuredBaseController extends SecuredRestController<User>
             return this.sendOkResponse("User with ID " + entityId + " was successfully updated!");         
         } catch (EJBException e) {
             if (e.getCausedByException() instanceof NoResultException) {
-                return this.sendNotFoundResponse();
+                return this.sendNotFoundResponse(String.format(IMessages.NO_USER_WITH_ID, entityId));
             } else {
                 throw e;
             }    
