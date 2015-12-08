@@ -26,7 +26,7 @@ import java.util.List;
  */
 public class FileUtil
 {
-    public static final String WAR_NAME = "JumpUpReloaded.war";
+    public static final String WAR_NAME = "jumpup.war";
 
     /**
      * Get the full path to the WEB-INF folder of the application

@@ -62,7 +62,7 @@ public class WebsiteTripManagement implements TripManagementMethod, ErrorPrintab
     @Inject
     protected Translatable translator;
     
-    @EJB(name = BeanNames.TRIP_CONFIG_READER)
+    @EJB(beanName = BeanNames.TRIP_CONFIG_READER)
     protected ConfigReader tripConfigReader;
     
     protected Set<String> errorMessages;

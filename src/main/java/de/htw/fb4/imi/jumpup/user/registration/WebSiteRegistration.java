@@ -5,7 +5,7 @@
  */
 package de.htw.fb4.imi.jumpup.user.registration;
 
-import javax.ejb.Stateless;
+import javax.inject.Named;
 
 import de.htw.fb4.imi.jumpup.Application;
 import de.htw.fb4.imi.jumpup.Application.LogType;
@@ -19,7 +19,7 @@ import de.htw.fb4.imi.jumpup.user.entities.User;
  * @since 10.11.2014
  *
  */
-@Stateless(name = BeanNames.WEBSITE_REGISTRATION)
+@Named(BeanNames.WEBSITE_REGISTRATION)
 public class WebSiteRegistration extends AbstractRegistrationMethod
 {
     /* (non-Javadoc)

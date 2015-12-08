@@ -36,7 +36,7 @@ import de.htw.fb4.imi.jumpup.user.util.IMessages;
  */
 public class UnsecuredBaseController extends AbstractRestController<RegistrationModel>
 {
-    public static final String PATH = "/user";
+    public static final String PATH = "/public/user";
     private static final String PATH_PARAM_USER_ID = "userId";
     
     @Inject

@@ -9,7 +9,8 @@ import java.util.Date;
 import java.util.Properties;
 
 import javax.annotation.PostConstruct;
-import javax.ejb.Stateless;
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Named;
 import javax.mail.Authenticator;
 import javax.mail.BodyPart;
 import javax.mail.Message;
@@ -36,7 +37,8 @@ import de.htw.fb4.imi.jumpup.settings.BeanNames;
  * @since 28.11.2014
  *
  */
-@Stateless(name = BeanNames.MAIL_SMTP_ADAPTER)
+@Named(BeanNames.MAIL_SMTP_ADAPTER)
+@ApplicationScoped
 public class SmtpAdapter extends AbstractMailAdapter
 {
     public static final String HTML_CONTENT_TYPE = "text/html; charset=utf-8";

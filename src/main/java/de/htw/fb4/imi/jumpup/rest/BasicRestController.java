@@ -6,15 +6,12 @@
 package de.htw.fb4.imi.jumpup.rest;
 
 import javax.enterprise.context.Dependent;
-import javax.inject.Named;
 import javax.ws.rs.OPTIONS;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-
-import de.htw.fb4.imi.jumpup.settings.BeanNames;
 
 /**
  * <p>Application's basic rest controller for general non-module-specific requests, such as OPTIONS.</p>
@@ -23,7 +20,6 @@ import de.htw.fb4.imi.jumpup.settings.BeanNames;
  * @since 25.11.2015
  *
  */
-@Named(value = BeanNames.BASIC_REST_CONTROLLER)
 @Path(BasicRestController.BASE_PATH)
 @Dependent
 public class BasicRestController extends AbstractRestController<Object>

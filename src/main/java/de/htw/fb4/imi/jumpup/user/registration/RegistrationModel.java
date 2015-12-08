@@ -6,6 +6,11 @@
 package de.htw.fb4.imi.jumpup.user.registration;
 
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+
 import de.htw.fb4.imi.jumpup.ApplicationError;
 import de.htw.fb4.imi.jumpup.navigation.NavigationBean;
 import de.htw.fb4.imi.jumpup.user.entities.User;
@@ -18,8 +23,11 @@ import de.htw.fb4.imi.jumpup.user.util.HashGenerable;
  * @since 25.11.2014
  *
  */
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.PROPERTY)
 public class RegistrationModel
 {
+    @XmlTransient
     protected HashGenerable hashGenerable;  
 
     protected String username;
@@ -29,8 +37,9 @@ public class RegistrationModel
     protected String lastname;
     protected String password;
     protected String confirmPassword;
-    protected String hashForConfirmation;    
+    protected String hashForConfirmation;   
     
+    @XmlTransient
     protected User registeredUser;
     
 

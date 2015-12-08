@@ -7,11 +7,8 @@ package de.htw.fb4.imi.jumpup.user.rest.v1;
 
 import java.io.Serializable;
 
-import javax.enterprise.context.SessionScoped;
-import javax.inject.Named;
 import javax.ws.rs.Path;
 
-import de.htw.fb4.imi.jumpup.settings.BeanNames;
 import de.htw.fb4.imi.jumpup.user.rest.UnsecuredBaseController;
 
 /**
@@ -21,9 +18,7 @@ import de.htw.fb4.imi.jumpup.user.rest.UnsecuredBaseController;
  * @since 07.12.2015
  *
  */
-@Named(value = BeanNames.USER_REST_V1_UNSECUREDCONTROLLER)
 @Path(V1UnsecuredController.VERSION_PATH + UnsecuredBaseController.PATH)
-@SessionScoped
 public class V1UnsecuredController extends UnsecuredBaseController implements Serializable
 {    
     /**
