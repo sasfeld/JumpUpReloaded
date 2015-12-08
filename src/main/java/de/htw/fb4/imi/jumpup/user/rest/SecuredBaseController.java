@@ -33,7 +33,7 @@ import de.htw.fb4.imi.jumpup.user.util.IMessages;
  * @since 07.12.2015
  *
  */
-public class SecuredBaseController extends SecuredRestController<User>
+public class SecuredBaseController extends SecuredRestController<UserWebServiceModel>
 {
     public static final String PATH = "/user";
     private static final String PATH_PARAM_USER_ID = "userId";
@@ -51,7 +51,7 @@ public class SecuredBaseController extends SecuredRestController<User>
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response put(@Context HttpHeaders headers, @PathParam(PATH_PARAM_USER_ID) Long entityId, UserWebServiceModel restModel) {
-        Response response = super.get(headers);
+        Response response = super.put(headers, entityId, restModel);
         
         if (null != response) {
             return response;

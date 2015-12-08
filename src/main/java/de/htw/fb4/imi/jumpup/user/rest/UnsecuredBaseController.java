@@ -34,7 +34,7 @@ import de.htw.fb4.imi.jumpup.user.util.IMessages;
  * @since 07.12.2015
  *
  */
-public class UnsecuredBaseController extends AbstractRestController<User>
+public class UnsecuredBaseController extends AbstractRestController<RegistrationModel>
 {
     public static final String PATH = "/user";
     private static final String PATH_PARAM_USER_ID = "userId";
@@ -81,7 +81,7 @@ public class UnsecuredBaseController extends AbstractRestController<User>
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response post(@Context HttpHeaders headers, RegistrationModel restModel) {
-        Response response = super.get(headers);
+        Response response = super.post(headers, restModel);
         
         if (null != response) {
             return response;

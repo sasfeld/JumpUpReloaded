@@ -31,6 +31,7 @@ import de.htw.fb4.imi.jumpup.trip.TripDAO;
 import de.htw.fb4.imi.jumpup.trip.creation.TripManagementMethod;
 import de.htw.fb4.imi.jumpup.trip.entities.Trip;
 import de.htw.fb4.imi.jumpup.trip.rest.models.TripEntityMapper;
+import de.htw.fb4.imi.jumpup.trip.rest.models.TripWebServiceModel;
 import de.htw.fb4.imi.jumpup.trip.util.IMessages;
 
 /**
@@ -40,7 +41,7 @@ import de.htw.fb4.imi.jumpup.trip.util.IMessages;
  * @since 25.11.2015
  *
  */
-public class BaseController extends SecuredRestController<Trip>
+public class BaseController extends SecuredRestController<TripWebServiceModel>
 {
     public static final String PATH = "/trip";
     private static final String PATH_PARAM_TRIP_ID = "tripId";
@@ -89,7 +90,7 @@ public class BaseController extends SecuredRestController<Trip>
     @Path("{" + PATH_PARAM_TRIP_ID + "}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response get(@Context HttpHeaders headers, @PathParam(PATH_PARAM_TRIP_ID) Long entityId){
-        Response response = super.get(headers);
+        Response response = super.get(headers, entityId);
         
         if (null != response) {
             return response;
@@ -118,8 +119,8 @@ public class BaseController extends SecuredRestController<Trip>
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response post(@Context HttpHeaders headers, de.htw.fb4.imi.jumpup.trip.rest.models.TripWebServiceModel restModel) {
-        Response response = super.get(headers);
+    public Response post(@Context HttpHeaders headers, TripWebServiceModel restModel) {
+        Response response = super.post(headers, restModel);
         
         if (null != response) {
             return response;
@@ -158,8 +159,8 @@ public class BaseController extends SecuredRestController<Trip>
     @Path("{" + PATH_PARAM_TRIP_ID + "}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response put(@Context HttpHeaders headers, @PathParam(PATH_PARAM_TRIP_ID) Long entityId, de.htw.fb4.imi.jumpup.trip.rest.models.TripWebServiceModel restModel) {
-        Response response = super.get(headers);
+    public Response put(@Context HttpHeaders headers, @PathParam(PATH_PARAM_TRIP_ID) Long entityId, TripWebServiceModel restModel) {
+        Response response = super.put(headers, entityId, restModel);
         
         if (null != response) {
             return response;
@@ -207,7 +208,7 @@ public class BaseController extends SecuredRestController<Trip>
     @Path("{" + PATH_PARAM_TRIP_ID + "}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response delete(@Context HttpHeaders headers, @PathParam(PATH_PARAM_TRIP_ID) Long entityId){
-        Response response = super.get(headers);
+        Response response = super.delete(headers, entityId);
         
         if (null != response) {
             return response;
