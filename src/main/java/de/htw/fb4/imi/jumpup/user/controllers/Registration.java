@@ -16,6 +16,7 @@ import de.htw.fb4.imi.jumpup.navigation.NavigationOutcomes;
 import de.htw.fb4.imi.jumpup.settings.BeanNames;
 import de.htw.fb4.imi.jumpup.user.registration.RegistrationMethod;
 import de.htw.fb4.imi.jumpup.user.registration.RegistrationModel;
+import de.htw.fb4.imi.jumpup.user.registration.RegistrationSession;
 import de.htw.fb4.imi.jumpup.user.util.HashGenerable;
 
 /**
@@ -31,7 +32,9 @@ public class Registration extends AbstractFacesController
 {
     @EJB(beanName=BeanNames.WEBSITE_REGISTRATION)
     protected RegistrationMethod registrationMethod;
-    protected RegistrationModel registrationModel = new RegistrationModel();
+    
+    @Inject
+    protected RegistrationSession registrationSession;
     
     @Inject
     protected HashGenerable hashGenerable;
@@ -42,7 +45,7 @@ public class Registration extends AbstractFacesController
      */
     public RegistrationModel getRegistrationModel()
     {        
-        return this.registrationModel;
+        return this.registrationSession.getRegistrationModel();
     }
     
     /**
@@ -93,12 +96,12 @@ public class Registration extends AbstractFacesController
     public String confirmUser()
     {        
         try {
-            this.registrationMethod.confirmRegistration(this.registrationModel);
+            this.registrationMethod.confirmRegistration(this.getRegistrationModel());
             
             // if no error occured, send final registration success mail
             if (!this.registrationMethod.hasError()) {
                 try {
-                this.registrationMethod.sendRegistrationSuccessMail(this.registrationModel);
+                this.registrationMethod.sendRegistrationSuccessMail(this.getRegistrationModel());
                 } catch (Exception e) {
                     this.addDisplayErrorMessage("Could not send the registration success mail, but your registration was successful. You can login now.");
                 }

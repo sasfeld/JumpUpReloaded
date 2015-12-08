@@ -6,13 +6,13 @@
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 >
 
-	<p style="font-size: 2em; font-weight: bold">#{translator.translate("Please confirm your registration")}, #{registrationController.registrationModel.prename}!</p>	
+	<p style="font-size: 2em; font-weight: bold">#{translator.translate("Please confirm your registration")}, #{registrationSession.registrationModel.prename}!</p>	
 	
 	<p>#{translator.translate("We are glad to almost have you aboard JumpUp.Me")}!<br />
 	#{translator.translate("Before you are able to use your account, you have to confirm your eMail address.")}<br />
 	#{translator.translate("Therefore, please press the link below: ")}</p>
 	
-	<p><h:outputLink value="#{registrationController.registrationModel.generateCompleteConfirmationLink()}">
+	<p><h:outputLink value="#{registrationSession.registrationModel.generateCompleteConfirmationLink()}">
 		#{translator.translate('Click here to confirm your account.')}</h:outputLink></p>
 	
 	<p>#{translator.translate("Have fun on JumpUp.Me")}!</p>

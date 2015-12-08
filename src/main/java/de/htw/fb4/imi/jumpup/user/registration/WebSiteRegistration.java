@@ -5,7 +5,7 @@
  */
 package de.htw.fb4.imi.jumpup.user.registration;
 
-import javax.inject.Named;
+import javax.ejb.Stateful;
 
 import de.htw.fb4.imi.jumpup.Application;
 import de.htw.fb4.imi.jumpup.Application.LogType;
@@ -19,8 +19,8 @@ import de.htw.fb4.imi.jumpup.user.entities.User;
  * @since 10.11.2014
  *
  */
-@Named(BeanNames.WEBSITE_REGISTRATION)
-public class WebSiteRegistration extends AbstractRegistrationMethod
+@Stateful(name = BeanNames.WEBSITE_REGISTRATION)
+public class WebSiteRegistration extends AbstractRegistrationMethod implements RegistrationMethod
 {
     /* (non-Javadoc)
      * @see de.htw.fb4.imi.jumpup.user.registration.RegistrationMethod#performRegistration(de.htw.fb4.imi.jumpup.user.registration.RegistrationBean)
@@ -39,7 +39,8 @@ public class WebSiteRegistration extends AbstractRegistrationMethod
                 throw new NullPointerException("entityManager is null");
             }
             
-            persistInTransaction(newUser);
+            this.entityManager.persist(newUser);
+            
             registrationModel.setRegisteredUser(newUser);
         } catch ( Exception e) {
             tryToRollbackAndThrow();

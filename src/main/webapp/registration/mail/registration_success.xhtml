@@ -6,7 +6,7 @@
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 >
 
-	<p style="font-size: 2em; font-weight: bold">#{translator.translate("Welcome on JumpUp.Me")}, #{registrationController.registrationModel.registeredUser.prename}!</p>	
+	<p style="font-size: 2em; font-weight: bold">#{translator.translate("Welcome on JumpUp.Me")}, #{registrationSession.registrationModel.registeredUser.prename}!</p>	
 	
 	<p>#{translator.translate("We are glad to have you aboard JumpUp.Me")}!
 	#{translator.translate("You can login to to our portal now and search for trips.")}
@@ -16,8 +16,8 @@
 	
 	<p>
 		<ul>
-			<li>#{translator.translate("Username")}: #{registrationController.registrationModel.registeredUser.username}</li>
-			<li>#{translator.translate("You can login here")}: <h:outputLink value="#{registrationController.registrationModel.loginLink}">#{translator.translate("Login")}</h:outputLink></li>
+			<li>#{translator.translate("Username")}: #{registrationSession.registrationModel.registeredUser.username}</li>
+			<li>#{translator.translate("You can login here")}: <h:outputLink value="#{registrationSession.registrationModel.loginLink}">#{translator.translate("Login")}</h:outputLink></li>
 		</ul>
 	</p>
 	

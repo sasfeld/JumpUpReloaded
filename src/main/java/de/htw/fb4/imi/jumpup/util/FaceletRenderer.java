@@ -45,9 +45,16 @@ public class FaceletRenderer
      * 
      * @param pathToFacelet the path to the facelet
      * @return the rendered view as String
+     * 
+     * @throws IllegalStateException
+     * @throws {@link ApplicationError}
      */
     public String renderView(final String pathToFacelet) 
     {
+        if (null == this.facesContext) {
+            throw new IllegalStateException("FaceletRenderer: No faces context injected");
+        }
+        
         this.storeOriginalResponseWriter();
         
         try {            

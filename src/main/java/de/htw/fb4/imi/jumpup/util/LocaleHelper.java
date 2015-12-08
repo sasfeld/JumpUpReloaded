@@ -29,6 +29,8 @@ import de.htw.fb4.imi.jumpup.settings.BeanNames;
 public class LocaleHelper
 {
 
+    private static LocaleHelper instance;
+
     /**
      * Format the given date and return only the date, regardless to the time. <br />
      * For returning time, see the other methods of this bean.
@@ -110,6 +112,15 @@ public class LocaleHelper
         
         return DateFormat.getDateTimeInstance(getDatePrecision(),
                 getTimePrecision()).format(inputDate);
+    }
+    
+    public static LocaleHelper getInstance()
+    {
+        if (null == instance) {
+            instance = new LocaleHelper();
+        }
+        
+        return instance;
     }
 
 }

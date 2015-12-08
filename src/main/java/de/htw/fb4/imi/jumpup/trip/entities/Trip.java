@@ -6,6 +6,7 @@
 package de.htw.fb4.imi.jumpup.trip.entities;
 
 import java.sql.Timestamp;
+import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 
@@ -30,6 +31,7 @@ import de.htw.fb4.imi.jumpup.booking.entities.Booking;
 import de.htw.fb4.imi.jumpup.entities.AbstractEntity;
 import de.htw.fb4.imi.jumpup.settings.PersistenceSettings;
 import de.htw.fb4.imi.jumpup.user.entities.User;
+import de.htw.fb4.imi.jumpup.util.LocaleHelper;
 import de.htw.fb4.imi.jumpup.verhicle.entities.Vehicle;
 
 /**
@@ -58,8 +60,6 @@ import de.htw.fb4.imi.jumpup.verhicle.entities.Vehicle;
                 + " AND (:priceTo IS NULL OR t.price <= :priceTo)")
 
 })
-@XmlRootElement
-@XmlAccessorType(XmlAccessType.PROPERTY)
 public class Trip extends AbstractEntity
 {
 
@@ -265,6 +265,15 @@ public class Trip extends AbstractEntity
         this.startDateTime = startDateTime;
     }
 
+    public void setStartDateTime(String startDateTime)
+    {
+        try {
+            this.setStartDateTime(LocaleHelper.getInstance().parseDateFromString(startDateTime));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+    }
+    
     /**
      * 
      * @param startDateTime
@@ -293,6 +302,15 @@ public class Trip extends AbstractEntity
     public void setEndDateTime(Timestamp endDateTime)
     {
         this.endDateTime = endDateTime;
+    }
+    
+    public void setEndDateTime(String endDateTime)
+    {
+        try {
+            this.setEndDateTime(LocaleHelper.getInstance().parseDateFromString(endDateTime));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 
     /**

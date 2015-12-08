@@ -8,7 +8,6 @@ package de.htw.fb4.imi.jumpup.user.login;
 import java.io.Serializable;
 import java.util.HashSet;
 
-import javax.ejb.EJB;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -20,7 +19,6 @@ import javax.persistence.Query;
 import de.htw.fb4.imi.jumpup.Application;
 import de.htw.fb4.imi.jumpup.Application.LogType;
 import de.htw.fb4.imi.jumpup.ApplicationError;
-import de.htw.fb4.imi.jumpup.settings.BeanNames;
 import de.htw.fb4.imi.jumpup.settings.PersistenceSettings;
 import de.htw.fb4.imi.jumpup.user.entities.User;
 import de.htw.fb4.imi.jumpup.user.util.HashGenerable;

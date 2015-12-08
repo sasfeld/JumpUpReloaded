@@ -97,11 +97,6 @@ public class FacesFacade
      */
     public String evaluateExpressionLanguage(final String expression)
     {
-        
-//        FacesContext context = FacesContext.getCurrentInstance();
-//        
-//        ExpressionFactory expressionFactory = context.getApplication().getExpressionFactory();        
-//        ELContext elContext = context.getELContext();
         ExpressionFactory expressionFactory = ExpressionFactory.newInstance();
         StandardELContext elContext = new StandardELContext(expressionFactory);
         

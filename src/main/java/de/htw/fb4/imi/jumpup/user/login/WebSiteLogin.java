@@ -5,7 +5,10 @@
  */
 package de.htw.fb4.imi.jumpup.user.login;
 
+import javax.ejb.Stateless;
+
 import de.htw.fb4.imi.jumpup.ApplicationError;
+import de.htw.fb4.imi.jumpup.settings.BeanNames;
 import de.htw.fb4.imi.jumpup.user.entities.User;
 
 /**
@@ -15,7 +18,8 @@ import de.htw.fb4.imi.jumpup.user.entities.User;
  * @since 27.11.2014
  *
  */
-public class WebSiteLogin extends AbstractLoginMethod
+@Stateless(name = BeanNames.WEBSITE_LOGIN)
+public class WebSiteLogin extends AbstractLoginMethod implements LoginMethod
 {
     private static final long serialVersionUID = -3100825117103531673L;
 

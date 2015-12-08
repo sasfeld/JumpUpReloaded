@@ -163,18 +163,9 @@ public class TripWebServiceModel extends AbstractRestModel
      * @param startDateTime
      *            the startDateTime to set
      */
-    public void setStartDateTime(Timestamp startDateTime)
-    {
-        this.startDateTime = startDateTime;
-    }
-
-    /**
-     * 
-     * @param startDateTime
-     */
     public void setStartDateTime(Date startDateTime)
     {
-        this.setStartDateTime(new Timestamp(startDateTime.getTime()));
+        this.startDateTime = new Timestamp(startDateTime.getTime());
     }
 
     /**
@@ -190,21 +181,12 @@ public class TripWebServiceModel extends AbstractRestModel
     }
 
     /**
-     * @param endDateTime
-     *            the endDateTime to set
-     */
-    public void setEndDateTime(Timestamp endDateTime)
-    {
-        this.endDateTime = endDateTime;
-    }
-
-    /**
      * 
      * @param endDateTime
      */
     public void setEndDateTime(Date endDateTime)
     {
-        this.setEndDateTime(new Timestamp(endDateTime.getTime()));
+        this.endDateTime = new Timestamp(endDateTime.getTime());
     }
 
     /**

@@ -161,6 +161,7 @@ public class RegistrationModel
     /**
      * @return the registeredUser
      */
+    @XmlTransient
     public User getRegisteredUser()
     {
         return registeredUser;
@@ -168,6 +169,7 @@ public class RegistrationModel
     /**
      * @param registeredUser the registeredUser to set
      */
+    @XmlTransient
     public void setRegisteredUser(User registeredUser)
     {
         this.registeredUser = registeredUser;

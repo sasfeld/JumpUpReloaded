@@ -51,9 +51,6 @@ public abstract class AbstractRegistrationMethod implements RegistrationMethod
     @Inject
     protected HashGenerable hashGenerator;
     
-    @PersistenceContext(unitName = PersistenceSettings.PERSISTENCE_UNIT)
-    protected EntityManager entityManager;
-    
     @Inject
     protected MailBuilder mailBuilder;
     
@@ -65,7 +62,9 @@ public abstract class AbstractRegistrationMethod implements RegistrationMethod
     
     @Inject
     protected Translatable translator;
-
+    
+    @PersistenceContext(unitName = PersistenceSettings.PERSISTENCE_UNIT)
+    protected EntityManager entityManager;   
     
     /*
      * (non-Javadoc)
@@ -83,15 +82,6 @@ public abstract class AbstractRegistrationMethod implements RegistrationMethod
     {
         this.errorMessages = new HashSet<String>();
     }   
-
-    /**
-     * Persist in transaction.
-     * @param newUser
-     */
-    protected void persistInTransaction(final User newUser)
-    {         
-        this.entityManager.persist(newUser);            
-    }
 
     /**
      * Try to rollback if any problem occured.
@@ -264,7 +254,8 @@ public abstract class AbstractRegistrationMethod implements RegistrationMethod
         matchingUser.setIsConfirmed(true);
         
         try {
-            this.persistInTransaction(matchingUser);
+            this.entityManager.persist(matchingUser);
+            this.entityManager.flush();
         } catch (Exception e) {
             this.tryToRollbackAndThrow();
         }        

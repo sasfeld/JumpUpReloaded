@@ -5,8 +5,7 @@
  */
 package de.htw.fb4.imi.jumpup.user.util;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Named;
+import javax.ejb.Stateless;
 
 import de.htw.fb4.imi.jumpup.settings.BeanNames;
 
@@ -17,9 +16,8 @@ import de.htw.fb4.imi.jumpup.settings.BeanNames;
  * @since 07.11.2014
  *
  */
-@Named(BeanNames.PASSWORD_HASH_GENERATOR)
-@ApplicationScoped
-public class PasswordHashGenerator extends AbstractHashGenerable
+@Stateless(name = BeanNames.PASSWORD_HASH_GENERATOR)
+public class PasswordHashGenerator extends AbstractHashGenerable implements HashGenerable
 {
 
     @Override

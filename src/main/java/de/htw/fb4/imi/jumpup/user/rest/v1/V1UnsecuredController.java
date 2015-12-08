@@ -7,6 +7,8 @@ package de.htw.fb4.imi.jumpup.user.rest.v1;
 
 import java.io.Serializable;
 
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Named;
 import javax.ws.rs.Path;
 
 import de.htw.fb4.imi.jumpup.user.rest.UnsecuredBaseController;
@@ -19,6 +21,8 @@ import de.htw.fb4.imi.jumpup.user.rest.UnsecuredBaseController;
  *
  */
 @Path(V1UnsecuredController.VERSION_PATH + UnsecuredBaseController.PATH)
+@Named
+@RequestScoped
 public class V1UnsecuredController extends UnsecuredBaseController implements Serializable
 {    
     /**

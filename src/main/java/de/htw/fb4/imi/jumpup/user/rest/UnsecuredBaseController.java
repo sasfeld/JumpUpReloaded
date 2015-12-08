@@ -24,6 +24,7 @@ import de.htw.fb4.imi.jumpup.user.UserDAO;
 import de.htw.fb4.imi.jumpup.user.entities.User;
 import de.htw.fb4.imi.jumpup.user.registration.RegistrationMethod;
 import de.htw.fb4.imi.jumpup.user.registration.RegistrationModel;
+import de.htw.fb4.imi.jumpup.user.registration.RegistrationSession;
 import de.htw.fb4.imi.jumpup.user.rest.models.UserEntityMapper;
 import de.htw.fb4.imi.jumpup.user.util.IMessages;
 
@@ -41,9 +42,10 @@ public class UnsecuredBaseController extends AbstractRestController<Registration
     
     @Inject
     protected UserDAO userDAO;
-    
     @Inject
     protected RegistrationMethod registrationMethod;
+    @Inject
+    protected RegistrationSession registrationSession;
     
     protected UserEntityMapper entityMapper = new UserEntityMapper();
 
@@ -92,6 +94,9 @@ public class UnsecuredBaseController extends AbstractRestController<Registration
 
     private Response tryToCreateUser(RegistrationModel registrationModel)
     {        
+        // set unmarshalled registration model in registration session so that other services such as mails can be triggered
+        registrationSession.setRegistrationModel(registrationModel);
+        
         registrationMethod.performRegistration(registrationModel);
         
         if (registrationMethod.hasError()) {

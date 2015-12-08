@@ -94,5 +94,9 @@ public interface BeanNames
     String TRIP_ENTITY_MAPPER = "tripEntityMapper";
     
     String RESPONSE_BUILDER = "responseBuilder";
+    
+    String WEBSITE_LOGIN = "websiteLogin";
+    
+    String REGISTRATION_SESSION = "registrationSession";
 
 }

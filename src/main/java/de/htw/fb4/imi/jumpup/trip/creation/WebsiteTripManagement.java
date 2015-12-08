@@ -17,8 +17,7 @@ import javax.inject.Inject;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.PersistenceUnit;
+import javax.persistence.PersistenceContext;
 import javax.resource.spi.IllegalStateException;
 
 import org.apache.commons.lang.exception.ExceptionUtils;
@@ -50,8 +49,8 @@ import de.htw.fb4.imi.jumpup.util.FileUtil;
 @Stateless(name = BeanNames.WEBSITE_TRIP_CREATION)
 public class WebsiteTripManagement implements TripManagementMethod, ErrorPrintable, ILoginDependent
 {
-    @PersistenceUnit(unitName = PersistenceSettings.PERSISTENCE_UNIT)
-    protected EntityManagerFactory entityManagerFactory;
+    @PersistenceContext(unitName = PersistenceSettings.PERSISTENCE_UNIT)
+    protected EntityManager entityManager;
     
     @Inject
     protected MailBuilder mailBuilder;
@@ -74,19 +73,7 @@ public class WebsiteTripManagement implements TripManagementMethod, ErrorPrintab
     {
         super();
     }
-    
 
-    /**
-     * Create fresh entity manager.
-     * @return
-     */
-    protected EntityManager getFreshEntityManager()
-    {
-        EntityManager em = this.entityManagerFactory.createEntityManager();
-
-        return em;
-    }
-    
     /**
      * Reset current state.
      */
@@ -191,7 +178,6 @@ public class WebsiteTripManagement implements TripManagementMethod, ErrorPrintab
 
     protected void persistTrip(final Trip trip) throws IllegalStateException
     {
-        EntityManager entityManager = this.getFreshEntityManager();
         User currentUser = this.getCurrentUser();
         
         // set driver to current logged in user and persist trip
@@ -199,7 +185,6 @@ public class WebsiteTripManagement implements TripManagementMethod, ErrorPrintab
         currentUser.getOfferedTrips().add(trip);
         entityManager.persist(trip);              
         persistCurrentUser(entityManager, currentUser);
-        entityManager.flush();
     }
 
     /**
@@ -233,13 +218,9 @@ public class WebsiteTripManagement implements TripManagementMethod, ErrorPrintab
     }   
 
     private void updateTrip(Trip trip) throws IllegalStateException
-    {
-        Application.log("updateTrip(): saving trip " + trip, LogType.DEBUG, getClass());
-        
-        trip.setDriver(getCurrentUser());
-        EntityManager entityManager = this.getFreshEntityManager();   
+    {        
+        trip.setDriver(getCurrentUser()); 
         entityManager.merge(trip);  
-        entityManager.flush();
     }
     
     private void sendTripUpdatedMailToDriver(Trip trip)
@@ -297,12 +278,9 @@ public class WebsiteTripManagement implements TripManagementMethod, ErrorPrintab
         Timestamp currentTimestamp = this.getCurrentTimestamp();
         Application.log("softDeleteTrip: cancelling trip with ID " + trip.getIdentity() + " and setting timestamp " + currentTimestamp.toString(), LogType.DEBUG, getClass());
         
-        EntityManager entityManager = this.getFreshEntityManager();
-        
         trip.setCancelationDateTime(currentTimestamp);        
 
         entityManager.merge(trip);
-        entityManager.flush();
     }      
 
     private void sendTripCanceledMailToDriver(Trip trip)
