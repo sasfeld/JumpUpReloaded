@@ -20,9 +20,6 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 import de.htw.fb4.imi.jumpup.Application;
@@ -242,20 +239,7 @@ public class Trip extends AbstractEntity
     public void setLongEndpoint(double longEndpoint)
     {
         this.longEndpoint = longEndpoint;
-    }
-
-    /**
-     * @return the startDateTime
-     */
-    public Date getStartDateTime()
-    {
-        if (null == this.startDateTime) {
-            return null;
-        }
-
-        return new Date(this.startDateTime.getTime());
-    }
-
+    }   
     /**
      * @param startDateTime
      *            the startDateTime to set
@@ -263,36 +247,11 @@ public class Trip extends AbstractEntity
     public void setStartDateTime(Timestamp startDateTime)
     {
         this.startDateTime = startDateTime;
-    }
-
-    public void setStartDateTime(String startDateTime)
-    {
-        try {
-            this.setStartDateTime(LocaleHelper.getInstance().parseDateFromString(startDateTime));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-    }
+    } 
     
-    /**
-     * 
-     * @param startDateTime
-     */
-    public void setStartDateTime(Date startDateTime)
+    public Timestamp getStartDateTime()
     {
-        this.setStartDateTime(new Timestamp(startDateTime.getTime()));
-    }
-
-    /**
-     * @return the endDateTime
-     */
-    public Date getEndDateTime()
-    {
-        if (null == this.endDateTime) {
-            return null;
-        }
-
-        return new Date(this.endDateTime.getTime());
+        return startDateTime;
     }
 
     /**
@@ -304,24 +263,11 @@ public class Trip extends AbstractEntity
         this.endDateTime = endDateTime;
     }
     
-    public void setEndDateTime(String endDateTime)
+    public Timestamp getEndDateTime()
     {
-        try {
-            this.setEndDateTime(LocaleHelper.getInstance().parseDateFromString(endDateTime));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        return endDateTime;
     }
-
-    /**
-     * 
-     * @param endDateTime
-     */
-    public void setEndDateTime(Date endDateTime)
-    {
-        this.setEndDateTime(new Timestamp(endDateTime.getTime()));
-    }
-
+  
     /**
      * @return the price
      */

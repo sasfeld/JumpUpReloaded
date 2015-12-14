@@ -47,7 +47,7 @@ public class StartDatetimeValidator extends AbstractTripValidator
             return (Date) value;
         }
         
-        Application.log("castToDate(): could not cast " + value + " to datetime, current type of it: " + value.getClass(), LogType.ERROR, getClass());
+        Application.log("castToDate(): could not cast " + value + " to datetime, current type of it: " + (value == null ? "null" : value.getClass()), LogType.ERROR, getClass());
         this.errorMessages.add("The datetime could not be converted.");
         return null;
     }

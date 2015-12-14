@@ -25,6 +25,9 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import de.htw.fb4.imi.jumpup.Application;
+import de.htw.fb4.imi.jumpup.ApplicationUserException;
+import de.htw.fb4.imi.jumpup.Application.LogType;
 import de.htw.fb4.imi.jumpup.rest.BasicRestController;
 import de.htw.fb4.imi.jumpup.rest.SecuredRestController;
 import de.htw.fb4.imi.jumpup.trip.TripDAO;
@@ -131,13 +134,21 @@ public class BaseController extends SecuredRestController<TripWebServiceModel>
 
     private Response tryToCreateTrip(Trip trip)
     {
-        TripManagementMethod tripManagementMethod = this.getTripManagementMethod();
+        TripManagementMethod tripManagementMethod = this.getTripManagementMethod();       
         
-        tripManagementMethod.addTrip(trip);
-        
-        if (tripManagementMethod.hasError()) {
-            return this.sendInternalServerErrorResponse(tripManagementMethod);
-        }
+        try {            
+            tripManagementMethod.addTrip(trip);
+            
+            try {
+                tripManagementMethod.sendTripAddedMailToDriver(trip);
+            } catch (ApplicationUserException e) {
+                Application.log("RestBaseController: tryToCreateTrip() " + e.getMessage(), LogType.ERROR, getClass());
+                return this.sendOkButErrorResponse(e);
+            }
+        } catch (ApplicationUserException tripCreationException) {
+            Application.log("RestBaseController: tryToCreateTrip() " + tripCreationException.getMessage(), LogType.ERROR, getClass());
+            return this.sendInternalServerErrorResponse(tripCreationException);
+        }               
         
         return this.sendCreatedResponse(this.getGetUrl(trip));
     }
@@ -186,11 +197,19 @@ public class BaseController extends SecuredRestController<TripWebServiceModel>
             trip.setIdentity(loadedTrip.getIdentity());
             TripManagementMethod tripManagementMethod = this.getTripManagementMethod();
             
-            tripManagementMethod.changeTrip(trip);
-            
-            if (tripManagementMethod.hasError()) {
-                return this.sendInternalServerErrorResponse(tripManagementMethod);
-            }
+            try {
+              tripManagementMethod.changeTrip(trip);
+              
+              try {
+                  tripManagementMethod.sendTripUpdatedMailToDriver(trip);             
+              } catch (ApplicationUserException e) {
+                  Application.log("RestBaseController: tryToUpdateTrip() " + e.getMessage(), LogType.ERROR, getClass());
+                  return this.sendOkButErrorResponse(e);
+              }
+            } catch (ApplicationUserException changeTripException) {
+              Application.log("RestBaseController: tryToUpdateTrip() " + changeTripException.getMessage(), LogType.ERROR, getClass());
+              return this.sendInternalServerErrorResponse(changeTripException);
+            }          
             
             return this.sendOkResponse("Trip with ID " + entityId + " was successfully updated!");         
         } catch (EJBException e) {
@@ -228,10 +247,19 @@ public class BaseController extends SecuredRestController<TripWebServiceModel>
             
             // try to cancel trip
             TripManagementMethod tripManagementMethod = this.getTripManagementMethod();
-            tripManagementMethod.cancelTrip(trip);
             
-            if (tripManagementMethod.hasError()) {
-                return this.sendInternalServerErrorResponse(tripManagementMethod);
+            try {
+                tripManagementMethod.cancelTrip(trip);
+                
+                try {
+                    tripManagementMethod.sendTripCanceledMailToDriver(trip);             
+                } catch (ApplicationUserException e) {
+                    Application.log("RestBaseController: tryToLoadTripAuthorizeAndDelete() " + e.getMessage(), LogType.ERROR, getClass());
+                    return this.sendOkButErrorResponse(e);
+                }
+            } catch (ApplicationUserException cancelTripException) {
+                Application.log("RestBaseController: tryToLoadTripAuthorizeAndDelete() " + cancelTripException.getMessage(), LogType.ERROR, getClass());
+                return this.sendInternalServerErrorResponse(cancelTripException);
             }
             
             return this.sendOkResponse("Cancelled trip with ID " + trip.getIdentity());

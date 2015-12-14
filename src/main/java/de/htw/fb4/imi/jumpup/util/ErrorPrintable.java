@@ -5,12 +5,15 @@
  */
 package de.htw.fb4.imi.jumpup.util;
 
+import de.htw.fb4.imi.jumpup.ApplicationUserException;
+
 /**
  * <p>Error printable models can define error methods that need to be presented to the user in the frontend.</p>
  *
  * @author <a href="mailto:me@saschafeldmann.de">Sascha Feldmann</a>
  * @since 24.11.2014
  *
+ *@deprecated use {@link ApplicationUserException} instead
  */
 public interface ErrorPrintable
 {

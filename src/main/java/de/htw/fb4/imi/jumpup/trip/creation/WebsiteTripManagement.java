@@ -8,11 +8,9 @@ package de.htw.fb4.imi.jumpup.trip.creation;
 import java.io.File;
 import java.sql.Timestamp;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
 import javax.ejb.EJB;
-import javax.ejb.Stateless;
+import javax.ejb.Stateful;
 import javax.inject.Inject;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
@@ -24,6 +22,7 @@ import org.apache.commons.lang.exception.ExceptionUtils;
 
 import de.htw.fb4.imi.jumpup.Application;
 import de.htw.fb4.imi.jumpup.Application.LogType;
+import de.htw.fb4.imi.jumpup.ApplicationUserException;
 import de.htw.fb4.imi.jumpup.mail.MailAdapter;
 import de.htw.fb4.imi.jumpup.mail.MailModel;
 import de.htw.fb4.imi.jumpup.mail.builder.MailBuilder;
@@ -35,7 +34,6 @@ import de.htw.fb4.imi.jumpup.trip.util.ConfigReader;
 import de.htw.fb4.imi.jumpup.trip.util.TripAndBookingsConfigKeys;
 import de.htw.fb4.imi.jumpup.user.entities.User;
 import de.htw.fb4.imi.jumpup.user.login.LoginSession;
-import de.htw.fb4.imi.jumpup.util.ErrorPrintable;
 import de.htw.fb4.imi.jumpup.util.FileUtil;
 
 /**
@@ -45,8 +43,8 @@ import de.htw.fb4.imi.jumpup.util.FileUtil;
  * @since 12.01.2015
  *
  */
-@Stateless(name = BeanNames.WEBSITE_TRIP_CREATION)
-public class WebsiteTripManagement implements TripManagementMethod, ErrorPrintable
+@Stateful(name = BeanNames.WEBSITE_TRIP_CREATION)
+public class WebsiteTripManagement implements TripManagementMethod, TripMails
 {
     @PersistenceContext(unitName = PersistenceSettings.PERSISTENCE_UNIT)
     protected EntityManager entityManager;
@@ -65,8 +63,7 @@ public class WebsiteTripManagement implements TripManagementMethod, ErrorPrintab
     
     @Inject
     protected LoginSession loginSession;
-    
-    protected Set<String> errorMessages;    
+   
     
     public WebsiteTripManagement()
     {
@@ -78,7 +75,6 @@ public class WebsiteTripManagement implements TripManagementMethod, ErrorPrintab
      */
     protected void reset()
     {
-        this.errorMessages = new HashSet<>();
         this.mailBuilder.reset();
     }
     
@@ -91,60 +87,33 @@ public class WebsiteTripManagement implements TripManagementMethod, ErrorPrintab
     {
         return this.loginSession.getCurrentUser();
     }
-   
-    /* (non-Javadoc)
-     * @see de.htw.fb4.imi.jumpup.util.ErrorPrintable#hasError()
-     */
-    @Override
-    public boolean hasError()
-    {
-        return (getErrors().length > 0);
-    }
-
-    /* (non-Javadoc)
-     * @see de.htw.fb4.imi.jumpup.util.ErrorPrintable#getErrors()
-     */
-    @Override
-    public String[] getErrors()
-    {
-        return this.errorMessages.toArray(new String[this.errorMessages.size()]);
-    }
-
-    /* (non-Javadoc)
-     * @see de.htw.fb4.imi.jumpup.util.ErrorPrintable#getSingleErrorString()
-     */
-    @Override
-    public String getSingleErrorString()
-    {
-        // return first element if given
-        String[] errors = this.getErrors();
-        
-        if (errors.length > 0 ) {
-            return errors[0];
-        }
-        
-        return "";
-    }
 
     /* (non-Javadoc)
      * @see de.htw.fb4.imi.jumpup.trip.creation.TripCreationMethod#addTrip(de.htw.fb4.imi.jumpup.trip.entities.Trip)
      */
     @Override
-    public void addTrip(final Trip trip)
+    public void addTrip(final Trip trip) throws ApplicationUserException
     {
         this.reset();
         
         try {         
             this.persistTrip(trip);
-            this.sendTripAddedMailToDriver(trip);
         } catch ( Exception e ) {
-            Application.log("addTrip(): exception " + e.getMessage(), LogType.ERROR, getClass());
-            this.errorMessages.add("We could not add the trip. Please inform our customer care team.");
+            throw new ApplicationUserException("addTrip(): exception " + e.getMessage(), "We could not add the trip. Please inform our customer care team.");
         }
     }
 
-    protected void sendTripAddedMailToDriver(final Trip trip)
+    @Override
+    /*
+     * (non-Javadoc)
+     * @see de.htw.fb4.imi.jumpup.trip.creation.TripMails#sendTripAddedMailToDriver(de.htw.fb4.imi.jumpup.trip.entities.Trip)
+     */
+    public void sendTripAddedMailToDriver(final Trip trip) throws ApplicationUserException
     {        
+        this.reset();
+        
+        String userErrorMsg = "We could not send an confirmation mail.";
+        
         try {
             buildTxtMail(TripAndBookingsConfigKeys.JUMPUP_TRIP_CREATED_MAIL_TEMPLATE_TXT);
             MailModel m = this.mailBuilder.getBuildedMailModel()
@@ -153,15 +122,19 @@ public class WebsiteTripManagement implements TripManagementMethod, ErrorPrintab
             
             this.mailAdapter.sendHtmlMail(m);
         } catch (AddressException e) {
-            Application.log("sendTripAddedMailToDriver(): the recipient mail of the driver is malformed. Will not set the sender.\nException: "
+            String logMessage = "sendTripAddedMailToDriver(): the recipient mail of the driver is malformed. Will not set the sender.\nException: "
                     + e.getMessage() + "\n"
-                    + ExceptionUtils.getFullStackTrace(e), LogType.ERROR, getClass());
-            this.errorMessages.add("We could not send an confirmation mail.");
+                    + ExceptionUtils.getFullStackTrace(e);
+            Application.log(logMessage, LogType.ERROR, getClass());
+            
+            throw new ApplicationUserException(logMessage, userErrorMsg);
         } catch (Exception e) {
-            Application.log("sendTripAddedMailToDriver(): error while sending trip updated mail to driver.\nException: "
+            String logMessage = "sendTripAddedMailToDriver(): error while sending trip updated mail to driver.\nException: "
                     + e.getMessage() + "\n"
-                    + ExceptionUtils.getFullStackTrace(e), LogType.ERROR, getClass());
-            this.errorMessages.add("We could not send an confirmation mail.");
+                    + ExceptionUtils.getFullStackTrace(e);
+            Application.log(logMessage, LogType.ERROR, getClass());
+            
+            throw new ApplicationUserException(logMessage, userErrorMsg);
         }      
     }
 
@@ -198,7 +171,7 @@ public class WebsiteTripManagement implements TripManagementMethod, ErrorPrintab
      * @see de.htw.fb4.imi.jumpup.trip.creation.TripCreationMethod#changeTrip(de.htw.fb4.imi.jumpup.trip.entities.Trip)
      */
     @Override
-    public void changeTrip(final Trip trip)
+    public void changeTrip(final Trip trip) throws ApplicationUserException
     {
         this.reset();
         
@@ -206,9 +179,8 @@ public class WebsiteTripManagement implements TripManagementMethod, ErrorPrintab
             this.updateTrip(trip);
             this.sendTripUpdatedMailToDriver(trip);
             this.sendTripUpdatedMailToPassengers(trip);
-        } catch ( Exception e ) {
-            Application.log("changeTrip(): exception" + e.getMessage(), LogType.ERROR, getClass());
-            this.errorMessages.add("We could not change the trip. Please inform our customer care team.");
+        } catch ( Exception e ) {            
+            throw new ApplicationUserException("changeTrip(): exception" + e.getMessage(), "We could not change the trip. Please inform our customer care team.");
         }
     }   
 
@@ -218,8 +190,15 @@ public class WebsiteTripManagement implements TripManagementMethod, ErrorPrintab
         entityManager.merge(trip);  
     }
     
-    private void sendTripUpdatedMailToDriver(Trip trip)
+    @Override
+    /*
+     * (non-Javadoc)
+     * @see de.htw.fb4.imi.jumpup.trip.creation.TripMails#sendTripUpdatedMailToDriver(de.htw.fb4.imi.jumpup.trip.entities.Trip)
+     */
+    public void sendTripUpdatedMailToDriver(Trip trip) throws ApplicationUserException
     {        
+        String userErrorMessage = "We could not send an confirmation mail.";
+        
         try {
             buildTxtMail(TripAndBookingsConfigKeys.JUMPUP_TRIP_CHANGED_MAIL_TEMPLATE_TXT);
             MailModel m = this.mailBuilder.getBuildedMailModel()
@@ -227,15 +206,17 @@ public class WebsiteTripManagement implements TripManagementMethod, ErrorPrintab
                     .setSubject(this.translator.translate("JumpUp.Me - Your trip was changed"));
             this.mailAdapter.sendHtmlMail(m);
         } catch (AddressException e) {
-            Application.log("sendTripUpdatedMailToDriver(): the recipient mail of the driver is malformed. Will not set the sender.\nException: "
+            String logMessage = "sendTripUpdatedMailToDriver(): the recipient mail of the driver is malformed. Will not set the sender.\nException: "
                     + e.getMessage() + "\n"
-                    + ExceptionUtils.getFullStackTrace(e), LogType.ERROR, getClass());
-            this.errorMessages.add("We could not send an confirmation mail.");
+                    + ExceptionUtils.getFullStackTrace(e);
+            
+            throw new ApplicationUserException(logMessage, userErrorMessage);
         } catch (Exception e) {
-            Application.log("sendTripUpdatedMailToDriver(): error while sending trip updated mail to driver.\nException: "
+            String logMessage = "sendTripUpdatedMailToDriver(): error while sending trip updated mail to driver.\nException: "
                     + e.getMessage() + "\n"
-                    + ExceptionUtils.getFullStackTrace(e), LogType.ERROR, getClass());
-            this.errorMessages.add("We could not send an confirmation mail.");
+                    + ExceptionUtils.getFullStackTrace(e);
+            
+            throw new ApplicationUserException(logMessage, userErrorMessage);
         }
     }
 
@@ -249,7 +230,7 @@ public class WebsiteTripManagement implements TripManagementMethod, ErrorPrintab
      * @see de.htw.fb4.imi.jumpup.trip.creation.TripCreationMethod#cancelTrip(de.htw.fb4.imi.jumpup.trip.entities.Trip)
      */
     @Override
-    public void cancelTrip(final Trip trip)
+    public void cancelTrip(final Trip trip) throws ApplicationUserException
     {
         this.reset();
         
@@ -258,8 +239,7 @@ public class WebsiteTripManagement implements TripManagementMethod, ErrorPrintab
             this.sendTripCanceledMailToDriver(trip);
             this.sendTripCanceledMailToPassengers(trip);
         } catch ( Exception e ) {
-            Application.log("cancelTrip(): exception" + e.getMessage(), LogType.ERROR, getClass());
-            this.errorMessages.add("We could not cancel the trip. Please inform our customer care team.");
+            throw new ApplicationUserException("cancelTrip(): exception" + e.getMessage(), "We could not cancel the trip. Please inform our customer care team.");    
         }
     }
   
@@ -278,8 +258,10 @@ public class WebsiteTripManagement implements TripManagementMethod, ErrorPrintab
         entityManager.merge(trip);
     }      
 
-    private void sendTripCanceledMailToDriver(Trip trip)
+    @Override
+    public void sendTripCanceledMailToDriver(Trip trip) throws ApplicationUserException
     {        
+        String userErrorMessage = "We could not send an confirmation mail.";
         try {
             buildTxtMail(TripAndBookingsConfigKeys.JUMPUP_TRIP_CANCELED_MAIL_DRIVER_TEMPLATE_TXT);
             MailModel m = this.mailBuilder.getBuildedMailModel()
@@ -287,15 +269,18 @@ public class WebsiteTripManagement implements TripManagementMethod, ErrorPrintab
                     .setSubject(this.translator.translate("JumpUp.Me - Your trip was canceled"));
             this.mailAdapter.sendHtmlMail(m);
         } catch (AddressException e) {
-            Application.log("sendTripCanceledMailToDriver(): the recipient mail of the driver is malformed. Will not set the sender.\nException: "
+            String logMessage = "sendTripCanceledMailToDriver(): the recipient mail of the driver is malformed. Will not set the sender.\nException: "
                     + e.getMessage() + "\n"
-                    + ExceptionUtils.getFullStackTrace(e), LogType.ERROR, getClass());
-            this.errorMessages.add("We could not send an confirmation mail.");
+                    + ExceptionUtils.getFullStackTrace(e);
+            
+            throw new ApplicationUserException(logMessage, userErrorMessage);
+            
         } catch (Exception e) {
-            Application.log("sendTripAddedMailToDriver(): error while sending trip updated mail to driver.\nException: "
+            String logMessage = "sendTripAddedMailToDriver(): error while sending trip updated mail to driver.\nException: "
                     + e.getMessage() + "\n"
-                    + ExceptionUtils.getFullStackTrace(e), LogType.ERROR, getClass());
-            this.errorMessages.add("We could not send an confirmation mail.");
+                    + ExceptionUtils.getFullStackTrace(e);       
+            
+            throw new ApplicationUserException(logMessage, userErrorMessage);
         }                
     }
     

@@ -100,5 +100,7 @@ public interface BeanNames
     String REGISTRATION_SESSION = "registrationSession";
     
     String LOGIN_SESSION = "loginSession";
+    
+    String DATETIME_CONVERTER = "datetimeConverter";
 
 }

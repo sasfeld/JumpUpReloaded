@@ -7,9 +7,9 @@ package de.htw.fb4.imi.jumpup.trip.creation;
 
 import javax.ejb.Local;
 
+import de.htw.fb4.imi.jumpup.ApplicationUserException;
 import de.htw.fb4.imi.jumpup.trip.entities.Trip;
 import de.htw.fb4.imi.jumpup.user.entities.User;
-import de.htw.fb4.imi.jumpup.util.ErrorPrintable;
 
 /**
  * <p>Business interface to be used within the creation of {@link Trip} entities.</p>
@@ -25,24 +25,27 @@ import de.htw.fb4.imi.jumpup.util.ErrorPrintable;
  *
  */
 @Local
-public interface TripManagementMethod extends ErrorPrintable
+public interface TripManagementMethod extends TripMails
 {
     
     /**
      * Add / persist the given {@link Trip} and do further related work.
      * @param trip
+     * @throws ApplicationUserException
      */
-    void addTrip(final Trip trip);
+    void addTrip(final Trip trip) throws ApplicationUserException;
     
     /**
      * Change / update the given {@link Trip}. Inform passengers about changes.
      * @param trip
+     * @throws ApplicationUserException
      */
-    void changeTrip(final Trip trip);
+    void changeTrip(final Trip trip) throws ApplicationUserException;
     
     /**
      * Cancel/Delete the given {@link Trip}. Make sure to inform the passengers about the cancellation.
      * @param trip
+     * @throws ApplicationUserException
      */
-    void cancelTrip(final Trip trip);
+    void cancelTrip(final Trip trip) throws ApplicationUserException;
 }

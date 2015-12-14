@@ -17,6 +17,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import de.htw.fb4.imi.jumpup.ApplicationUserException;
 import de.htw.fb4.imi.jumpup.rest.methods.IDelete;
 import de.htw.fb4.imi.jumpup.rest.methods.IGet;
 import de.htw.fb4.imi.jumpup.rest.methods.IOptions;
@@ -120,12 +121,17 @@ public abstract class AbstractRestController<T extends AbstractRestModel> implem
     protected Response sendInternalServerErrorResponse(
             ErrorPrintable errorPrintable)
     {
+        return sendInternalErrorResponse(errorPrintable.getSingleErrorString());
+    }
+
+    protected Response sendInternalErrorResponse(String msg)
+    {
         return Response
                 .status(Status.INTERNAL_SERVER_ERROR)
-                .entity(this.responseEntityBuilder.buildMessageFromErrorArray(errorPrintable.getErrors()))
+                .entity(this.responseEntityBuilder.buildMessageFromErrorString(msg))
                 .type(MediaType.APPLICATION_JSON)
                 .build();
-    }     
+    }       
 
     protected Response sendOkResponse(String message)
     {
@@ -141,6 +147,11 @@ public abstract class AbstractRestController<T extends AbstractRestModel> implem
                 .entity(this.responseEntityBuilder.buildMessageFromErrorString(errorMessage, true))
                 .type(MediaType.APPLICATION_JSON)
                 .build();
+    }    
+
+    protected Response sendOkButErrorResponse(ApplicationUserException e)
+    {
+       return this.sendOkButErrorResponse(e.getUserMsg());        
     }
     
     protected Response sendCreatedResponse(Object entity)
@@ -150,8 +161,7 @@ public abstract class AbstractRestController<T extends AbstractRestModel> implem
                 .entity(entity)
                 .type(MediaType.APPLICATION_JSON)
                 .build();
-    }
-    
+    }    
 
     protected Response sendInternalServerErrorResponse(String errorMessage)
     {
@@ -160,5 +170,11 @@ public abstract class AbstractRestController<T extends AbstractRestModel> implem
                 .entity(this.responseEntityBuilder.buildMessageFromErrorString(errorMessage))
                 .type(MediaType.APPLICATION_JSON)
                 .build();
+    }
+    
+
+    protected Response sendInternalServerErrorResponse(ApplicationUserException tripCreationException)
+    {
+        return this.sendInternalErrorResponse(tripCreationException.getUserMsg());
     }
 }

@@ -5,8 +5,10 @@
  */
 package de.htw.fb4.imi.jumpup.trip.rest.models;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 
 import de.htw.fb4.imi.jumpup.rest.IEntityMapper;
 import de.htw.fb4.imi.jumpup.trip.entities.Trip;
@@ -69,8 +71,8 @@ public class TripEntityMapper implements IEntityMapper<TripWebServiceModel, Trip
         entityTrip.setLongStartpoint(webServiceModel.getLongEndpoint());
         entityTrip.setLatEndpoint(webServiceModel.getLatEndpoint());
         entityTrip.setLongEndpoint(webServiceModel.getLongEndpoint());
-        entityTrip.setStartDateTime(webServiceModel.getStartDateTime());
-        entityTrip.setEndDateTime(webServiceModel.getEndDateTime());
+        entityTrip.setStartDateTime(convertToDatetime(webServiceModel.getStartDateTime()));
+        entityTrip.setEndDateTime(convertToDatetime(webServiceModel.getEndDateTime()));
         entityTrip.setPrice(webServiceModel.getPrice());
         entityTrip.setOverViewPath(webServiceModel.getOverViewPath());
         entityTrip.setViaWaypoints(webServiceModel.getViaWaypoints());
@@ -82,6 +84,11 @@ public class TripEntityMapper implements IEntityMapper<TripWebServiceModel, Trip
         entityTrip.setDurationSeconds(webServiceModel.getDurationSeconds());      
         
         return entityTrip;
+    }
+
+    protected Timestamp convertToDatetime(Date d)
+    {
+        return new Timestamp(d.getTime());
     }
 
     @Override
