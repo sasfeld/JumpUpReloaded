@@ -9,6 +9,7 @@ import javax.ejb.Stateless;
 import javax.el.ExpressionFactory;
 import javax.el.StandardELContext;
 import javax.el.ValueExpression;
+import javax.enterprise.inject.spi.BeanManager;
 import javax.faces.application.FacesMessage;
 import javax.faces.application.FacesMessage.Severity;
 import javax.faces.context.FacesContext;
@@ -31,6 +32,9 @@ import de.htw.fb4.imi.jumpup.translate.Translatable;
 @Stateless
 public class FacesFacade
 {
+    @Inject
+    BeanManager beanManager;
+    
     @Inject
     protected static Translatable translator;
     
@@ -99,6 +103,7 @@ public class FacesFacade
     {
         ExpressionFactory expressionFactory = ExpressionFactory.newInstance();
         StandardELContext elContext = new StandardELContext(expressionFactory);
+        elContext.addELResolver(beanManager.getELResolver());        
         
         ValueExpression valueExpression = expressionFactory.createValueExpression(elContext, expression, expression.getClass());
         

@@ -27,6 +27,7 @@ import de.htw.fb4.imi.jumpup.trip.entities.Trip;
 import de.htw.fb4.imi.jumpup.trip.restservice.model.TripSearchCriteria;
 import de.htw.fb4.imi.jumpup.user.controllers.Login;
 import de.htw.fb4.imi.jumpup.user.entities.User;
+import de.htw.fb4.imi.jumpup.util.WebAppFilter;
 
 /**
  * <p>
@@ -42,6 +43,9 @@ public class NavigationBean implements NavigationOutcomes
 {
     @Inject
     protected Login loginController;
+    
+    @Inject
+    protected HttpServletRequest httpServletRequest;
 
     private static final String UTF_8 = "UTF-8";
 
@@ -70,24 +74,7 @@ public class NavigationBean implements NavigationOutcomes
      */
     public static String pathToApp()
     {
-        ExternalContext extContext = FacesContext.getCurrentInstance()
-                .getExternalContext();
-        HttpServletRequest request = (HttpServletRequest) extContext
-                .getRequest();
-
-        String contextPath = request.getContextPath();
-
-        URL reconstructedURL = null;
-        try {
-            reconstructedURL = new URL(request.getScheme(),
-                    request.getServerName(), request.getServerPort(),
-                    contextPath);
-        } catch (MalformedURLException e) {
-            throw new ApplicationError("Could not get URL to webapp.",
-                    NavigationBean.class);
-        }
-
-        return reconstructedURL.toString();
+        return WebAppFilter.getWebAppUrl().toString();
     }
 
     public String pathToAppFallback()

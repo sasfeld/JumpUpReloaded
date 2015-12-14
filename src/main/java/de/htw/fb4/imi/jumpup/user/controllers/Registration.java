@@ -5,7 +5,6 @@
  */
 package de.htw.fb4.imi.jumpup.user.controllers;
 
-import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -30,7 +29,7 @@ import de.htw.fb4.imi.jumpup.user.util.HashGenerable;
 @RequestScoped
 public class Registration extends AbstractFacesController
 {
-    @EJB(beanName=BeanNames.WEBSITE_REGISTRATION)
+    @Inject
     protected RegistrationMethod registrationMethod;
     
     @Inject
