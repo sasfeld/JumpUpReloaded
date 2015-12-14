@@ -8,6 +8,8 @@ package de.htw.fb4.imi.jumpup.rest.methods;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 
+import de.htw.fb4.imi.jumpup.rest.AbstractRestModel;
+
 /**
  * <p></p>
  *
@@ -15,7 +17,7 @@ import javax.ws.rs.core.Response;
  * @since 25.11.2015
  *
  */
-public interface IPost<T>
+public interface IPost<T extends AbstractRestModel>
 {
     Response post(HttpHeaders headers, T abstractRestModel);
 }

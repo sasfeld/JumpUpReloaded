@@ -22,7 +22,7 @@ import javax.ws.rs.core.Response;
  */
 @Path(BasicRestController.BASE_PATH)
 @Dependent
-public class BasicRestController extends AbstractRestController<Object>
+public class BasicRestController extends AbstractRestController<AbstractRestModel>
 {   
     public static final String BASE_PATH = "/";
     public static final String SCHEME = "http";

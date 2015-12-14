@@ -103,7 +103,6 @@ public class SecuredBaseController extends SecuredRestController<UserWebServiceM
 
     protected UserDetailsMethod getUserDetailsMethod()
     {
-        userDetailsMethod.setLoginModel(getLoginModel());
         return userDetailsMethod;
     }
 

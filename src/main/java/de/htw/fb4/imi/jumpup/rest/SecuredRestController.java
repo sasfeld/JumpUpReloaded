@@ -27,6 +27,7 @@ import de.htw.fb4.imi.jumpup.Application;
 import de.htw.fb4.imi.jumpup.Application.LogType;
 import de.htw.fb4.imi.jumpup.user.login.LoginMethod;
 import de.htw.fb4.imi.jumpup.user.login.LoginModel;
+import de.htw.fb4.imi.jumpup.user.login.LoginSession;
 
 /**
  * <p></p>
@@ -35,14 +36,15 @@ import de.htw.fb4.imi.jumpup.user.login.LoginModel;
  * @since 25.11.2015
  *
  */
-public abstract class SecuredRestController<T> extends AbstractRestController<T>
+public abstract class SecuredRestController<T extends AbstractRestModel> extends AbstractRestController<T>
 {
     /**
      * Pattern for Authorization HTTP Header field: Example -> Authorization: Basic asdasdrawe==
      */
     private static final String REGEX_BASIC_HEADER = "Basic ([A-Za-z0-9+/=]+=)";
  
-    protected LoginModel loginModel = new LoginModel();
+    @Inject
+    protected LoginSession loginSession;
     
     @Inject
     protected LoginMethod loginMethod;
@@ -51,7 +53,7 @@ public abstract class SecuredRestController<T> extends AbstractRestController<T>
     
     public LoginModel getLoginModel()
     {
-        return loginModel;
+        return loginSession.getLoginModel();
     }
     
     private boolean isAuthenticated(HttpHeaders headers)

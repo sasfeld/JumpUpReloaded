@@ -30,8 +30,8 @@ import de.htw.fb4.imi.jumpup.trip.restservice.model.SingleTripQueryResult;
 import de.htw.fb4.imi.jumpup.trip.restservice.model.TripQueryNoResults;
 import de.htw.fb4.imi.jumpup.trip.restservice.model.TripQueryResults;
 import de.htw.fb4.imi.jumpup.trip.restservice.model.TripSearchCriteria;
-import de.htw.fb4.imi.jumpup.user.controllers.Login;
 import de.htw.fb4.imi.jumpup.user.entities.User;
+import de.htw.fb4.imi.jumpup.user.login.LoginSession;
 
 /**
  * <p></p>
@@ -53,7 +53,7 @@ public class WebsiteTripQuery implements TripQueryMethod
     protected OverlappingTripsFilter overlappingPartialTripsFilter;
     
     @Inject
-    protected Login loginController;    
+    protected LoginSession loginSession;    
     
     @Inject
     protected Translatable translator;
@@ -195,7 +195,7 @@ public class WebsiteTripQuery implements TripQueryMethod
      */
     private User getCurrentlyLoggedInUser()
     {
-        return loginController.getLoginModel().getCurrentUser();
+        return loginSession.getCurrentUser();
     }
 
     @Override

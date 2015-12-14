@@ -7,7 +7,7 @@ package de.htw.fb4.imi.jumpup.user.controllers;
 
 import java.io.Serializable;
 
-import javax.enterprise.context.SessionScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -19,6 +19,7 @@ import de.htw.fb4.imi.jumpup.navigation.NavigationOutcomes;
 import de.htw.fb4.imi.jumpup.settings.BeanNames;
 import de.htw.fb4.imi.jumpup.user.login.LoginMethod;
 import de.htw.fb4.imi.jumpup.user.login.LoginModel;
+import de.htw.fb4.imi.jumpup.user.login.LoginSession;
 import de.htw.fb4.imi.jumpup.util.Gender;
 
 /**
@@ -27,17 +28,13 @@ import de.htw.fb4.imi.jumpup.util.Gender;
  * authenticated.
  * </p>
  * 
- * <p>
- * It is sessionscoped, so that you can access it from everywhere to get the
- * current logged in user.
- * </p>
  * 
  * @author <a href="mailto:me@saschafeldmann.de">Sascha Feldmann</a>
  * @since 27.11.2014
  * 
  */
 @Named(value = BeanNames.LOGIN_CONTROLLER)
-@SessionScoped
+@RequestScoped
 public class Login extends AbstractFacesController implements Serializable
 {
     /**
@@ -45,13 +42,14 @@ public class Login extends AbstractFacesController implements Serializable
      */
     private static final long serialVersionUID = 6762395393648784704L;
 
-    protected LoginModel loginModel = new LoginModel();
-
     @Inject
     protected LoginMethod loginMethod;
     
     @Inject
     protected NavigationBean navigationBean;
+    
+    @Inject
+    protected LoginSession loginSession;
 
     protected String pathToApp;
     
@@ -74,8 +72,7 @@ public class Login extends AbstractFacesController implements Serializable
      */
     public LoginModel getLoginModel()
     {
-
-        return loginModel;
+        return loginSession.getLoginModel();
     }
 
     /**
@@ -162,7 +159,7 @@ public class Login extends AbstractFacesController implements Serializable
     {
         StringBuilder builder = new StringBuilder();
         builder.append("Login [loginModel=");
-        builder.append(loginModel);
+        builder.append(loginSession);
         builder.append(", loginMethod=");
         builder.append(loginMethod);
         builder.append("]");

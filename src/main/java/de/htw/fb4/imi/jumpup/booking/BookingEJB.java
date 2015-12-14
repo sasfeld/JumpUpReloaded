@@ -33,15 +33,15 @@ import de.htw.fb4.imi.jumpup.trip.restservice.model.TripSearchCriteria;
 import de.htw.fb4.imi.jumpup.trip.util.ConfigReader;
 import de.htw.fb4.imi.jumpup.trip.util.TripAndBookingsConfigKeys;
 import de.htw.fb4.imi.jumpup.user.Role;
-import de.htw.fb4.imi.jumpup.user.controllers.Login;
 import de.htw.fb4.imi.jumpup.user.entities.User;
+import de.htw.fb4.imi.jumpup.user.login.LoginSession;
 import de.htw.fb4.imi.jumpup.util.FileUtil;
 
 @Stateless(name = BeanNames.BOOKING_EJB)
 public class BookingEJB implements BookingMethod
 {
     @Inject
-    private Login loginController;
+    private LoginSession loginSession;
 
     @Inject
     protected QueryResultFactory queryResultFactory;
@@ -156,7 +156,7 @@ public class BookingEJB implements BookingMethod
 
     protected User getCurrentUser()
     {
-        return loginController.getLoginModel().getCurrentUser();
+        return loginSession.getCurrentUser();
     }
 
     @Override

@@ -18,7 +18,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import de.htw.fb4.imi.jumpup.navigation.NavigationBean;
-import de.htw.fb4.imi.jumpup.user.controllers.Login;
 
 /**
  * <p>Filter to check whether the user filled out the mandatory profile fields.</p>
@@ -31,7 +30,7 @@ public class ProfileNotCompletedFilter implements Filter
 {
     
     @Inject
-    protected Login loginController;
+    protected LoginSession loginSession;
     
     @Inject
     protected NavigationBean navigationBean;
@@ -61,10 +60,10 @@ public class ProfileNotCompletedFilter implements Filter
         
         // check if user is new or has an incomplete profile
         if (!requestUrl.contains(editProfilePath)
-                && null != loginController 
-                && loginController.getLoginModel().getIsLoggedIn()
-                && null != loginController.getLoginModel().getCurrentUser() 
-                && loginBean.isNew(loginController.getLoginModel())) {
+                && null != loginSession 
+                && loginSession.getLoginModel().getIsLoggedIn()
+                && null != loginSession.getLoginModel().getCurrentUser() 
+                && loginBean.isNew(loginSession.getLoginModel())) {
             
             ((HttpServletResponse) response).sendRedirect(contextPath + "/" + editProfilePath);
         } else {

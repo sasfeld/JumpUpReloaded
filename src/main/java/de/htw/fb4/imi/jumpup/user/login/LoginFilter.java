@@ -17,7 +17,6 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import de.htw.fb4.imi.jumpup.user.controllers.Login;
 import de.htw.fb4.imi.jumpup.user.entities.User;
 
 /**
@@ -35,7 +34,7 @@ public class LoginFilter implements Filter
     private static final String LOGIN_PAGE = "";
     
     @Inject
-    protected Login loginController;
+    protected LoginSession loginSession;
 
     /* (non-Javadoc)
      * @see javax.servlet.Filter#init(javax.servlet.FilterConfig)
@@ -54,7 +53,7 @@ public class LoginFilter implements Filter
             FilterChain chain) throws IOException, ServletException
     {        
         // check isLoggedIn flag. it should be set in the session
-        if (null == loginController || !loginController.getLoginModel().getIsLoggedIn()) {
+        if (null == loginSession || !loginSession.getLoginModel().getIsLoggedIn()) {
             String contextPath = ((HttpServletRequest) request).getContextPath();
             
             ((HttpServletResponse) response).sendRedirect(contextPath + "/" + LOGIN_PAGE);

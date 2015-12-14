@@ -22,7 +22,7 @@ import de.htw.fb4.imi.jumpup.settings.BeanNames;
 import de.htw.fb4.imi.jumpup.trip.TripDAO;
 import de.htw.fb4.imi.jumpup.trip.entities.Trip;
 import de.htw.fb4.imi.jumpup.user.Role;
-import de.htw.fb4.imi.jumpup.user.controllers.Login;
+import de.htw.fb4.imi.jumpup.user.login.LoginSession;
 import de.htw.fb4.imi.jumpup.util.Gender;
 
 /**
@@ -57,7 +57,7 @@ public class BookingController extends AbstractFacesController implements
     private BookingDAO bookingDAO;
     
     @Inject
-    private Login loginController;
+    private LoginSession loginSession;
     
     @Inject
     protected NavigationBean navigationBean;
@@ -155,7 +155,7 @@ public class BookingController extends AbstractFacesController implements
     {
         Booking booking = getBooking();
         
-        long currentId = this.loginController.getLoginModel().getCurrentUser().getIdentity();
+        long currentId = this.loginSession.getCurrentUser().getIdentity();
         return currentId == booking.getPassenger().getIdentity();
     }
 
@@ -163,7 +163,7 @@ public class BookingController extends AbstractFacesController implements
     {
         getBooking();
         
-        long currentId = this.loginController.getLoginModel().getCurrentUser().getIdentity();
+        long currentId = this.loginSession.getCurrentUser().getIdentity();
         
         return currentId
                 == this.getTrip().getDriver().getIdentity();

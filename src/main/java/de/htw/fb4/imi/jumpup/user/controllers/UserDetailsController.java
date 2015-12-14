@@ -14,6 +14,7 @@ import de.htw.fb4.imi.jumpup.settings.BeanNames;
 import de.htw.fb4.imi.jumpup.user.details.UserDetailsMethod;
 import de.htw.fb4.imi.jumpup.user.entities.User;
 import de.htw.fb4.imi.jumpup.user.entities.UserDetails;
+import de.htw.fb4.imi.jumpup.user.login.LoginSession;
 import de.htw.fb4.imi.jumpup.util.Gender;
 import de.htw.fb4.imi.jumpup.util.Languages;
 
@@ -36,7 +37,8 @@ public class UserDetailsController extends AbstractFacesController implements
     private static final long serialVersionUID = 39062452564614352L;
 
     @Inject
-    protected Login loginController;
+    protected LoginSession loginSession;
+    
     @Inject
     protected UserDetailsMethod userDetailsMethod;
     protected UserDetails newUserDetails = new UserDetails();
@@ -51,7 +53,7 @@ public class UserDetailsController extends AbstractFacesController implements
     public UserDetails getUserDetails()
     {
 
-        User currentUser = loginController.getLoginModel().getCurrentUser();
+        User currentUser = loginSession.getCurrentUser();
         Application.log("UserDetailsContoller: current user " + currentUser,
                 LogType.DEBUG, getClass());
 
@@ -123,7 +125,7 @@ public class UserDetailsController extends AbstractFacesController implements
                 }
             } else {
                 // set current user details in session
-                this.loginController.getLoginModel().getCurrentUser()
+                this.loginSession.getCurrentUser()
                         .setUserDetails(getUserDetails());
                 addDisplayInfoMessage("Your given information have been saved.");
             }
@@ -139,7 +141,6 @@ public class UserDetailsController extends AbstractFacesController implements
 
     protected UserDetailsMethod getUserDetailsMethod()
     {
-        userDetailsMethod.setLoginModel(loginController.getLoginModel());
         return userDetailsMethod;
     }
 

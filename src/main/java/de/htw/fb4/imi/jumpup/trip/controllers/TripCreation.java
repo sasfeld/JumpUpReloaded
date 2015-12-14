@@ -23,7 +23,7 @@ import de.htw.fb4.imi.jumpup.settings.PersistenceSettings;
 import de.htw.fb4.imi.jumpup.trip.creation.TripManagementMethod;
 import de.htw.fb4.imi.jumpup.trip.entities.Trip;
 import de.htw.fb4.imi.jumpup.trip.util.ConfigReader;
-import de.htw.fb4.imi.jumpup.user.controllers.Login;
+import de.htw.fb4.imi.jumpup.user.login.LoginSession;
 
 /**
  * <p></p>
@@ -44,7 +44,7 @@ public class TripCreation extends AbstractFacesController
     protected EntityManagerFactory entityManagerFactory;
     
     @Inject
-    protected Login loginController;
+    protected LoginSession loginSession;
     
     @EJB(beanName = BeanNames.TRIP_CONFIG_READER)
     protected ConfigReader tripConfigReader;    
@@ -56,8 +56,6 @@ public class TripCreation extends AbstractFacesController
     
     private TripManagementMethod getTripManagementMethod()
     {
-        this.tripManagementMethod.setLoginModel(loginController.getLoginModel());
-        
         return this.tripManagementMethod;
     }
 
@@ -101,7 +99,7 @@ public class TripCreation extends AbstractFacesController
                 
                 // ensure that the trip belongs to the logged-in customer
                 if (this.tripDoesNotBelongToLoggedInCustomer(trip)) {
-                    Application.log("TripCreation: the customer " + loginController.getLoginModel().getCurrentUser().getIdentity() 
+                    Application.log("TripCreation: the customer " + loginSession.getCurrentUser().getIdentity() 
                             + " tried to manipulate a trip that doesn't belong to him. Trip ID: " + trip.getIdentity(), LogType.CRITICAL, getClass());
                     this.trip = null;
                 }
@@ -121,7 +119,7 @@ public class TripCreation extends AbstractFacesController
     
     private boolean tripDoesNotBelongToLoggedInCustomer(Trip trip)
     {
-        return !(loginController.getLoginModel().getCurrentUser().getIdentity()
+        return !(loginSession.getCurrentUser().getIdentity()
                 == trip.getDriver().getIdentity());
     }
 

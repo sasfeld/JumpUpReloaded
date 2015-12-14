@@ -3,7 +3,6 @@ package de.htw.fb4.imi.jumpup.user.details;
 import javax.ejb.Local;
 
 import de.htw.fb4.imi.jumpup.user.entities.UserDetails;
-import de.htw.fb4.imi.jumpup.user.export.ILoginDependent;
 import de.htw.fb4.imi.jumpup.util.ErrorPrintable;
 
 /**
@@ -18,7 +17,7 @@ import de.htw.fb4.imi.jumpup.util.ErrorPrintable;
  * 
  */
 @Local
-public interface UserDetailsMethod extends ErrorPrintable, ILoginDependent
+public interface UserDetailsMethod extends ErrorPrintable
 {
 
     /**

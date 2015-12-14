@@ -32,7 +32,7 @@ import de.htw.fb4.imi.jumpup.util.ErrorPrintable;
  * @since 25.11.2015
  *
  */
-public abstract class AbstractRestController<T> implements IGet, IPost<T>, IPut<T>, IDelete, IOptions
+public abstract class AbstractRestController<T extends AbstractRestModel> implements IGet, IPost<T>, IPut<T>, IDelete, IOptions
 {
     @Inject
     protected IResponseEntityBuilder responseEntityBuilder;

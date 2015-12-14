@@ -55,9 +55,7 @@ public class BaseController extends SecuredRestController<TripWebServiceModel>
     protected TripEntityMapper entityMapper = new TripEntityMapper();
 
     private TripManagementMethod getTripManagementMethod()
-    {
-        this.tripManagement.setLoginModel(getLoginModel());
-        
+    {  
         return this.tripManagement;
     }
     

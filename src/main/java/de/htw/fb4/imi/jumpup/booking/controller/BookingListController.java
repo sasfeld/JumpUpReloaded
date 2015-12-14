@@ -18,7 +18,7 @@ import de.htw.fb4.imi.jumpup.booking.BookingDAO;
 import de.htw.fb4.imi.jumpup.booking.entities.Booking;
 import de.htw.fb4.imi.jumpup.controllers.AbstractFacesController;
 import de.htw.fb4.imi.jumpup.settings.BeanNames;
-import de.htw.fb4.imi.jumpup.user.controllers.Login;
+import de.htw.fb4.imi.jumpup.user.login.LoginSession;
 
 /**
  * <p>Controller for passenger's booked trips.</p>
@@ -40,7 +40,7 @@ public class BookingListController extends AbstractFacesController implements Se
     protected BookingDAO bookingDAO;
     
     @Inject
-    protected Login loginController;
+    protected LoginSession loginSession;
     
     protected List<Booking> passengerBookings;
 
@@ -63,12 +63,6 @@ public class BookingListController extends AbstractFacesController implements Se
      */
     public void refresh()
     {
-        this.passengerBookings = this.bookingDAO.getBookingsByPassenger(loginController.getLoginModel().getCurrentUser());
+        this.passengerBookings = this.bookingDAO.getBookingsByPassenger(loginSession.getCurrentUser());
     }
-
-    
-    
-    
-    
-
 }

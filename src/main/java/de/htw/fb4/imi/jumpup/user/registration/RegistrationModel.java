@@ -13,6 +13,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 import de.htw.fb4.imi.jumpup.ApplicationError;
 import de.htw.fb4.imi.jumpup.navigation.NavigationBean;
+import de.htw.fb4.imi.jumpup.rest.AbstractRestModel;
 import de.htw.fb4.imi.jumpup.user.entities.User;
 import de.htw.fb4.imi.jumpup.user.util.HashGenerable;
 
@@ -25,7 +26,7 @@ import de.htw.fb4.imi.jumpup.user.util.HashGenerable;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.PROPERTY)
-public class RegistrationModel
+public class RegistrationModel extends AbstractRestModel
 {
     @XmlTransient
     protected HashGenerable hashGenerable;  

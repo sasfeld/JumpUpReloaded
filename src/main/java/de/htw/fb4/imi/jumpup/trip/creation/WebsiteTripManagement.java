@@ -34,8 +34,7 @@ import de.htw.fb4.imi.jumpup.trip.entities.Trip;
 import de.htw.fb4.imi.jumpup.trip.util.ConfigReader;
 import de.htw.fb4.imi.jumpup.trip.util.TripAndBookingsConfigKeys;
 import de.htw.fb4.imi.jumpup.user.entities.User;
-import de.htw.fb4.imi.jumpup.user.export.ILoginDependent;
-import de.htw.fb4.imi.jumpup.user.login.LoginModel;
+import de.htw.fb4.imi.jumpup.user.login.LoginSession;
 import de.htw.fb4.imi.jumpup.util.ErrorPrintable;
 import de.htw.fb4.imi.jumpup.util.FileUtil;
 
@@ -47,7 +46,7 @@ import de.htw.fb4.imi.jumpup.util.FileUtil;
  *
  */
 @Stateless(name = BeanNames.WEBSITE_TRIP_CREATION)
-public class WebsiteTripManagement implements TripManagementMethod, ErrorPrintable, ILoginDependent
+public class WebsiteTripManagement implements TripManagementMethod, ErrorPrintable
 {
     @PersistenceContext(unitName = PersistenceSettings.PERSISTENCE_UNIT)
     protected EntityManager entityManager;
@@ -64,10 +63,10 @@ public class WebsiteTripManagement implements TripManagementMethod, ErrorPrintab
     @EJB(beanName = BeanNames.TRIP_CONFIG_READER)
     protected ConfigReader tripConfigReader;
     
-    protected Set<String> errorMessages;
-
-    private LoginModel loginModel;
+    @Inject
+    protected LoginSession loginSession;
     
+    protected Set<String> errorMessages;    
     
     public WebsiteTripManagement()
     {
@@ -90,11 +89,7 @@ public class WebsiteTripManagement implements TripManagementMethod, ErrorPrintab
      */
     protected User getCurrentUser() throws IllegalStateException
     {
-        if (null == this.loginModel) {
-            throw new IllegalStateException("loginModel was not injected.");
-        }
-        
-        return this.loginModel.getCurrentUser();
+        return this.loginSession.getCurrentUser();
     }
    
     /* (non-Javadoc)
@@ -143,7 +138,7 @@ public class WebsiteTripManagement implements TripManagementMethod, ErrorPrintab
             this.persistTrip(trip);
             this.sendTripAddedMailToDriver(trip);
         } catch ( Exception e ) {
-            Application.log("addTrip(): exception" + e.getMessage(), LogType.ERROR, getClass());
+            Application.log("addTrip(): exception " + e.getMessage(), LogType.ERROR, getClass());
             this.errorMessages.add("We could not add the trip. Please inform our customer care team.");
         }
     }
@@ -312,17 +307,5 @@ public class WebsiteTripManagement implements TripManagementMethod, ErrorPrintab
     private Timestamp getCurrentTimestamp()
     {
         return new Timestamp(new Date().getTime());
-    }
-
-    @Override
-    public LoginModel getLoginModel()
-    {
-       return this.loginModel;
-    }
-
-    @Override
-    public void setLoginModel(LoginModel loginModel)
-    {
-       this.loginModel = loginModel;        
     }
 }

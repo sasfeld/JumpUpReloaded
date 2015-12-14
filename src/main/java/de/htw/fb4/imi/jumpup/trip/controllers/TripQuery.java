@@ -22,8 +22,8 @@ import de.htw.fb4.imi.jumpup.trip.TripDAO;
 import de.htw.fb4.imi.jumpup.trip.entities.Trip;
 import de.htw.fb4.imi.jumpup.trip.query.TripQueryMethod;
 import de.htw.fb4.imi.jumpup.user.Role;
-import de.htw.fb4.imi.jumpup.user.controllers.Login;
 import de.htw.fb4.imi.jumpup.user.entities.User;
+import de.htw.fb4.imi.jumpup.user.login.LoginSession;
 
 /**
  * <p>This controller is responsible for general queries on trips, such as:</p>
@@ -50,7 +50,7 @@ public class TripQuery extends AbstractFacesController implements Serializable
     protected TripQueryMethod tripQueryMethod;
     
     @Inject
-    protected Login loginController;
+    protected LoginSession loginSession;
     
     @Inject
     protected TripDAO tripDAO;
@@ -102,7 +102,7 @@ public class TripQuery extends AbstractFacesController implements Serializable
     public List<Trip> getOfferedTrips()
     {
         try {
-            User loggedInUser = loginController.getLoginModel().getCurrentUser();
+            User loggedInUser = loginSession.getCurrentUser();
                         
             List<Trip> offeredTrips = this.tripDAO.getOfferedTrips(loggedInUser);
             

@@ -9,7 +9,6 @@ import javax.ejb.Local;
 
 import de.htw.fb4.imi.jumpup.trip.entities.Trip;
 import de.htw.fb4.imi.jumpup.user.entities.User;
-import de.htw.fb4.imi.jumpup.user.export.ILoginDependent;
 import de.htw.fb4.imi.jumpup.util.ErrorPrintable;
 
 /**
@@ -26,7 +25,7 @@ import de.htw.fb4.imi.jumpup.util.ErrorPrintable;
  *
  */
 @Local
-public interface TripManagementMethod extends ErrorPrintable, ILoginDependent
+public interface TripManagementMethod extends ErrorPrintable
 {
     
     /**

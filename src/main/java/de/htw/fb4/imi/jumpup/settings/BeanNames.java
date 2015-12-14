@@ -98,5 +98,7 @@ public interface BeanNames
     String WEBSITE_LOGIN = "websiteLogin";
     
     String REGISTRATION_SESSION = "registrationSession";
+    
+    String LOGIN_SESSION = "loginSession";
 
 }
