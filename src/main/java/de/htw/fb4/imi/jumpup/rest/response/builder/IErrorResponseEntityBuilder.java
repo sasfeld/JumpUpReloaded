@@ -7,6 +7,8 @@ package de.htw.fb4.imi.jumpup.rest.response.builder;
 
 import de.htw.fb4.imi.jumpup.rest.controller.BasicRestController;
 import de.htw.fb4.imi.jumpup.rest.response.model.ErrorResponse;
+import de.htw.fb4.imi.jumpup.rest.response.model.ValidationErrorResponse;
+import de.htw.fb4.imi.jumpup.validation.ValidationException;
 
 /**
  * <p></p>
@@ -25,5 +27,7 @@ public interface IErrorResponseEntityBuilder
     ErrorResponse buildMessageFromErrorString(String errorMessage, boolean success);    
     ErrorResponse buildMessageFromErrorArray(String[] errors);
     ErrorResponse buildMessageFromErrorArray(String[] errors, boolean success);
+    
+    ValidationErrorResponse buildMessageFromValidationException(ValidationException e);
 
 }

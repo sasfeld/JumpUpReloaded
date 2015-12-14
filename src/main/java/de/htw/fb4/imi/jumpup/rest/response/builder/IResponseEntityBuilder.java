@@ -18,4 +18,5 @@ import javax.ejb.Local;
 public interface IResponseEntityBuilder extends IErrorResponseEntityBuilder, ISuccessResponseEntityBuilder
 {
 
+
 }

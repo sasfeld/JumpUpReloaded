@@ -9,7 +9,7 @@ import javax.ejb.EJB;
 
 import de.htw.fb4.imi.jumpup.settings.BeanNames;
 import de.htw.fb4.imi.jumpup.trip.util.ConfigReader;
-import de.htw.fb4.imi.jumpup.validator.AbstractValidator;
+import de.htw.fb4.imi.jumpup.validation.validator.AbstractValidator;
 
 /**
  * <p>Abstract validators within for all validators in the trip module.</p>

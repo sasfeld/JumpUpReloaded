@@ -25,6 +25,17 @@ import de.htw.fb4.imi.jumpup.util.Gender;
 @XmlAccessorType(XmlAccessType.PROPERTY)
 public class UserWebServiceModel extends AbstractRestModel
 {
+    public static final String FIELD_NAME_USERNAME = "username";
+    public static final String FIELD_EMAIL = "eMail";
+    public static final String FIELD_PRENAME = "prename";
+    public static final String FIELD_LASTNAME = "lastname";
+    public static final String FIELD_TOWN = "town";
+    public static final String FIELD_COUNTRY = "country";
+    public static final String FIELD_DATE_OF_BIRTH = "dateOfBirth";
+    public static final String FIELD_PLACE_OF_BIRTH = "placeOfBirth";
+    public static final String FIELD_MOBILE_NUMBER = "mobileNumber";
+    public static final String FIELD_SKYPE = "skype";
+    
     protected String username;
     protected String eMail;
     protected String prename;

@@ -104,4 +104,6 @@ public interface BeanNames
     String DATETIME_CONVERTER = "datetimeConverter";
     
     String TRIP_REQUEST = "tripRequest";
+    
+    String USER_ENTITY_MAPPER = "userEntityMapper";
 }

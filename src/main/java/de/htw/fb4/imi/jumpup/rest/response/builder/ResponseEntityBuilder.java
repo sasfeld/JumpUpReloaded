@@ -10,8 +10,10 @@ import javax.inject.Inject;
 
 import de.htw.fb4.imi.jumpup.rest.response.model.ErrorResponse;
 import de.htw.fb4.imi.jumpup.rest.response.model.SuccessResponse;
+import de.htw.fb4.imi.jumpup.rest.response.model.ValidationErrorResponse;
 import de.htw.fb4.imi.jumpup.settings.BeanNames;
 import de.htw.fb4.imi.jumpup.translate.Translatable;
+import de.htw.fb4.imi.jumpup.validation.ValidationException;
 
 /**
  * <p></p>
@@ -99,5 +101,23 @@ public class ResponseEntityBuilder implements IResponseEntityBuilder
         }      
         
         return response;
+    }
+
+    @Override
+    public ValidationErrorResponse buildMessageFromValidationException(ValidationException e)
+    {
+        ValidationErrorResponse response = this.newValidationErrorResponse();
+        response.setFieldName(this.translator.translate(e.getFieldName()));
+        
+        for (String errorMessage : e.getValidationErrorMessages()) {
+            response.addError(this.translator.translate(errorMessage));
+        }
+        
+        return response;
+    }
+
+    private ValidationErrorResponse newValidationErrorResponse()
+    {
+        return new ValidationErrorResponse();
     }
 }

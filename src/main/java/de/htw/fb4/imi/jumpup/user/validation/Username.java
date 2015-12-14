@@ -57,6 +57,7 @@ public class Username extends AbstractUserValidator
             return true;
         }
         
+        this.errorMessages.add("The username you entered contains invalid characters.");        
         return false;
     }
 
@@ -85,6 +86,10 @@ public class Username extends AbstractUserValidator
             return false;
         }
         
+        if (this.isCurrentUsersUsername(username)) {
+            return false;
+        }
+        
         if (null == entityManager) {
            Application.log(getClass() + ":validate(): EntityManager is null. Please check why no entity manager is injected.", LogType.CRITICAL, getClass());
            return false;
@@ -99,6 +104,16 @@ public class Username extends AbstractUserValidator
         }
         
         return false;
+    }
+
+    private boolean isCurrentUsersUsername(String username)
+    {
+        if (null != this.loginSession && null != this.loginSession.getCurrentUser()
+                && this.loginSession.getCurrentUser().getUsername().equals(username)) {
+            return true;
+        }
+        
+        return false;            
     }
 
     /**

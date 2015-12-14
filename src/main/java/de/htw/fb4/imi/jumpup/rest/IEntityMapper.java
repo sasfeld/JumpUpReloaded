@@ -11,6 +11,8 @@ import javax.ejb.Local;
 
 import de.htw.fb4.imi.jumpup.entity.AbstractEntity;
 import de.htw.fb4.imi.jumpup.rest.response.model.AbstractRestModel;
+import de.htw.fb4.imi.jumpup.validation.ValidationException;
+import de.htw.fb4.imi.jumpup.validation.validator.JumpUpValidator;
 
 /**
  * <p>An entity mapper maps an {@link AbstractEntity} to a plain old java object that will be read or sent via web service actions (a {@link AbstractRestModel}).</p>
@@ -40,8 +42,9 @@ public interface IEntityMapper<WebServiceType extends AbstractRestModel, EntityT
      * 
      * @param webServiceModel
      * @return
+     * @throws ValidationException if a validation failed. For validation see {@link JumpUpValidator} implementations.
      */
-    EntityType mapWebServiceModel(WebServiceType webServiceModel);
+    EntityType mapWebServiceModel(WebServiceType webServiceModel) throws ValidationException;
     
     /**
      * Map the given collection of entities to a collection of web service models.

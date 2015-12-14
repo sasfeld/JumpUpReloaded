@@ -63,6 +63,11 @@ public class EMail extends AbstractUserValidator
             return false;
         }
         
+        // check if given eMail matches the current one of the logged in user
+        if (this.isCurrentUsersEmail(eMail)) {
+            return false;
+        }
+        
         if (null == entityManager) {
             throw new ApplicationError(getClass() + ":validate(): EntityManager is null. Please check why no entity manager is injected.", getClass());
         }
@@ -77,6 +82,16 @@ public class EMail extends AbstractUserValidator
          }
          
          return false;
+    }
+
+    private boolean isCurrentUsersEmail(String eMail)
+    {
+        if (null != this.loginSession && null != this.loginSession.getCurrentUser()
+                && this.loginSession.getCurrentUser().geteMail().equals(eMail)) {
+            return true;
+        }
+        
+        return false;
     }
 
     /**

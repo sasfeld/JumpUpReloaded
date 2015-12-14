@@ -26,6 +26,7 @@ import de.htw.fb4.imi.jumpup.user.login.LoginModel;
 import de.htw.fb4.imi.jumpup.user.rest.model.UserEntityMapper;
 import de.htw.fb4.imi.jumpup.user.rest.model.UserWebServiceModel;
 import de.htw.fb4.imi.jumpup.user.util.IMessages;
+import de.htw.fb4.imi.jumpup.validation.ValidationException;
 
 /**
  * <p></p>
@@ -40,7 +41,8 @@ public class SecuredBaseController extends SecuredRestController<UserWebServiceM
     private static final String PATH_PARAM_USER_ID = "userId";
     private static final String ENTITY_NAME = "user";
     
-    protected UserEntityMapper entityMapper = new UserEntityMapper();
+    @Inject
+    protected UserEntityMapper entityMapper;
     
     @Inject
     protected UserDAO userDAO;
@@ -59,9 +61,14 @@ public class SecuredBaseController extends SecuredRestController<UserWebServiceM
             return response;
         }
         
-        User user = entityMapper.mapWebServiceModel(restModel);
-        
-        return this.tryToUpdateUser(entityId, user);      
+        User user;
+        try {
+            user = entityMapper.mapWebServiceModel(restModel);
+            
+            return this.tryToUpdateUser(entityId, user);
+        } catch (ValidationException e) {
+            return this.sendBadRequestResponse(e);
+        }      
     }
 
     private Response tryToUpdateUser(Long entityId, User user)

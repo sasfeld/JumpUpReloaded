@@ -7,10 +7,18 @@ package de.htw.fb4.imi.jumpup.user.rest.model;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
+
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
 
 import de.htw.fb4.imi.jumpup.rest.IEntityMapper;
+import de.htw.fb4.imi.jumpup.settings.BeanNames;
 import de.htw.fb4.imi.jumpup.user.entity.User;
 import de.htw.fb4.imi.jumpup.user.entity.UserDetails;
+import de.htw.fb4.imi.jumpup.validation.ValidationException;
+import de.htw.fb4.imi.jumpup.validation.validator.JumpUpValidator;
 
 /**
  * <p></p>
@@ -19,8 +27,40 @@ import de.htw.fb4.imi.jumpup.user.entity.UserDetails;
  * @since 07.12.2015
  *
  */
+@Named(value = BeanNames.USER_ENTITY_MAPPER)
+@RequestScoped
 public class UserEntityMapper implements IEntityMapper<UserWebServiceModel, User>
 {
+    @Inject @Named(BeanNames.USERNAME_VALIDATOR)    
+    protected JumpUpValidator usernameValidator;
+    
+    @Inject @Named(BeanNames.EMAIL_VALIDATOR)
+    protected JumpUpValidator emailValidator;
+    
+    @Inject @Named(BeanNames.PRENAME_VALIDATOR)
+    protected JumpUpValidator prenameValidator;
+    
+    @Inject @Named(BeanNames.LASTNAME_VALIDATOR)
+    protected JumpUpValidator lastNameValidator;
+    
+    @Inject @Named(BeanNames.TOWN_VALIDATOR)
+    protected JumpUpValidator townValidator;
+    
+    @Inject @Named(BeanNames.COUNTRY_VALIDATOR)
+    protected JumpUpValidator countryValidator;
+    
+    @Inject @Named(BeanNames.DATE_OF_BIRTH)
+    protected JumpUpValidator dateOfBirthValidator;
+    
+    @Inject @Named(BeanNames.PLACE_OF_BIRTH_VALIDATOR)
+    protected JumpUpValidator placeOfBirthValidator;
+    
+    @Inject @Named(BeanNames.MOBILE_NUMBER_VALIDATOR)
+    protected JumpUpValidator mobileNumberValidator;
+    
+    @Inject @Named(BeanNames.SKYPE_VALIDATOR)
+    protected JumpUpValidator skypeValidator;
+    
 
     @Override
     /*
@@ -58,16 +98,28 @@ public class UserEntityMapper implements IEntityMapper<UserWebServiceModel, User
      * (non-Javadoc)
      * @see de.htw.fb4.imi.jumpup.rest.IEntityMapper#mapWebServiceModel(de.htw.fb4.imi.jumpup.rest.AbstractRestModel)
      */
-    public User mapWebServiceModel(UserWebServiceModel webServiceModel)
+    public User mapWebServiceModel(UserWebServiceModel webServiceModel) throws ValidationException
     {
         User entity = new User();
         
+        this.validateUsername(webServiceModel.getUsername());        
         entity.setUsername(webServiceModel.getUsername());
+        
+        this.validateMail(webServiceModel.geteMail());        
         entity.seteMail(webServiceModel.geteMail());
+        
+        this.validatePrename(webServiceModel.getPrename());
         entity.setPrename(webServiceModel.getPrename());
+        
+        this.validateLastname(webServiceModel.getLastname());
         entity.setLastname(webServiceModel.getLastname());
+        
+        this.validateTown(webServiceModel.getTown());
         entity.setTown(webServiceModel.getTown());
+        
+        this.validateCountry(webServiceModel.getCountry());
         entity.setCountry(webServiceModel.getCountry());
+        
         entity.setLocale(webServiceModel.getLocale());
         entity.setIsConfirmed(webServiceModel.getIsConfirmed());
         
@@ -78,14 +130,94 @@ public class UserEntityMapper implements IEntityMapper<UserWebServiceModel, User
             entity.setUserDetails(userDetails);
         }
         
+        this.validateDateOfBirth(webServiceModel.getDateOfBirth());
         userDetails.setDateOfBirth(webServiceModel.getDateOfBirth());
+        
+        this.validatePlaceOfBirth(webServiceModel.getPlaceOfBirth());
         userDetails.setPlaceOfBirth(webServiceModel.getPlaceOfBirth());
+        
         userDetails.setGender(webServiceModel.getGender());
+        
+        this.validateMobileNumber(webServiceModel.getMobileNumber());
         userDetails.setMobileNumber(webServiceModel.getMobileNumber());
+        
+        this.validateSkype(webServiceModel.getSkype());
         userDetails.setSkype(webServiceModel.getSkype());
         
         return entity;
     }
+
+
+    private void validateUsername(String username) throws ValidationException
+    {
+        if (!this.usernameValidator.validate(username)) {
+            throw new ValidationException(UserWebServiceModel.FIELD_NAME_USERNAME, this.usernameValidator.getErrorMessages());
+        }
+    }
+    
+    private void validateMail(String email) throws ValidationException
+    {
+        if (!this.emailValidator.validate(email)) {
+            throw new ValidationException(UserWebServiceModel.FIELD_EMAIL, this.emailValidator.getErrorMessages());
+        }
+    }    
+
+    private void validatePrename(String prename) throws ValidationException
+    {
+        if (!this.prenameValidator.validate(prename)) {
+            throw new ValidationException(UserWebServiceModel.FIELD_PRENAME, this.prenameValidator.getErrorMessages());
+        }
+    }
+    
+    private void validateLastname(String lastname) throws ValidationException
+    {
+        if (!this.lastNameValidator.validate(lastname)) {
+            throw new ValidationException(UserWebServiceModel.FIELD_LASTNAME, this.lastNameValidator.getErrorMessages());
+        }
+    }
+    
+    private void validateTown(String town) throws ValidationException
+    {
+        if (!this.townValidator.validate(town)) {
+            throw new ValidationException(UserWebServiceModel.FIELD_TOWN, this.townValidator.getErrorMessages());
+        }
+    }
+    
+    private void validateCountry(String country) throws ValidationException
+    {
+        if (!this.countryValidator.validate(country)) {
+            throw new ValidationException(UserWebServiceModel.FIELD_COUNTRY, this.countryValidator.getErrorMessages());
+        }
+    }
+    
+    private void validateDateOfBirth(Date dateOfBirth) throws ValidationException
+    {
+        if (!this.dateOfBirthValidator.validate(dateOfBirth)) {
+            throw new ValidationException(UserWebServiceModel.FIELD_DATE_OF_BIRTH, this.dateOfBirthValidator.getErrorMessages());
+        }
+    }
+    
+    private void validatePlaceOfBirth(String placeOfBirth) throws ValidationException
+    {
+        if (!this.placeOfBirthValidator.validate(placeOfBirth)) {
+            throw new ValidationException(UserWebServiceModel.FIELD_PLACE_OF_BIRTH, this.placeOfBirthValidator.getErrorMessages());
+        }
+    }
+    
+    private void validateMobileNumber(String mobileNumber) throws ValidationException
+    {
+        if (!this.mobileNumberValidator.validate(mobileNumber)) {
+            throw new ValidationException(UserWebServiceModel.FIELD_MOBILE_NUMBER, this.mobileNumberValidator.getErrorMessages());
+        }
+    }
+    
+    private void validateSkype(String skype) throws ValidationException
+    {
+        if (!this.skypeValidator.validate(skype)) {
+            throw new ValidationException(UserWebServiceModel.FIELD_SKYPE, this.skypeValidator.getErrorMessages());
+        }
+    }
+
 
     @Override
     /*

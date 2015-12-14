@@ -29,6 +29,7 @@ import de.htw.fb4.imi.jumpup.rest.response.builder.ISuccessResponseEntityBuilder
 import de.htw.fb4.imi.jumpup.rest.response.model.AbstractRestModel;
 import de.htw.fb4.imi.jumpup.translate.Translatable;
 import de.htw.fb4.imi.jumpup.util.ErrorPrintable;
+import de.htw.fb4.imi.jumpup.validation.ValidationException;
 
 /**
  * <p></p>
@@ -187,11 +188,19 @@ public abstract class AbstractRestController<T extends AbstractRestModel> implem
                 .entity(this.responseEntityBuilder.buildMessageFromErrorString(errorMessage))
                 .type(MediaType.APPLICATION_JSON)
                 .build();
-    }
-    
+    }    
 
     protected Response sendInternalServerErrorResponse(ApplicationUserException tripCreationException)
     {
         return this.sendInternalErrorResponse(tripCreationException.getUserMsg());
+    }
+    
+    protected Response sendBadRequestResponse(ValidationException e)
+    {
+        return Response
+                .status(Status.BAD_REQUEST)
+                .entity(this.responseEntityBuilder.buildMessageFromValidationException(e))
+                .type(MediaType.APPLICATION_JSON)
+                .build();
     }
 }

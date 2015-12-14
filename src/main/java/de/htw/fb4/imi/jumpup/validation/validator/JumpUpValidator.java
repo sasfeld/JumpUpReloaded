@@ -3,7 +3,11 @@
  *
  * Copyright (c) 2014 Sebastian Renner, Marco Seidler, Sascha Feldmann
  */
-package de.htw.fb4.imi.jumpup.validator;
+package de.htw.fb4.imi.jumpup.validation.validator;
+
+import java.util.Set;
+
+import javax.ejb.Local;
 
 /**
  * <p>Simple validator interface.</p>
@@ -12,6 +16,7 @@ package de.htw.fb4.imi.jumpup.validator;
  * @since 24.11.2014
  *
  */
+@Local
 public interface JumpUpValidator
 {
     /**
@@ -46,4 +51,10 @@ public interface JumpUpValidator
      * @return
      */
     String getFrontendValidationPattern();
+
+    /**
+     * <p>Get the validation error messages. You should only call this message if validate() returned false.</p>
+     * @return
+     */
+    Set<String> getErrorMessages();
 }

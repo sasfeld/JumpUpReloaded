@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2014 Sebastian Renner, Marco Seidler, Sascha Feldmann
  */
-package de.htw.fb4.imi.jumpup.validator;
+package de.htw.fb4.imi.jumpup.validation.validator;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -107,5 +107,11 @@ public abstract class AbstractValidator implements Validator, JumpUpValidator
     {
         // the default validation pattern is the minimum and maximum string length.
         return ".{" + this.getMinLength() + "," + this.getMaxLength() + "}";
+    }
+    
+    @Override
+    public Set<String> getErrorMessages()
+    {
+        return errorMessages;
     }
 }
