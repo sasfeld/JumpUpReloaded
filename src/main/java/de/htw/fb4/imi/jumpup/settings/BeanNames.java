@@ -102,5 +102,6 @@ public interface BeanNames
     String LOGIN_SESSION = "loginSession";
     
     String DATETIME_CONVERTER = "datetimeConverter";
-
+    
+    String TRIP_REQUEST = "tripRequest";
 }

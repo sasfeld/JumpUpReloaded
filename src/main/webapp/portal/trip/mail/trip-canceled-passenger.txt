@@ -1,6 +1,6 @@
 #{translator.translate('Your trip was cancelled')}
 
-#{translator.translate('Hello ')} #{loginController.loginModel.currentUser.prename}! 
+#{translator.translate('Hello ')} #{loginSession.currentUser.prename}! 
 
 #{translator.translate('We are sending this e-mail to confirm the trip that your trip was canceled.')}
 #{translator.translate('The driver cancelled all bookings on his planned trip.')}
@@ -9,14 +9,14 @@
 
 -------------------------------------
 
-#{translator.translate('Start location')}: #{tripCreationController.trip.startpoint}
-#{translator.translate('End location')}: #{tripCreationController.trip.endpoint}
+#{translator.translate('Start location')}: #{tripRequest.trip.startpoint}
+#{translator.translate('End location')}: #{tripRequest.trip.endpoint}
 
-#{translator.translate('Departure date')}: #{localeHelper.formatDate(tripCreationController.trip.startDateTime)}
--> #{translator.translate('Time')}: #{localeHelper.formatTime(tripCreationController.trip.startDateTime)}
+#{translator.translate('Departure date')}: #{localeHelper.formatDate(tripRequest.trip.startDateTime)}
+-> #{translator.translate('Time')}: #{localeHelper.formatTime(tripRequest.trip.startDateTime)}
 
-#{translator.translate('Estimated arrival date')}: #{localeHelper.formatDate(tripCreationController.trip.endDateTime)}
--> #{translator.translate('Time')}: #{localeHelper.formatTime(tripCreationController.trip.endDateTime)}
+#{translator.translate('Estimated arrival date')}: #{localeHelper.formatDate(tripRequest.trip.endDateTime)}
+-> #{translator.translate('Time')}: #{localeHelper.formatTime(tripRequest.trip.endDateTime)}
 
 -------------------------------------
 

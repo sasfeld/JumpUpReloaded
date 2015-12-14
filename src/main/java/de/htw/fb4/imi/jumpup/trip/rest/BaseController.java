@@ -28,13 +28,14 @@ import javax.ws.rs.core.Response;
 import de.htw.fb4.imi.jumpup.Application;
 import de.htw.fb4.imi.jumpup.ApplicationUserException;
 import de.htw.fb4.imi.jumpup.Application.LogType;
-import de.htw.fb4.imi.jumpup.rest.BasicRestController;
-import de.htw.fb4.imi.jumpup.rest.SecuredRestController;
+import de.htw.fb4.imi.jumpup.rest.controller.BasicRestController;
+import de.htw.fb4.imi.jumpup.rest.controller.SecuredRestController;
 import de.htw.fb4.imi.jumpup.trip.TripDAO;
+import de.htw.fb4.imi.jumpup.trip.TripRequest;
 import de.htw.fb4.imi.jumpup.trip.creation.TripManagementMethod;
-import de.htw.fb4.imi.jumpup.trip.entities.Trip;
-import de.htw.fb4.imi.jumpup.trip.rest.models.TripEntityMapper;
-import de.htw.fb4.imi.jumpup.trip.rest.models.TripWebServiceModel;
+import de.htw.fb4.imi.jumpup.trip.entity.Trip;
+import de.htw.fb4.imi.jumpup.trip.rest.model.TripEntityMapper;
+import de.htw.fb4.imi.jumpup.trip.rest.model.TripWebServiceModel;
 import de.htw.fb4.imi.jumpup.trip.util.IMessages;
 
 /**
@@ -53,7 +54,10 @@ public class BaseController extends SecuredRestController<TripWebServiceModel>
     protected TripDAO tripDAO;
     
     @Inject
-    protected TripManagementMethod tripManagement;   
+    protected TripManagementMethod tripManagement; 
+    
+    @Inject
+    protected TripRequest tripRequest;
     
     protected TripEntityMapper entityMapper = new TripEntityMapper();
 
@@ -137,6 +141,7 @@ public class BaseController extends SecuredRestController<TripWebServiceModel>
         TripManagementMethod tripManagementMethod = this.getTripManagementMethod();       
         
         try {            
+            tripRequest.setTrip(trip);
             tripManagementMethod.addTrip(trip);
             
             try {
@@ -196,6 +201,7 @@ public class BaseController extends SecuredRestController<TripWebServiceModel>
             // authorized -> update trip
             trip.setIdentity(loadedTrip.getIdentity());
             TripManagementMethod tripManagementMethod = this.getTripManagementMethod();
+            tripRequest.setTrip(trip);
             
             try {
               tripManagementMethod.changeTrip(trip);
@@ -247,6 +253,7 @@ public class BaseController extends SecuredRestController<TripWebServiceModel>
             
             // try to cancel trip
             TripManagementMethod tripManagementMethod = this.getTripManagementMethod();
+            tripRequest.setTrip(trip);
             
             try {
                 tripManagementMethod.cancelTrip(trip);

@@ -7,9 +7,9 @@ package de.htw.fb4.imi.jumpup.booking;
 
 import javax.ejb.Local;
 
-import de.htw.fb4.imi.jumpup.booking.entities.Booking;
-import de.htw.fb4.imi.jumpup.trip.entities.Trip;
-import de.htw.fb4.imi.jumpup.user.entities.User;
+import de.htw.fb4.imi.jumpup.booking.entity.Booking;
+import de.htw.fb4.imi.jumpup.trip.entity.Trip;
+import de.htw.fb4.imi.jumpup.user.entity.User;
 import de.htw.fb4.imi.jumpup.util.ErrorPrintable;
 
 /**

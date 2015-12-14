@@ -12,7 +12,7 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
-import de.htw.fb4.imi.jumpup.entities.AbstractEntity;
+import de.htw.fb4.imi.jumpup.entity.AbstractEntity;
 
 
 

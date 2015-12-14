@@ -13,8 +13,8 @@ import javax.xml.bind.annotation.XmlTransient;
 
 import de.htw.fb4.imi.jumpup.ApplicationError;
 import de.htw.fb4.imi.jumpup.navigation.NavigationBean;
-import de.htw.fb4.imi.jumpup.rest.AbstractRestModel;
-import de.htw.fb4.imi.jumpup.user.entities.User;
+import de.htw.fb4.imi.jumpup.rest.response.model.AbstractRestModel;
+import de.htw.fb4.imi.jumpup.user.entity.User;
 import de.htw.fb4.imi.jumpup.user.util.HashGenerable;
 
 /**

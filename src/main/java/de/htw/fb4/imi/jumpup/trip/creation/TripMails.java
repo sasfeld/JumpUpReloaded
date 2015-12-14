@@ -6,7 +6,7 @@
 package de.htw.fb4.imi.jumpup.trip.creation;
 
 import de.htw.fb4.imi.jumpup.ApplicationUserException;
-import de.htw.fb4.imi.jumpup.trip.entities.Trip;
+import de.htw.fb4.imi.jumpup.trip.entity.Trip;
 
 /**
  * <p>Interface for all mails that can be sent on Trip operations.</p>

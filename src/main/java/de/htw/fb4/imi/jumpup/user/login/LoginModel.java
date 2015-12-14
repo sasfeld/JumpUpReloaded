@@ -5,8 +5,8 @@
  */
 package de.htw.fb4.imi.jumpup.user.login;
 
-import de.htw.fb4.imi.jumpup.user.controllers.Login;
-import de.htw.fb4.imi.jumpup.user.entities.User;
+import de.htw.fb4.imi.jumpup.user.controller.Login;
+import de.htw.fb4.imi.jumpup.user.entity.User;
 
 /**
  * <p>Simple Login data object.</p>

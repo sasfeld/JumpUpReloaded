@@ -9,7 +9,8 @@ import java.util.Collection;
 
 import javax.ejb.Local;
 
-import de.htw.fb4.imi.jumpup.entities.AbstractEntity;
+import de.htw.fb4.imi.jumpup.entity.AbstractEntity;
+import de.htw.fb4.imi.jumpup.rest.response.model.AbstractRestModel;
 
 /**
  * <p>An entity mapper maps an {@link AbstractEntity} to a plain old java object that will be read or sent via web service actions (a {@link AbstractRestModel}).</p>

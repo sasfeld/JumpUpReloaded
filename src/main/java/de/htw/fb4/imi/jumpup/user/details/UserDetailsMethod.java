@@ -2,7 +2,7 @@ package de.htw.fb4.imi.jumpup.user.details;
 
 import javax.ejb.Local;
 
-import de.htw.fb4.imi.jumpup.user.entities.UserDetails;
+import de.htw.fb4.imi.jumpup.user.entity.UserDetails;
 import de.htw.fb4.imi.jumpup.util.ErrorPrintable;
 
 /**

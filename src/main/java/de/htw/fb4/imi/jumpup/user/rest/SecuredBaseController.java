@@ -18,12 +18,12 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import de.htw.fb4.imi.jumpup.rest.SecuredRestController;
+import de.htw.fb4.imi.jumpup.rest.controller.SecuredRestController;
 import de.htw.fb4.imi.jumpup.user.UserDAO;
 import de.htw.fb4.imi.jumpup.user.details.UserDetailsMethod;
-import de.htw.fb4.imi.jumpup.user.entities.User;
-import de.htw.fb4.imi.jumpup.user.rest.models.UserEntityMapper;
-import de.htw.fb4.imi.jumpup.user.rest.models.UserWebServiceModel;
+import de.htw.fb4.imi.jumpup.user.entity.User;
+import de.htw.fb4.imi.jumpup.user.rest.model.UserEntityMapper;
+import de.htw.fb4.imi.jumpup.user.rest.model.UserWebServiceModel;
 import de.htw.fb4.imi.jumpup.user.util.IMessages;
 
 /**

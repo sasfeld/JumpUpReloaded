@@ -7,7 +7,7 @@ package de.htw.fb4.imi.jumpup.user;
 
 import javax.ejb.Local;
 
-import de.htw.fb4.imi.jumpup.user.entities.User;
+import de.htw.fb4.imi.jumpup.user.entity.User;
 
 /**
  * <p>Data access object definition to work with {@link User} entities.</p>

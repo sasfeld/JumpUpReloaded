@@ -8,7 +8,7 @@ package de.htw.fb4.imi.jumpup.rest.methods;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 
-import de.htw.fb4.imi.jumpup.rest.AbstractRestModel;
+import de.htw.fb4.imi.jumpup.rest.response.model.AbstractRestModel;
 
 /**
  * <p></p>

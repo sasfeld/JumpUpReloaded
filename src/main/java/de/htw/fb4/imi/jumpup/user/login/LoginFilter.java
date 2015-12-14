@@ -17,7 +17,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import de.htw.fb4.imi.jumpup.user.entities.User;
+import de.htw.fb4.imi.jumpup.user.entity.User;
 
 /**
  * <p>The LoginFilter checks incoming requests for a LogInController that has an authentificated {@link User}.</p>

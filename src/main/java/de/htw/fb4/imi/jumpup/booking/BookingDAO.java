@@ -9,9 +9,9 @@ import java.util.List;
 
 import javax.ejb.Local;
 
-import de.htw.fb4.imi.jumpup.booking.entities.Booking;
-import de.htw.fb4.imi.jumpup.trip.entities.Trip;
-import de.htw.fb4.imi.jumpup.user.entities.User;
+import de.htw.fb4.imi.jumpup.booking.entity.Booking;
+import de.htw.fb4.imi.jumpup.trip.entity.Trip;
+import de.htw.fb4.imi.jumpup.user.entity.User;
 
 /**
  * <p>Data access object class for performing {@link Booking} database operations.</p>

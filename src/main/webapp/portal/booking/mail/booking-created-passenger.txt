@@ -1,4 +1,4 @@
-#{translator.translate('Hello')} #{loginController.loginModel.currentUser.prename},
+#{translator.translate('Hello')} #{loginSession.currentUser.prename},
 
 #{translator.translate('your booking request was sent to the driver')}! 
 

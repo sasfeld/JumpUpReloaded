@@ -11,7 +11,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import de.htw.fb4.imi.jumpup.trip.entities.Trip;
+import de.htw.fb4.imi.jumpup.trip.entity.Trip;
 import de.htw.fb4.imi.jumpup.trip.graph.Edge;
 import de.htw.fb4.imi.jumpup.trip.graph.Graph;
 import de.htw.fb4.imi.jumpup.trip.graph.Path;

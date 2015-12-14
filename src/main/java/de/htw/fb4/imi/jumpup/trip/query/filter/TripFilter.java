@@ -9,7 +9,7 @@ import java.util.List;
 
 import javax.ejb.Local;
 
-import de.htw.fb4.imi.jumpup.trip.entities.Trip;
+import de.htw.fb4.imi.jumpup.trip.entity.Trip;
 import de.htw.fb4.imi.jumpup.trip.graph.Path;
 import de.htw.fb4.imi.jumpup.trip.graph.shortest.PathNotFoundException;
 import de.htw.fb4.imi.jumpup.trip.restservice.model.TripSearchCriteria;

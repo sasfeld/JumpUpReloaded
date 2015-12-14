@@ -5,8 +5,8 @@
  */
 package de.htw.fb4.imi.jumpup.user;
 
-import de.htw.fb4.imi.jumpup.booking.entities.Booking;
-import de.htw.fb4.imi.jumpup.user.entities.User;
+import de.htw.fb4.imi.jumpup.booking.entity.Booking;
+import de.htw.fb4.imi.jumpup.user.entity.User;
 
 /**
  * <p>Enumeration to characterize a {@link User}'s role in different situations, such as booking a trip (-> passenger) or offering a trip (-> driver).</p>

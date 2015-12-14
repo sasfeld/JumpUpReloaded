@@ -29,10 +29,10 @@ import de.htw.fb4.imi.jumpup.mail.builder.MailBuilder;
 import de.htw.fb4.imi.jumpup.settings.BeanNames;
 import de.htw.fb4.imi.jumpup.settings.PersistenceSettings;
 import de.htw.fb4.imi.jumpup.translate.Translatable;
-import de.htw.fb4.imi.jumpup.trip.entities.Trip;
+import de.htw.fb4.imi.jumpup.trip.entity.Trip;
 import de.htw.fb4.imi.jumpup.trip.util.ConfigReader;
 import de.htw.fb4.imi.jumpup.trip.util.TripAndBookingsConfigKeys;
-import de.htw.fb4.imi.jumpup.user.entities.User;
+import de.htw.fb4.imi.jumpup.user.entity.User;
 import de.htw.fb4.imi.jumpup.user.login.LoginSession;
 import de.htw.fb4.imi.jumpup.util.FileUtil;
 
@@ -177,8 +177,6 @@ public class WebsiteTripManagement implements TripManagementMethod, TripMails
         
         try {
             this.updateTrip(trip);
-            this.sendTripUpdatedMailToDriver(trip);
-            this.sendTripUpdatedMailToPassengers(trip);
         } catch ( Exception e ) {            
             throw new ApplicationUserException("changeTrip(): exception" + e.getMessage(), "We could not change the trip. Please inform our customer care team.");
         }
@@ -236,8 +234,6 @@ public class WebsiteTripManagement implements TripManagementMethod, TripMails
         
         try {
             this.softDeleteTrip(trip);
-            this.sendTripCanceledMailToDriver(trip);
-            this.sendTripCanceledMailToPassengers(trip);
         } catch ( Exception e ) {
             throw new ApplicationUserException("cancelTrip(): exception" + e.getMessage(), "We could not cancel the trip. Please inform our customer care team.");    
         }

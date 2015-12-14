@@ -2,7 +2,7 @@ package de.htw.fb4.imi.jumpup.util;
 
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
-import de.htw.fb4.imi.jumpup.entities.AbstractEntity;
+import de.htw.fb4.imi.jumpup.entity.AbstractEntity;
 
 
 

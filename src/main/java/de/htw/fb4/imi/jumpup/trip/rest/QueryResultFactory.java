@@ -11,21 +11,21 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
-import de.htw.fb4.imi.jumpup.booking.entities.Booking;
+import de.htw.fb4.imi.jumpup.booking.entity.Booking;
 import de.htw.fb4.imi.jumpup.navigation.NavigationBean;
 import de.htw.fb4.imi.jumpup.settings.BeanNames;
 import de.htw.fb4.imi.jumpup.translate.Translatable;
-import de.htw.fb4.imi.jumpup.trip.entities.Trip;
+import de.htw.fb4.imi.jumpup.trip.entity.Trip;
 import de.htw.fb4.imi.jumpup.trip.graph.Path;
 import de.htw.fb4.imi.jumpup.trip.restservice.model.OverlappingPartialTripQueryResult;
 import de.htw.fb4.imi.jumpup.trip.restservice.model.SingleTripQueryResult;
 import de.htw.fb4.imi.jumpup.trip.restservice.model.TripQueryNoResults;
 import de.htw.fb4.imi.jumpup.trip.restservice.model.TripQueryResults;
 import de.htw.fb4.imi.jumpup.trip.restservice.model.TripQueryResults.Translations;
+import de.htw.fb4.imi.jumpup.user.entity.User;
 import de.htw.fb4.imi.jumpup.trip.restservice.model.TripSearchCriteria;
-import de.htw.fb4.imi.jumpup.user.entities.User;
 import de.htw.fb4.imi.jumpup.util.LocaleHelper;
-import de.htw.fb4.imi.jumpup.verhicle.entities.Vehicle;
+import de.htw.fb4.imi.jumpup.verhicle.entity.Vehicle;
 
 /**
  * <p>

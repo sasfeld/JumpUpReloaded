@@ -8,8 +8,8 @@ package de.htw.fb4.imi.jumpup.trip.creation;
 import javax.ejb.Local;
 
 import de.htw.fb4.imi.jumpup.ApplicationUserException;
-import de.htw.fb4.imi.jumpup.trip.entities.Trip;
-import de.htw.fb4.imi.jumpup.user.entities.User;
+import de.htw.fb4.imi.jumpup.trip.entity.Trip;
+import de.htw.fb4.imi.jumpup.user.entity.User;
 
 /**
  * <p>Business interface to be used within the creation of {@link Trip} entities.</p>

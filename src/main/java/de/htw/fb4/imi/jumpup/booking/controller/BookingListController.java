@@ -15,8 +15,8 @@ import javax.inject.Named;
 import de.htw.fb4.imi.jumpup.Application;
 import de.htw.fb4.imi.jumpup.Application.LogType;
 import de.htw.fb4.imi.jumpup.booking.BookingDAO;
-import de.htw.fb4.imi.jumpup.booking.entities.Booking;
-import de.htw.fb4.imi.jumpup.controllers.AbstractFacesController;
+import de.htw.fb4.imi.jumpup.booking.entity.Booking;
+import de.htw.fb4.imi.jumpup.controller.AbstractFacesController;
 import de.htw.fb4.imi.jumpup.settings.BeanNames;
 import de.htw.fb4.imi.jumpup.user.login.LoginSession;
 

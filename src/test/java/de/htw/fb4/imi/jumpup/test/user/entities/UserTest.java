@@ -13,7 +13,7 @@ import java.util.Locale;
 import org.junit.Before;
 import org.junit.Test;
 
-import de.htw.fb4.imi.jumpup.user.entities.User;
+import de.htw.fb4.imi.jumpup.user.entity.User;
 
 /**
  * <p>Test of {@link UserTest} entity.</p>

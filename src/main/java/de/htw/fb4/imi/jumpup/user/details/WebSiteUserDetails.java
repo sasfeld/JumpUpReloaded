@@ -20,8 +20,8 @@ import de.htw.fb4.imi.jumpup.Application;
 import de.htw.fb4.imi.jumpup.Application.LogType;
 import de.htw.fb4.imi.jumpup.settings.BeanNames;
 import de.htw.fb4.imi.jumpup.settings.PersistenceSettings;
-import de.htw.fb4.imi.jumpup.user.entities.User;
-import de.htw.fb4.imi.jumpup.user.entities.UserDetails;
+import de.htw.fb4.imi.jumpup.user.entity.User;
+import de.htw.fb4.imi.jumpup.user.entity.UserDetails;
 import de.htw.fb4.imi.jumpup.user.login.LoginSession;
 
 /**
