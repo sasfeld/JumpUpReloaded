@@ -36,6 +36,7 @@ import de.htw.fb4.imi.jumpup.trip.entity.Trip;
 import de.htw.fb4.imi.jumpup.trip.rest.model.TripEntityMapper;
 import de.htw.fb4.imi.jumpup.trip.rest.model.TripWebServiceModel;
 import de.htw.fb4.imi.jumpup.trip.util.IMessages;
+import de.htw.fb4.imi.jumpup.validation.ValidationException;
 
 /**
  * <p></p>
@@ -62,7 +63,8 @@ public class BaseController extends SecuredRestController<TripWebServiceModel>
     @Inject
     protected IResponseEntityBuilder responseEntityBuilder;
     
-    protected TripEntityMapper entityMapper = new TripEntityMapper();
+    @Inject
+    protected TripEntityMapper entityMapper;
 
     private TripManagementMethod getTripManagementMethod()
     {  
@@ -133,10 +135,14 @@ public class BaseController extends SecuredRestController<TripWebServiceModel>
         if (null != response) {
             return response;
         }
-        
-        Trip trip = (Trip) entityMapper.mapWebServiceModel(restModel);
-        
-        return this.tryToCreateTrip(trip);      
+
+        try {
+            Trip trip = (Trip) entityMapper.mapWebServiceModel(restModel);
+            
+            return this.tryToCreateTrip(trip);  
+        } catch (ValidationException e) {
+            return this.sendBadRequestResponse(e);
+        }    
     }
 
     private Response tryToCreateTrip(Trip trip)
@@ -171,10 +177,14 @@ public class BaseController extends SecuredRestController<TripWebServiceModel>
         if (null != response) {
             return response;
         }
-        
-        Trip trip = (Trip) entityMapper.mapWebServiceModel(restModel);
-        
-        return this.tryToUpdateTrip(entityId, trip);      
+
+        try {
+            Trip trip = (Trip) entityMapper.mapWebServiceModel(restModel);
+            
+            return this.tryToUpdateTrip(entityId, trip);   
+        } catch (ValidationException e) {
+            return this.sendBadRequestResponse(e);
+        }   
     }
 
     private Response tryToUpdateTrip(Long entityId, Trip trip)

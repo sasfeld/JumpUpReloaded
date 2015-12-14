@@ -27,6 +27,19 @@ import de.htw.fb4.imi.jumpup.verhicle.entity.Vehicle;
 @XmlAccessorType(XmlAccessType.PROPERTY)
 public class TripWebServiceModel extends AbstractRestModel
 {
+    public static final String FIELD_NAME_START_POINT = "startpoint";
+    public static final String FIELD_NAME_END_POINT = "endpoint";
+    public static final String FIELD_NAME_START_LAT = "latStartpoint";
+    public static final String FIELD_NAME_START_LNG = "longStartpoint";
+    public static final String FIELD_NAME_END_LAT = "latEndpoint";
+    public static final String FIELD_NAME_END_LNG = "longEndpoint";
+    public static final String FIELD_NAME_START_DATETIME = "startDateTime";
+    public static final String FIELD_NAME_END_DATETIME = "endDateTime";
+    public static final String FIELD_NAME_PRICE = "price";
+    public static final String FIELD_NAME_OVERVIEW_PATH = "overViewPath";
+    public static final String FIELD_NAME_VIA_WAYPOINTS = "viaWaypoints";
+    public static final String FIELD_NAME_NUMBER_OF_SEATS = "numberOfSeats";
+    
     protected String startpoint;
     protected String endpoint;
     protected double latStartpoint;
