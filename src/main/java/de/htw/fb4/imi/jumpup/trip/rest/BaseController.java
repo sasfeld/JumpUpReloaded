@@ -5,8 +5,6 @@
  */
 package de.htw.fb4.imi.jumpup.trip.rest;
 
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.List;
 
 import javax.ejb.EJBException;
@@ -26,10 +24,11 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import de.htw.fb4.imi.jumpup.Application;
-import de.htw.fb4.imi.jumpup.ApplicationUserException;
 import de.htw.fb4.imi.jumpup.Application.LogType;
-import de.htw.fb4.imi.jumpup.rest.controller.BasicRestController;
+import de.htw.fb4.imi.jumpup.ApplicationUserException;
 import de.htw.fb4.imi.jumpup.rest.controller.SecuredRestController;
+import de.htw.fb4.imi.jumpup.rest.response.builder.IResponseEntityBuilder;
+import de.htw.fb4.imi.jumpup.rest.response.builder.ISuccessResponseEntityBuilder;
 import de.htw.fb4.imi.jumpup.trip.TripDAO;
 import de.htw.fb4.imi.jumpup.trip.TripRequest;
 import de.htw.fb4.imi.jumpup.trip.creation.TripManagementMethod;
@@ -49,6 +48,7 @@ public class BaseController extends SecuredRestController<TripWebServiceModel>
 {
     public static final String PATH = "/trip";
     private static final String PATH_PARAM_TRIP_ID = "tripId";
+    private static final String ENTITY_NAME = "trip";
     
     @Inject
     protected TripDAO tripDAO;
@@ -58,6 +58,9 @@ public class BaseController extends SecuredRestController<TripWebServiceModel>
     
     @Inject
     protected TripRequest tripRequest;
+    
+    @Inject
+    protected IResponseEntityBuilder responseEntityBuilder;
     
     protected TripEntityMapper entityMapper = new TripEntityMapper();
 
@@ -155,18 +158,7 @@ public class BaseController extends SecuredRestController<TripWebServiceModel>
             return this.sendInternalServerErrorResponse(tripCreationException);
         }               
         
-        return this.sendCreatedResponse(this.getGetUrl(trip));
-    }
-
-    private URI getGetUrl(Trip trip)
-    {
-        try {
-            return new URI(BasicRestController.BASE_PATH + PATH + "/" + trip.getIdentity());
-        } catch (URISyntaxException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-            return null;
-        }
+        return this.sendCreatedResponse(ENTITY_NAME, trip.getIdentity());
     }
     
     @PUT
@@ -217,7 +209,7 @@ public class BaseController extends SecuredRestController<TripWebServiceModel>
               return this.sendInternalServerErrorResponse(changeTripException);
             }          
             
-            return this.sendOkResponse("Trip with ID " + entityId + " was successfully updated!");         
+            return this.sendPutOkResponse(ENTITY_NAME, trip.getIdentity());         
         } catch (EJBException e) {
             if (e.getCausedByException() instanceof NoResultException) {
                 return this.sendNotFoundResponse(String.format(IMessages.NO_TRIP_WITH_ID, entityId));
@@ -269,7 +261,8 @@ public class BaseController extends SecuredRestController<TripWebServiceModel>
                 return this.sendInternalServerErrorResponse(cancelTripException);
             }
             
-            return this.sendOkResponse("Cancelled trip with ID " + trip.getIdentity());
+            return this.sendOkResponse(
+                    String.format(ISuccessResponseEntityBuilder.MESSAGE_CANCELLED, ENTITY_NAME, trip.getIdentity()));
         } catch (EJBException e) {
             if (e.getCausedByException() instanceof NoResultException) {
                 return this.sendNotFoundResponse(String.format(IMessages.NO_TRIP_WITH_ID, entityId));

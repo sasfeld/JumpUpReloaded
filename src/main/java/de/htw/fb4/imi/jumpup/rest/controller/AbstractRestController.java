@@ -25,6 +25,7 @@ import de.htw.fb4.imi.jumpup.rest.methods.IPost;
 import de.htw.fb4.imi.jumpup.rest.methods.IPut;
 import de.htw.fb4.imi.jumpup.rest.response.builder.IErrorResponseEntityBuilder;
 import de.htw.fb4.imi.jumpup.rest.response.builder.IResponseEntityBuilder;
+import de.htw.fb4.imi.jumpup.rest.response.builder.ISuccessResponseEntityBuilder;
 import de.htw.fb4.imi.jumpup.rest.response.model.AbstractRestModel;
 import de.htw.fb4.imi.jumpup.translate.Translatable;
 import de.htw.fb4.imi.jumpup.util.ErrorPrintable;
@@ -139,7 +140,18 @@ public abstract class AbstractRestController<T extends AbstractRestModel> implem
     protected Response sendOkResponse(String message)
     {
         return Response
-                .ok(message)
+                .ok(this.responseEntityBuilder.buildSuccessFromString(message))
+                .type(MediaType.APPLICATION_JSON)
+                .build();
+    }
+    
+    protected Response sendPutOkResponse(String entityType, long entityId)
+    {
+        return Response
+                .ok(this.responseEntityBuilder.buildSuccessFromString(
+                        String.format(ISuccessResponseEntityBuilder.MESSAGE_UPDATED, entityType, entityId))
+                        )
+                .type(MediaType.APPLICATION_JSON)
                 .build();
     }
     
@@ -157,11 +169,13 @@ public abstract class AbstractRestController<T extends AbstractRestModel> implem
        return this.sendOkButErrorResponse(e.getUserMsg());        
     }
     
-    protected Response sendCreatedResponse(Object entity)
+    protected Response sendCreatedResponse(String entityType, long entityId)
     {
         return Response
                 .created(null)
-                .entity(entity)
+                .entity(this.responseEntityBuilder.buildSuccessFromString(
+                        String.format(ISuccessResponseEntityBuilder.MESSAGE_CREATED, entityType, entityId)
+                 ))
                 .type(MediaType.APPLICATION_JSON)
                 .build();
     }    

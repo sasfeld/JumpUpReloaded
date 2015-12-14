@@ -39,6 +39,7 @@ public class UnsecuredBaseController extends AbstractRestController<Registration
 {
     public static final String PATH = "/public/user";
     private static final String PATH_PARAM_USER_ID = "userId";
+    private static final String ENTITY_NAME = "user";
     
     @Inject
     protected UserDAO userDAO;
@@ -111,9 +112,10 @@ public class UnsecuredBaseController extends AbstractRestController<Registration
             }
             
             if (registrationMethod.hasError()) {
-                return this.sendCreatedResponse(this.responseEntityBuilder.buildMessageFromErrorArray(registrationMethod.getErrors()));
-            } else {        
-                return this.sendCreatedResponse(null);
+                return this.sendOkButErrorResponse(registrationMethod.getSingleErrorString());
+            } else {                     
+                return this.sendCreatedResponse(ENTITY_NAME, registrationSession.getRegistrationModel().getRegisteredUser().getIdentity());
+                
             }
         } catch (Exception e) {
             return this.sendOkButErrorResponse(IMessages.COULD_NOT_SEND_CONFIRMATION_EMAIL);

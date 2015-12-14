@@ -45,6 +45,8 @@ public abstract class SecuredRestController<T extends AbstractRestModel> extends
      * Pattern for Authorization HTTP Header field: Example -> Authorization: Basic asdasdrawe==
      */
     private static final String REGEX_BASIC_HEADER = "Basic ([A-Za-z0-9+/=]+=)";
+    
+    private static final Pattern PATTERN_BASIC_HEADER = Pattern.compile(REGEX_BASIC_HEADER);
  
     @Inject
     protected LoginSession loginSession;
@@ -93,8 +95,7 @@ public abstract class SecuredRestController<T extends AbstractRestModel> extends
 
     private void parseAuthorizationHeader(String authenticationHeaderField)
     {
-        Pattern pBasicHeader = Pattern.compile(REGEX_BASIC_HEADER);   
-        Matcher mBasicHeader = pBasicHeader.matcher(authenticationHeaderField);
+        Matcher mBasicHeader = PATTERN_BASIC_HEADER.matcher(authenticationHeaderField);
         
         if (!mBasicHeader.matches()) {
             throw new IllegalArgumentException("Invalid HTTP Basic header given for " 

@@ -22,6 +22,7 @@ import de.htw.fb4.imi.jumpup.rest.controller.SecuredRestController;
 import de.htw.fb4.imi.jumpup.user.UserDAO;
 import de.htw.fb4.imi.jumpup.user.details.UserDetailsMethod;
 import de.htw.fb4.imi.jumpup.user.entity.User;
+import de.htw.fb4.imi.jumpup.user.login.LoginModel;
 import de.htw.fb4.imi.jumpup.user.rest.model.UserEntityMapper;
 import de.htw.fb4.imi.jumpup.user.rest.model.UserWebServiceModel;
 import de.htw.fb4.imi.jumpup.user.util.IMessages;
@@ -37,6 +38,7 @@ public class SecuredBaseController extends SecuredRestController<UserWebServiceM
 {
     public static final String PATH = "/user";
     private static final String PATH_PARAM_USER_ID = "userId";
+    private static final String ENTITY_NAME = "user";
     
     protected UserEntityMapper entityMapper = new UserEntityMapper();
     
@@ -91,7 +93,7 @@ public class SecuredBaseController extends SecuredRestController<UserWebServiceM
                 return this.sendInternalServerErrorResponse(userDetailsMethod);
             }
             
-            return this.sendOkResponse("User with ID " + entityId + " was successfully updated!");         
+            return this.sendPutOkResponse(ENTITY_NAME, entityId);         
         } catch (EJBException e) {
             if (e.getCausedByException() instanceof NoResultException) {
                 return this.sendNotFoundResponse(String.format(IMessages.NO_USER_WITH_ID, entityId));
@@ -108,7 +110,14 @@ public class SecuredBaseController extends SecuredRestController<UserWebServiceM
 
     private Response authorizeForUser(User loadedUser)
     {
-        if (loadedUser.getIdentity() != this.getLoginModel().getCurrentUser().getIdentity()) {
+        LoginModel loginModel = this.getLoginModel();
+        User currentUser = loginModel.getCurrentUser();
+        
+        if (null == currentUser) {
+            throw new NullPointerException("authorizeForUser(): currentUser is null.");
+        }
+        
+        if (loadedUser.getIdentity() != currentUser.getIdentity()) {
             return this.sendForbiddenResponse();
         }
         
