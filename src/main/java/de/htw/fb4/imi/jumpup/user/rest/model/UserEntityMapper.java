@@ -17,6 +17,7 @@ import de.htw.fb4.imi.jumpup.rest.IEntityMapper;
 import de.htw.fb4.imi.jumpup.settings.BeanNames;
 import de.htw.fb4.imi.jumpup.user.entity.User;
 import de.htw.fb4.imi.jumpup.user.entity.UserDetails;
+import de.htw.fb4.imi.jumpup.user.registration.RegistrationModel;
 import de.htw.fb4.imi.jumpup.validation.ValidationException;
 import de.htw.fb4.imi.jumpup.validation.validator.JumpUpValidator;
 
@@ -60,6 +61,12 @@ public class UserEntityMapper implements IEntityMapper<UserWebServiceModel, User
     
     @Inject @Named(BeanNames.SKYPE_VALIDATOR)
     protected JumpUpValidator skypeValidator;
+    
+    @Inject @Named(BeanNames.PASSWORD_VALIDATOR)
+    protected JumpUpValidator passwordValidator;
+    
+    @Inject @Named(BeanNames.REPEAT_PASSWORD_VALIDATOR)
+    protected JumpUpValidator passwordConfirmValidator;
     
 
     @Override
@@ -216,6 +223,24 @@ public class UserEntityMapper implements IEntityMapper<UserWebServiceModel, User
         if (!this.skypeValidator.validate(skype)) {
             throw new ValidationException(UserWebServiceModel.FIELD_SKYPE, this.skypeValidator.getErrorMessages());
         }
+    }   
+
+
+    private void validatePassword(String password) throws ValidationException
+    {
+        if (!this.passwordValidator.validate(password)) {
+            throw new ValidationException(RegistrationModel.FIELD_PASSWORD, this.passwordValidator.getErrorMessages());
+        }        
+    }
+    
+
+    private void validateConfirmPassword(String password, String confirmPassword) throws ValidationException
+    {
+        String[] values = {confirmPassword, password};
+        
+        if (!this.passwordConfirmValidator.validate(values)) {
+            throw new ValidationException(RegistrationModel.FIELD_PASSWORD_CONFIRM, this.passwordValidator.getErrorMessages());
+        }             
     }
 
 
@@ -235,4 +260,21 @@ public class UserEntityMapper implements IEntityMapper<UserWebServiceModel, User
         
         return userWebServiceCollection;
     }
+
+    /**
+     * Validate the given registration model.
+     * 
+     * @param restModel
+     * @throws ValidationException
+     */
+    public void validateRegistration(RegistrationModel restModel) throws ValidationException
+    {
+        this.validateUsername(restModel.getUsername());
+        this.validateMail(restModel.geteMail());
+        this.validatePrename(restModel.getPrename());
+        this.validateLastname(restModel.getLastname());
+        this.validatePassword(restModel.getPassword());
+        this.validateConfirmPassword(restModel.getPassword(), restModel.getConfirmPassword());
+    }
+
 }

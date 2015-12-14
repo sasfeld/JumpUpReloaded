@@ -28,6 +28,9 @@ import de.htw.fb4.imi.jumpup.user.util.HashGenerable;
 @XmlAccessorType(XmlAccessType.PROPERTY)
 public class RegistrationModel extends AbstractRestModel
 {
+    public static final String FIELD_PASSWORD = "password";
+    public static final String FIELD_PASSWORD_CONFIRM = "confirm_password";
+
     @XmlTransient
     protected HashGenerable hashGenerable;  
 
@@ -314,5 +317,10 @@ public class RegistrationModel extends AbstractRestModel
         builder.append(registeredUser);
         builder.append("]");
         return builder.toString();
+    }
+
+    public void validate()
+    {
+               
     }        
 }

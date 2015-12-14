@@ -27,6 +27,7 @@ import de.htw.fb4.imi.jumpup.user.registration.RegistrationModel;
 import de.htw.fb4.imi.jumpup.user.registration.RegistrationSession;
 import de.htw.fb4.imi.jumpup.user.rest.model.UserEntityMapper;
 import de.htw.fb4.imi.jumpup.user.util.IMessages;
+import de.htw.fb4.imi.jumpup.validation.ValidationException;
 
 /**
  * <p></p>
@@ -45,10 +46,12 @@ public class UnsecuredBaseController extends AbstractRestController<Registration
     protected UserDAO userDAO;
     @Inject
     protected RegistrationMethod registrationMethod;
+    
     @Inject
     protected RegistrationSession registrationSession;
     
-    protected UserEntityMapper entityMapper = new UserEntityMapper();
+    @Inject
+    protected UserEntityMapper entityMapper;
 
     @GET
     @Path("{" + PATH_PARAM_USER_ID + "}")
@@ -89,6 +92,12 @@ public class UnsecuredBaseController extends AbstractRestController<Registration
         if (null != response) {
             return response;
         }        
+        
+        try {
+            entityMapper.validateRegistration(restModel);
+        } catch (ValidationException e) {
+            return this.sendBadRequestResponse(e);
+        }
         
         return this.tryToCreateUser(restModel);      
     }
