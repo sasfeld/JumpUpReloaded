@@ -46,4 +46,10 @@ public interface BookingDAO
      * @return
      */
     List<Booking> getBookingsByPassenger(User currentUser);
+
+    /**
+     * Get bookings by the given trip ID.
+     * @param entityId
+     */
+    List<Booking> getBookingsByTrip(Long entityId);
 }

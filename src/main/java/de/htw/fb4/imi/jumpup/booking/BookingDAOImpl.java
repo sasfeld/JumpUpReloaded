@@ -87,4 +87,17 @@ public class BookingDAOImpl implements BookingDAO
         return query.getResultList(); 
     }
 
+    @Override
+    /*
+     * (non-Javadoc)
+     * @see de.htw.fb4.imi.jumpup.booking.BookingDAO#getBookingsByTrip(java.lang.Long)
+     */
+    public List<Booking> getBookingsByTrip(Long entityId)
+    {
+        final TypedQuery<Booking> query = this.em.createNamedQuery(Booking.NAME_QUERY_BY_TRIP_ID,
+                Booking.class);
+            query.setParameter("tripId", entityId);
+            
+        return query.getResultList();         
+    }
 }

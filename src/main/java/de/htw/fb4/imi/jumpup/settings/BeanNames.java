@@ -106,4 +106,6 @@ public interface BeanNames
     String TRIP_REQUEST = "tripRequest";
     
     String USER_ENTITY_MAPPER = "userEntityMapper";
+    
+    String BOOKING_ENTITY_MAPPER = "bookingEntityMapper";
 }

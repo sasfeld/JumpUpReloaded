@@ -41,6 +41,7 @@ import de.htw.fb4.imi.jumpup.user.entity.User;
         @NamedQuery(name = Booking.NAME_QUERY_BY_ENDPOINT, query = "SELECT b FROM Booking b WHERE b.endPoint = :endpoint"),
         @NamedQuery(name = Booking.NAME_QUERY_BY_ID, query = "SELECT b FROM Booking b WHERE b.identity = :identity"),
         @NamedQuery(name = Booking.NAME_QUERY_BY_PASSENGER, query = "SELECT b FROM Booking b WHERE b.passenger = :passenger"),
+        @NamedQuery(name = Booking.NAME_QUERY_BY_TRIP_ID, query = "SELECT b FROM Booking b WHERE b.tripIdentity = :tripId"),
         @NamedQuery(name = Booking.NAME_QUERY_BY_TRIP, query = "SELECT b FROM Booking b WHERE b.trip = :trip") })
 public class Booking extends AbstractEntity
 {
@@ -50,6 +51,7 @@ public class Booking extends AbstractEntity
     public static final String NAME_QUERY_BY_TRIP = "BOOKING_QUERY_BY_TRIP";
     public static final String NAME_QUERY_BY_PASSENGER = "BOOKING_QUERY_BY_PASSENGER";
     public static final String NAME_QUERY_BY_ID = "BOOKING_QUERY_BY_ID";
+    public static final String NAME_QUERY_BY_TRIP_ID = "BOOKING_QUERY_BY_TRIP_ID";
 
     /**
      * 
@@ -77,6 +79,9 @@ public class Booking extends AbstractEntity
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "tripIdentity")
     private Trip trip;
+    
+    @Column(name = "tripIdentity", insertable = false, updatable = false)
+    private Long tripIdentity;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "passengerIdentity")
