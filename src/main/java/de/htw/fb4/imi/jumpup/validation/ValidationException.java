@@ -5,6 +5,7 @@
  */
 package de.htw.fb4.imi.jumpup.validation;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import de.htw.fb4.imi.jumpup.validation.validator.JumpUpValidator;
@@ -32,6 +33,14 @@ public class ValidationException extends Exception
         
         this.fieldName = fieldname;
         this.validationErrorMessages = validationErrorMessages;
+    }
+
+    public ValidationException(String fieldname2, String singleErrorMessage)
+    {
+        this.fieldName = fieldname2;
+        
+        this.validationErrorMessages = new HashSet<>();
+        this.validationErrorMessages.add(singleErrorMessage);
     }
 
     public String getMessage()

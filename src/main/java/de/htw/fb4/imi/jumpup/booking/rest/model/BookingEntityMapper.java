@@ -8,12 +8,16 @@ package de.htw.fb4.imi.jumpup.booking.rest.model;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import javax.ejb.EJBException;
 import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
+import javax.persistence.NoResultException;
 
 import de.htw.fb4.imi.jumpup.booking.entity.Booking;
 import de.htw.fb4.imi.jumpup.rest.IEntityMapper;
 import de.htw.fb4.imi.jumpup.settings.BeanNames;
+import de.htw.fb4.imi.jumpup.trip.TripDAO;
 import de.htw.fb4.imi.jumpup.validation.ValidationException;
 
 /**
@@ -27,7 +31,9 @@ import de.htw.fb4.imi.jumpup.validation.ValidationException;
 @RequestScoped
 public class BookingEntityMapper implements IEntityMapper<BookingWebServiceModel, Booking>
 {
-
+    @Inject
+    private TripDAO tripDAO;
+    
     @Override
     /*
      * (non-Javadoc)
@@ -43,6 +49,7 @@ public class BookingEntityMapper implements IEntityMapper<BookingWebServiceModel
         booking.setConfirmationDateTime(entity.getConfirmationDateTime());
         booking.setCancellationDateTime(entity.getCancellationDateTime());
         booking.setActorOnLastChange(entity.getActorOnLastChange());
+        booking.setTripId(entity.getTripIdentity());
         
         return booking;
     }
@@ -63,7 +70,19 @@ public class BookingEntityMapper implements IEntityMapper<BookingWebServiceModel
         booking.setCancellationDateTime(webServiceModel.getCancellationDateTime());
         booking.setActorOnLastChange(webServiceModel.getActorOnLastChange());
         
+        this.validateTrip(webServiceModel.getTripId());
+        booking.setTripIdentity(webServiceModel.getTripId());
+        
         return booking;
+    }
+
+    private void validateTrip(Long tripId) throws ValidationException
+    {
+        try { 
+            this.tripDAO.getTripByID(tripId);        
+        } catch (EJBException e) {
+            throw new ValidationException("tripId", "The given trip couldn't be found.");
+        }
     }
 
     @Override
@@ -81,5 +100,6 @@ public class BookingEntityMapper implements IEntityMapper<BookingWebServiceModel
         
         return bookings;
     }
-
+    
+    
 }

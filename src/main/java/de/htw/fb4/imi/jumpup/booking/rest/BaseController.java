@@ -8,7 +8,9 @@ package de.htw.fb4.imi.jumpup.booking.rest;
 import java.util.Collection;
 
 import javax.inject.Inject;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -17,10 +19,17 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import de.htw.fb4.imi.jumpup.ApplicationUserException;
 import de.htw.fb4.imi.jumpup.booking.BookingDAO;
+import de.htw.fb4.imi.jumpup.booking.BookingMethod;
+import de.htw.fb4.imi.jumpup.booking.entity.Booking;
 import de.htw.fb4.imi.jumpup.booking.rest.model.BookingEntityMapper;
 import de.htw.fb4.imi.jumpup.booking.rest.model.BookingWebServiceModel;
 import de.htw.fb4.imi.jumpup.rest.controller.SecuredRestController;
+import de.htw.fb4.imi.jumpup.trip.TripDAO;
+import de.htw.fb4.imi.jumpup.trip.entity.Trip;
+import de.htw.fb4.imi.jumpup.trip.rest.model.TripWebServiceModel;
+import de.htw.fb4.imi.jumpup.validation.ValidationException;
 
 /**
  * <p></p>
@@ -38,6 +47,12 @@ public class BaseController extends SecuredRestController<BookingWebServiceModel
     
     @Inject
     protected BookingDAO bookingDAO;
+    
+    @Inject
+    protected TripDAO tripDAO;
+    
+    @Inject
+    protected BookingMethod bookingMethod;
     
     @Inject
     protected BookingEntityMapper entityMapper;
@@ -91,4 +106,40 @@ public class BaseController extends SecuredRestController<BookingWebServiceModel
         
         return return404IfNoTrips(passengerBookings, MESSAGE_PASSENGER_NO_BOOKINGS);
     }    
+    
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response post(@Context HttpHeaders headers, BookingWebServiceModel restModel) {
+        Response response = super.post(headers, restModel);
+        
+        if (null != response) {
+            return response;
+        }
+
+        try {
+            Booking booking = (Booking) entityMapper.mapWebServiceModel(restModel);
+            
+            return this.tryToCreateBooking(booking);  
+        } catch (ValidationException e) {
+            return this.sendBadRequestResponse(e);
+        }    
+    }
+
+    private Response tryToCreateBooking(Booking booking)
+    {
+        try {
+            bookingMethod.createBooking(booking, getTrip(booking));
+            
+            return this.sendOkResponse("Your booking was created successfully.");
+        } catch (ApplicationUserException e) {
+            return this.sendInternalServerErrorResponse(e);
+        }
+    }
+
+    private Trip getTrip(Booking booking)
+    {
+        return this.tripDAO.getTripByID(booking.getTripIdentity());
+    }
+
 }

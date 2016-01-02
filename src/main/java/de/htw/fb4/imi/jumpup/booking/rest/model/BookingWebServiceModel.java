@@ -28,6 +28,7 @@ public class BookingWebServiceModel extends AbstractRestModel
     private Timestamp confirmationDateTime;
     private Timestamp cancellationDateTime;
     private Role actorOnLastChange;
+    private Long tripId;
     
     /**
      * @return the startPoint
@@ -171,6 +172,16 @@ public class BookingWebServiceModel extends AbstractRestModel
     public void setActorOnLastChange(Role actorOnLastChange)
     {
         this.actorOnLastChange = actorOnLastChange;
+    }
+    
+    public Long getTripId()
+    {
+        return tripId;
+    }
+    
+    public void setTripId(Long long1)
+    {
+        this.tripId = long1;
     }
     
     /* (non-Javadoc)

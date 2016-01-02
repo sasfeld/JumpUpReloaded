@@ -160,6 +160,16 @@ public class Booking extends AbstractEntity
     {
         this.endLongitude = endLongitude;
     }
+    
+    public Long getTripIdentity()
+    {
+        return tripIdentity;
+    }
+    
+    public void setTripIdentity(Long tripIdentity)
+    {
+        this.tripIdentity = tripIdentity;
+    }
 
     public Trip getTrip()
     {
