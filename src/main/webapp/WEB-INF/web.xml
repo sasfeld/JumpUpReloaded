@@ -48,7 +48,7 @@
   </context-param>
   <servlet>
     <servlet-name>resteasy-servlet</servlet-name>
-    <servlet-class>
+    <servlet-class>	
 		org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher
 	</servlet-class>
   </servlet>
@@ -61,6 +61,9 @@
 		org.jboss.resteasy.plugins.server.servlet.ResteasyBootstrap
 	</listener-class>
   </listener>
+   <listener>
+      <listener-class>de.htw.fb4.imi.jumpup.InitializationListener</listener-class>
+   </listener>
   <welcome-file-list>
     <welcome-file>index.xhtml</welcome-file>
   </welcome-file-list>

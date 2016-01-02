@@ -37,7 +37,7 @@ import de.htw.fb4.imi.jumpup.trip.restservice.model.TripSearchCriteria;
 @Named
 @Path("/lookuptrips")
 @RequestScoped
-public class Resource
+public class LookUpTrips
 {
     @Inject
     protected TripQueryMethod tripQueryMethod;

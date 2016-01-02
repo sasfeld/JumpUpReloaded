@@ -7,7 +7,7 @@ package de.htw.fb4.imi.jumpup.trip.query.filter;
 
 import java.util.List;
 
-import javax.ejb.Stateless;
+import javax.ejb.Stateful;
 import javax.inject.Inject;
 
 import de.htw.fb4.imi.jumpup.Application;
@@ -29,7 +29,7 @@ import de.htw.fb4.imi.jumpup.util.math.Coordinates;
  * @since 09.08.2015
  *
  */
-@Stateless(name = BeanNames.OVERLAPPING_TRIP_SEARCH_FILTER)
+@Stateful(name = BeanNames.OVERLAPPING_TRIP_SEARCH_FILTER)
 public class OverlappingTripsFilter extends AbstractTripFilter
 {
     @Inject

@@ -83,8 +83,9 @@ $(document).ready(function() {
 					/*
 					 * ..:: initialize tripsController ::..
 					 */
+					var lookUpTripsUrl = $(REF_MAP_CANVAS).data("lookuptrips-base-path");
 					var tripsOptions = {
-						"getTripsUrl" : "/JumpUpReloaded/rest/lookuptrips",
+						"getTripsUrl" : lookUpTripsUrl,
 						"mapCtrl" : mapCtrl,
 						"userId" : $(REF_TRIPS_USER_ID).val(),
 					};

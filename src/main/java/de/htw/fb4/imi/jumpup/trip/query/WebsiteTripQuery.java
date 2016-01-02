@@ -8,7 +8,7 @@ package de.htw.fb4.imi.jumpup.trip.query;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.ejb.Stateless;
+import javax.ejb.Stateful;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -40,7 +40,7 @@ import de.htw.fb4.imi.jumpup.user.login.LoginSession;
  * @since 19.01.2015
  *
  */
-@Stateless(name = BeanNames.WEBSITE_TRIP_QUERY)
+@Stateful(name = BeanNames.WEBSITE_TRIP_QUERY)
 public class WebsiteTripQuery implements TripQueryMethod
 {
     @PersistenceUnit(unitName = PersistenceSettings.PERSISTENCE_UNIT)

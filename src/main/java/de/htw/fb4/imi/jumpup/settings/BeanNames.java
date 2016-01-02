@@ -108,4 +108,5 @@ public interface BeanNames
     String USER_ENTITY_MAPPER = "userEntityMapper";
     
     String BOOKING_ENTITY_MAPPER = "bookingEntityMapper";
+    String APPLICATION_PROPERTIES = "applicationProperties";
 }

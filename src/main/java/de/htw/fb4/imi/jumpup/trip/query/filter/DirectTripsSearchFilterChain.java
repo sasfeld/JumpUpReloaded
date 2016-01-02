@@ -5,7 +5,7 @@
  */
 package de.htw.fb4.imi.jumpup.trip.query.filter;
 
-import javax.ejb.Stateless;
+import javax.ejb.Stateful;
 
 import de.htw.fb4.imi.jumpup.settings.BeanNames;
 
@@ -18,7 +18,7 @@ import de.htw.fb4.imi.jumpup.settings.BeanNames;
  * @since 22.01.2015
  *
  */
-@Stateless(name = BeanNames.TRIP_SEARCH_FILTER_CHAIN)
+@Stateful(name = BeanNames.TRIP_SEARCH_FILTER_CHAIN)
 public class DirectTripsSearchFilterChain extends AbstractTripFilter
 {
     

@@ -13,6 +13,7 @@ import org.apache.commons.lang.exception.ExceptionUtils;
 
 import de.htw.fb4.imi.jumpup.Application;
 import de.htw.fb4.imi.jumpup.Application.LogType;
+import de.htw.fb4.imi.jumpup.ApplicationUserException;
 import de.htw.fb4.imi.jumpup.booking.BookingDAO;
 import de.htw.fb4.imi.jumpup.booking.BookingMethod;
 import de.htw.fb4.imi.jumpup.booking.entity.Booking;
@@ -38,8 +39,7 @@ import de.htw.fb4.imi.jumpup.util.Gender;
 
 @Named(value = BeanNames.BOOKING_CONTROLLER)
 @SessionScoped
-public class BookingController extends AbstractFacesController implements
-        Serializable
+public class BookingController extends AbstractFacesController implements Serializable
 {
 
     /**
@@ -49,57 +49,55 @@ public class BookingController extends AbstractFacesController implements
 
     @Inject
     private BookingMethod bookingEJB;
-    
+
     @Inject
     private TripDAO tripDAO;
-    
+
     @Inject
     private BookingDAO bookingDAO;
-    
+
     @Inject
     private LoginSession loginSession;
-    
+
     @Inject
     protected NavigationBean navigationBean;
-    
+
     @Inject
     protected BookingListController bookingListController;
-    
+
     private Long tripId;
-    
-    private Long bookingId;    
-    
-    protected Trip trip;    
-    
+
+    private Long bookingId;
+
+    protected Trip trip;
+
     protected String action;
 
     private Booking booking;
-    
+
     protected Role roleDriver = Role.DRIVER;
-    
+
     protected Role rolePassenger = Role.PASSENGER;
-    
-    
+
     public String getIconUrl()
     {
-        if (null == this.booking 
-                || null == this.booking.getPassenger() 
-                || null == this.booking.getPassenger().getUserDetails() 
+        if (null == this.booking || null == this.booking.getPassenger()
+                || null == this.booking.getPassenger().getUserDetails()
                 || null == this.booking.getPassenger().getUserDetails().getGender()
                 || this.booking.getPassenger().getUserDetails().getGender().equals(Gender.MAN)) {
-            return navigationBean.pathToAppFallback()+ "/resources/img/icons/male.png";
+            return navigationBean.pathToAppFallback() + "/resources/img/icons/male.png";
         } else if (this.booking.getPassenger().getUserDetails().getGender().equals(Gender.LADYBOY)) {
-            return navigationBean.pathToAppFallback()+ "/resources/img/icons/ladyboy.png"; 
+            return navigationBean.pathToAppFallback() + "/resources/img/icons/ladyboy.png";
         }
-        
-        return navigationBean.pathToAppFallback()+ "/resources/img/icons/female.png";
+
+        return navigationBean.pathToAppFallback() + "/resources/img/icons/female.png";
     }
-    
+
     public void setIconUrl(String iconUrl)
     {
-        
+
     }
-    
+
     /**
      * @return the roleDriver
      */
@@ -115,14 +113,17 @@ public class BookingController extends AbstractFacesController implements
     {
         return rolePassenger;
     }
-    
+
     public void bookingMustExist()
     {
         if (null == this.getBooking()) {
             try {
-                FacesContext.getCurrentInstance().getExternalContext().redirect(navigationBean.toListOfferedTrips(false));
+                FacesContext.getCurrentInstance().getExternalContext()
+                        .redirect(navigationBean.toListOfferedTrips(false));
             } catch (IOException e) {
-                Application.log("bookingMustExist: " + e.getMessage() + "\n Stack: " + ExceptionUtils.getFullStackTrace(e), LogType.ERROR, getClass());
+                Application.log(
+                        "bookingMustExist: " + e.getMessage() + "\n Stack: " + ExceptionUtils.getFullStackTrace(e),
+                        LogType.ERROR, getClass());
             }
         }
     }
@@ -133,20 +134,22 @@ public class BookingController extends AbstractFacesController implements
             try {
                 FacesContext.getCurrentInstance().getExternalContext().redirect(navigationBean.toLookForTrips(false));
             } catch (IOException e) {
-                Application.log("bookingMustExist: " + e.getMessage() + "\n Stack: " + ExceptionUtils.getFullStackTrace(e), LogType.ERROR, getClass());
+                Application.log(
+                        "bookingMustExist: " + e.getMessage() + "\n Stack: " + ExceptionUtils.getFullStackTrace(e),
+                        LogType.ERROR, getClass());
             }
         }
     }
 
-    
     public void currentUserMustBeDriverOrPassenger()
     {
-        if (!currentUserIsDriver()
-            && !currentUserIsPassenger()) {
+        if (!currentUserIsDriver() && !currentUserIsPassenger()) {
             try {
-                FacesContext.getCurrentInstance().getExternalContext().redirect(navigationBean.toListOfferedTrips(false));
+                FacesContext.getCurrentInstance().getExternalContext()
+                        .redirect(navigationBean.toListOfferedTrips(false));
             } catch (IOException e) {
-                Application.log("currentUserMustBeDriver: " + e.getMessage() + "\n Stack: " + ExceptionUtils.getFullStackTrace(e), LogType.ERROR, getClass());
+                Application.log("currentUserMustBeDriver: " + e.getMessage() + "\n Stack: "
+                        + ExceptionUtils.getFullStackTrace(e), LogType.ERROR, getClass());
             }
         }
     }
@@ -154,7 +157,7 @@ public class BookingController extends AbstractFacesController implements
     protected boolean currentUserIsPassenger()
     {
         Booking booking = getBooking();
-        
+
         long currentId = this.loginSession.getCurrentUser().getIdentity();
         return currentId == booking.getPassenger().getIdentity();
     }
@@ -162,11 +165,10 @@ public class BookingController extends AbstractFacesController implements
     protected boolean currentUserIsDriver()
     {
         getBooking();
-        
+
         long currentId = this.loginSession.getCurrentUser().getIdentity();
-        
-        return currentId
-                == this.getTrip().getDriver().getIdentity();
+
+        return currentId == this.getTrip().getDriver().getIdentity();
     }
 
     /**
@@ -178,7 +180,8 @@ public class BookingController extends AbstractFacesController implements
     }
 
     /**
-     * @param action the action to set
+     * @param action
+     *            the action to set
      */
     public void setAction(String action)
     {
@@ -194,7 +197,8 @@ public class BookingController extends AbstractFacesController implements
     }
 
     /**
-     * @param bookingId the bookingId to set
+     * @param bookingId
+     *            the bookingId to set
      */
     public void setBookingId(Long bookingId)
     {
@@ -203,48 +207,46 @@ public class BookingController extends AbstractFacesController implements
 
     /**
      * Bind-booking-data action.
+     * 
      * @return
      */
     public String bindBookingData()
     {
         try {
             bookingEJB.createBooking(this.getBooking(), this.getTrip());
-            
-            if (bookingEJB.hasError()) {
-                // show first error message
-                this.addDisplayErrorMessage(bookingEJB.getErrors()[0]);
-                
-                return null;
-            }
-            
+
             // refresh passenger's booking list
             this.bookingListController.refresh();
-            
+
             // try to send mail
-            bookingEJB.sendBookingCreationMailToPassenger(this.getBooking());
-            
-            if (bookingEJB.hasError()) {
-                addDisplayErrorMessage("Your booking was successful, but we couldn't send a confirmation mail. Please refer to your 'My bookings' page.");
+            try {
+                bookingEJB.sendBookingCreationMailToPassenger(this.getBooking());
+            } catch (Exception e) {
+                addDisplayErrorMessage(
+                        "Your booking was successful, but we couldn't send a confirmation mail. Please refer to your 'My bookings' page.");
                 return null;
             }
-            
-            
+
             try {
                 bookingEJB.sendBookingInformationMailToDriver(this.getBooking(), this.getTrip().getDriver());
             } catch (Exception e) {
-                Application.log("bindBookingData(): " + e.getMessage() + "\n" + ExceptionUtils.getFullStackTrace(e), LogType.ERROR, getClass());
+                Application.log("bindBookingData(): " + e.getMessage() + "\n" + ExceptionUtils.getFullStackTrace(e),
+                        LogType.ERROR, getClass());
             }
 
             // no error, redirect to booking page
-            addDisplayInfoMessage("Your booking was successful! You will recieve an eMail with further information and are able to view the details in your booking overview.");
-        } catch (Exception e) {
-            Application.log(e.getMessage(), LogType.ERROR, getClass());
-            addDisplayErrorMessage("Your given values aren't valid.");
+            addDisplayInfoMessage(
+                    "Your booking was successful! You will recieve an eMail with further information and are able to view the details in your booking overview.");
+        } catch (ApplicationUserException e) {
+            this.addDisplayErrorMessage(e.getUserMsg());
+
+            return null;
         }
 
         return null;
+
     }
-    
+
     /**
      * Confirm booking action.
      * 
@@ -254,32 +256,26 @@ public class BookingController extends AbstractFacesController implements
     {
         try {
             bookingEJB.confirmBooking(this.getBooking());
-            
-            if (bookingEJB.hasError()) {
-                // show first error message
-                this.addDisplayErrorMessage(bookingEJB.getErrors()[0]);
-                
-                return null;
-            }
-            
+
             // try to send mail
-            bookingEJB.sendBookingConfirmationMailToPassenger(this.getBooking());
-            
-            if (bookingEJB.hasError()) {
-                addDisplayErrorMessage("The booking was confirmed, but we couldn't send an eMail to the passenger. Please refer to your 'My bookings' page.");
+            try {
+                bookingEJB.sendBookingConfirmationMailToPassenger(this.getBooking());
+            } catch (Exception e) {
+                addDisplayErrorMessage(
+                        "The booking was confirmed, but we couldn't send an eMail to the passenger. Please refer to your 'My bookings' page.");
                 return null;
             }
 
             // no error, redirect to booking page
-            addDisplayInfoMessage("The booking was confirmed successfully!"); 
-        } catch (Exception e) {
-            Application.log(e.getMessage(), LogType.ERROR, getClass());
-            addDisplayErrorMessage("We determined some error. Please contact our customer care team.");
+            addDisplayInfoMessage("The booking was confirmed successfully!");
+        } catch (ApplicationUserException e) {
+            this.addDisplayErrorMessage(e.getUserMsg());
+            return null;
         }
 
         return NavigationBean.TO_LIST_OFFERED_TRIPS;
     }
-    
+
     /**
      * Cancel booking action.
      * 
@@ -289,38 +285,33 @@ public class BookingController extends AbstractFacesController implements
     {
         try {
             bookingEJB.cancelBooking(this.getBooking());
-            
-            if (bookingEJB.hasError()) {
-                // show first error message
-                this.addDisplayErrorMessage(bookingEJB.getErrors()[0]);
-                
-                return null;
-            }
-            
-            
+
             // try to send mail
-            if (currentUserIsDriver()) {
-                bookingEJB.sendBookingCancelationMailToPassenger(this.getBooking());
-            } else if (currentUserIsPassenger()) {
-                bookingEJB.sendBookingCancelationMailToDriver(this.getBooking());
-                
-                // refresh booking list of passenger
-                this.bookingListController.refresh();
-            }
-            
-            if (bookingEJB.hasError()) {
-                addDisplayErrorMessage("The booking was cancelled, but we couldn't send an eMail to the passenger. Please refer to your 'My bookings' page.");
+            try {
+                if (currentUserIsDriver()) {
+                    bookingEJB.sendBookingCancelationMailToPassenger(this.getBooking());
+                } else if (currentUserIsPassenger()) {
+                    bookingEJB.sendBookingCancelationMailToDriver(this.getBooking());
+
+                    // refresh booking list of passenger
+                    this.bookingListController.refresh();
+                }
+            } catch (Exception e) {
+                addDisplayErrorMessage(
+                        "The booking was cancelled, but we couldn't send an eMail to the passenger. Please refer to your 'My bookings' page.");
                 return null;
             }
 
             // no error, redirect to booking page
             addDisplayInfoMessage("The booking was cancelled successfully!");
-        } catch (Exception e) {
-            Application.log(e.getMessage(), LogType.ERROR, getClass());
-            addDisplayErrorMessage("We determined some error. Please contact our customer care team.");
+        } catch (ApplicationUserException e) {
+            this.addDisplayErrorMessage(e.getUserMsg());
+
+            return null;
         }
 
         return NavigationBean.TO_LIST_OFFERED_TRIPS;
+
     }
 
     public Booking getBooking()
@@ -334,12 +325,12 @@ public class BookingController extends AbstractFacesController implements
                 } catch (EJBException e) {
                     this.addDisplayErrorMessage("Could not find booking.");
                     this.booking = null;
-                }                
+                }
             } else {
                 this.booking = new Booking();
             }
         }
-        
+
         return booking;
     }
 
@@ -351,20 +342,20 @@ public class BookingController extends AbstractFacesController implements
     public Long getTripId()
     {
         return tripId;
-    }   
-    
+    }
+
     public Trip getTrip()
     {
         if (null == this.trip) {
-           try {
-               Application.log("TripId: " + this.getTripId(), LogType.DEBUG, getClass());
-               this.trip =  this.tripDAO.getTripByID(this.getTripId());
-           } catch (EJBException e) {
-               this.addDisplayErrorMessage("Could not find any matching trip.");
-               this.trip = null;
-           }      
+            try {
+                Application.log("TripId: " + this.getTripId(), LogType.DEBUG, getClass());
+                this.trip = this.tripDAO.getTripByID(this.getTripId());
+            } catch (EJBException e) {
+                this.addDisplayErrorMessage("Could not find any matching trip.");
+                this.trip = null;
+            }
         }
-        
+
         return this.trip;
     }
 

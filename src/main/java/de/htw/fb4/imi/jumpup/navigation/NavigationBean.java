@@ -6,12 +6,9 @@
 package de.htw.fb4.imi.jumpup.navigation;
 
 import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.net.URLEncoder;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -21,13 +18,12 @@ import org.apache.commons.lang.exception.ExceptionUtils;
 
 import de.htw.fb4.imi.jumpup.Application;
 import de.htw.fb4.imi.jumpup.Application.LogType;
-import de.htw.fb4.imi.jumpup.ApplicationError;
+import de.htw.fb4.imi.jumpup.ApplicationProperties;
 import de.htw.fb4.imi.jumpup.settings.BeanNames;
 import de.htw.fb4.imi.jumpup.trip.entity.Trip;
 import de.htw.fb4.imi.jumpup.trip.restservice.model.TripSearchCriteria;
 import de.htw.fb4.imi.jumpup.user.controller.Login;
 import de.htw.fb4.imi.jumpup.user.entity.User;
-import de.htw.fb4.imi.jumpup.util.WebAppFilter;
 
 /**
  * <p>
@@ -74,7 +70,7 @@ public class NavigationBean implements NavigationOutcomes
      */
     public static String pathToApp()
     {
-        return WebAppFilter.getWebAppUrl().toString();
+        return ApplicationProperties.getWebAppUrl().toString();
     }
 
     public String pathToAppFallback()
