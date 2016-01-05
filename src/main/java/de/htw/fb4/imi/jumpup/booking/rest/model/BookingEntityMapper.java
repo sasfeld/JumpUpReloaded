@@ -18,6 +18,9 @@ import de.htw.fb4.imi.jumpup.booking.entity.Booking;
 import de.htw.fb4.imi.jumpup.rest.IEntityMapper;
 import de.htw.fb4.imi.jumpup.settings.BeanNames;
 import de.htw.fb4.imi.jumpup.trip.TripDAO;
+import de.htw.fb4.imi.jumpup.trip.entity.Trip;
+import de.htw.fb4.imi.jumpup.trip.rest.QueryResultFactory;
+import de.htw.fb4.imi.jumpup.trip.restservice.model.TripSearchCriteria;
 import de.htw.fb4.imi.jumpup.validation.ValidationException;
 
 /**
@@ -33,6 +36,9 @@ public class BookingEntityMapper implements IEntityMapper<BookingWebServiceModel
 {
     @Inject
     private TripDAO tripDAO;
+    
+    @Inject
+    protected QueryResultFactory queryResultFactory;
     
     @Override
     /*
@@ -62,6 +68,9 @@ public class BookingEntityMapper implements IEntityMapper<BookingWebServiceModel
     public Booking mapWebServiceModel(BookingWebServiceModel webServiceModel) throws ValidationException
     {
         Booking booking = new Booking();
+        
+        booking.setStartPoint(webServiceModel.getStartPoint());
+        booking.setEndPoint(webServiceModel.getEndPoint());
         booking.setStartLatitude(webServiceModel.getStartLatitude());
         booking.setStartLongitude(webServiceModel.getStartLongitude());
         booking.setEndLatitude(webServiceModel.getEndLatitude());
@@ -70,21 +79,32 @@ public class BookingEntityMapper implements IEntityMapper<BookingWebServiceModel
         booking.setCancellationDateTime(webServiceModel.getCancellationDateTime());
         booking.setActorOnLastChange(webServiceModel.getActorOnLastChange());
         
-        this.validateTrip(webServiceModel.getTripId());
-        booking.setTripIdentity(webServiceModel.getTripId());
+        Trip trip = this.validateTrip(webServiceModel.getTripId());
+        booking.setTrip(trip);
+        
+        // TODO the booking hash should be passed as parameter. The client (e.g. Android app) recieves the hash during the LookUpTrips request.
+        this.calculateHashAndAddToBooking(booking, trip);
         
         return booking;
     }
 
-    private void validateTrip(Long tripId) throws ValidationException
+    private Trip validateTrip(Long tripId) throws ValidationException
     {
         try { 
-            this.tripDAO.getTripByID(tripId);        
+            return this.tripDAO.getTripByID(tripId);        
         } catch (EJBException e) {
             throw new ValidationException("tripId", "The given trip couldn't be found.");
         }
     }
 
+    private void calculateHashAndAddToBooking(Booking booking, Trip trip)
+    {
+        TripSearchCriteria bookingSearchCriteria = this.queryResultFactory
+                .newTripSearchCriteriaBy(booking);
+        String hash = bookingSearchCriteria.createBookingHash(trip);
+        booking.setBookingHash(hash);        
+    }
+    
     @Override
     /*
      * (non-Javadoc)

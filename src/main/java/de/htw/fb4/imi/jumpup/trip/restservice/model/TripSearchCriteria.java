@@ -400,6 +400,7 @@ public class TripSearchCriteria
      */
     public String createBookingHash(Trip trip)
     {
+        System.out.println(this);
         // make sure to include all variable parameters that should be protected from manipulation
         long hash = ((this.getStartPoint().hashCode()
             + this.getEndPoint().hashCode()

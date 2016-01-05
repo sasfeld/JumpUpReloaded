@@ -129,17 +129,11 @@ public class BaseController extends SecuredRestController<BookingWebServiceModel
     private Response tryToCreateBooking(Booking booking)
     {
         try {
-            bookingMethod.createBooking(booking, getTrip(booking));
+            bookingMethod.createBooking(booking, booking.getTrip());
             
             return this.sendOkResponse("Your booking was created successfully.");
         } catch (ApplicationUserException e) {
             return this.sendInternalServerErrorResponse(e);
         }
     }
-
-    private Trip getTrip(Booking booking)
-    {
-        return this.tripDAO.getTripByID(booking.getTripIdentity());
-    }
-
 }
