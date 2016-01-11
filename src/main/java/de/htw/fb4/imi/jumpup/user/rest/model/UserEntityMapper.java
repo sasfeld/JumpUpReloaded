@@ -78,6 +78,7 @@ public class UserEntityMapper implements IEntityMapper<UserWebServiceModel, User
     {
         UserWebServiceModel webServiceModel = new UserWebServiceModel();
         
+        webServiceModel.setIdentity(entity.getIdentity());
         webServiceModel.setUsername(entity.getUsername());
         webServiceModel.seteMail(entity.geteMail());
         webServiceModel.setPrename(entity.getPrename());
