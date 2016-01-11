@@ -60,7 +60,7 @@
 	        <execution>
 	            <phase>package</phase>
 	            <configuration>
-	                <webappDirectory>target/${rp.build.warfoldername}</webappDirectory>
+	                <webappDirectory>target/${rp.build.warfoldername}.war</webappDirectory>
 	                <archiveClasses>true</archiveClasses>
 	            </configuration>
 	            <goals>
