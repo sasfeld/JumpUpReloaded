@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>de.htw.fb4.imi</groupId>
   <artifactId>jumpup</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>1.0.0</version>
   <packaging>war</packaging>
   <name>JumpUp</name>
   <description>JumpUp.me - an student project for a better carpooling experience</description>
