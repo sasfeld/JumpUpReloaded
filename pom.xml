@@ -54,6 +54,18 @@
 		    <webXml>src\main\webapp\WEB-INF\web.xml</webXml>   
 		    <warName>${rp.build.warname}</warName>     
 		  </configuration>
+		 <executions>
+	        <execution>
+	            <phase>package</phase>
+	            <configuration>
+	                <webappDirectory>target/jumpup</webappDirectory>
+	                <archiveClasses>true</archiveClasses>
+	            </configuration>
+	            <goals>
+	                <goal>exploded</goal>
+	            </goals>
+	        </execution>
+	    </executions>
 		</plugin>   
 		 <plugin>
         	<groupId>org.apache.maven.plugins</groupId>
