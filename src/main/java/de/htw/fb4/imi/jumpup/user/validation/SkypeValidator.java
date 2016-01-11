@@ -18,7 +18,7 @@ import de.htw.fb4.imi.jumpup.validation.validator.AbstractValidator;
  * @since 14.12.2014
  *
  */
-@Named(value = BeanNames.SKYPE_VALIDATOR)
+@Named(value=BeanNames.SKYPE_VALIDATOR)
 @RequestScoped
 public class SkypeValidator extends AbstractValidator
 {

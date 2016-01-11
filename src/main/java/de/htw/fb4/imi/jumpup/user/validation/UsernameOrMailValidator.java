@@ -18,7 +18,7 @@ import de.htw.fb4.imi.jumpup.validation.validator.JumpUpValidator;
  * @since 27.11.2014
  *
  */
-@Named( value = BeanNames.USERNAME_OR_MAIL_VALIDATOR )
+@Named(value=BeanNames.USERNAME_OR_MAIL_VALIDATOR)
 @RequestScoped
 public class UsernameOrMailValidator extends AbstractUserValidator
 {

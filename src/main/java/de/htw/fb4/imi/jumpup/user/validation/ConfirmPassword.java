@@ -26,7 +26,7 @@ import de.htw.fb4.imi.jumpup.settings.BeanNames;
  * @since 24.11.2014
  *
  */
-@Named( value = BeanNames.REPEAT_PASSWORD_VALIDATOR )
+@Named(value=BeanNames.REPEAT_PASSWORD_VALIDATOR)
 @RequestScoped
 public class ConfirmPassword extends AbstractUserValidator
 {       

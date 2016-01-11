@@ -7,7 +7,7 @@ package de.htw.fb4.imi.jumpup.user.validation;
 
 
 
-import javax.faces.bean.RequestScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
 import javax.persistence.Query;
 
@@ -25,7 +25,7 @@ import de.htw.fb4.imi.jumpup.user.util.ConfigReader;
  * @since 24.11.2014
  *
  */
-@Named( value = BeanNames.USERNAME_VALIDATOR)
+@Named(value=BeanNames.USERNAME_VALIDATOR)
 @RequestScoped
 public class Username extends AbstractUserValidator
 {   

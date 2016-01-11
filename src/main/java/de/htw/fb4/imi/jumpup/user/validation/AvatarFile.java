@@ -5,6 +5,7 @@
  */
 package de.htw.fb4.imi.jumpup.user.validation;
 
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
 import javax.servlet.http.Part;
 
@@ -20,7 +21,8 @@ import de.htw.fb4.imi.jumpup.settings.BeanNames;
  * @since 08.01.2015
  *
  */
-@Named(value = BeanNames.AVATAR_FILE_VALIDATOR)
+@Named(value=BeanNames.AVATAR_FILE_VALIDATOR)
+@RequestScoped
 public class AvatarFile extends AbstractUserValidator
 {
     private static final String CONTENT_TYPE_PNG = "image/png";

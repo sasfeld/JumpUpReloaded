@@ -22,7 +22,7 @@ import de.htw.fb4.imi.jumpup.settings.BeanNames;
  * @since 14.12.2014
  *
  */
-@Named( value = BeanNames.DATE_OF_BIRTH )
+@Named(value=BeanNames.DATE_OF_BIRTH)
 @RequestScoped
 public class DateOfBirth extends AbstractUserValidator
 {    

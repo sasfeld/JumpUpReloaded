@@ -18,7 +18,7 @@ import de.htw.fb4.imi.jumpup.settings.BeanNames;
  * @since 14.12.2014
  *
  */
-@Named(value = BeanNames.COUNTRY_VALIDATOR)
+@Named(value=BeanNames.COUNTRY_VALIDATOR)
 @RequestScoped
 public class Country extends AbstractUserValidator
 {

@@ -7,7 +7,7 @@ package de.htw.fb4.imi.jumpup.user.validation;
 
 
 
-import javax.faces.bean.RequestScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
 
 import de.htw.fb4.imi.jumpup.config.IConfigKeys;
@@ -20,7 +20,7 @@ import de.htw.fb4.imi.jumpup.settings.BeanNames;
  * @since 24.11.2014
  *
  */
-@Named( value = BeanNames.LASTNAME_VALIDATOR)
+@Named(value=BeanNames.LASTNAME_VALIDATOR)
 @RequestScoped
 public class Lastname extends AbstractUserValidator
 {   
