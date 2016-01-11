@@ -10,6 +10,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
 
 import de.htw.fb4.imi.jumpup.Application;
@@ -26,6 +27,7 @@ import de.htw.fb4.imi.jumpup.settings.BeanNames;
  * 
  */
 @Named(value=BeanNames.LOCALE_HELPER)
+@RequestScoped
 public class LocaleHelper
 {
 
