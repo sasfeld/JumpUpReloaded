@@ -7,7 +7,7 @@ package de.htw.fb4.imi.jumpup.user.validation;
 
 
 
-import javax.faces.bean.RequestScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
 
 import de.htw.fb4.imi.jumpup.config.IConfigKeys;
