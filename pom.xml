@@ -20,6 +20,21 @@
 		<skipTests>true</skipTests>
 		<mojarra.version>2.2.8</mojarra.version>
 	</properties>
+	
+  <profiles>	
+	  <profile>
+	  	<id>development</id>
+	  	<properties>
+	  		<rp.build.warname>jumpup</rp.build.warname>
+	  	</properties>
+	  </profile>	
+	  <profile>
+	  	<id>testing</id>
+	  	<properties>
+	  		<rp.build.warname>jumpup</rp.build.warname>
+	  	</properties>
+	  </profile>
+  </profiles>
   
   <build>
     <plugins>
@@ -36,7 +51,8 @@
 		  <groupId>org.apache.maven.plugins</groupId>
 		  <artifactId>maven-war-plugin</artifactId>
 		  <configuration>
-		    <webXml>src\main\webapp\WEB-INF\web.xml</webXml>        
+		    <webXml>src\main\webapp\WEB-INF\web.xml</webXml>   
+		    <warName>${rp.build.warname}</warName>     
 		  </configuration>
 		</plugin>   
 		 <plugin>
