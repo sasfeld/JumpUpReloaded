@@ -7,6 +7,7 @@ package de.htw.fb4.imi.jumpup.trip.validation;
 
 import java.util.Date;
 
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
 
 import de.htw.fb4.imi.jumpup.Application;
@@ -22,7 +23,8 @@ import de.htw.fb4.imi.jumpup.trip.util.TripAndBookingsConfigKeys;
  *
  * TODO check that endDateTime > startDateTime
  */
-@Named(value = BeanNames.END_DATETIME_VALIDATOR)
+@Named(value=BeanNames.END_DATETIME_VALIDATOR)
+@RequestScoped
 public class EndDatetimeValidator extends AbstractTripValidator
 {
 

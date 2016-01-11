@@ -5,6 +5,7 @@
  */
 package de.htw.fb4.imi.jumpup.trip.validation;
 
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
 
 import de.htw.fb4.imi.jumpup.settings.BeanNames;
@@ -18,7 +19,8 @@ import de.htw.fb4.imi.jumpup.trip.util.TripAndBookingsConfigKeys;
  * @since 18.01.2015
  *
  */
-@Named(value = BeanNames.PRICE_VALIDATOR)
+@Named(value=BeanNames.PRICE_VALIDATOR)
+@RequestScoped
 public class PriceValidator extends AbstractTripValidator
 {
     private static final String PATTERN_PRICE = "^[0-9]+.?[0-9]{0,2}$";

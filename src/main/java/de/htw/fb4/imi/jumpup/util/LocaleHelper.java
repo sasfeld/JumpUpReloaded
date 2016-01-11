@@ -25,7 +25,7 @@ import de.htw.fb4.imi.jumpup.settings.BeanNames;
  * @since 21.01.2015
  * 
  */
-@Named(value = BeanNames.LOCALE_HELPER)
+@Named(value=BeanNames.LOCALE_HELPER)
 public class LocaleHelper
 {
 

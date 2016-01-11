@@ -31,40 +31,40 @@ import de.htw.fb4.imi.jumpup.validation.validator.JumpUpValidator;
 @RequestScoped
 public class TripEntityMapper implements IEntityMapper<TripWebServiceModel, Trip>
 {
-    @Inject @Named(value = BeanNames.LOCATION_VALIDATOR)
+    @Inject @Named(value=BeanNames.LOCATION_VALIDATOR)
     private JumpUpValidator startPointValidator;
     
-    @Inject @Named(value = BeanNames.LOCATION_VALIDATOR)
+    @Inject @Named(value=BeanNames.LOCATION_VALIDATOR)
     private JumpUpValidator endPointValidator;
     
-    @Inject @Named(value = BeanNames.LATITUDE_VALIDATOR)
+    @Inject @Named(value=BeanNames.LATITUDE_VALIDATOR)
     private JumpUpValidator startLatValidator;
     
-    @Inject @Named(value = BeanNames.LONGITUDE_VALIDATOR)
+    @Inject @Named(value=BeanNames.LONGITUDE_VALIDATOR)
     private JumpUpValidator startLongValidator;
     
-    @Inject @Named(value = BeanNames.LATITUDE_VALIDATOR)
+    @Inject @Named(value=BeanNames.LATITUDE_VALIDATOR)
     private JumpUpValidator endLatValidator;
     
-    @Inject @Named(value = BeanNames.LONGITUDE_VALIDATOR)
+    @Inject @Named(value=BeanNames.LONGITUDE_VALIDATOR)
     private JumpUpValidator endLongValidator;
     
-    @Inject @Named(value = BeanNames.NUMBER_SEATS_VALIDATOR)
+    @Inject @Named(value=BeanNames.NUMBER_SEATS_VALIDATOR)
     private JumpUpValidator numberOfSeatsValidator;
     
-    @Inject @Named(value = BeanNames.OVERVIEW_PATH_VALIDATOR)
+    @Inject @Named(value=BeanNames.OVERVIEW_PATH_VALIDATOR)
     private JumpUpValidator overviewPathValidator;
     
-    @Inject @Named(value = BeanNames.PRICE_VALIDATOR)
+    @Inject @Named(value=BeanNames.PRICE_VALIDATOR)
     private JumpUpValidator priceValidator;
     
-    @Inject @Named(value = BeanNames.START_DATETIME_VALIDATOR)
+    @Inject @Named(value=BeanNames.START_DATETIME_VALIDATOR)
     private JumpUpValidator startDatetimeValidator;
     
-    @Inject @Named(value = BeanNames.END_DATETIME_VALIDATOR)
+    @Inject @Named(value=BeanNames.END_DATETIME_VALIDATOR)
     private JumpUpValidator endDateTimeValidator;
     
-    @Inject @Named(value = BeanNames.VIA_WAYPOINTS_VALIDATOR)
+    @Inject @Named(value=BeanNames.VIA_WAYPOINTS_VALIDATOR)
     private JumpUpValidator viaWaypointsValidator;
     
     

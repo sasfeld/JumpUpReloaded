@@ -6,8 +6,6 @@
 package de.htw.fb4.imi.jumpup.trip.entity;
 
 import java.sql.Timestamp;
-import java.text.ParseException;
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -28,7 +26,6 @@ import de.htw.fb4.imi.jumpup.booking.entity.Booking;
 import de.htw.fb4.imi.jumpup.entity.AbstractEntity;
 import de.htw.fb4.imi.jumpup.settings.PersistenceSettings;
 import de.htw.fb4.imi.jumpup.user.entity.User;
-import de.htw.fb4.imi.jumpup.util.LocaleHelper;
 import de.htw.fb4.imi.jumpup.verhicle.entity.Vehicle;
 
 /**

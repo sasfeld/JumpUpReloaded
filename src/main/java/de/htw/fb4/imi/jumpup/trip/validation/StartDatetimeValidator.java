@@ -7,6 +7,7 @@ package de.htw.fb4.imi.jumpup.trip.validation;
 
 import java.util.Date;
 
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
 
 import de.htw.fb4.imi.jumpup.Application;
@@ -21,7 +22,8 @@ import de.htw.fb4.imi.jumpup.trip.util.TripAndBookingsConfigKeys;
  * @since 17.01.2015
  *
  */
-@Named(value = BeanNames.START_DATETIME_VALIDATOR)
+@Named(value=BeanNames.START_DATETIME_VALIDATOR)
+@RequestScoped
 public class StartDatetimeValidator extends AbstractTripValidator
 {
 

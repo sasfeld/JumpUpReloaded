@@ -5,6 +5,7 @@
  */
 package de.htw.fb4.imi.jumpup.trip.validation;
 
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
 
 import de.htw.fb4.imi.jumpup.Application;
@@ -26,7 +27,8 @@ import de.htw.fb4.imi.jumpup.settings.BeanNames;
  * @since 18.01.2015
  *
  */
-@Named(value = BeanNames.LATITUDE_VALIDATOR)
+@Named(value=BeanNames.LATITUDE_VALIDATOR)
+@RequestScoped
 public class LatitudeValidator extends AbstractTripValidator
 {
     private static final String PATTERN_LATITUDE = "^[0-9.]+$";

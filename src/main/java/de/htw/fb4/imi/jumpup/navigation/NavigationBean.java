@@ -33,7 +33,7 @@ import de.htw.fb4.imi.jumpup.user.entity.User;
  * @since 28.11.2014
  * 
  */
-@Named(value = BeanNames.NAVIGATION_BEAN)
+@Named(value=BeanNames.NAVIGATION_BEAN)
 @ApplicationScoped
 public class NavigationBean implements NavigationOutcomes
 {

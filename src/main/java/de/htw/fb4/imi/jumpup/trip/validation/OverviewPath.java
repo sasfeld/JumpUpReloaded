@@ -5,6 +5,7 @@
  */
 package de.htw.fb4.imi.jumpup.trip.validation;
 
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
 
 import de.htw.fb4.imi.jumpup.settings.BeanNames;
@@ -16,7 +17,8 @@ import de.htw.fb4.imi.jumpup.settings.BeanNames;
  * @since 18.01.2015
  *
  */
-@Named(value = BeanNames.OVERVIEW_PATH_VALIDATOR)
+@Named(value=BeanNames.OVERVIEW_PATH_VALIDATOR)
+@RequestScoped
 public class OverviewPath extends AbstractTripValidator
 {
 
