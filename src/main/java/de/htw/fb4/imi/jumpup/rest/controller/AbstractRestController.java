@@ -180,6 +180,15 @@ public abstract class AbstractRestController<T extends AbstractRestModel> implem
                 .type(MediaType.APPLICATION_JSON)
                 .build();
     }    
+    
+    protected Response sendCreatedButErrorResponse(String errorMessage) 
+    {
+        return Response
+                .created(null)
+                .entity(this.responseEntityBuilder.buildMessageFromErrorString(errorMessage, true))
+                .type(MediaType.APPLICATION_JSON)
+                .build();
+    }
 
     protected Response sendInternalServerErrorResponse(String errorMessage)
     {
