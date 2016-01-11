@@ -25,13 +25,15 @@
 	  <profile>
 	  	<id>development</id>
 	  	<properties>
-	  		<rp.build.warname>jumpup</rp.build.warname>
+	  		<rp.build.warfoldername>jumpup</rp.build.warfoldername>
+	  		<rp.build.warname>jumpup_war</rp.build.warname>
 	  	</properties>
 	  </profile>	
 	  <profile>
 	  	<id>testing</id>
 	  	<properties>
-	  		<rp.build.warname>jumpup</rp.build.warname>
+	  		<rp.build.warfoldername>jumpup</rp.build.warfoldername>
+	  		<rp.build.warname>jumpup_war</rp.build.warname>
 	  	</properties>
 	  </profile>
   </profiles>
@@ -58,7 +60,7 @@
 	        <execution>
 	            <phase>package</phase>
 	            <configuration>
-	                <webappDirectory>target/jumpup</webappDirectory>
+	                <webappDirectory>target/${rp.build.warfoldername}</webappDirectory>
 	                <archiveClasses>true</archiveClasses>
 	            </configuration>
 	            <goals>
