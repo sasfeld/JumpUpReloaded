@@ -35,6 +35,10 @@ Technologies
 - Database Management: Hibernate as JPA implementation with JNDI on a JBoss 7.2
 - Frontend: JQuery, Bootstrap, GoogleMap
 
+Testing environment
+------------
+
+- http://groupelite.de:8080/jumpup
 
 Installation
 ------------
