@@ -35,9 +35,37 @@ Technologies
 - Database Management: Hibernate as JPA implementation with JNDI on a JBoss 7.2
 - Frontend: JQuery, Bootstrap, GoogleMap
 
+Testing environment
+------------
+
+- http://groupelite.de:8080/jumpup
 
 Installation
 ------------
 
-A description will follow when the basic architecture is finished.
-
+1. Prepare the MySQL 5.6.X database
+2. Add a database “jumpup_dev”.
+3. Add a user “jumpup_dev” with password lzohs{FQvq(U6]?J
+4. Create a folder “JumpUp” on the very uper level of your file system, e.g. C:\JumpUp .
+5. Create a file “wildfly.log” in JumpUp.
+6. Now, clone the WildFly server: 
+  ```git clone git@groupelite.de:/home/git/jumpup/jumpup_jboss.git``` 
+7. Afterwards, clone the environment configurations repository: 
+  ```git clone git@groupelite.de:/home/git/jumpup/jumpup_configurations.git```
+8. Now, you are ready to clone the JumpUp web application repository itself: 
+	```git clone git@github.com:sasfeld/jumpup_webapp.git```
+9. (Optionally, if you need to work on the android app): 
+  ```git clone git@github.com:sasfeld/jumpup_android.git```
+10. Make sure to have the following project structure:
+  - JumpUp
+    - jumpup_android (optionally)
+    - jumpup_configurations
+    - jumpup_jboss
+    - jumpup_webapp
+11. On UNIX systems, it might be neccessary to run
+	```chmod -R 0744 jumpup_jboss/bin/```
+	```chmod 0744 jumpup_configurations/deploy.sh```
+12. You are ready to get the webapp running. Run the deployment script:
+	```cd jumpup_configurations```
+	```./deploy.sh -e development```
+13. You can access the webapp on: http://localhost:8080/jumpup/
