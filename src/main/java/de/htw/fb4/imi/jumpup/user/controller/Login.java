@@ -13,6 +13,7 @@ import javax.inject.Named;
 
 import de.htw.fb4.imi.jumpup.Application;
 import de.htw.fb4.imi.jumpup.Application.LogType;
+import de.htw.fb4.imi.jumpup.ApplicationUserException;
 import de.htw.fb4.imi.jumpup.controller.AbstractFacesController;
 import de.htw.fb4.imi.jumpup.navigation.NavigationBean;
 import de.htw.fb4.imi.jumpup.navigation.NavigationOutcomes;
@@ -44,29 +45,36 @@ public class Login extends AbstractFacesController implements Serializable
 
     @Inject
     protected LoginMethod loginMethod;
-    
+
     @Inject
     protected NavigationBean navigationBean;
-    
+
     @Inject
     protected LoginSession loginSession;
 
     protected String pathToApp;
-    
+
     public String getIconUrl()
     {
-        if (null == this.getLoginModel().getCurrentUser() 
-                || null == this.getLoginModel().getCurrentUser().getUserDetails()
-                || null == this.getLoginModel().getCurrentUser().getUserDetails().getGender()
-                || this.getLoginModel().getCurrentUser().getUserDetails().getGender().equals(Gender.MAN)) {
-            return navigationBean.pathToAppFallback()+ "/resources/img/icons/male.png";
-        } else if (this.getLoginModel().getCurrentUser().getUserDetails().getGender().equals(Gender.LADYBOY)) {
-            return navigationBean.pathToAppFallback()+ "/resources/img/icons/ladyboy.png"; 
+        if (null == this.getLoginModel().getCurrentUser()
+                || null == this.getLoginModel().getCurrentUser()
+                        .getUserDetails()
+                || null == this.getLoginModel().getCurrentUser()
+                        .getUserDetails().getGender()
+                || this.getLoginModel().getCurrentUser().getUserDetails()
+                        .getGender().equals(Gender.MAN)) {
+            return navigationBean.pathToAppFallback()
+                    + "/resources/img/icons/male.png";
+        } else if (this.getLoginModel().getCurrentUser().getUserDetails()
+                .getGender().equals(Gender.LADYBOY)) {
+            return navigationBean.pathToAppFallback()
+                    + "/resources/img/icons/ladyboy.png";
         }
-        
-        return navigationBean.pathToAppFallback()+ "/resources/img/icons/female.png";
+
+        return navigationBean.pathToAppFallback()
+                + "/resources/img/icons/female.png";
     }
-    
+
     /**
      * @return the loginModel
      */
@@ -85,28 +93,21 @@ public class Login extends AbstractFacesController implements Serializable
         try {
             this.loginMethod.logIn(this.getLoginModel());
 
-            Application.log("Login: User tried to login.", LogType.INFO,
-                    getClass());
-            // registration was performed successfully, so redirect to success
-            // page
-            if (!this.loginMethod.hasError()) {
-                this.storeSessionInformation();
-                // redirect to user's profile page if he was registered new
-                if (this.loginMethod.isNew(this.getLoginModel())) {
-                    this.addDisplayInfoMessage("Please fill in your profile information so that the other users know you better.");
-                    return NavigationOutcomes.TO_USER_PROFILE;
-                }
-                
-                // otherwise to default login page
-                return NavigationOutcomes.LOGIN_SUCCESS;
+            this.storeSessionInformation();
+            // redirect to user's profile page if he was registered new
+            if (this.loginMethod.isNew(this.getLoginModel())) {
+                this.addDisplayInfoMessage(
+                        "Please fill in your profile information so that the other users know you better.");
+                return NavigationOutcomes.TO_USER_PROFILE;
             }
 
-            // otherwise add all error messages
-            for (final String errorMessage : this.loginMethod.getErrors()) {
-                this.addDisplayErrorMessage(errorMessage);
-            }
+            // otherwise to default login page
+            return NavigationOutcomes.LOGIN_SUCCESS;
+        } catch (ApplicationUserException userException) {
+            this.addDisplayErrorMessage(userException.getUserMsg());
         } catch (Exception e) {
-            Application.log("loginUser(): " + e.getLocalizedMessage(), LogType.CRITICAL, getClass());
+            Application.log("loginUser(): " + e.getLocalizedMessage(),
+                    LogType.CRITICAL, getClass());
             this.addDisplayErrorMessage("I was not able to log you in.");
         }
 
@@ -133,15 +134,11 @@ public class Login extends AbstractFacesController implements Serializable
 
             // registration was performed successfully, so redirect to success
             // page
-            if (!this.loginMethod.hasError()) {
-                this.addDisplayInfoMessage("You were successfully logged out. We hope you enjoyed your stay.");
-                return NavigationOutcomes.LOGOUT_SUCCESS;
-            }
-
-            // otherwise add all error messages
-            for (final String errorMessage : this.loginMethod.getErrors()) {
-                this.addDisplayErrorMessage(errorMessage);
-            }
+            this.addDisplayInfoMessage(
+                    "You were successfully logged out. We hope you enjoyed your stay.");
+            return NavigationOutcomes.LOGOUT_SUCCESS;
+        } catch (ApplicationUserException applicationUserException) {
+            this.addDisplayErrorMessage(applicationUserException.getUserMsg());
         } catch (Exception e) {
             this.addDisplayErrorMessage("I was not able to log you out.");
         }
@@ -168,14 +165,15 @@ public class Login extends AbstractFacesController implements Serializable
 
     /**
      * Get the path to the web app as saved in the session.
+     * 
      * @return
      */
     public String getPathToApp()
-    {        
+    {
         if (null == this.pathToApp) {
             this.pathToApp = NavigationBean.pathToApp();
         }
-        
+
         return pathToApp;
     }
 

@@ -25,6 +25,7 @@ import javax.xml.bind.DatatypeConverter;
 
 import de.htw.fb4.imi.jumpup.Application;
 import de.htw.fb4.imi.jumpup.Application.LogType;
+import de.htw.fb4.imi.jumpup.ApplicationUserException;
 import de.htw.fb4.imi.jumpup.rest.response.builder.IErrorResponseEntityBuilder;
 import de.htw.fb4.imi.jumpup.rest.response.model.AbstractRestModel;
 import de.htw.fb4.imi.jumpup.rest.response.model.ErrorResponse;
@@ -33,185 +34,238 @@ import de.htw.fb4.imi.jumpup.user.login.LoginModel;
 import de.htw.fb4.imi.jumpup.user.login.LoginSession;
 
 /**
- * <p></p>
+ * <p>
+ * </p>
  *
  * @author <a href="mailto:me@saschafeldmann.de">Sascha Feldmann</a>
  * @since 25.11.2015
  *
  */
-public abstract class SecuredRestController<T extends AbstractRestModel> extends AbstractRestController<T>
+public abstract class SecuredRestController<T extends AbstractRestModel>
+        extends AbstractRestController<T>
 {
     /**
-     * Pattern for Authorization HTTP Header field: Example -> Authorization: Basic asdasdrawe==
+     * Pattern for Authorization HTTP Header field: Example -> Authorization:
+     * Basic asdasdrawe==
      */
     private static final String REGEX_BASIC_HEADER = "Basic ([A-Za-z0-9+/=]+=)";
-    
-    private static final Pattern PATTERN_BASIC_HEADER = Pattern.compile(REGEX_BASIC_HEADER);
- 
+
+    private static final Pattern PATTERN_BASIC_HEADER = Pattern
+            .compile(REGEX_BASIC_HEADER);
+
     @Inject
     protected LoginSession loginSession;
-    
+
     @Inject
     protected LoginMethod loginMethod;
-    
+
     protected List<String> loginErrorMessages = new ArrayList<String>();
-    
+
     public LoginModel getLoginModel()
     {
         return loginSession.getLoginModel();
     }
-    
-    private boolean isAuthenticated(HttpHeaders headers)
+
+    private void authenticate(HttpHeaders headers)
+            throws ApplicationUserException
     {
-        if (null != getLoginModel() && null != getLoginModel().getCurrentUser()) {
-            return true;
+        if (null != getLoginModel()
+                && null != getLoginModel().getCurrentUser()) {
+            return;
         }
-        
+
         String authenticationHeaderField = getAuthorizationHeader(headers);
         parseAuthorizationHeader(authenticationHeaderField);
-        
+
         // trigger login
-        if (this.tryToLoginUser()) {
-            return true;
-        }
-        
-        return false;
-    }   
-    
+        this.tryToLoginUser();
+    }
+
     private String getAuthorizationHeader(HttpHeaders headers)
     {
-        List<String> authorizationHeaders = headers.getRequestHeader(HttpHeaders.AUTHORIZATION);
-        
+        List<String> authorizationHeaders = headers
+                .getRequestHeader(HttpHeaders.AUTHORIZATION);
+
         if (null == authorizationHeaders || 0 == authorizationHeaders.size()) {
-            throw new IllegalArgumentException("No " + HttpHeaders.AUTHORIZATION + " header given within a secured action.");
-        } 
-        
-        if (authorizationHeaders.size() > 1) {
-            throw new IllegalArgumentException("More than one " + HttpHeaders.AUTHORIZATION + " header given within a secured action.");
+            throw new IllegalArgumentException("No " + HttpHeaders.AUTHORIZATION
+                    + " header given within a secured action.");
         }
-        
+
+        if (authorizationHeaders.size() > 1) {
+            throw new IllegalArgumentException(
+                    "More than one " + HttpHeaders.AUTHORIZATION
+                            + " header given within a secured action.");
+        }
+
         return authorizationHeaders.get(0);
     }
 
     private void parseAuthorizationHeader(String authenticationHeaderField)
     {
-        Matcher mBasicHeader = PATTERN_BASIC_HEADER.matcher(authenticationHeaderField);
-        
+        Matcher mBasicHeader = PATTERN_BASIC_HEADER
+                .matcher(authenticationHeaderField);
+
         if (!mBasicHeader.matches()) {
-            throw new IllegalArgumentException("Invalid HTTP Basic header given for " 
-                    + HttpHeaders.AUTHORIZATION + " header. It must match the pattern " + REGEX_BASIC_HEADER);
+            throw new IllegalArgumentException(
+                    "Invalid HTTP Basic header given for "
+                            + HttpHeaders.AUTHORIZATION
+                            + " header. It must match the pattern "
+                            + REGEX_BASIC_HEADER);
         }
-        
+
         mBasicHeader.reset();
-        
+
         if (mBasicHeader.find()) {
-            String base64EncodedData = mBasicHeader.group(1);            
-            String decodedData = new String(DatatypeConverter.parseBase64Binary(base64EncodedData));
-            
+            String base64EncodedData = mBasicHeader.group(1);
+            String decodedData = new String(
+                    DatatypeConverter.parseBase64Binary(base64EncodedData));
+
             String[] splitDecodedData = decodedData.split(":");
-            
+
             if (splitDecodedData.length != 2) {
-                throw new IllegalArgumentException("Invalid HTTP Basic header given for " 
-                        + HttpHeaders.AUTHORIZATION + " header. It's base64 encoded value must be a pair of username:pwd");
+                throw new IllegalArgumentException(
+                        "Invalid HTTP Basic header given for "
+                                + HttpHeaders.AUTHORIZATION
+                                + " header. It's base64 encoded value must be a pair of username:pwd");
             }
-            
+
             // fill login model directly
             getLoginModel().setUsernameOrMail(splitDecodedData[0]);
-            getLoginModel().setPassword(splitDecodedData[1]);                        
+            getLoginModel().setPassword(splitDecodedData[1]);
         }
-    }    
-    
-    private boolean tryToLoginUser()
+    }
+
+    private void tryToLoginUser() throws ApplicationUserException
     {
         loginErrorMessages.clear();
-        
-        loginMethod.logIn(getLoginModel());
-        
-        if (!loginMethod.hasError()) {
-            return true;
+
+        try {
+            loginMethod.logIn(getLoginModel());
+        } catch (ApplicationUserException e) {
+            Application.log("tryToLoginUser(): login failed: " + e.getMessage(),
+                    LogType.ERROR, getClass());
+
+            throw e;
         }
-        
-        Application.log("tryToLoginUser(): login failed: " + loginMethod.getSingleErrorString(), LogType.ERROR, getClass());
-        return false;
     }
 
+    @Override
     @GET
-    public Response get(@Context HttpHeaders headers) {
-        Response response = super.get(headers);
-        
-        if (null == response && !this.isAuthenticated(headers)) {
-            return this.sendUnauthorizedResponse();
-        }
-        
-        return response;
-    }       
-   
-    @GET
-    public Response get(@Context HttpHeaders headers, Long... ids) {
-        Response response = super.get(headers);
-        
-        if (null == response && !this.isAuthenticated(headers)) {
-            return this.sendUnauthorizedResponse();
-        }
-        
-        return response;
-    }
-
-    @POST
-    public Response post(@Context HttpHeaders headers, T abstractRestModel){
-        Response response = super.get(headers);
-        
-        if (null == response && !this.isAuthenticated(headers)) {
-            return this.sendUnauthorizedResponse();
-        }
-        
-        return response;
-    }   
-    
-    @PUT
-    public Response put(@Context HttpHeaders headers, Long entityId, T abstractRestModel){
-        Response response = super.get(headers);
-        
-        if (null == response && !this.isAuthenticated(headers)) {
-            return this.sendUnauthorizedResponse();
-        }
-        
-        return response;
-    }   
-    
-    @DELETE
-    public Response delete(@Context HttpHeaders headers, Long entityId){
-        Response response = super.get(headers);
-        
-        if (null == response && !this.isAuthenticated(headers)) {
-            return this.sendUnauthorizedResponse();
-        }
-        
-        return response;
-    }   
-    
-    @OPTIONS
-    public Response options(@Context HttpHeaders headers){
-        Response response = super.get(headers);
-        
-        if (null == response && !this.isAuthenticated(headers)) {
-            return this.sendUnauthorizedResponse();
-        }
-        
-        return response;
-    }   
-    
-    protected Response sendUnauthorizedResponse()
+    public Response get(@Context HttpHeaders headers)
     {
-        ErrorResponse message = this.responseEntityBuilder.buildMessageFromErrorArray(loginMethod.getErrors());
-        return Response.status(Status.UNAUTHORIZED).entity(message).type(MediaType.APPLICATION_JSON).build();
+        Response response = super.get(headers);
+
+        if (null == response) {
+            try {
+                this.authenticate(headers);
+            } catch (ApplicationUserException e) {
+                return this.sendUnauthorizedResponse(e.getUserMsg());
+            }
+        }
+
+        return response;
     }
-    
+
+    @Override
+    @GET
+    public Response get(@Context HttpHeaders headers, Long... ids)
+    {
+        Response response = super.get(headers);
+
+        if (null == response) {
+            try {
+                this.authenticate(headers);
+            } catch (ApplicationUserException e) {
+                return this.sendUnauthorizedResponse(e.getUserMsg());
+            }
+        }
+
+        return response;
+    }
+
+    @Override
+    @POST
+    public Response post(@Context HttpHeaders headers, T abstractRestModel)
+    {
+        Response response = super.get(headers);
+
+        if (null == response) {
+            try {
+                this.authenticate(headers);
+            } catch (ApplicationUserException e) {
+                return this.sendUnauthorizedResponse(e.getUserMsg());
+            }
+        }
+
+        return response;
+    }
+
+    @Override
+    @PUT
+    public Response put(@Context HttpHeaders headers, Long entityId,
+            T abstractRestModel)
+    {
+        Response response = super.get(headers);
+
+        if (null == response) {
+            try {
+                this.authenticate(headers);
+            } catch (ApplicationUserException e) {
+                return this.sendUnauthorizedResponse(e.getUserMsg());
+            }
+        }
+
+        return response;
+    }
+
+    @Override
+    @DELETE
+    public Response delete(@Context HttpHeaders headers, Long entityId)
+    {
+        Response response = super.get(headers);
+
+        if (null == response) {
+            try {
+                this.authenticate(headers);
+            } catch (ApplicationUserException e) {
+                return this.sendUnauthorizedResponse(e.getUserMsg());
+            }
+        }
+
+        return response;
+    }
+
+    @Override
+    @OPTIONS
+    public Response options(@Context HttpHeaders headers)
+    {
+        Response response = super.get(headers);
+
+        if (null == response) {
+            try {
+                this.authenticate(headers);
+            } catch (ApplicationUserException e) {
+                return this.sendUnauthorizedResponse(e.getUserMsg());
+            }
+        }
+
+        return response;
+    }
+
+    protected Response sendUnauthorizedResponse(String error)
+    {
+        ErrorResponse message = this.responseEntityBuilder
+                .buildMessageFromErrorString(error);
+
+        return Response.status(Status.UNAUTHORIZED).entity(message)
+                .type(MediaType.APPLICATION_JSON).build();
+    }
+
     protected Response sendForbiddenResponse()
     {
         return Response.status(Status.FORBIDDEN)
-                .entity(this.responseEntityBuilder.buildMessageFromErrorString(IErrorResponseEntityBuilder.MESSAGE_FORBIDDEN))
-                .type(MediaType.APPLICATION_JSON)                
-                .build();
+                .entity(this.responseEntityBuilder.buildMessageFromErrorString(
+                        IErrorResponseEntityBuilder.MESSAGE_FORBIDDEN))
+                .type(MediaType.APPLICATION_JSON).build();
     }
 }

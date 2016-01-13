@@ -68,7 +68,7 @@ public class Trip extends AbstractEntity
      * 
      */
     private static final long serialVersionUID = -3854579506642418644L;
- 
+
     @OneToMany(mappedBy = "trip", fetch = FetchType.EAGER)
     @XmlTransient
     private List<Booking> bookings;
@@ -126,7 +126,7 @@ public class Trip extends AbstractEntity
 
     @Column(name = "duration_seconds", nullable = false, updatable = true)
     protected long durationSeconds;
-    
+
     /**
      * First matching distance to passenger's start location on look for trips.
      */
@@ -236,7 +236,8 @@ public class Trip extends AbstractEntity
     public void setLongEndpoint(double longEndpoint)
     {
         this.longEndpoint = longEndpoint;
-    }   
+    }
+
     /**
      * @param startDateTime
      *            the startDateTime to set
@@ -244,8 +245,8 @@ public class Trip extends AbstractEntity
     public void setStartDateTime(Timestamp startDateTime)
     {
         this.startDateTime = startDateTime;
-    } 
-    
+    }
+
     public Timestamp getStartDateTime()
     {
         return startDateTime;
@@ -259,12 +260,12 @@ public class Trip extends AbstractEntity
     {
         this.endDateTime = endDateTime;
     }
-    
+
     public Timestamp getEndDateTime()
     {
         return endDateTime;
     }
-  
+
     /**
      * @return the price
      */
@@ -367,7 +368,8 @@ public class Trip extends AbstractEntity
     }
 
     /**
-     * @param distanceToPassengersStartLocation2 the distanceToPassengersStartLocation to set
+     * @param distanceToPassengersStartLocation2
+     *            the distanceToPassengersStartLocation to set
      */
     public void setDistanceToPassengersStartLocation(
             double distanceToPassengersStartLocation2)
@@ -384,7 +386,8 @@ public class Trip extends AbstractEntity
     }
 
     /**
-     * @param distanceToPassengersEndLocation2 the distanceToPassengersEndLocation to set
+     * @param distanceToPassengersEndLocation2
+     *            the distanceToPassengersEndLocation to set
      */
     public void setDistanceToPassengersEndLocation(
             double distanceToPassengersEndLocation2)
@@ -427,8 +430,9 @@ public class Trip extends AbstractEntity
     {
         boolean wasCancelled = null != this.getCancelationDateTime();
 
-        Application.log("Trip " + getIdentity() + " was cancelled: "
-                + wasCancelled, LogType.DEBUG, getClass());
+        Application.log(
+                "Trip " + getIdentity() + " was cancelled: " + wasCancelled,
+                LogType.DEBUG, getClass());
         return wasCancelled;
     }
 
@@ -471,34 +475,40 @@ public class Trip extends AbstractEntity
     {
         return (null != this.getBookings() && this.getBookings().size() > 0);
     }
-    
+
     /**
-     * <p>Check whether this trip can still be booked.<br />Therefore, it must met the following criteria:</p>
+     * <p>
+     * Check whether this trip can still be booked.<br />
+     * Therefore, it must met the following criteria:
+     * </p>
      * <ul>
-     *  <li>The trip wasn't cancelled.</li>
-     *  <li>The trip takes place in the future.</li>
-     *  <li>There are still places left.</li>       
+     * <li>The trip wasn't cancelled.</li>
+     * <li>The trip takes place in the future.</li>
+     * <li>There are still places left.</li>
      * </ul>
      * 
      * @return
      */
     public boolean canBeBooked()
     {
-        return !this.wasCancelled()
-            && this.isInFuture()
-            && this.getNumberOfBookings() < this.getNumberOfSeats();
+        return !this.wasCancelled() && this.isInFuture()
+                && this.getNumberOfBookings() < this.getNumberOfSeats();
     }
-    
+
     /**
-     * <p>Check whether this trip can still be booked.<br />Therefore, it must met the following criteria:</p>
+     * <p>
+     * Check whether this trip can still be booked.<br />
+     * Therefore, it must met the following criteria:
+     * </p>
      * <ul>
-     *  <li>The trip wasn't cancelled.</li>
-     *  <li>The trip takes place in the future.</li>
-     *  <li>There are still places left.</li>
-     *  <li>The given {@link User} didn't book it yet.</li>       
+     * <li>The trip wasn't cancelled.</li>
+     * <li>The trip takes place in the future.</li>
+     * <li>There are still places left.</li>
+     * <li>The given {@link User} didn't book it yet.</li>
      * </ul>
      * 
-     * @param currentUser the {@link User} who wants to book the trip
+     * @param currentUser
+     *            the {@link User} who wants to book the trip
      * @return
      */
     public boolean canBeBooked(User currentUser)
@@ -506,26 +516,29 @@ public class Trip extends AbstractEntity
         if (!this.canBeBooked()) {
             return false;
         }
-        
+
         for (Booking booking : this.bookings) {
-            if (booking.getPassenger().getIdentity() == currentUser.getIdentity()) {
+            if (booking.getPassenger().getIdentity() == currentUser
+                    .getIdentity()) {
                 return false;
             }
         }
-        
+
         return true;
     }
-    
+
     /**
      * Get the number of bookings.
+     * 
      * @return
      */
     public Integer getNumberOfBookings()
     {
         if (null == this.getBookings()) {
-            throw new NullPointerException("getNumberOfBookings(): No bookings given.");
+            throw new NullPointerException(
+                    "getNumberOfBookings(): No bookings given.");
         }
-        
+
         return this.getBookings().size();
     }
 
@@ -591,7 +604,9 @@ public class Trip extends AbstractEntity
         this.durationSeconds = durationSeconds;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see java.lang.Object#hashCode()
      */
     @Override
@@ -599,10 +614,8 @@ public class Trip extends AbstractEntity
     {
         final int prime = 31;
         int result = 1;
-        result = prime
-                * result
-                + ((cancelationDateTime == null) ? 0 : cancelationDateTime
-                        .hashCode());
+        result = prime * result + ((cancelationDateTime == null) ? 0
+                : cancelationDateTime.hashCode());
         result = prime * result
                 + (int) (distanceMeters ^ (distanceMeters >>> 32));
         long temp;
@@ -640,7 +653,9 @@ public class Trip extends AbstractEntity
         return result;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
@@ -656,7 +671,7 @@ public class Trip extends AbstractEntity
         if (bookings == null) {
             if (other.bookings != null)
                 return false;
-        } 
+        }
         if (cancelationDateTime == null) {
             if (other.cancelationDateTime != null)
                 return false;
@@ -780,5 +795,5 @@ public class Trip extends AbstractEntity
         builder.append("]");
         return builder.toString();
     }
-   
+
 }
